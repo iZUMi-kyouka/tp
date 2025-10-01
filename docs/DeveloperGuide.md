@@ -351,8 +351,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of personal data
+* **Recruit**: A person being considered for a job role
 
 --------------------------------------------------------------------------------------------------------------------
 
