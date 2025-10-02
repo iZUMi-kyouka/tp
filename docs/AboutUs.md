@@ -20,41 +20,32 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 
-### Jane Doe
+### Fang Han
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/eilyss.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Team Lead
-* Responsibilities: UI
-
-### Johnny Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[homepage](https://github.com/Eilyss)]
+[[github](https://github.com/Eilyss)]
+[[portfolio](team/fanghan.md)]
 
 * Role: Developer
-* Responsibilities: Data
 
-### Jean Doe
+### Di Heng
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/grenn24.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
-
-### James Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/grenn24)]
+[[portfolio](team/diheng.md)]
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: Data Collection, Data Analysis
+
+### Shriniket Subramanian
+
+<img src="images/shriniket03.png" width="200px">
+
+[[github](http://github.com/shriniket03)]
+[[portfolio](team/shriniket03.md)]
+
+* Role: Developer
+* Responsibilities: Develop Functionality/UI
