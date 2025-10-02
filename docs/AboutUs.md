@@ -13,10 +13,10 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Lin Haoyue
 
-<img src="images/haoyue03.png" width="200px">
+<img src="images/hylinny.png" width="200px">
 
 [[github](https://github.com/hylinny)]
-[[portfolio](team/haoyue03.md)]
+[[portfolio](team/hylinny.md)]
 
 * Role: Developer
 
