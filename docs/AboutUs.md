@@ -20,3 +20,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/fanghan.md)]
 
 * Role: Developer
+* Responsibilities: Dev Ops + Threading
+
+### Shriniket Subramanian
+
+<img src="images/shriniket03.png" width="200px">
+
+[[github](http://github.com/shriniket03)]
+[[portfolio](team/shriniket03.md)]
+
+* Role: Developer
+* Responsibilities: Develop Functionality/UI
