@@ -23,7 +23,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Di Heng
 
-<img src="images/diheng.png" width="200px">
+<img src="images/grenn24.png" width="200px">
 
 [[github](http://github.com/grenn24)]
 [[portfolio](team/diheng.md)]
