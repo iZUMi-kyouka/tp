@@ -453,8 +453,13 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+2.  Should work regardless of the user's operating system languages and locale.
+3.  Should be able to hold up to 5000 persons without a noticeable sluggishness in performance for typical usage.
+4.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+5.  Should be immediately usable without any installation process required.
+6.  Should work well on machines with screen resolutions of at least 1920 x 1080, and remain usable on lower screen resolutions.
+7.  Should not be more than 100MB of size.
+8.  Should search across 5000 persons at under 1 second.
 
 *{More to be added}*
 
