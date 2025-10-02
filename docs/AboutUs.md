@@ -11,6 +11,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
+### Lin Haoyue
+
+<img src="images/haoyue03.png" width="200px">
+
+[[github](https://github.com/hylinny)]
+[[portfolio](team/haoyue03.md)]
+
+* Role: Developer
+
 ### Fang Han
 
 <img src="images/eilyss.png" width="200px">
@@ -19,7 +28,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/Eilyss)]
 [[portfolio](team/fanghan.md)]
 
-* Role: Project Advisor
+* Role: Developer
 
 ### Di Heng
 
