@@ -353,6 +353,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **PDPA (Personal Data Protection Act)**: Regulations governing the handling of personal data
 * **Recruit**: A person being considered for a job role
+* **Mainstream OS**: Windows, Linux, Unix, MacOS
 
 --------------------------------------------------------------------------------------------------------------------
 
