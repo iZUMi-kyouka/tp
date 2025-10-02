@@ -300,30 +300,133 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+For all use cases below, the **System** is **TalentNexus** and the **Actor** is the **user**, unless specified otherwise.
 
-**Use case: Delete a person**
+**Use case: UC01 - Create a Recruit**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User creates a recruit with the required parameters.
+2.  System shows success message and the details of the newly created recruit.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. TalentNexus detects an invalid parameter.
+   * 1a1. TalentNexus shows an error message informing which parameter is invalid.
+   
+   Use case ends.
 
-  Use case ends.
+* 1b. TalentNexus detects missing required parameter(s).
+   * 1b1. TalentNexus shows an error message informing which parameter is required.
+   
+   Use case ends.
 
-* 3a. The given index is invalid.
+**Use case: UC02 - View a Recruit**
 
-    * 3a1. AddressBook shows an error message.
+**MSS**
 
-      Use case resumes at step 2.
+1.  User views a recruit of a given UUID.
+2.  System shows the details of a the recruit with the given UUID.
+
+   Use case ends.
+
+
+**Extensions**
+
+* 1a. TalentNexus finds no recruit with the given UUID.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1b. TalentNexus detects that an invalid UUID is given.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+**Use case: UC03 - Search Recruit**
+
+**MSS**
+
+1.  User searches for recruits with the given parameters
+2.  System shows the list of recruits matching the criteria and their details.
+
+   Use case ends.
+
+
+**Extensions**
+
+* 1a. TalentNexus finds no recruit matching the search parameter.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1b. TalentNexus detects that an invalid search parameter.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+**Use case: UC04 - Edit a Recruit**
+
+**MSS**
+
+1.  User edits a recruit of a given UUID by supplying the modified parameters.
+2.  System shows success message and the updated details of the modified recruit.
+
+   Use case ends.
+
+
+**Extensions**
+
+* 1a. TalentNexus finds no recruit with the given UUID.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1b. TalentNexus detects that the modification removes all contact parameters.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1c. TalentNexus detects illegal parameter combinations.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+**Use case: UC05 - Delete a Recruit**
+
+**MSS**
+
+1.  User deletes a recruit of a given UUID.
+2.  System shows success message and details of the deleted recruit.
+
+   Use case ends.
+
+**Use case: UC06 - Undo the Last Performed Operation**
+
+**MSS**
+
+1.  User undoes the last create, edit, or delete operations.
+2.  System shows success message and details of the recruit involved.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. TalentNexus finds no last performed operation.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+**Use case: UC06 - List the Available Commands**
+
+**MSS**
+
+1.  User requests for the list of available commands
+2.  System shows the list of all available commands and example usages.
+
+   Use case ends.
 
 *{More to be added}*
 
