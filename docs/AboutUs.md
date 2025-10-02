@@ -11,9 +11,9 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Fang Han
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/eilyss.png" width="200px">
 
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
 [[github](https://github.com/johndoe)]
@@ -29,33 +29,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/diheng.md)]
 
 * Role: Developer
-* Responsibilities: Data
+* Responsibilities: Data Collection, Data Analysis
 
-### Johnny Doe
+### Shriniket Subramanian
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/shriniket03.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Data
-
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/shriniket03)]
+[[portfolio](team/shriniket03.md)]
 
 * Role: Developer
-* Responsibilities: Dev Ops + Threading
-
-### James Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: UI
+* Responsibilities: Develop Functionality/UI
