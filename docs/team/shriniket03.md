@@ -23,7 +23,7 @@ Given below are my contributions to the project.
   * NIL
 
 * **Enhancements to existing features**:
-* * TODO 
+* * TODO
 
 * **Documentation**:
   * User Guide:
