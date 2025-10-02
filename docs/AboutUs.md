@@ -13,7 +13,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Fang Han
 
-<img src="images/fanghan.png" width="200px">
+<img src="images/eilyss.png" width="200px">
 
 [[homepage](https://github.com/Eilyss)]
 [[github](https://github.com/Eilyss)]
