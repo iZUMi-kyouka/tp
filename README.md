@@ -6,7 +6,7 @@
   Example usages:
   * add contact details of potential talents that were discovered
   * group talents by type of talent for easier contact management
-* The user interface for TalentNexus is in the form of a Command Line Interface (CLI), where users type in commands to interact with the application.
+* TalentNexus combines graphical elements with a command line interface, fit for fast typist and those who champion efficiency.
 
 
 _This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org)_
