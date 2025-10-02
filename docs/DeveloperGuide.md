@@ -302,7 +302,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 For all use cases below, the **System** is **TalentNexus** and the **Actor** is the **user**, unless specified otherwise.
 
-**Use case: UC01 - Create a Recruit**
+#### UC01 - Create a Recruit
 
 **MSS**
 
@@ -322,8 +322,9 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
    * 1b1. TalentNexus shows an error message informing which parameter is required.
    
    Use case ends.
+<br>
 
-**Use case: UC02 - View a Recruit**
+#### UC02 - View a Recruit
 
 **MSS**
 
@@ -344,8 +345,9 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
    * 1a1. TalentNexus shows an error message.
    
    Use case ends.
+<br>
 
-**Use case: UC03 - Search Recruit**
+#### UC03 - Search Recruit
 
 **MSS**
 
@@ -366,8 +368,9 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
    * 1a1. TalentNexus shows an error message.
    
    Use case ends.
+<br>
 
-**Use case: UC04 - Edit a Recruit**
+#### UC04 - Edit a Recruit
 
 **MSS**
 
@@ -393,8 +396,9 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
    * 1a1. TalentNexus shows an error message.
    
    Use case ends.
+<br>
 
-**Use case: UC05 - Delete a Recruit**
+#### UC05 - Delete a Recruit
 
 **MSS**
 
@@ -402,8 +406,9 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 2.  System shows success message and details of the deleted recruit.
 
    Use case ends.
+<br>
 
-**Use case: UC06 - Undo the Last Performed Operation**
+#### UC06 - Undo the Last Performed Operation
 
 **MSS**
 
@@ -418,8 +423,9 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
    * 1a1. TalentNexus shows an error message.
    
    Use case ends.
+<br>
 
-**Use case: UC06 - List the Available Commands**
+#### UC07 - List All Available Commands
 
 **MSS**
 
