@@ -49,3 +49,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: Develop Functionality/UI
+
+### Florian Viorel Tanely
+
+<img src="images/izumi_kyouka.png" width="200px">
+
+[[github](http://github.com/iZUMi-kyouka)]
+[[portfolio](team/izumi_kyouka.md)]
+
+* Role: Developer
+* Responsibilities: Software Testing and UI Design
