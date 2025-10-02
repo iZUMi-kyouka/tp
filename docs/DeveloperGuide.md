@@ -274,13 +274,13 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* recruiters who manage a large number of applicants
 * prefer desktop apps over other types
-* can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* familiar with managing candidates across different countries
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: Provide a lightweight and flexible solution for recruiters to efficiently manage a network of global talents, optimised for both CLI and GUI usage.
 
 
 ### User stories
@@ -289,12 +289,26 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
 |----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| `* * *`  | recruiter                  | add details of a potential recruit   | refer to the various contact information for my hiring purposes                 | 
+| `* * *`  | recruiter                 | edit contact details of a potential recruit|                | keep contact records relevant and updated    |
+| `* * *`  | recruiter                  | delete a contact of a potential recruit  | remove details of an uninterested recruit and comply to PDPA                     |
+| `* * *`  | recruiter           | view contact details of a potential recruit        | contact them |
+| `* * *`  | recruiter      | find a potential recruit's contact by their (partial) names | quickly view contact details of a recruit with a particular name       |
+| `* * *`  | clumsy recruiter | I can undo an accidental delete and edit   |  recover the contact details of potential hire due to accidental edit and deletion     |
+| `* * *`  | new user | know what functions are available  | easily know what to type to achieve my desired outcome    |
+| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
+| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
+| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
+| `* *` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
+| `* *` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
+| `* *` | old-fashioned recruiter       | type commands to use this app      | improve my efficiency of using this address book by 100.5%          |
+| `* *` | recruiter                        | add a skill/interest tag        | filter by talents/skills when searching                        |
+| `* *` | recruiter who can only speak 1 language | view candidate's data in multiple languages | effectively hire talent from multiple countries / nationalities                     |
+| `* *` | recruiter      | archive old applications               | talent pool remains relevant and up-to-date                          |
+| `* *` | recruiter for multinational company | I can add names of a potential hire in multiple languages | colleagues in different locations can use localised names |
+| `* *` | data-centric recruiter            | import and export candidate's data to external files (e.g., Excel) | share among colleagues                           |
+| `* *` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
+| `* *` | recruiter         | sort contacts by name  |  easily find contact without having to search for them |
 
 *{More to be added}*
 
@@ -337,8 +351,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
+* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of personal data
+* **Recruit**: A person being considered for a job role
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 
 --------------------------------------------------------------------------------------------------------------------
 
