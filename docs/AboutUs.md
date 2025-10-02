@@ -52,7 +52,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Florian Viorel Tanely
 
-<img src="images/izumi_kyouka.png" width="200px">
+<img src="images/izumi-kyouka.png" width="200px">
 
 [[github](http://github.com/iZUMi-kyouka)]
 [[portfolio](team/izumi_kyouka.md)]
