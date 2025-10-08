@@ -28,7 +28,7 @@ public class Recruit {
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Every field except for id must be present and not null.
      */
     public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
@@ -40,6 +40,9 @@ public class Recruit {
         this.id = UUID.randomUUID();
     }
 
+    /**
+     * Every field must be present and not null.
+     */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
