@@ -62,7 +62,8 @@ public class EditCommandTest {
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(indexLastRecruit, descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS, Messages.format(editedRecruit));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                Messages.format(editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(lastRecruit, editedRecruit);
@@ -75,7 +76,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, new EditRecruitDescriptor());
         Recruit editedRecruit = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS, Messages.format(editedRecruit));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                Messages.format(editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -91,7 +93,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT,
                 new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS, Messages.format(editedRecruit));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                Messages.format(editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);
