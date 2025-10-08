@@ -41,7 +41,8 @@ public class EditCommandTest {
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(editedRecruit).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS, Messages.format(editedRecruit));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                Messages.format(editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);

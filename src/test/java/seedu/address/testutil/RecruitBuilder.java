@@ -3,7 +3,6 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import seedu.address.model.recruit.Address;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
