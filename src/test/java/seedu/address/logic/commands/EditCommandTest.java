@@ -103,26 +103,6 @@ public class EditCommandTest {
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
-    @Test
-    public void execute_duplicatePersonUnfilteredList_failure() {
-        Recruit firstRecruit = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
-        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(firstRecruit).build();
-        EditCommand editCommand = new EditCommand(INDEX_SECOND_RECRUIT, descriptor);
-
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_RECRUIT);
-    }
-
-    @Test
-    public void execute_duplicatePersonFilteredList_failure() {
-        showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
-
-        // edit person in filtered list into a duplicate in address book
-        Recruit recruitInList = model.getAddressBook().getRecruitList().get(INDEX_SECOND_RECRUIT.getZeroBased());
-        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT,
-                new EditRecruitDescriptorBuilder(recruitInList).build());
-
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_RECRUIT);
-    }
 
     @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {

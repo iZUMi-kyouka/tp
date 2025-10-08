@@ -37,18 +37,18 @@ public class RecruitTest {
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(ALICE.isSameRecruit(editedAlice));
 
-        // different name, all other attributes same -> returns false
+        // different name, all other attributes same -> returns true
         editedAlice = new RecruitBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSameRecruit(editedAlice));
+        assertTrue(ALICE.isSameRecruit(editedAlice));
 
-        // name differs in case, all other attributes same -> returns false
+        // name differs in case, all other attributes same -> returns true
         Recruit editedBob = new RecruitBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSameRecruit(editedBob));
+        assertTrue(BOB.isSameRecruit(editedBob));
 
-        // name has trailing spaces, all other attributes same -> returns false
+        // name has trailing spaces, all other attributes same -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new RecruitBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSameRecruit(editedBob));
+        assertTrue(BOB.isSameRecruit(editedBob));
     }
 
     @Test

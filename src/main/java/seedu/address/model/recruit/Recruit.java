@@ -40,6 +40,16 @@ public class Recruit {
         this.id = UUID.randomUUID();
     }
 
+    public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.id = id;
+    }
+
     public UUID getID() {
         return id;
     }
