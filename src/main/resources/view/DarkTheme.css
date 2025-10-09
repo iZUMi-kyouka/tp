@@ -120,6 +120,14 @@
     -fx-text-fill: white;
 }
 
+.title-label {
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-font-size: 32px;
+    -fx-text-fill: white;
+
+}
+
 .cell_big_label {
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 16px;
@@ -142,7 +150,7 @@
      -fx-border-top-width: 1px;*/
 }
 
-.command-box-wrapper{
+.light-pane{
     -fx-background-color: derive(#090C0F, 30%);
     /*-fx-border-color: derive(#090C0F, 10%);
     -fx-border-top-width: 1px;*/
