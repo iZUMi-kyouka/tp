@@ -44,7 +44,7 @@ public class Recruit {
      * Every field must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(id, name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -127,6 +127,7 @@ public class Recruit {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("id", id)
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)

@@ -118,7 +118,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (!(other instanceof AddressBook)) {
             return false;
         }
-
+        System.out.println(this.recruits);
+        System.out.println(((AddressBook) other).recruits);
         AddressBook otherAddressBook = (AddressBook) other;
         return recruits.equals(otherAddressBook.recruits);
     }

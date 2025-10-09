@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -94,14 +95,14 @@ public class EditCommand extends Command {
      */
     private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor editRecruitDescriptor) {
         assert recruitToEdit != null;
-
+        UUID updatedId = editRecruitDescriptor.getID().orElse(recruitToEdit.getID());
         Name updatedName = editRecruitDescriptor.getName().orElse(recruitToEdit.getName());
         Phone updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhone());
         Email updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmail());
         Address updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddress());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
 
-        return new Recruit(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
     }
 
     @Override
@@ -133,6 +134,7 @@ public class EditCommand extends Command {
      * corresponding field value of the person.
      */
     public static class EditRecruitDescriptor {
+        private UUID id;
         private Name name;
         private Phone phone;
         private Email email;
@@ -146,6 +148,7 @@ public class EditCommand extends Command {
          * A defensive copy of {@code tags} is used internally.
          */
         public EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
+            setID(toCopy.id);
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
@@ -157,9 +160,15 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(id, name, phone, email, address, tags);
         }
 
+        public void setID(UUID id) {
+            this.id = id;
+        }
+        public Optional<UUID> getID() {
+            return Optional.ofNullable(id);
+        }
         public void setName(Name name) {
             this.name = name;
         }

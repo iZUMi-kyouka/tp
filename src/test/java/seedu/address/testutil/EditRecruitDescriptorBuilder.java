@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,11 +33,19 @@ public class EditRecruitDescriptorBuilder {
      */
     public EditRecruitDescriptorBuilder(Recruit recruit) {
         descriptor = new EditCommand.EditRecruitDescriptor();
+        descriptor.setID(recruit.getID());
         descriptor.setName(recruit.getName());
         descriptor.setPhone(recruit.getPhone());
         descriptor.setEmail(recruit.getEmail());
         descriptor.setAddress(recruit.getAddress());
         descriptor.setTags(recruit.getTags());
+    }
+    /**
+     * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withID(String id) {
+        descriptor.setID(UUID.fromString(id));
+        return this;
     }
 
     /**
