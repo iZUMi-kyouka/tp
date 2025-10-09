@@ -131,7 +131,7 @@ public class EditCommand extends Command {
                 .toString();
     }
 
-    private String formatDelta(Recruit person, EditRecruitDescriptor delta) {
+    String formatDelta(Recruit person, EditRecruitDescriptor delta) {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
                 .append(delta.getName().map(n -> String.format(DELTA_FORMAT, n)).orElse(""))

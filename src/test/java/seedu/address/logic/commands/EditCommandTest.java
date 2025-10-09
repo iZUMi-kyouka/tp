@@ -13,6 +13,8 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showRecruitAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_RECRUIT;
+import static seedu.address.testutil.TypicalRecruits.ALICE;
+import static seedu.address.testutil.TypicalRecruits.GEORGE;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
@@ -37,12 +39,12 @@ public class EditCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Recruit editedRecruit = new RecruitBuilder().build();
+        Recruit editedRecruit = new RecruitBuilder(ALICE).build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(editedRecruit).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                Messages.format(editedRecruit));
+                editCommand.formatDelta(editedRecruit, descriptor));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);
@@ -56,6 +58,7 @@ public class EditCommandTest {
         Recruit lastRecruit = model.getFilteredRecruitList().get(indexLastRecruit.getZeroBased());
 
         RecruitBuilder recruitInList = new RecruitBuilder(lastRecruit);
+        Recruit initialRecruit = recruitInList.build();
         Recruit editedRecruit = recruitInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
 
@@ -64,7 +67,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(indexLastRecruit, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                Messages.format(editedRecruit));
+                editCommand.formatDelta(initialRecruit, descriptor));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(lastRecruit, editedRecruit);
@@ -90,12 +93,14 @@ public class EditCommandTest {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
 
         Recruit recruitInFilteredList = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
+        Recruit initialRecruit = new RecruitBuilder(recruitInFilteredList).build();
         Recruit editedRecruit = new RecruitBuilder(recruitInFilteredList).withName(VALID_NAME_BOB).build();
-        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT,
-                new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB).build());
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                Messages.format(editedRecruit));
+                editCommand.formatDelta(initialRecruit, descriptor));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);
