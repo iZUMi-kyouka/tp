@@ -5,14 +5,15 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Phone;
+import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Email;
+import seedu.address.model.recruit.Name;
+import seedu.address.model.recruit.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -35,6 +36,21 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
+    /**
+     * Parses a {@code String id} into a {@code ID}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code id} is invalid.
+     */
+    public static UUID parseID(String id) throws ParseException {
+        requireNonNull(id);
+        String trimmedId = id.trim();
+        try {
+            return UUID.fromString(trimmedId);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException("Invalid UUID format.");
+        }
+    }
     /**
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.
