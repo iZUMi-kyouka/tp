@@ -1,17 +1,10 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,7 +13,13 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.model.Model;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -51,6 +50,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    private static final String DELTA_FORMAT = " -> %s";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -85,7 +85,8 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        return new CommandResult(String.format(
+            MESSAGE_EDIT_PERSON_SUCCESS, formatDelta(personToEdit, editPersonDescriptor)));
     }
 
     /**
@@ -126,6 +127,30 @@ public class EditCommand extends Command {
                 .add("index", index)
                 .add("editPersonDescriptor", editPersonDescriptor)
                 .toString();
+    }
+
+    private String formatDelta(Person person, EditPersonDescriptor delta) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(person.getName())
+                .append(delta.getName().map(n -> String.format(DELTA_FORMAT, n)).orElse(""))
+                .append("; Phone: ")
+                .append(person.getPhone())
+                .append(delta.getPhone().map(p -> String.format(DELTA_FORMAT, p)).orElse(""))
+                .append("; Email: ")
+                .append(person.getEmail())
+                .append(delta.getEmail().map(e -> String.format(DELTA_FORMAT, e)).orElse(""))
+                .append("; Address: ")
+                .append(person.getAddress())
+                .append(delta.getAddress().map(a -> String.format(DELTA_FORMAT, a)).orElse(""))
+                .append("; Tags: ");
+        person.getTags().forEach(builder::append);
+
+        Optional<Set<Tag>> deltaTags = delta.getTags();
+        deltaTags.ifPresent(tags -> {
+            builder.append(" -> ");
+            tags.forEach(builder::append);
+        });
+        return builder.toString();
     }
 
     /**
