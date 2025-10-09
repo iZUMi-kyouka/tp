@@ -1,5 +1,18 @@
 package seedu.address.logic.commands;
 
+import org.junit.jupiter.api.Test;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
+import seedu.address.model.AddressBook;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
+import seedu.address.model.recruit.Recruit;
+import seedu.address.testutil.EditRecruitDescriptorBuilder;
+import seedu.address.testutil.RecruitBuilder;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,19 +27,6 @@ import static seedu.address.logic.commands.CommandTestUtil.showRecruitAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_RECRUIT;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
-
-import org.junit.jupiter.api.Test;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
-import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.recruit.Recruit;
-import seedu.address.testutil.EditRecruitDescriptorBuilder;
-import seedu.address.testutil.RecruitBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
