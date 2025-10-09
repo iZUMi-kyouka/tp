@@ -103,7 +103,7 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
+1. The command can communicate with the `Model` when it is executed (e.g. to delete a recruit).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -176,11 +176,11 @@ Step 1. The user launches the application for the first time. The `VersionedAddr
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete 5` command to delete the 5th recruit in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `add n/David …​` to add a new recruit. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
 <puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
 
@@ -190,7 +190,7 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 </box>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the recruit was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
 <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
 
@@ -246,7 +246,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 * **Alternative 2:** Individual command knows how to undo/redo by
   itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
+  * Pros: Will use less memory (e.g. for `delete`, just save the recruit being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
@@ -274,13 +274,13 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* recruiters who manage a large number of applicants
 * prefer desktop apps over other types
-* can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* familiar with managing candidates across different countries
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: Provide a lightweight and flexible solution for recruiters to efficiently manage a network of global talents, optimised for both CLI and GUI usage.
 
 
 ### User stories
@@ -289,56 +289,185 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
 |----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| `* * *`  | recruiter                  | add details of a potential recruit   | refer to the various contact information for my hiring purposes                 | 
+| `* * *`  | recruiter                 | edit contact details of a potential recruit |                | keep contact records relevant and updated    |
+| `* * *`  | recruiter                  | delete a contact of a potential recruit  | remove details of an uninterested recruit and comply to PDPA                     |
+| `* * *`  | recruiter           | view contact details of a potential recruit        | contact them |
+| `* * *`  | recruiter      | find a potential recruit's contact by their (partial) names | quickly view contact details of a recruit with a particular name       |
+| `* * *`  | clumsy recruiter | I can undo an accidental delete and edit   |  recover the contact details of potential hire due to accidental edit and deletion     |
+| `* * *`  | new user | know what functions are available  | easily know what to type to achieve my desired outcome    |
+| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
+| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
+| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
+| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
+| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
+| `* *` | old-fashioned recruiter       | type commands to use this app      | improve my efficiency of using this address book by 100.5%          |
+| `* *` | recruiter                        | add a skill/interest tag        | filter by talents/skills when searching                        |
+| `* *` | recruiter who can only speak 1 language | view candidate's data in multiple languages | effectively hire talent from multiple countries / nationalities                     |
+| `* *` | recruiter      | archive old applications               | talent pool remains relevant and up-to-date                          |
+| `* *` | recruiter for multinational company | I can add names of a potential hire in multiple languages | colleagues in different locations can use localised names |
+| `* *` | data-centric recruiter            | import and export candidate's data to external files (e.g., Excel) | share among colleagues                           |
+| `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
+| `* *` | recruiter         | sort contacts by name  |  easily find contact without having to search for them |
 
 *{More to be added}*
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+For all use cases below, the **System** is **TalentNexus** and the **Actor** is the **user**, unless specified otherwise.
 
-**Use case: Delete a person**
+#### UC01 - Create a Recruit
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User creates a recruit with the required parameters.
+2.  System shows success message and the details of the newly created recruit.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. TalentNexus detects an invalid parameter.
+   * 1a1. TalentNexus shows an error message informing which parameter is invalid.
+   
+   Use case ends.
 
-  Use case ends.
+* 1b. TalentNexus detects missing required parameter(s).
+   * 1b1. TalentNexus shows an error message informing which parameter is required.
+   
+   Use case ends.
+<br>
 
-* 3a. The given index is invalid.
+#### UC02 - View a Recruit
 
-    * 3a1. AddressBook shows an error message.
+**MSS**
 
-      Use case resumes at step 2.
+1.  User views a recruit of a given UUID.
+2.  System shows the details of a the recruit with the given UUID.
+
+   Use case ends.
+
+
+**Extensions**
+
+* 1a. TalentNexus finds no recruit with the given UUID.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1b. TalentNexus detects that an invalid UUID is given.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+<br>
+
+#### UC03 - Search Recruit
+
+**MSS**
+
+1.  User searches for recruits with the given parameters
+2.  System shows the list of recruits matching the criteria and their details.
+
+   Use case ends.
+
+
+**Extensions**
+
+* 1a. TalentNexus finds no recruit matching the search parameter.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1b. TalentNexus detects that an invalid search parameter.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+<br>
+
+#### UC04 - Edit a Recruit
+
+**MSS**
+
+1.  User edits a recruit of a given UUID by supplying the modified parameters.
+2.  System shows success message and the updated details of the modified recruit.
+
+   Use case ends.
+
+
+**Extensions**
+
+* 1a. TalentNexus finds no recruit with the given UUID.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1b. TalentNexus detects that the modification removes all contact parameters.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+
+* 1c. TalentNexus detects illegal parameter combinations.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+<br>
+
+#### UC05 - Delete a Recruit
+
+**MSS**
+
+1.  User deletes a recruit of a given UUID.
+2.  System shows success message and details of the deleted recruit.
+
+   Use case ends.
+<br>
+
+#### UC06 - Undo the Last Performed Operation
+
+**MSS**
+
+1.  User undoes the last create, edit, or delete operations.
+2.  System shows success message and details of the recruit involved.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. TalentNexus finds no last performed operation.
+   * 1a1. TalentNexus shows an error message.
+   
+   Use case ends.
+<br>
+
+#### UC07 - List All Available Commands
+
+**MSS**
+
+1.  User requests for the list of available commands
+2.  System shows the list of all available commands and example usages.
+
+   Use case ends.
 
 *{More to be added}*
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+2.  Should work regardless of the user's operating system languages and locale.
+3.  Should be able to hold up to 5000 recruits without a noticeable sluggishness in performance for typical usage.
+4.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+5.  Should be immediately usable without any installation process required.
+6.  Should work well on machines with screen resolutions of at least 1920 x 1080, and remain usable on lower screen resolutions.
+7.  Should not be more than 100MB of size.
+8.  Should search across 5000 recruits at under 1 second.
 
 *{More to be added}*
 
 ### Glossary
 
+* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of personal data
+* **Recruit**: A recruit being considered for a job role
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -370,17 +499,17 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a person
+### Deleting a recruit
 
-1. Deleting a person while all persons are being shown
+1. Deleting a recruit while all recruits are being shown
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Prerequisites: List all recruits using the `list` command. Multiple recruits in the list.
 
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
    1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
