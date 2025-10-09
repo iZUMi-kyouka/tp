@@ -16,7 +16,7 @@ import seedu.address.commons.core.LogsCenter;
 public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
-    public static final String DISPLAY_MESSAGE = """
+    public static final String COMMAND_HELP_MESSAGE = """
             TLDR List of Commands:
             \s
             1. Create recruit
@@ -37,7 +37,7 @@ public class HelpWindow extends UiPart<Stage> {
             6. Undo previous command
             undo
            """;
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL + "\n\n" + DISPLAY_MESSAGE;
+    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
