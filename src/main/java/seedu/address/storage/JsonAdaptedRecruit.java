@@ -76,6 +76,9 @@ class JsonAdaptedRecruit {
         for (JsonAdaptedTag tag : tags) {
             personTags.add(tag.toModelType());
         }
+        if (id == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, UUID.class.getSimpleName()));
+        }
         final UUID modelId = UUID.fromString(id);
 
         if (name == null) {

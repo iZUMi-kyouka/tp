@@ -53,7 +53,15 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the {@code Id} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withID(String id) {
+        this.id = UUID.fromString(id);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code Recruit} that we are building.
      */
     public RecruitBuilder withName(String name) {
         this.name = new Name(name);
@@ -61,7 +69,7 @@ public class RecruitBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Recruit} that we are building.
      */
     public RecruitBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
@@ -69,7 +77,7 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
+     * Sets the {@code Address} of the {@code Recruit} that we are building.
      */
     public RecruitBuilder withAddress(String address) {
         this.address = new Address(address);
@@ -77,7 +85,7 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code Phone} of the {@code Recruit} that we are building.
      */
     public RecruitBuilder withPhone(String phone) {
         this.phone = new Phone(phone);
@@ -85,7 +93,7 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the {@code Email} of the {@code Person} that we are building.
+     * Sets the {@code Email} of the {@code Recruit} that we are building.
      */
     public RecruitBuilder withEmail(String email) {
         this.email = new Email(email);

@@ -82,7 +82,7 @@ public class Recruit {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same id.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSameRecruit(Recruit otherRecruit) {
@@ -95,7 +95,7 @@ public class Recruit {
     }
 
     /**
-     * Returns true if both recruits have the same identity and data fields.
+     * Returns true if both recruits have the same id and data fields.
      * This defines a stronger notion of equality between two persons.
      */
     @Override
@@ -110,7 +110,8 @@ public class Recruit {
         }
 
         Recruit otherRecruit = (Recruit) other;
-        return name.equals(otherRecruit.name)
+        return id.equals(otherRecruit.id)
+                && name.equals(otherRecruit.name)
                 && phone.equals(otherRecruit.phone)
                 && email.equals(otherRecruit.email)
                 && address.equals(otherRecruit.address)

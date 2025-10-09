@@ -23,24 +23,49 @@ import seedu.address.model.recruit.Recruit;
  */
 public class TypicalRecruits {
 
-    public static final Recruit ALICE = new RecruitBuilder().withName("Alice Pauline")
+    public static final Recruit ALICE = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa950")
+            .withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
             .withPhone("94351253")
             .withTags("friends").build();
-    public static final Recruit BENSON = new RecruitBuilder().withName("Benson Meier")
+    public static final Recruit BENSON = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa951")
+            .withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com").withPhone("98765432")
             .withTags("owesMoney", "friends").build();
-    public static final Recruit CARL = new RecruitBuilder().withName("Carl Kurz").withPhone("95352563")
-            .withEmail("heinz@example.com").withAddress("wall street").build();
-    public static final Recruit DANIEL = new RecruitBuilder().withName("Daniel Meier").withPhone("87652533")
-            .withEmail("cornelia@example.com").withAddress("10th street").withTags("friends").build();
-    public static final Recruit ELLE = new RecruitBuilder().withName("Elle Meyer").withPhone("9482224")
-            .withEmail("werner@example.com").withAddress("michegan ave").build();
-    public static final Recruit FIONA = new RecruitBuilder().withName("Fiona Kunz").withPhone("9482427")
-            .withEmail("lydia@example.com").withAddress("little tokyo").build();
-    public static final Recruit GEORGE = new RecruitBuilder().withName("George Best").withPhone("9482442")
-            .withEmail("anna@example.com").withAddress("4th street").build();
+    public static final Recruit CARL = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa952")
+            .withName("Carl Kurz")
+            .withPhone("95352563")
+            .withEmail("heinz@example.com")
+            .withAddress("wall street").build();
+    public static final Recruit DANIEL = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa953")
+            .withName("Daniel Meier")
+            .withPhone("87652533")
+            .withEmail("cornelia@example.com")
+            .withAddress("10th street")
+            .withTags("friends").build();
+    public static final Recruit ELLE = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa954")
+            .withName("Elle Meyer")
+            .withPhone("9482224")
+            .withEmail("werner@example.com")
+            .withAddress("michegan ave").build();
+    public static final Recruit FIONA = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa955")
+            .withName("Fiona Kunz")
+            .withPhone("9482427")
+            .withEmail("lydia@example.com")
+            .withAddress("little tokyo").build();
+    public static final Recruit GEORGE = new RecruitBuilder()
+            .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa956")
+            .withName("George Best")
+            .withPhone("9482442")
+            .withEmail("anna@example.com")
+            .withAddress("4th street").build();
 
     // Manually added
     public static final Recruit HOON = new RecruitBuilder().withName("Hoon Meier").withPhone("8482424")
