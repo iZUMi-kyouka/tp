@@ -53,7 +53,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     private static final String DELTA_FORMAT = " -> %s";
-    
+
     private final Index index;
     private final EditRecruitDescriptor editRecruitDescriptor;
 
