@@ -52,6 +52,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
+    private static final String DELTA_FORMAT = " -> %s";
 
     private final Index index;
     private final EditRecruitDescriptor editRecruitDescriptor;
@@ -86,7 +87,8 @@ public class EditCommand extends Command {
 
         model.setRecruit(recruitToEdit, editedRecruit);
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
-        return new CommandResult(String.format(MESSAGE_EDIT_RECRUIT_SUCCESS, Messages.format(editedRecruit)));
+        return new CommandResult(String.format(
+                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editRecruitDescriptor)));
     }
 
     /**
@@ -127,6 +129,30 @@ public class EditCommand extends Command {
                 .add("index", index)
                 .add("editPersonDescriptor", editRecruitDescriptor)
                 .toString();
+    }
+
+    private String formatDelta(Person person, EditPersonDescriptor delta) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(person.getName())
+                .append(delta.getName().map(n -> String.format(DELTA_FORMAT, n)).orElse(""))
+                .append("; Phone: ")
+                .append(person.getPhone())
+                .append(delta.getPhone().map(p -> String.format(DELTA_FORMAT, p)).orElse(""))
+                .append("; Email: ")
+                .append(person.getEmail())
+                .append(delta.getEmail().map(e -> String.format(DELTA_FORMAT, e)).orElse(""))
+                .append("; Address: ")
+                .append(person.getAddress())
+                .append(delta.getAddress().map(a -> String.format(DELTA_FORMAT, a)).orElse(""))
+                .append("; Tags: ");
+        person.getTags().forEach(builder::append);
+
+        Optional<Set<Tag>> deltaTags = delta.getTags();
+        deltaTags.ifPresent(tags -> {
+            builder.append(" -> ");
+            tags.forEach(builder::append);
+        });
+        return builder.toString();
     }
 
     /**
