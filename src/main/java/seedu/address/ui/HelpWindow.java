@@ -16,7 +16,28 @@ import seedu.address.commons.core.LogsCenter;
 public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String DISPLAY_MESSAGE = """
+            TLDR List of Commands:
+            \s
+            1. Create recruit
+            create [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]...
+            \s
+            2. View recruit
+            view UUID
+            \s
+            3. Edit recruit's details
+            edit UUID [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]...
+            \s
+            4. Delete recruit
+            delete UUID [-n NAME]
+            \s
+            5. Filter contacts
+            filter [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG1 TAG2... ]...
+            \s
+            6. Undo previous command
+            undo
+           """;
+    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL + "\n\n" + DISPLAY_MESSAGE;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
