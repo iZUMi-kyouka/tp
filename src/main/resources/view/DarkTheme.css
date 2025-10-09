@@ -104,7 +104,7 @@
 }
 
 .list-cell:filled:odd {
-    -fx-background-color: #2C343F;
+    -fx-background-color: derive(#2C343F, 20%);
 }
 
 .list-cell:filled:selected {
@@ -146,14 +146,15 @@
 
 .pane-with-border {
      -fx-background-color: derive(#090C0F, 20%);
-     /*-fx-border-color: derive(#090C0F, 10%);
-     -fx-border-top-width: 1px;*/
 }
 
-.light-pane{
+.title-box {
     -fx-background-color: derive(#090C0F, 30%);
-    /*-fx-border-color: derive(#090C0F, 10%);
-    -fx-border-top-width: 1px;*/
+    -fx-border-color: transparent transparent derive(#090C0F, 20%) transparent;
+}
+
+.light-pane {
+    -fx-background-color: derive(#090C0F, 30%);
 }
 
 .status-bar {

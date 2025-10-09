@@ -26,8 +26,11 @@
       </stylesheets>
 
       <VBox>
-        <HBox styleClass="light-pane">
+        <HBox styleClass="title-box">
           <Label text="TalentNexus" styleClass="title-label"/>
+          <padding>
+            <Insets top="5" right="10" bottom="5" left="10" />
+          </padding>
         </HBox>
 
         <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
