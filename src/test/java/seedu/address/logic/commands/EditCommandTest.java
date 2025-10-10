@@ -14,7 +14,6 @@ import static seedu.address.logic.commands.CommandTestUtil.showRecruitAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_RECRUIT;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
-import static seedu.address.testutil.TypicalRecruits.GEORGE;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
