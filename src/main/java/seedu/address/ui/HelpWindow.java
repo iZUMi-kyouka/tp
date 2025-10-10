@@ -37,7 +37,8 @@ public class HelpWindow extends UiPart<Stage> {
             6. Undo previous command
             undo
            """;
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;
+    public static final String HELP_MESSAGE = "Refer to the user guide: "
+            + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
