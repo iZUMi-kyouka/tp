@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import java.util.jar.Attributes;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -44,14 +43,41 @@ public class Recruit {
     }
 
     /**
-     * Every field must be present and not null.
+     * Every field except for id must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(id, name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, address, tags);
         this.names = new ArrayList<>(List.of(name));
         this.phones = new ArrayList<>(List.of(phone));
         this.emails = new ArrayList<>(List.of(email));
         this.addresses = new ArrayList<>(List.of(address));
+        this.tags.addAll(tags);
+        this.id = id;
+    }
+
+    /**
+     * Every field except for id must be present and not null.
+     */
+    public Recruit(List<Name> name, List<Phone> phone, List<Email> email, List<Address> address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.names = new ArrayList<>(name);
+        this.phones = new ArrayList<>(phone);
+        this.emails = new ArrayList<>(email);
+        this.addresses = new ArrayList<>(address);
+        this.tags.addAll(tags);
+        this.id = UUID.randomUUID();
+    }
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Recruit(UUID id, List<Name> name, List<Phone> phone, List<Email> email,
+            List<Address> address, Set<Tag> tags) {
+        requireAllNonNull(id, name, phone, email, address, tags);
+        this.names = new ArrayList<>(name);
+        this.phones = new ArrayList<>(phone);
+        this.emails = new ArrayList<>(email);
+        this.addresses = new ArrayList<>(address);
         this.tags.addAll(tags);
         this.id = id;
     }
@@ -68,20 +94,12 @@ public class Recruit {
         return this.names;
     }
 
-    public void addName(Name name) {
-        this.names.add(name);
-    }
-
     public Phone getPhone() {
         return phones.get(0);
     }
 
     public List<Phone> getPhones() {
         return this.phones;
-    }
-
-    public void addPhone(Phone phone) {
-        this.phones.add(phone);
     }
 
     public Email getEmail() {
@@ -92,20 +110,12 @@ public class Recruit {
         return this.emails;
     }
 
-    public void addEmail(Email email) {
-        this.emails.add(email);
-    }
-
     public Address getAddress() {
         return addresses.get(0);
     }
 
     public List<Address> getAddresses() {
         return this.addresses;
-    }
-
-    public void addAddress(Address addr) {
-        this.addresses.add(addr);
     }
 
     /**
