@@ -175,10 +175,10 @@ public class EditCommand extends Command {
          */
         public EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
             setID(toCopy.id);
-            setName(toCopy.name);
-            setPhone(toCopy.phone);
-            setEmail(toCopy.email);
-            setAddress(toCopy.address);
+            setNames(toCopy.name);
+            setPhones(toCopy.phone);
+            setEmails(toCopy.email);
+            setAddresses(toCopy.address);
             setTags(toCopy.tags);
         }
 
@@ -195,7 +195,7 @@ public class EditCommand extends Command {
         public Optional<UUID> getID() {
             return Optional.ofNullable(id);
         }
-        public void setName(List<Name> name) {
+        public void setNames(List<Name> name) {
             this.name = name;
         }
 
@@ -203,7 +203,7 @@ public class EditCommand extends Command {
             return Optional.ofNullable(name);
         }
 
-        public void setPhone(List<Phone> phone) {
+        public void setPhones(List<Phone> phone) {
             this.phone = phone;
         }
 
@@ -211,7 +211,7 @@ public class EditCommand extends Command {
             return Optional.ofNullable(phone);
         }
 
-        public void setEmail(List<Email> email) {
+        public void setEmails(List<Email> email) {
             this.email = email;
         }
 
@@ -219,7 +219,7 @@ public class EditCommand extends Command {
             return Optional.ofNullable(email);
         }
 
-        public void setAddress(List<Address> address) {
+        public void setAddresses(List<Address> address) {
             this.address = address;
         }
 

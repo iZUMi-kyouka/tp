@@ -35,10 +35,10 @@ public class EditRecruitDescriptorBuilder {
     public EditRecruitDescriptorBuilder(Recruit recruit) {
         descriptor = new EditCommand.EditRecruitDescriptor();
         descriptor.setID(recruit.getID());
-        descriptor.setName(recruit.getNames());
-        descriptor.setPhone(recruit.getPhones());
-        descriptor.setEmail(recruit.getEmails());
-        descriptor.setAddress(recruit.getAddresses());
+        descriptor.setNames(recruit.getNames());
+        descriptor.setPhones(recruit.getPhones());
+        descriptor.setEmails(recruit.getEmails());
+        descriptor.setAddresses(recruit.getAddresses());
         descriptor.setTags(recruit.getTags());
     }
     /**
@@ -53,7 +53,7 @@ public class EditRecruitDescriptorBuilder {
      * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withName(String name) {
-        descriptor.setName(List.of(new Name(name)));
+        descriptor.setNames(List.of(new Name(name)));
         return this;
     }
 
@@ -61,7 +61,7 @@ public class EditRecruitDescriptorBuilder {
      * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withPhone(String phone) {
-        descriptor.setPhone(List.of(new Phone(phone)));
+        descriptor.setPhones(List.of(new Phone(phone)));
         return this;
     }
 
@@ -69,7 +69,7 @@ public class EditRecruitDescriptorBuilder {
      * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withEmail(String email) {
-        descriptor.setEmail(List.of(new Email(email)));
+        descriptor.setEmails(List.of(new Email(email)));
         return this;
     }
 
@@ -77,7 +77,7 @@ public class EditRecruitDescriptorBuilder {
      * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withAddress(String address) {
-        descriptor.setAddress(List.of(new Address(address)));
+        descriptor.setAddresses(List.of(new Address(address)));
         return this;
     }
 

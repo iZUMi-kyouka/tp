@@ -48,16 +48,16 @@ public class EditCommandParser implements Parser<EditCommand> {
         EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor();
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editRecruitDescriptor.setName(List.of(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get())));
+            editRecruitDescriptor.setNames(List.of(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get())));
         }
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editRecruitDescriptor.setPhone(List.of(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get())));
+            editRecruitDescriptor.setPhones(List.of(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get())));
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editRecruitDescriptor.setEmail(List.of(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get())));
+            editRecruitDescriptor.setEmails(List.of(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get())));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editRecruitDescriptor.setAddress(List.of(
+            editRecruitDescriptor.setAddresses(List.of(
                     ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editRecruitDescriptor::setTags);
