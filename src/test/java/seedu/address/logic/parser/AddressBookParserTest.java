@@ -28,6 +28,7 @@ import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.RecruitBuilder;
 import seedu.address.testutil.RecruitUtil;
+import seedu.address.testutil.TypicalIDs;
 
 public class AddressBookParserTest {
 
@@ -49,8 +50,8 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_RECRUIT), command);
+                DeleteCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT);
+        assertEquals(new DeleteCommand(TypicalIDs.ID_FIRST_RECRUIT), command);
     }
 
     @Test

@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -126,6 +128,10 @@ public class ModelManager implements Model {
     public void updateFilteredRecruitList(Predicate<Recruit> predicate) {
         requireNonNull(predicate);
         filteredRecruits.setPredicate(predicate);
+    }
+
+    public Optional<Recruit> getFilteredRecruitByID(UUID id) {
+        return this.filteredRecruits.stream().findFirst().filter(x -> x.getID().equals(id));
     }
 
     @Override
