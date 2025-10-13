@@ -1,7 +1,5 @@
 package seedu.address.testutil;
 
-import seedu.address.commons.core.index.Index;
-
 import java.util.UUID;
 
 /**

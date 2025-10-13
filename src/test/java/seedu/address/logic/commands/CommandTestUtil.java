@@ -132,6 +132,10 @@ public class CommandTestUtil {
         assertEquals(1, model.getFilteredRecruitList().size());
     }
 
+    /**
+     * Updates {@code model}'s filtered list to show only the person at the given {@code targetID} in the
+     * {@code model}'s address book.
+     */
     public static void showRecruitAtID(Model model, UUID targetID) {
         Optional<Recruit> recruit = model.getFilteredRecruitByID(targetID);
         assertTrue(recruit.isPresent());
