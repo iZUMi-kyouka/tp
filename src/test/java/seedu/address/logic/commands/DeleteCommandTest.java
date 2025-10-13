@@ -3,23 +3,24 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.*;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.showRecruitAtID;
+import static seedu.address.logic.commands.CommandTestUtil.showRecruitAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_RECRUIT;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.TypicalIDs;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -30,9 +31,9 @@ public class DeleteCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void execute_validIDUnfilteredList_success() {
+    public void execute_validIdUnfilteredList_success() {
         Optional<Recruit> recruitToDelete = model.getFilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
-        assertTrue(recruitToDelete.isPresent(),Messages.MESSAGE_INVALID_RECRUIT_ID);
+        assertTrue(recruitToDelete.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         DeleteCommand deleteCommand = new DeleteCommand(TypicalIDs.ID_FIRST_RECRUIT);
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_RECRUIT_SUCCESS,
@@ -45,7 +46,7 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void execute_invalidIDUnfilteredList_throwsCommandException() {
+    public void execute_invalidIdUnfilteredList_throwsCommandException() {
         UUID wrongID = UUID.randomUUID();
         DeleteCommand deleteCommand = new DeleteCommand(wrongID);
 
@@ -53,11 +54,11 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void execute_validIDFilteredList_success() {
+    public void execute_validIdFilteredList_success() {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
 
         Optional<Recruit>recruitToDelete = model.getFilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
-        assertTrue(recruitToDelete.isPresent(),Messages.MESSAGE_INVALID_RECRUIT_ID);
+        assertTrue(recruitToDelete.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         DeleteCommand deleteCommand = new DeleteCommand(TypicalIDs.ID_FIRST_RECRUIT);
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_RECRUIT_SUCCESS,
@@ -71,7 +72,7 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void execute_invalidIDFilteredList_throwsCommandException() {
+    public void execute_invalidIdFilteredList_throwsCommandException() {
         showRecruitAtID(model, TypicalIDs.ID_FIRST_RECRUIT);
 
         UUID wrongID = UUID.randomUUID();
