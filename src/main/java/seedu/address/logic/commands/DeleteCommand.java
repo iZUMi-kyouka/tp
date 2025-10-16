@@ -24,7 +24,7 @@ public class DeleteCommand extends Command {
             + "Parameters: ID (must be a UUID string)\n"
             + "Example: " + COMMAND_WORD + " eac9b117-2ded-42c3-9264-ccf3dfaaa950";
 
-    public static final String MESSAGE_DELETE_RECRUIT_SUCCESS = "Deleted Recruit: %1$s";
+    public static final String MESSAGE_DELETE_RECRUIT_SUCCESS = "Deleted Recruit:\n%1$s";
 
     private final UUID targetID;
 
