@@ -11,8 +11,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 
-import javax.swing.text.View;
-
 /**
  * Views a person identified using it's displayed index from the address book.
  */
