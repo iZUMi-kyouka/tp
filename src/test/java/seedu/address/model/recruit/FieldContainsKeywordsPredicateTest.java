@@ -3,6 +3,7 @@ package seedu.address.model.recruit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,21 +13,24 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.testutil.RecruitBuilder;
 
-public class NameContainsKeywordsPredicateTest {
+public class FieldContainsKeywordsPredicateTest {
 
     @Test
     public void equals() {
         List<String> firstPredicateKeywordList = Collections.singletonList("first");
         List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
 
-        NameContainsKeywordsPredicate firstPredicate = new NameContainsKeywordsPredicate(firstPredicateKeywordList);
-        NameContainsKeywordsPredicate secondPredicate = new NameContainsKeywordsPredicate(secondPredicateKeywordList);
+        FieldContainsKeywordsPredicate firstPredicate = new FieldContainsKeywordsPredicate(
+                firstPredicateKeywordList, SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate secondPredicate = new FieldContainsKeywordsPredicate(
+                secondPredicateKeywordList, SEARCH_PREFIX_NAME);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        NameContainsKeywordsPredicate firstPredicateCopy = new NameContainsKeywordsPredicate(firstPredicateKeywordList);
+        FieldContainsKeywordsPredicate firstPredicateCopy = new FieldContainsKeywordsPredicate(
+                firstPredicateKeywordList, SEARCH_PREFIX_NAME);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -42,34 +46,37 @@ public class NameContainsKeywordsPredicateTest {
     @Test
     public void test_nameContainsKeywords_returnsTrue() {
         // One keyword
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Alice"));
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Collections.singletonList("Alice"), SEARCH_PREFIX_NAME);
         assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
 
         // Multiple keywords
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"));
+        predicate = new FieldContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"), SEARCH_PREFIX_NAME);
         assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
 
         // Only one matching keyword
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Bob", "Carol"));
+        predicate = new FieldContainsKeywordsPredicate(Arrays.asList("Bob", "Carol"), SEARCH_PREFIX_NAME);
         assertTrue(predicate.test(new RecruitBuilder().withName("Alice Carol").build()));
 
         // Mixed-case keywords
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"));
+        predicate = new FieldContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"), SEARCH_PREFIX_NAME);
         assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
     }
 
     @Test
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.emptyList());
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Collections.emptyList(), SEARCH_PREFIX_NAME);
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice").build()));
 
         // Non-matching keyword
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Carol"));
+        predicate = new FieldContainsKeywordsPredicate(Arrays.asList("Carol"), SEARCH_PREFIX_NAME);
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
 
         // Keywords match phone, email and address, but does not match name
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("12345", "alice@email.com", "Main", "Street"));
+        predicate = new FieldContainsKeywordsPredicate(
+                Arrays.asList("12345", "alice@email.com", "Main", "Street"), SEARCH_PREFIX_NAME);
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
     }
@@ -77,9 +84,10 @@ public class NameContainsKeywordsPredicateTest {
     @Test
     public void toStringMethod() {
         List<String> keywords = List.of("keyword1", "keyword2");
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(keywords);
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(keywords, SEARCH_PREFIX_NAME);
 
-        String expected = NameContainsKeywordsPredicate.class.getCanonicalName() + "{keywords=" + keywords + "}";
+        String expected = FieldContainsKeywordsPredicate.class.getCanonicalName() + "{keywords=" + keywords
+                + ", prefix=" + SEARCH_PREFIX_NAME + "}";
         assertEquals(expected, predicate.toString());
     }
 }
