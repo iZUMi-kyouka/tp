@@ -150,7 +150,8 @@ public class FindCommandTest {
     @Test
     public void execute_emailKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_RECRUITS_LISTED_OVERVIEW, 2);
-        FieldContainsKeywordsPredicate predicate = preparePredicate("alice@example.com|anna@example.com", SEARCH_PREFIX_EMAIL);
+        FieldContainsKeywordsPredicate predicate = preparePredicate("alice@example.com|anna@example.com",
+                SEARCH_PREFIX_EMAIL);
         FindCommand command = new FindCommand(new NestedOrPredicate(predicate));
         expectedModel.updateFilteredRecruitList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
