@@ -68,9 +68,10 @@ public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
             return false;
         }
 
-        FieldContainsKeywordsPredicate otherFieldContainsKeywordsPredicate = (FieldContainsKeywordsPredicate) other;
-        return keywords.equals(otherFieldContainsKeywordsPredicate.keywords) 
-        && prefix.equals(otherFieldContainsKeywordsPredicate.prefix);
+        FieldContainsKeywordsPredicate otherFieldContainsKeywordsPredicate =
+                (FieldContainsKeywordsPredicate) other;
+        return keywords.equals(otherFieldContainsKeywordsPredicate.keywords)
+                && prefix.equals(otherFieldContainsKeywordsPredicate.prefix);
     }
 
     @Override

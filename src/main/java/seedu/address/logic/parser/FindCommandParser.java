@@ -30,12 +30,15 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     public FindCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, SEARCH_PREFIX_ID, SEARCH_PREFIX_NAME, SEARCH_PREFIX_PHONE, 
-                SEARCH_PREFIX_EMAIL, SEARCH_PREFIX_ADDRESS, SEARCH_PREFIX_TAG);
-        
-        boolean isInvalidCommand = (!arePrefixesPresent(argMultimap, SEARCH_PREFIX_ID) && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_NAME)
-            && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_PHONE) && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_EMAIL) 
-            && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_ADDRESS) && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_TAG));
+                ArgumentTokenizer.tokenize(args, SEARCH_PREFIX_ID, SEARCH_PREFIX_NAME, SEARCH_PREFIX_PHONE,
+                        SEARCH_PREFIX_EMAIL, SEARCH_PREFIX_ADDRESS, SEARCH_PREFIX_TAG);
+
+        boolean isInvalidCommand = (!arePrefixesPresent(argMultimap, SEARCH_PREFIX_ID)
+                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_NAME)
+                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_PHONE)
+                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_EMAIL)
+                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_ADDRESS)
+                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_TAG));
 
         if (isInvalidCommand) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
