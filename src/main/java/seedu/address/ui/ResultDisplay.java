@@ -27,7 +27,7 @@ public class ResultDisplay extends UiPart<Region> {
         updateTextAreaHeight(feedbackToUser);
     }
 
-    public void updateTextAreaHeight(String text) {
+    private void updateTextAreaHeight(String text) {
         if (text == null || text.isEmpty()) {
             resultDisplay.setPrefHeight(30);
             return;
