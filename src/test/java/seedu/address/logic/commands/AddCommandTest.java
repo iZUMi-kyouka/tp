@@ -10,6 +10,8 @@ import static seedu.address.testutil.TypicalRecruits.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -155,6 +157,11 @@ public class AddCommandTest {
 
         @Override
         public ObservableList<Recruit> getFilteredRecruitList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<Recruit> getFilteredRecruitByID(UUID id) {
             throw new AssertionError("This method should not be called.");
         }
 
