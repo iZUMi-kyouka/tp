@@ -37,13 +37,13 @@ public class Messages {
     public static String format(Recruit recruit) {
         final StringBuilder builder = new StringBuilder();
         builder.append(recruit.getName())
-                .append(";\n Phone: ")
+                .append("\n Phone: ")
                 .append(recruit.getPhone())
-                .append(";\n Email: ")
+                .append("\n Email: ")
                 .append(recruit.getEmail())
-                .append(";\n Address: ")
+                .append("\n Address: ")
                 .append(recruit.getAddress())
-                .append(";\n Tags: ");
+                .append("\n Tags: ");
         recruit.getTags().forEach(builder::append);
         return builder.toString();
     }

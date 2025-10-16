@@ -52,7 +52,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
-    private static final String DELTA_FORMAT = " -> %s\n";
+    private static final String DELTA_FORMAT = " -> %s";
 
     private final Index index;
     private final EditRecruitDescriptor editRecruitDescriptor;
@@ -135,16 +135,16 @@ public class EditCommand extends Command {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
                 .append(delta.getName().map(n -> String.format(DELTA_FORMAT, n)).orElse(""))
-                .append("Phone: ")
+                .append("\n Phone: ")
                 .append(person.getPhone())
                 .append(delta.getPhone().map(p -> String.format(DELTA_FORMAT, p)).orElse(""))
-                .append("Email: ")
+                .append("\n Email: ")
                 .append(person.getEmail())
                 .append(delta.getEmail().map(e -> String.format(DELTA_FORMAT, e)).orElse(""))
-                .append("Address: ")
+                .append("\n Address: ")
                 .append(person.getAddress())
                 .append(delta.getAddress().map(a -> String.format(DELTA_FORMAT, a)).orElse(""))
-                .append("Tags: ");
+                .append("\n Tags: ");
         person.getTags().forEach(builder::append);
 
         Optional<Set<Tag>> deltaTags = delta.getTags();
