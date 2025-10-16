@@ -3,9 +3,9 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
-import static seedu.address.logic.Messages.MESSAGE_RECRUITS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.Messages.MESSAGE_RECRUITS_LISTED_OVERVIEW;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 import static seedu.address.testutil.TypicalRecruits.CARL;
 import static seedu.address.testutil.TypicalRecruits.ELLE;
 import static seedu.address.testutil.TypicalRecruits.FIONA;
@@ -78,7 +78,8 @@ public class FindCommandTest {
 
     @Test
     public void toStringMethod() {
-        FieldContainsKeywordsPredicate namePredicate = new FieldContainsKeywordsPredicate(Arrays.asList("keyword"), SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate namePredicate = new FieldContainsKeywordsPredicate(
+                Arrays.asList("keyword"), SEARCH_PREFIX_NAME);
         NestedOrPredicate predicate = new NestedOrPredicate(namePredicate);
         FindCommand findCommand = new FindCommand(predicate);
         String expected = FindCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";

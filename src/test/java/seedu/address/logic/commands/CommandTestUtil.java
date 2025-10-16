@@ -128,7 +128,8 @@ public class CommandTestUtil {
 
         Recruit recruit = model.getFilteredRecruitList().get(targetIndex.getZeroBased());
         final String[] splitName = recruit.getName().fullName.split("\\s+");
-        model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(Arrays.asList(splitName[0]), SEARCH_PREFIX_NAME));
+        model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(
+                Arrays.asList(splitName[0]), SEARCH_PREFIX_NAME));
 
         assertEquals(1, model.getFilteredRecruitList().size());
     }

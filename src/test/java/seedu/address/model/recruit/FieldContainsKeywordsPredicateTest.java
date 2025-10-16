@@ -20,14 +20,17 @@ public class FieldContainsKeywordsPredicateTest {
         List<String> firstPredicateKeywordList = Collections.singletonList("first");
         List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
 
-        FieldContainsKeywordsPredicate firstPredicate = new FieldContainsKeywordsPredicate(firstPredicateKeywordList, SEARCH_PREFIX_NAME);
-        FieldContainsKeywordsPredicate secondPredicate = new FieldContainsKeywordsPredicate(secondPredicateKeywordList, SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate firstPredicate = new FieldContainsKeywordsPredicate(
+                firstPredicateKeywordList, SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate secondPredicate = new FieldContainsKeywordsPredicate(
+                secondPredicateKeywordList, SEARCH_PREFIX_NAME);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        FieldContainsKeywordsPredicate firstPredicateCopy = new FieldContainsKeywordsPredicate(firstPredicateKeywordList, SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate firstPredicateCopy = new FieldContainsKeywordsPredicate(
+                firstPredicateKeywordList, SEARCH_PREFIX_NAME);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -43,7 +46,8 @@ public class FieldContainsKeywordsPredicateTest {
     @Test
     public void test_nameContainsKeywords_returnsTrue() {
         // One keyword
-        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(Collections.singletonList("Alice"), SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Collections.singletonList("Alice"), SEARCH_PREFIX_NAME);
         assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
 
         // Multiple keywords
@@ -62,7 +66,8 @@ public class FieldContainsKeywordsPredicateTest {
     @Test
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
-        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(Collections.emptyList(), SEARCH_PREFIX_NAME);
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Collections.emptyList(), SEARCH_PREFIX_NAME);
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice").build()));
 
         // Non-matching keyword
@@ -70,7 +75,8 @@ public class FieldContainsKeywordsPredicateTest {
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
 
         // Keywords match phone, email and address, but does not match name
-        predicate = new FieldContainsKeywordsPredicate(Arrays.asList("12345", "alice@email.com", "Main", "Street"), SEARCH_PREFIX_NAME);
+        predicate = new FieldContainsKeywordsPredicate(
+                Arrays.asList("12345", "alice@email.com", "Main", "Street"), SEARCH_PREFIX_NAME);
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
     }
