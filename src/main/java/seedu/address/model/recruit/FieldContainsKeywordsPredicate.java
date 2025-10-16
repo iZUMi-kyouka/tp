@@ -1,0 +1,80 @@
+package seedu.address.model.recruit;
+
+import java.util.List;
+import java.util.function.Predicate;
+
+import seedu.address.logic.parser.Prefix;
+import seedu.address.commons.util.ToStringBuilder;
+
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ID;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_TAG;
+
+/**
+ * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
+ */
+public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
+    private final List<String> keywords;
+    private final Prefix prefix;
+
+    public FieldContainsKeywordsPredicate(List<String> keywords, Prefix prefix) {
+        this.keywords = keywords;
+        this.prefix = prefix;
+    }
+
+    @Override
+    public boolean test(Recruit recruit) {
+        if (prefix.equals(SEARCH_PREFIX_ID)) {
+            return keywords.stream()
+                    .anyMatch(keyword -> recruit.getID().toString().toLowerCase()
+                            .contains(keyword.replaceAll("\\\\|", "|").toLowerCase()));
+        } else if (prefix.equals(SEARCH_PREFIX_NAME)) {
+            return keywords.stream()
+                    .anyMatch(keyword -> recruit.getName().fullName.toLowerCase()
+                            .contains(keyword.toLowerCase()));
+        } else if (prefix.equals(SEARCH_PREFIX_EMAIL)) {
+            return keywords.stream()
+                    .anyMatch(keyword -> recruit.getEmail().value.toLowerCase()
+                            .contains(keyword.toLowerCase()));
+        } else if (prefix.equals(SEARCH_PREFIX_PHONE)) {
+            return keywords.stream()
+                    .anyMatch(keyword -> recruit.getPhone().value.toLowerCase()
+                            .contains(keyword.toLowerCase()));
+        } else if (prefix.equals(SEARCH_PREFIX_ADDRESS)) {
+            return keywords.stream()
+                    .anyMatch(keyword -> recruit.getAddress().value.toLowerCase()
+                            .contains(keyword.toLowerCase()));
+        } else if (prefix.equals(SEARCH_PREFIX_TAG)) {
+            return keywords.stream()
+                    .anyMatch(keyword -> recruit.getTags().stream()
+                            .anyMatch(tag -> tag.tagName.toLowerCase()
+                                    .contains(keyword.toLowerCase())));
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof FieldContainsKeywordsPredicate)) {
+            return false;
+        }
+
+        FieldContainsKeywordsPredicate otherFieldContainsKeywordsPredicate = (FieldContainsKeywordsPredicate) other;
+        return keywords.equals(otherFieldContainsKeywordsPredicate.keywords) 
+        && prefix.equals(otherFieldContainsKeywordsPredicate.prefix);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).add("keywords", keywords).add("prefix", prefix).toString();
+    }
+}

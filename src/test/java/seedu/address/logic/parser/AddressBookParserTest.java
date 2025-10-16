@@ -4,8 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ID;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +29,8 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.recruit.NameContainsKeywordsPredicate;
+import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
+import seedu.address.model.recruit.NestedOrPredicate;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.RecruitBuilder;
@@ -72,8 +79,9 @@ public class AddressBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+                FindCommand.COMMAND_WORD + " -n " + keywords.stream().collect(Collectors.joining("|")));
+        assertEquals(new FindCommand(new NestedOrPredicate(
+                        new FieldContainsKeywordsPredicate(keywords, SEARCH_PREFIX_NAME))), command);
     }
 
     @Test
