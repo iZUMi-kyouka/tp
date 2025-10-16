@@ -1,17 +1,17 @@
 package seedu.address.model.recruit;
 
-import java.util.List;
-import java.util.function.Predicate;
-
-import seedu.address.logic.parser.Prefix;
-import seedu.address.commons.util.ToStringBuilder;
-
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_TAG;
+
+import java.util.List;
+import java.util.function.Predicate;
+
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.parser.Prefix;
 
 /**
  * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
@@ -20,6 +20,11 @@ public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
     private final List<String> keywords;
     private final Prefix prefix;
 
+    /**
+     * Constructor to create an instance of the FieldContainsKeywordsPredicate
+     * @param keywords -  list of keywords provided for search
+     * @param prefix - type of parameter being searched
+     */
     public FieldContainsKeywordsPredicate(List<String> keywords, Prefix prefix) {
         this.keywords = keywords;
         this.prefix = prefix;

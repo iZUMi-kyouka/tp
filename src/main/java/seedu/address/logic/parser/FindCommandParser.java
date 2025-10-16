@@ -9,8 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_TAG;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindCommand;
