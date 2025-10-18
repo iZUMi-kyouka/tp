@@ -15,4 +15,18 @@ public class AddressBookState {
         this.addressBook = new AddressBook(ab);
         this.command = cmd;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof AddressBookState)) {
+            return false;
+        }
+
+        AddressBookState abs = (AddressBookState) o;
+        return this.addressBook.equals(abs.addressBook) && this.command.equals(abs.command);
+    }
 }
