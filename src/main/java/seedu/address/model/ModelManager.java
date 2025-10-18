@@ -21,7 +21,7 @@ import seedu.address.model.recruit.Recruit;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
+    private final VersionedAddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Recruit> filteredRecruits;
 
@@ -33,7 +33,7 @@ public class ModelManager implements Model {
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
-        this.addressBook = new AddressBook(addressBook);
+        this.addressBook = new VersionedAddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredRecruits = new FilteredList<>(this.addressBook.getRecruitList());
     }
@@ -158,11 +158,12 @@ public class ModelManager implements Model {
 
     @Override
     public void commitAddressBook() {
-
+        addressBook.commit();
     }
 
     @Override
     public void undoAddressBook() {
-
+        addressBook.undo();
+        updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
     }
 }
