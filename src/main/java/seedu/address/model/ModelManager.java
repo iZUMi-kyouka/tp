@@ -156,4 +156,13 @@ public class ModelManager implements Model {
                 && filteredRecruits.equals(otherModelManager.filteredRecruits);
     }
 
+    @Override
+    public void commitAddressBook() {
+
+    }
+
+    @Override
+    public void undoAddressBook() {
+
+    }
 }
