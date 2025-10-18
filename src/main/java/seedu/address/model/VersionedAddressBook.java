@@ -9,7 +9,7 @@ import java.util.List;
 public class VersionedAddressBook extends AddressBook {
     private static final int MAX_UNDO_HISTORY_SIZE = 200;
 
-    private final List<ReadOnlyAddressBook> addressBookStateList = new ArrayList<>();
+    private final List<AddressBookState> addressBookStateList = new ArrayList<>();
     private int currentStatePtr;
 
     /**
@@ -18,15 +18,15 @@ public class VersionedAddressBook extends AddressBook {
     public VersionedAddressBook(ReadOnlyAddressBook toBeCopied) {
         super(toBeCopied);
 
-        this.addressBookStateList.add(new AddressBook(toBeCopied));
+        this.addressBookStateList.add(new AddressBookState(toBeCopied, "INITIAL STATE"));
         currentStatePtr = 0;
     }
 
     /**
      * Saves the current address book state in history.
      */
-    public void commit() {
-        addressBookStateList.add(this);
+    public void commit(String command) {
+        addressBookStateList.add(new AddressBookState(this, command));
 
         if (addressBookStateList.size() > MAX_UNDO_HISTORY_SIZE) {
             addressBookStateList.remove(0);
@@ -39,13 +39,18 @@ public class VersionedAddressBook extends AddressBook {
         return currentStatePtr > 0;
     }
 
+
     /**
-     * Undoes the last performed operation.
+     * Undoes the last performed operation and restores the previous address book state.
+     *
+     * @return the command string of the operation that was undone
      */
-    public void undo() {
+    public String undo() {
+        assert currentStatePtr > 0;
         currentStatePtr--;
-        ReadOnlyAddressBook addressBookToRestore = addressBookStateList.get(currentStatePtr);
-        this.setRecruits(addressBookToRestore.getRecruitList());
+        AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePtr);
+        this.setRecruits(addressBookStateToRestore.addressBook.getRecruitList());
+        return addressBookStateToRestore.command;
     }
 
     /**

@@ -157,13 +157,19 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void commitAddressBook() {
-        addressBook.commit();
+    public void commitAddressBook(String command) {
+        addressBook.commit(command);
     }
 
     @Override
-    public void undoAddressBook() {
-        addressBook.undo();
+    public String undoAddressBook() {
+        String undoneCommand = addressBook.undo();
         updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        return undoneCommand;
+    }
+
+    @Override
+    public boolean canUndoAddressBook() {
+        return addressBook.canUndoAddressBook();
     }
 }

@@ -98,10 +98,15 @@ public interface Model {
     /**
      * Saves the current address book state in history.
      */
-    void commitAddressBook();
+    void commitAddressBook(String command);
 
     /**
      * Restores the previous address book state from its history.
      */
-    void undoAddressBook();
+    String undoAddressBook();
+
+    /**
+     * Checks if undo operation is possible.
+     */
+    boolean canUndoAddressBook();
 }

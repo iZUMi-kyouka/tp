@@ -171,12 +171,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void commitAddressBook() {
+        public void commitAddressBook(String command) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void undoAddressBook() {
+        public String undoAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
     }
