@@ -8,17 +8,20 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.recruit.NameContainsKeywordsPredicate;
+import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 
@@ -60,6 +63,8 @@ public class CommandTestUtil {
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
+    public static final String SEARCH_NAME_FLAG = "-n";
+    public static final String SEARCH_ALT_NAME = "|";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
     public static final EditCommand.EditRecruitDescriptor DESC_AMY;
@@ -125,7 +130,22 @@ public class CommandTestUtil {
 
         Recruit recruit = model.getFilteredRecruitList().get(targetIndex.getZeroBased());
         final String[] splitName = recruit.getName().fullName.split("\\s+");
-        model.updateFilteredRecruitList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(
+                Arrays.asList(splitName[0]), SEARCH_PREFIX_NAME));
+
+        assertEquals(1, model.getFilteredRecruitList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the person at the given {@code targetID} in the
+     * {@code model}'s address book.
+     */
+    public static void showRecruitAtID(Model model, UUID targetID) {
+        Optional<Recruit> recruit = model.getFilteredRecruitByID(targetID);
+        assertTrue(recruit.isPresent());
+        final String[] splitName = recruit.get().getName().fullName.split("\\s+");
+        model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(Arrays.asList(splitName[0]),
+                SEARCH_PREFIX_NAME));
 
         assertEquals(1, model.getFilteredRecruitList().size());
     }

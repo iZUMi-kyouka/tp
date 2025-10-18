@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 
@@ -22,12 +23,15 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.recruit.NameContainsKeywordsPredicate;
+import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
+import seedu.address.model.recruit.NestedOrPredicate;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.RecruitBuilder;
 import seedu.address.testutil.RecruitUtil;
+import seedu.address.testutil.TypicalIDs;
 
 public class AddressBookParserTest {
 
@@ -49,8 +53,8 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_RECRUIT), command);
+                DeleteCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT);
+        assertEquals(new DeleteCommand(TypicalIDs.ID_FIRST_RECRUIT), command);
     }
 
     @Test
@@ -72,8 +76,9 @@ public class AddressBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+                FindCommand.COMMAND_WORD + " -n " + keywords.stream().collect(Collectors.joining("|")));
+        assertEquals(new FindCommand(new NestedOrPredicate(
+                        new FieldContainsKeywordsPredicate(keywords, SEARCH_PREFIX_NAME))), command);
     }
 
     @Test
@@ -97,5 +102,12 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_unknownCommand_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
+    }
+
+    @Test
+    public void parseCommand_view() throws Exception {
+        ViewCommand command = (ViewCommand) parser.parseCommand(
+                ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
+        assertEquals(new ViewCommand(INDEX_FIRST_RECRUIT), command);
     }
 }
