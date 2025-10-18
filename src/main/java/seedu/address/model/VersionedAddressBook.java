@@ -26,6 +26,7 @@ public class VersionedAddressBook extends AddressBook {
      * Saves the current address book state in history.
      */
     public void commit(String command) {
+        purgeFutureStates();
         addressBookStateList.add(new AddressBookState(this, command));
 
         if (addressBookStateList.size() > MAX_UNDO_HISTORY_SIZE) {
@@ -56,7 +57,7 @@ public class VersionedAddressBook extends AddressBook {
     /**
      * Deletes all AddressBook states after the currently pointed state.
      */
-    public void purgeFutureStates() {
+    private void purgeFutureStates() {
         final int removeIndex = addressBookStateList.size();
         while (addressBookStateList.size() > currentStatePtr + 1) {
             addressBookStateList.remove(removeIndex);

@@ -179,6 +179,11 @@ public class AddCommandTest {
         public String undoAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean canUndoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

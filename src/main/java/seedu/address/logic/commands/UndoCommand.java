@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -8,11 +10,13 @@ import seedu.address.model.Model;
  */
 public class UndoCommand extends Command {
     public static final String COMMAND_WORD = "undo";
-    private static final String MESSAGE_SUCCESS = "Successfully undone the command: `%s`";
+    private static final String MESSAGE_SUCCESS = "Successfully undone `%s`.";
     private static final String MESSAGE_NO_OPERATION_TO_UNDO = "There is no ";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+
         if (!model.canUndoAddressBook()) {
             throw new CommandException(MESSAGE_NO_OPERATION_TO_UNDO);
         }
