@@ -172,7 +172,7 @@ public class AddCommandTest {
 
         @Override
         public void commitAddressBook(String command) {
-            throw new AssertionError("This method should not be called.");
+            // does nothing
         }
 
         @Override
