@@ -10,8 +10,8 @@ import seedu.address.model.Model;
  */
 public class UndoCommand extends Command {
     public static final String COMMAND_WORD = "undo";
-    private static final String MESSAGE_SUCCESS = "Successfully undone `%s`.";
-    private static final String MESSAGE_NO_OPERATION_TO_UNDO = "There is no ";
+    private static final String MESSAGE_SUCCESS = "Successfully undone %s.";
+    private static final String MESSAGE_NO_OPERATION_TO_UNDO = "There is no remaining operation that can be undone.";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {

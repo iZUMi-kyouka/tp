@@ -48,10 +48,13 @@ public class VersionedAddressBook extends AddressBook {
      */
     public String undo() {
         assert currentStatePtr > 0;
+
+        String undoneOperation = addressBookStateList.get(currentStatePtr).command;
         currentStatePtr--;
         AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePtr);
         this.setRecruits(addressBookStateToRestore.addressBook.getRecruitList());
-        return addressBookStateToRestore.command;
+
+        return undoneOperation;
     }
 
     /**
