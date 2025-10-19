@@ -48,7 +48,6 @@ public class VersionedAddressBook extends AddressBook {
      * @return the command string of the operation that was undone
      */
     public String undo() {
-        assert currentStatePtr > 0;
         if (currentStatePtr <= 0) {
             throw new IllegalStateException();
         }
