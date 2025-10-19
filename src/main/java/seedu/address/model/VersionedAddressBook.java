@@ -7,6 +7,7 @@ import java.util.List;
  * An AddressBook with version history to support undo operation
  */
 public class VersionedAddressBook extends AddressBook {
+    public static final String INTIIAL_STATE_MARKER = "INITIAL STATE";
     private static final int MAX_UNDO_HISTORY_SIZE = 200;
 
     private final List<AddressBookState> addressBookStateList = new ArrayList<>();
@@ -18,7 +19,7 @@ public class VersionedAddressBook extends AddressBook {
     public VersionedAddressBook(ReadOnlyAddressBook toBeCopied) {
         super(toBeCopied);
 
-        this.addressBookStateList.add(new AddressBookState(toBeCopied, "INITIAL STATE"));
+        this.addressBookStateList.add(new AddressBookState(toBeCopied, INTIIAL_STATE_MARKER));
         currentStatePtr = 0;
     }
 
@@ -48,6 +49,9 @@ public class VersionedAddressBook extends AddressBook {
      */
     public String undo() {
         assert currentStatePtr > 0;
+        if (currentStatePtr <= 0) {
+            throw new IllegalStateException();
+        }
 
         String undoneOperation = addressBookStateList.get(currentStatePtr).command;
         currentStatePtr--;
@@ -57,13 +61,25 @@ public class VersionedAddressBook extends AddressBook {
         return undoneOperation;
     }
 
+    public int getCurrentStatePtr() {
+        return currentStatePtr;
+    }
+
+    /**
+     * Returns a defensive copy of the state list.
+     */
+    public List<AddressBookState> getAddressBookStateList() {
+        return List.copyOf(addressBookStateList);
+    }
+
     /**
      * Deletes all AddressBook states after the currently pointed state.
      */
     private void purgeFutureStates() {
-        final int removeIndex = addressBookStateList.size();
+        int removeIndex = addressBookStateList.size() - 1;
         while (addressBookStateList.size() > currentStatePtr + 1) {
             addressBookStateList.remove(removeIndex);
+            removeIndex--;
         }
     }
 }
