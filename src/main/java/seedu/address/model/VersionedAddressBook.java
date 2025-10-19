@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class VersionedAddressBook extends AddressBook {
     public static final String INTIIAL_STATE_MARKER = "INITIAL STATE";
-    private static final int MAX_UNDO_HISTORY_SIZE = 200;
+    public static final int MAX_UNDO_HISTORY_SIZE = 200;
 
     private final List<AddressBookState> addressBookStateList = new ArrayList<>();
     private int currentStatePtr;
@@ -32,9 +32,10 @@ public class VersionedAddressBook extends AddressBook {
 
         if (addressBookStateList.size() > MAX_UNDO_HISTORY_SIZE) {
             addressBookStateList.remove(0);
+        } else {
+            currentStatePtr++;
         }
 
-        currentStatePtr++;
     }
 
     public boolean canUndoAddressBook() {
