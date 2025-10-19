@@ -5,15 +5,23 @@ package seedu.address.model;
  *  modified it to it state.
  */
 public class AddressBookState {
-    public final ReadOnlyAddressBook addressBook;
-    public final String command;
+    private final ReadOnlyAddressBook addressBook;
+    private final String operationDescriptor;
 
     /**
      * Creates an AddressBookState with the given AddressBook and command.
      */
-    public AddressBookState(ReadOnlyAddressBook ab, String cmd) {
+    public AddressBookState(ReadOnlyAddressBook ab, String operationDescriptor) {
         this.addressBook = new AddressBook(ab);
-        this.command = cmd;
+        this.operationDescriptor = operationDescriptor;
+    }
+
+    public ReadOnlyAddressBook getAddressBook() {
+        return addressBook;
+    }
+
+    public String getOperationDescriptor() {
+        return operationDescriptor;
     }
 
     @Override
@@ -27,6 +35,6 @@ public class AddressBookState {
         }
 
         AddressBookState abs = (AddressBookState) o;
-        return this.addressBook.equals(abs.addressBook) && this.command.equals(abs.command);
+        return this.addressBook.equals(abs.addressBook) && this.operationDescriptor.equals(abs.operationDescriptor);
     }
 }

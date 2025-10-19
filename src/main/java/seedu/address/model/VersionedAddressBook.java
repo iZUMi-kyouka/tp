@@ -53,10 +53,10 @@ public class VersionedAddressBook extends AddressBook {
             throw new IllegalStateException();
         }
 
-        String undoneOperation = addressBookStateList.get(currentStatePtr).command;
+        String undoneOperation = addressBookStateList.get(currentStatePtr).getOperationDescriptor();
         currentStatePtr--;
         AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePtr);
-        this.setRecruits(addressBookStateToRestore.addressBook.getRecruitList());
+        this.setRecruits(addressBookStateToRestore.getAddressBook().getRecruitList());
 
         return undoneOperation;
     }
