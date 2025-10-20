@@ -76,10 +76,8 @@ public class VersionedAddressBook extends AddressBook {
      * Deletes all AddressBook states after the currently pointed state.
      */
     private void purgeFutureStates() {
-        int removeIndex = addressBookStateList.size() - 1;
-        while (addressBookStateList.size() > currentStatePtr + 1) {
-            addressBookStateList.remove(removeIndex);
-            removeIndex--;
+        if (currentStatePtr < addressBookStateList.size() - 1) {
+            addressBookStateList.subList(currentStatePtr + 1, addressBookStateList.size()).clear();
         }
     }
 }
