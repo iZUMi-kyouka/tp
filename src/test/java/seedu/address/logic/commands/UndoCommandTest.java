@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -36,7 +37,7 @@ public class UndoCommandTest {
 
         CommandResult expectedCommandResult = new CommandResult(String.format(
                 UndoCommand.MESSAGE_SUCCESS, String.format(
-                            DeleteCommand.OPERATION_MESSAGE, ALICE.getName(), ALICE.getID())));
+                            DeleteCommand.OPERATION_MESSAGE, Messages.format(ALICE))));
 
         assertCommandSuccess(new UndoCommand(), model, expectedCommandResult, expectedModel);
     }
