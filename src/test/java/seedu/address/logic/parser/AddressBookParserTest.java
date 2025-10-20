@@ -107,7 +107,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_view() throws Exception {
         ViewCommand command = (ViewCommand) parser.parseCommand(
-                ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
-        assertEquals(new ViewCommand(INDEX_FIRST_RECRUIT), command);
+                ViewCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT);
+        assertEquals(new ViewCommand(TypicalIDs.ID_FIRST_RECRUIT), command);
     }
 }
