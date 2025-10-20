@@ -57,6 +57,7 @@ public class EditCommandTest {
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
         Optional<Recruit> recruitToEdit = model.getFilteredRecruitByID(TypicalIDs.ID_THIRD_RECRUIT);
+        assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         RecruitBuilder recruitInList = new RecruitBuilder(recruitToEdit.get());
         Recruit initialRecruit = recruitInList.build();
@@ -80,6 +81,7 @@ public class EditCommandTest {
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, new EditRecruitDescriptor());
         Optional<Recruit> recruitToEdit = model.getFilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
+        assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
                 Messages.format(recruitToEdit.get()));
@@ -116,7 +118,7 @@ public class EditCommandTest {
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(wrongID, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_RECRUIT_ID);
     }
 
     /**
@@ -165,7 +167,7 @@ public class EditCommandTest {
         UUID targetID = UUID.randomUUID();
         EditRecruitDescriptor editRecruitDescriptor = new EditRecruitDescriptor();
         EditCommand editCommand = new EditCommand(targetID, editRecruitDescriptor);
-        String expected = EditCommand.class.getCanonicalName() + "{ID" + targetID.toString()
+        String expected = EditCommand.class.getCanonicalName() + "{ID=" + targetID.toString()
                 + ", editPersonDescriptor="
                 + editRecruitDescriptor + "}";
         assertEquals(expected, editCommand.toString());

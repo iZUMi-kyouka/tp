@@ -136,7 +136,7 @@ public class ModelManager implements Model {
     }
 
     public Optional<Recruit> getFilteredRecruitByID(UUID id) {
-        return this.filteredRecruits.stream().findFirst().filter(x -> x.getID().equals(id));
+        return this.filteredRecruits.stream().filter(x -> x.getID().equals(id)).findFirst();
     }
 
     @Override
