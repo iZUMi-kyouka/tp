@@ -1,5 +1,6 @@
 package seedu.address.model.recruit;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireNonEmpty;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -41,6 +43,9 @@ public class Recruit {
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(id, name, phone, email, address, tags);
+        requireAllNonBlankString(List.of(name, phone, email, address).stream().map(Object::toString).toList());
+        requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
+
         this.names = List.of(name);
         this.phones = List.of(phone);
         this.emails = List.of(email);
@@ -63,6 +68,10 @@ public class Recruit {
             List<Address> addresses, Set<Tag> tags) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
         requireNonEmpty(names);
+        requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
+                .flatMap(List::stream).map(Object::toString).toList());
+        requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
+
         this.names = names;
         this.phones = phones;
         this.emails = emails;
