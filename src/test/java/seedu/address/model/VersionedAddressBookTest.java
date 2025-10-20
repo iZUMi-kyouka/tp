@@ -23,14 +23,14 @@ public class VersionedAddressBookTest {
     public void constructor() {
         // Test initialisation with empty address book
         List<AddressBookState> expectedAddressBookStateList = List.of(
-                new AddressBookState(new AddressBook(), VersionedAddressBook.INTIIAL_STATE_MARKER));
+                new AddressBookState(new AddressBook(), VersionedAddressBook.INITIAL_STATE_MARKER));
 
         assertEquals(0, addressBook.getCurrentStatePtr());
         assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
 
         // Test initialisation with populated address book
         expectedAddressBookStateList = List.of(
-                new AddressBookState(getTypicalAddressBook(), VersionedAddressBook.INTIIAL_STATE_MARKER));
+                new AddressBookState(getTypicalAddressBook(), VersionedAddressBook.INITIAL_STATE_MARKER));
         VersionedAddressBook vab1 = new VersionedAddressBook(getTypicalAddressBook());
 
         assertEquals(0, vab1.getCurrentStatePtr());

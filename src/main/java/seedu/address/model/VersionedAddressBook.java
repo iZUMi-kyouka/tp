@@ -7,7 +7,7 @@ import java.util.List;
  * An AddressBook with version history to support undo operation
  */
 public class VersionedAddressBook extends AddressBook {
-    public static final String INTIIAL_STATE_MARKER = "INITIAL STATE";
+    public static final String INITIAL_STATE_MARKER = "INITIAL STATE";
     public static final int MAX_UNDO_HISTORY_SIZE = 200;
 
     private final List<AddressBookState> addressBookStateList = new ArrayList<>();
@@ -19,7 +19,7 @@ public class VersionedAddressBook extends AddressBook {
     public VersionedAddressBook(ReadOnlyAddressBook toBeCopied) {
         super(toBeCopied);
 
-        this.addressBookStateList.add(new AddressBookState(toBeCopied, INTIIAL_STATE_MARKER));
+        this.addressBookStateList.add(new AddressBookState(toBeCopied, INITIAL_STATE_MARKER));
         currentStatePtr = 0;
     }
 
