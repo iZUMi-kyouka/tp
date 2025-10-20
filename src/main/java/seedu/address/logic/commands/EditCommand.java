@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -54,18 +53,18 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     private static final String DELTA_FORMAT = " -> %s";
 
-    private final Index index;
+    private final UUID id;
     private final EditRecruitDescriptor editRecruitDescriptor;
 
     /**
-     * @param index of the person in the filtered recruit list to edit
+     * @param id of the person in the filtered recruit list to edit
      * @param editRecruitDescriptor details to edit the recruit with
      */
-    public EditCommand(Index index, EditRecruitDescriptor editRecruitDescriptor) {
-        requireNonNull(index);
+    public EditCommand(UUID id, EditRecruitDescriptor editRecruitDescriptor) {
+        requireNonNull(id);
         requireNonNull(editRecruitDescriptor);
 
-        this.index = index;
+        this.id = id;
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
     }
 
@@ -73,22 +72,24 @@ public class EditCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Recruit> lastShownList = model.getFilteredRecruitList();
+        Optional<Recruit> recruitToEdit = lastShownList.stream()
+                .filter(recruit -> recruit.getID().equals(this.id))
+                .findFirst();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+        if (recruitToEdit.isEmpty()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
         }
 
-        Recruit recruitToEdit = lastShownList.get(index.getZeroBased());
-        Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
+        Recruit editedRecruit = createEditedRecruit(recruitToEdit.get(), editRecruitDescriptor);
 
-        if (!recruitToEdit.isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
+        if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
 
-        model.setRecruit(recruitToEdit, editedRecruit);
+        model.setRecruit(recruitToEdit.get(), editedRecruit);
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
         return new CommandResult(String.format(
-                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editRecruitDescriptor)));
+                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit.get(), editRecruitDescriptor)));
     }
 
     /**
@@ -119,14 +120,14 @@ public class EditCommand extends Command {
         }
 
         EditCommand otherEditCommand = (EditCommand) other;
-        return index.equals(otherEditCommand.index)
+        return id.equals(otherEditCommand.id)
                 && editRecruitDescriptor.equals(otherEditCommand.editRecruitDescriptor);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
+                .add("ID", id)
                 .add("editPersonDescriptor", editRecruitDescriptor)
                 .toString();
     }
