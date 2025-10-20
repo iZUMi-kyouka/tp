@@ -27,6 +27,15 @@ public class CollectionUtil {
     }
 
     /**
+     * Throws NullPointerException if {@code items} or any element of {@code items} is null.
+     */
+    public static void requireNonEmpty(Collection<?> items) throws IllegalArgumentException {
+        if (items.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
      * Returns true if {@code items} contain any elements that are non-null.
      */
     public static boolean isAnyNonNull(Object... items) {

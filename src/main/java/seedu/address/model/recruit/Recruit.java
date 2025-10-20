@@ -1,6 +1,7 @@
 package seedu.address.model.recruit;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireNonEmpty;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,7 +40,7 @@ public class Recruit {
      * Every must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(id, name, phone, email, address, tags);
         this.names = List.of(name);
         this.phones = List.of(phone);
         this.emails = List.of(email);
@@ -61,6 +62,7 @@ public class Recruit {
     public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails,
             List<Address> addresses, Set<Tag> tags) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
+        requireNonEmpty(names);
         this.names = names;
         this.phones = phones;
         this.emails = emails;
