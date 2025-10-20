@@ -65,7 +65,7 @@ public class ViewCommand extends Command {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetID)
+                .add("targetID", targetID)
                 .toString();
     }
 }
