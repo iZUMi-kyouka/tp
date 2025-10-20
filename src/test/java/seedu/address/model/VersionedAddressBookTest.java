@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +89,30 @@ public class VersionedAddressBookTest {
 
         assertEquals(199, addressBook.getCurrentStatePtr());
         assertEquals(VersionedAddressBook.MAX_UNDO_HISTORY_SIZE, addressBook.getAddressBookStateList().size());
+    }
+
+    @Test
+    public void commit_historyStateSizeLimitExceeded_oldestStatePurged() {
+        AddressBook expectedAddressBook = new AddressBook();
+        List<UUID> uuids = IntStream.range(0, VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + 50)
+                .mapToObj(i -> UUID.randomUUID()).toList();
+
+        // We are adding L + 50 commits. Since VersionedAddressBook starts with 1 initial commit, there will be
+        // L + 51 commits in total. We remove 51 of them. So, the first commit retained is the one where
+        // the 51th recruit is added. (L = MAX_UNDO_HISTORY_SIZE)
+        expectedAddressBook.setRecruits(uuids.stream().limit(51)
+                .map(uuid -> new RecruitBuilder(AMY).withID(uuid.toString()).build()).toList());
+
+        for (int i = 0; i < VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + 50; i++) {
+            String uuid = uuids.get(i).toString();
+            Recruit r = new RecruitBuilder(AMY).withID(uuid).build();
+            addressBook.addRecruit(r);
+            addressBook.commit(String.format("add Amy with ID %s", uuid));
+        }
+
+        AddressBookState expectedAddressBookState = new AddressBookState(
+                expectedAddressBook, "add Amy with ID " + uuids.get(50).toString());
+        assertEquals(expectedAddressBookState, addressBook.getAddressBookStateList().get(0));
     }
 
     @Test
