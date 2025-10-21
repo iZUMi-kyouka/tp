@@ -157,8 +157,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void commitAddressBook(String command) {
-        addressBook.commit(command);
+    public void commitAddressBook(String descriptor) {
+        addressBook.commit(descriptor);
     }
 
     @Override

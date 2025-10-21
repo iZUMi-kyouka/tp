@@ -29,15 +29,16 @@ public class UndoCommandTest {
         new ListCommand().execute(model);
 
         expectedModel.addRecruit(AMY);
-        expectedModel.commitAddressBook(String.format(AddCommand.OPERATION_MESSAGE, AMY.getName(), AMY.getID()));
+        expectedModel.commitAddressBook(String.format(AddCommand.OPERATION_DESCRIPTOR, AMY.getName(), AMY.getID()));
         expectedModel.deleteRecruit(ALICE);
-        expectedModel.commitAddressBook(String.format(DeleteCommand.OPERATION_MESSAGE, ALICE.getName(), ALICE.getID()));
+        expectedModel.commitAddressBook(String.format(DeleteCommand.OPERATION_DESCRIPTOR,
+                ALICE.getName(), ALICE.getID()));
         expectedModel.undoAddressBook();
         expectedModel.updateFilteredRecruitList(ModelManager.PREDICATE_SHOW_ALL_RECRUITS);
 
         CommandResult expectedCommandResult = new CommandResult(String.format(
                 UndoCommand.MESSAGE_SUCCESS, String.format(
-                            DeleteCommand.OPERATION_MESSAGE, Messages.format(ALICE))));
+                            DeleteCommand.OPERATION_DESCRIPTOR, Messages.format(ALICE))));
 
         assertCommandSuccess(new UndoCommand(), model, expectedCommandResult, expectedModel);
     }
