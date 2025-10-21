@@ -23,6 +23,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -104,6 +105,7 @@ public class EditCommand extends Command {
         List<Phone> updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhones());
         List<Email> updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails());
         List<Address> updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses());
+        Description updatedDescription = editRecruitDescriptor.getDescription().orElse(recruitToEdit.getDescription());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
 
         return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
@@ -167,6 +169,7 @@ public class EditCommand extends Command {
         private List<Phone> phone;
         private List<Email> email;
         private List<Address> address;
+        private Description description;
         private Set<Tag> tags;
 
         public EditRecruitDescriptor() {}
@@ -181,6 +184,7 @@ public class EditCommand extends Command {
             setPhones(toCopy.phone);
             setEmails(toCopy.email);
             setAddresses(toCopy.address);
+            setDescription(toCopy.description);
             setTags(toCopy.tags);
         }
 
@@ -229,6 +233,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
+        public void setDescription(Description description) {
+            this.description = description;
+        }
+
+        public Optional<Description> getDescription() {
+            return Optional.ofNullable(description);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -272,6 +284,7 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
+                    .add("description", description)
                     .add("tags", tags)
                     .toString();
         }

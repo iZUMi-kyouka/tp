@@ -26,6 +26,7 @@ public class Recruit {
     private final List<Name> names;
     private final List<Phone> phones;
     private final List<Email> emails;
+    private Description description;
 
     // Data fields
     private final List<Address> addresses;
@@ -64,8 +65,7 @@ public class Recruit {
     /**
      * Every field must be present and not null.
      */
-    public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails,
-            List<Address> addresses, Set<Tag> tags) {
+    public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
         requireNonEmpty(names);
         requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
@@ -76,6 +76,7 @@ public class Recruit {
         this.phones = phones;
         this.emails = emails;
         this.addresses = addresses;
+        this.description = description;
         this.tags.addAll(tags);
         this.id = id;
     }
@@ -106,6 +107,10 @@ public class Recruit {
 
     public List<Email> getEmails() {
         return this.emails;
+    }
+
+    public Description getDescription() {
+        return this.description;
     }
 
     public Address getAddress() {
@@ -158,6 +163,7 @@ public class Recruit {
                 && phones.equals(otherRecruit.phones)
                 && emails.equals(otherRecruit.emails)
                 && addresses.equals(otherRecruit.addresses)
+                && description.equals(otherRecruit.description)
                 && tags.equals(otherRecruit.tags);
     }
 
