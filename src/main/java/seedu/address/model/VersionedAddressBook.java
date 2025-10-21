@@ -42,6 +42,9 @@ public class VersionedAddressBook extends AddressBook {
         return currentStatePtr > 0;
     }
 
+    public boolean canRedoAddressBook() {
+        return currentStatePtr < addressBookStateList.size() - 1;
+    }
 
     /**
      * Undoes the last performed operation and restores the previous address book state.

@@ -182,6 +182,6 @@ public class ModelManager implements Model {
 
     @Override
     public boolean canRedoAddressBook() {
-        return addressBook.canUndoAddressBook();
+        return addressBook.canRedoAddressBook();
     }
 }
