@@ -53,7 +53,7 @@ public class ViewCommandTest {
     }
 
     @Test
-    public void execute_validIndexFilteredList_success() {
+    public void execute_validIdFilteredList_success() {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
 
         Optional<Recruit> recruitToView = model.getFilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
@@ -72,8 +72,6 @@ public class ViewCommandTest {
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
         showRecruitAtID(model, TypicalIDs.ID_FIRST_RECRUIT);
-
-
         UUID wrongID = UUID.randomUUID();
 
         ViewCommand viewCommand = new ViewCommand(wrongID);
