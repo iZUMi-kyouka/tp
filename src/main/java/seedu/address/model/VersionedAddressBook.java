@@ -61,6 +61,24 @@ public class VersionedAddressBook extends AddressBook {
         return undoneOperation;
     }
 
+    /**
+     * Redoes the last undone operation and restores this 'future' address book state.
+     *
+     * @return the command string of the operation that was undone
+     */
+    public String redo() {
+        if (currentStatePtr == addressBookStateList.size() - 1) {
+            throw new IllegalStateException();
+        }
+
+        currentStatePtr++;
+        String redoneOperation = addressBookStateList.get(currentStatePtr).getOperationDescriptor();
+        AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePtr);
+        this.setRecruits(addressBookStateToRestore.getAddressBook().getRecruitList());
+
+        return redoneOperation;
+    }
+
     public int getCurrentStatePtr() {
         return currentStatePtr;
     }

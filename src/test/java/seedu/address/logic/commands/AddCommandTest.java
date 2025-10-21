@@ -181,6 +181,16 @@ public class AddCommandTest {
         }
 
         @Override
+        public String redoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canRedoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean canUndoAddressBook() {
             throw new AssertionError("This method should not be called.");
         }

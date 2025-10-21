@@ -106,7 +106,17 @@ public interface Model {
     String undoAddressBook();
 
     /**
+     * Restores the last undone address book state from its history.
+     */
+    String redoAddressBook();
+
+    /**
      * Checks if undo operation is possible.
      */
     boolean canUndoAddressBook();
+
+    /**
+     * Checks if redo operation is possible.
+     */
+    boolean canRedoAddressBook();
 }
