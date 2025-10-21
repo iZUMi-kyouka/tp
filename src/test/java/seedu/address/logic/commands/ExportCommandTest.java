@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalRecruits.BOB;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,18 @@ import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.RecruitBuilder;
 
 public class ExportCommandTest {
-    private Path tempFile;
+    private Path path;
     private ModelStubAcceptingExport modelStub;
 
     @BeforeEach
     public void setUp() throws Exception {
         modelStub = new ModelStubAcceptingExport();
-        tempFile = Files.createTempFile("test_recruits", ".csv");
+        path = Paths.get("data" , "test_recruits.csv");
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        Files.deleteIfExists(tempFile);
+        Files.deleteIfExists(path);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class ExportCommandTest {
 
     @Test
     public void execute_validFilePath_exportsSuccessfully() throws Exception {
-        Path filePath = tempFile;
+        Path filePath = path;
         ExportCommand command = new ExportCommand(filePath);
 
         CommandResult result = command.execute(modelStub);
@@ -54,13 +55,14 @@ public class ExportCommandTest {
     @Test
     public void execute_nullFilePath_usesUserPrefsPath() throws Exception {
         ModelStubAcceptingExport modelStub = new ModelStubAcceptingExport();
-        Path defaultPath = Path.of("default.csv");
-        modelStub.setDefaultExportPath(defaultPath);
+        Path newPath = Paths.get("data" , "test_recruits_2.csv");
+        modelStub.setDefaultExportPath(newPath);
         ExportCommand command = new ExportCommand();
 
         CommandResult result = command.execute(modelStub);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, defaultPath), result.getFeedbackToUser());
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, newPath), result.getFeedbackToUser());
+        Files.deleteIfExists(newPath);
     }
     /**
      * A model stub that accepts recruits being exported.
