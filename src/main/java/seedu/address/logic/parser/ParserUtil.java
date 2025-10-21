@@ -2,6 +2,10 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +27,8 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_ID = "ID is not in UUID format";
-
+    public static final String MESSAGE_EMPTY_FILEPATH = "The file path provided is empty";
+    public static final String MESSAGE_INVALID_FILEPATH = "The file path provided is invalid";
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -137,5 +142,35 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String pathStr} into a {@code Path} object after validating it.
+     * The method ensures that the provided path string is non-empty, syntactically valid,
+     * and that its parent directory (if any) exists in the file system.
+     *
+     * @param pathStr The string representing the file path to parse.
+     * @return A {@code Path} object representing the specified file path.
+     * @throws ParseException If the path string is invalid, empty, or refers to a non-existent directory.
+     */
+    public static Path parsePath(String pathStr) throws ParseException {
+        try {
+            requireNonNull(pathStr);
+            String trimmed = pathStr.trim();
+            if (trimmed.isEmpty()) {
+                throw new ParseException(MESSAGE_EMPTY_FILEPATH);
+            }
+            Path path = Paths.get(trimmed);
+            if (Files.exists(path) && !Files.isWritable(path)) {
+                throw new ParseException(MESSAGE_INVALID_FILEPATH);
+            }
+            Path parent = path.getParent();
+            if (parent != null && !Files.exists(parent)) {
+                throw new ParseException(MESSAGE_INVALID_FILEPATH);
+            }
+            return path;
+        } catch (InvalidPathException e) {
+            throw new ParseException(MESSAGE_INVALID_FILEPATH, e);
+        }
     }
 }
