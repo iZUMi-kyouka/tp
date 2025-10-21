@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.combine;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -8,6 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -53,6 +56,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_ATTRIBUTE =
+            "The attribute '%s' with value '%s' already exists for this recruit.";
     private static final String DELTA_FORMAT = " -> %s";
 
     private final Index index;
@@ -111,14 +116,38 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor editRecruitDescriptor) {
+    private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor editRecruitDescriptor)
+            throws CommandException {
         assert recruitToEdit != null;
+
         UUID updatedId = editRecruitDescriptor.getID().orElse(recruitToEdit.getID());
-        List<Name> updatedName = editRecruitDescriptor.getName().orElse(recruitToEdit.getNames());
-        List<Phone> updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhones());
-        List<Email> updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails());
-        List<Address> updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses());
+        List<Name> updatedName = new ArrayList<>(editRecruitDescriptor.getName().orElse(recruitToEdit.getNames()));
+        List<Phone> updatedPhone = new ArrayList<>(editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhones()));
+        List<Email> updatedEmail = new ArrayList<>(editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails()));
+        List<Address> updatedAddress = new ArrayList<>(
+                editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses()));
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
+        LogsCenter.getLogger(EditCommand.class).info(editRecruitDescriptor.operation.toString());
+
+        switch (editRecruitDescriptor.operation) {
+        case APPEND: {
+            updatedName = combine(List.of(recruitToEdit.getNames(), editRecruitDescriptor.getName().orElse(List.of())));
+            updatedPhone = combine(
+                    List.of(recruitToEdit.getPhones(), editRecruitDescriptor.getPhone().orElse(List.of())));
+            updatedEmail = combine(
+                    List.of(recruitToEdit.getEmails(), editRecruitDescriptor.getEmail().orElse(List.of())));
+            updatedAddress = combine(
+                    List.of(recruitToEdit.getAddresses(), editRecruitDescriptor.getAddress().orElse(List.of())));
+            updatedTags = new HashSet<>(
+                    combine(List.of(recruitToEdit.getTags(), editRecruitDescriptor.getTags().orElse(new HashSet<>()))));
+            break;
+        }
+        case REMOVE: {
+            throw new RuntimeException("not implemented");
+        }
+        default: { }
+        }
+        LogsCenter.getLogger(EditCommand.class).info(updatedName.toString());
 
         return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
     }
@@ -201,6 +230,7 @@ public class EditCommand extends Command {
             setEmails(toCopy.email);
             setAddresses(toCopy.address);
             setTags(toCopy.tags);
+            setOperation(toCopy.operation);
         }
 
         /**
@@ -208,7 +238,7 @@ public class EditCommand extends Command {
          */
         public EditRecruitDescriptor(EditRecruitDescriptor toCopy, EditRecruitOperation operation) {
             this(toCopy);
-            this.operation = operation;
+            setOperation(operation);
         }
 
         /**

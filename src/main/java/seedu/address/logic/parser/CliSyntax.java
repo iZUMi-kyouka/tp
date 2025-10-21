@@ -20,7 +20,7 @@ public class CliSyntax {
     public static final Prefix SEARCH_PREFIX_ADDRESS = new Prefix("-a");
     public static final Prefix SEARCH_PREFIX_TAG = new Prefix("-t");
 
-    public static final Prefix EDIT_PREFIX_APPEND = new Prefix("-a");
+    public static final Prefix EDIT_PREFIX_APPEND = new Prefix("-ap");
     public static final Prefix EDIT_PREFIX_OVERWRITE = new Prefix("-o");
     public static final Prefix EDIT_PREFIX_REMOVE = new Prefix("-r");
 }

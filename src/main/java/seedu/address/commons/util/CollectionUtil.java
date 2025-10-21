@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -11,6 +12,10 @@ import java.util.stream.Stream;
  * Utility methods related to Collections
  */
 public class CollectionUtil {
+
+    public static <T> List<T> combine(Collection<Collection<T>> c) {
+        return c.stream().flatMap(Collection::stream).toList();
+    }
 
     /** @see #requireAllNonNull(Collection) */
     public static void requireAllNonNull(Object... items) {
