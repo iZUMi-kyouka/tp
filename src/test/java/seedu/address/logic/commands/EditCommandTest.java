@@ -49,14 +49,14 @@ public class EditCommandTest {
                 editCommand.formatDelta(editedRecruit, descriptor));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);
+        expectedModel.setRecruit(model.getAddressBook().getRecruitList().get(0), editedRecruit);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
-        Optional<Recruit> recruitToEdit = model.getFilteredRecruitByID(TypicalIDs.ID_THIRD_RECRUIT);
+        Optional<Recruit> recruitToEdit = model.getUnfilteredRecruitByID(TypicalIDs.ID_THIRD_RECRUIT);
         assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         RecruitBuilder recruitInList = new RecruitBuilder(recruitToEdit.get());
@@ -80,7 +80,7 @@ public class EditCommandTest {
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, new EditRecruitDescriptor());
-        Optional<Recruit> recruitToEdit = model.getFilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
+        Optional<Recruit> recruitToEdit = model.getUnfilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
         assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
@@ -129,8 +129,6 @@ public class EditCommandTest {
     public void execute_invalidPersonIdFilteredList_failure() {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
         UUID wrongID = UUID.randomUUID();
-
-
         EditCommand editCommand = new EditCommand(wrongID,
                 new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB).build());
 

@@ -166,6 +166,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public Optional<Recruit> getUnfilteredRecruitByID(UUID id) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void updateFilteredRecruitList(Predicate<Recruit> predicate) {
             throw new AssertionError("This method should not be called.");
         }
