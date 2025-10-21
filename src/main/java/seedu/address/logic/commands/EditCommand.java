@@ -34,6 +34,7 @@ import seedu.address.model.tag.Tag;
 public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
+    public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
             + "by the index number used in the displayed recruit list. "
@@ -85,8 +86,6 @@ public class EditCommand extends Command {
         if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
-
-        model.setRecruit(recruitToEdit.get(), editedRecruit);
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
         return new CommandResult(String.format(
                 MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit.get(), editRecruitDescriptor)));
