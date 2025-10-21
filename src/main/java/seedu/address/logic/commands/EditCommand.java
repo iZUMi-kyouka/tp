@@ -168,6 +168,7 @@ public class EditCommand extends Command {
         private List<Email> email;
         private List<Address> address;
         private Set<Tag> tags;
+        private EditRecruitOperation operation = EditRecruitOperation.REPLACE;
 
         public EditRecruitDescriptor() {}
 
@@ -182,6 +183,14 @@ public class EditCommand extends Command {
             setEmails(toCopy.email);
             setAddresses(toCopy.address);
             setTags(toCopy.tags);
+        }
+
+        /**
+         * Copy constructor of an {@code EditRecruitDescriptor} with the specified {@code operation}.
+         */
+        public EditRecruitDescriptor(EditRecruitDescriptor toCopy, EditRecruitOperation operation) {
+            this(toCopy);
+            this.operation = operation;
         }
 
         /**
@@ -246,6 +255,10 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        public EditRecruitOperation getOperation() {
+            return operation;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -262,7 +275,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditRecruitDescriptor.phone)
                     && Objects.equals(email, otherEditRecruitDescriptor.email)
                     && Objects.equals(address, otherEditRecruitDescriptor.address)
-                    && Objects.equals(tags, otherEditRecruitDescriptor.tags);
+                    && Objects.equals(tags, otherEditRecruitDescriptor.tags)
+                    && Objects.equals(operation, otherEditRecruitDescriptor.operation);
         }
 
         @Override
@@ -273,7 +287,16 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
+                    .add("operation", operation)
                     .toString();
+        }
+
+        /**
+         * Represents all the possible types of operation that an 'edit' command can do
+         * to the attributes of a Recruit.
+         */
+        public static enum EditRecruitOperation {
+            APPEND, REPLACE, REMOVE
         }
     }
 }

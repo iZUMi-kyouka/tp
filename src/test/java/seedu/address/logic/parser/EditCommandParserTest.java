@@ -103,7 +103,7 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_allFieldsSpecified_success() {
+    public void parse_allFieldsSpecifiedNoDuplicate_success() {
         Index targetIndex = INDEX_SECOND_RECRUIT;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
@@ -117,7 +117,7 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_someFieldsSpecified_success() {
+    public void parse_someFieldsSpecifiedNoDuplicate_success() {
         Index targetIndex = INDEX_FIRST_RECRUIT;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY;
 
@@ -129,7 +129,7 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_oneFieldSpecified_success() {
+    public void parse_oneFieldSpecifiedNoDuplicate_success() {
         // name
         Index targetIndex = INDEX_THIRD_RECRUIT;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
@@ -165,34 +165,18 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_multipleRepeatedFields_failure() {
-        // More extensive testing of duplicate parameter detections is done in
-        // AddCommandParserTest#parse_repeatedNonTagValue_failure()
+        assert true == false;
+        // all fields specified multiple times
+        Index targetIndex = INDEX_SECOND_RECRUIT;
+        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + PHONE_DESC_AMY + TAG_DESC_HUSBAND
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
 
-        // valid followed by invalid
-        Index targetIndex = INDEX_FIRST_RECRUIT;
-        String userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + PHONE_DESC_BOB;
+        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
-
-        // invalid followed by valid
-        userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + INVALID_PHONE_DESC;
-
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
-
-        // mulltiple valid fields repeated
-        userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
-                + TAG_DESC_FRIEND + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
-                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB + TAG_DESC_HUSBAND;
-
-        assertParseFailure(parser, userInput,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
-
-        // multiple invalid values
-        userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + INVALID_ADDRESS_DESC + INVALID_EMAIL_DESC
-                + INVALID_PHONE_DESC + INVALID_ADDRESS_DESC + INVALID_EMAIL_DESC;
-
-        assertParseFailure(parser, userInput,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
