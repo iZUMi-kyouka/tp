@@ -31,8 +31,8 @@ public class ViewCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void execute_validIndexUnfilteredList_success() {
-        Optional<Recruit> recruitToView = model.getFilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
+    public void execute_validIdUnfilteredList_success() {
+        Optional<Recruit> recruitToView = model.getUnfilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
         assertTrue(recruitToView.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
         ViewCommand viewCommand = new ViewCommand(TypicalIDs.ID_FIRST_RECRUIT);
 
