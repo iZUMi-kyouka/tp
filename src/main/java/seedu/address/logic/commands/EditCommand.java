@@ -70,6 +70,20 @@ public class EditCommand extends Command {
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
     }
 
+    /**
+     * @param index of the person in the filtered recruit list to edit
+     * @param editRecruitDescriptor details to edit the recruit with
+     * @param operation the type of edit operation to be performed
+     */
+    public EditCommand(Index index, EditRecruitDescriptor editRecruitDescriptor,
+            EditRecruitDescriptor.EditRecruitOperation operation) {
+        requireNonNull(index);
+        requireNonNull(editRecruitDescriptor);
+
+        this.index = index;
+        this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor, operation);
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
@@ -168,9 +182,13 @@ public class EditCommand extends Command {
         private List<Email> email;
         private List<Address> address;
         private Set<Tag> tags;
-        private EditRecruitOperation operation = EditRecruitOperation.REPLACE;
+        private EditRecruitOperation operation = EditRecruitOperation.OVERWRITE;
 
         public EditRecruitDescriptor() {}
+
+        public EditRecruitDescriptor(EditRecruitOperation operation) {
+            this.operation = operation;
+        }
 
         /**
          * Copy constructor.
@@ -259,6 +277,11 @@ public class EditCommand extends Command {
             return operation;
         }
 
+        public void setOperation(EditRecruitOperation op) {
+            requireNonNull(op);
+            this.operation = op;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -296,7 +319,7 @@ public class EditCommand extends Command {
          * to the attributes of a Recruit.
          */
         public static enum EditRecruitOperation {
-            APPEND, REPLACE, REMOVE
+            APPEND, OVERWRITE, REMOVE
         }
     }
 }
