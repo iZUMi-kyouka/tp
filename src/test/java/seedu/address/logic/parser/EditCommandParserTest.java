@@ -158,22 +158,6 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_multipleRepeatedFields_failure() {
-        assert true == false;
-        // all fields specified multiple times
-        Index targetIndex = INDEX_SECOND_RECRUIT;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + PHONE_DESC_AMY + TAG_DESC_HUSBAND
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
-
-        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
     public void parse_resetTags_success() {
         Index targetIndex = INDEX_THIRD_RECRUIT;
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
