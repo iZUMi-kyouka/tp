@@ -10,7 +10,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -48,17 +47,20 @@ public class EditCommandParser implements Parser<EditCommand> {
         EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor();
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editRecruitDescriptor.setNames(List.of(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get())));
+            editRecruitDescriptor.setNames(
+                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_NAME), ParserUtil::parseName));
         }
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editRecruitDescriptor.setPhones(List.of(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get())));
+            editRecruitDescriptor.setPhones(
+                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_PHONE), ParserUtil::parsePhone));
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editRecruitDescriptor.setEmails(List.of(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get())));
+            editRecruitDescriptor.setEmails(
+                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editRecruitDescriptor.setAddresses(List.of(
-                    ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())));
+            editRecruitDescriptor.setAddresses(
+                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editRecruitDescriptor::setTags);
 
