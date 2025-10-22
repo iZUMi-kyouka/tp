@@ -80,7 +80,7 @@ public class SortCommand extends Command {
         }
 
         SortCommand otherCommand = (SortCommand) other;
-        return sortCriteria.equals(otherCommand.sortCriteria); // TODO: REVIEW
+        return sortCriteria.equals(otherCommand.sortCriteria);
     }
 
     /**
