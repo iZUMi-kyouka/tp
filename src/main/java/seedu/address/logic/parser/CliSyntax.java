@@ -22,5 +22,5 @@ public class CliSyntax {
 
     public static final Prefix EDIT_PREFIX_APPEND = new Prefix("-ap");
     public static final Prefix EDIT_PREFIX_OVERWRITE = new Prefix("-o");
-    public static final Prefix EDIT_PREFIX_REMOVE = new Prefix("-r");
+    public static final Prefix EDIT_PREFIX_REMOVE = new Prefix("-rm");
 }

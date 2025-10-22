@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
@@ -57,8 +58,9 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
-    public static final String MESSAGE_DUPLICATE_ATTRIBUTE =
-            "The attribute '%s' with value '%s' already exists for this recruit.";
+    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "Duplicate attribute is not allowed.";
+    public static final String MESSAGE_MISSING_ATTRIBUTE = "Target attribute does not exist.";
+
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
     private final Index index;
@@ -117,34 +119,46 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor editRecruitDescriptor)
+    private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor descriptor)
             throws CommandException {
         assert recruitToEdit != null;
 
-        UUID updatedId = editRecruitDescriptor.getID().orElse(recruitToEdit.getID());
-        List<Name> updatedName = new ArrayList<>(editRecruitDescriptor.getName().orElse(recruitToEdit.getNames()));
-        List<Phone> updatedPhone = new ArrayList<>(editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhones()));
-        List<Email> updatedEmail = new ArrayList<>(editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails()));
+        UUID updatedId = descriptor.getID().orElse(recruitToEdit.getID());
+        List<Name> updatedName = new ArrayList<>(descriptor.getName().orElse(recruitToEdit.getNames()));
+        List<Phone> updatedPhone = new ArrayList<>(descriptor.getPhone().orElse(recruitToEdit.getPhones()));
+        List<Email> updatedEmail = new ArrayList<>(descriptor.getEmail().orElse(recruitToEdit.getEmails()));
         List<Address> updatedAddress = new ArrayList<>(
-                editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses()));
-        Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
-        LogsCenter.getLogger(EditCommand.class).info(editRecruitDescriptor.operation.toString());
+                descriptor.getAddress().orElse(recruitToEdit.getAddresses()));
+        Set<Tag> updatedTags = descriptor.getTags().orElse(recruitToEdit.getTags());
+        LogsCenter.getLogger(EditCommand.class).info(descriptor.operation.toString());
 
-        switch (editRecruitDescriptor.operation) {
+        switch (descriptor.operation) {
         case APPEND: {
-            updatedName = combine(List.of(recruitToEdit.getNames(), editRecruitDescriptor.getName().orElse(List.of())));
+            verifyNoDuplicateAttributes(recruitToEdit, descriptor);
+            updatedName = combine(List.of(recruitToEdit.getNames(), descriptor.getName().orElse(List.of())));
             updatedPhone = combine(
-                    List.of(recruitToEdit.getPhones(), editRecruitDescriptor.getPhone().orElse(List.of())));
+                    List.of(recruitToEdit.getPhones(), descriptor.getPhone().orElse(List.of())));
             updatedEmail = combine(
-                    List.of(recruitToEdit.getEmails(), editRecruitDescriptor.getEmail().orElse(List.of())));
+                    List.of(recruitToEdit.getEmails(), descriptor.getEmail().orElse(List.of())));
             updatedAddress = combine(
-                    List.of(recruitToEdit.getAddresses(), editRecruitDescriptor.getAddress().orElse(List.of())));
+                    List.of(recruitToEdit.getAddresses(), descriptor.getAddress().orElse(List.of())));
             updatedTags = new HashSet<>(
-                    combine(List.of(recruitToEdit.getTags(), editRecruitDescriptor.getTags().orElse(new HashSet<>()))));
+                    combine(List.of(recruitToEdit.getTags(), descriptor.getTags().orElse(new HashSet<>()))));
             break;
         }
         case REMOVE: {
-            throw new RuntimeException("not implemented");
+            verifyAllAttributesExist(recruitToEdit, descriptor);
+            updatedName = recruitToEdit.getNames().stream()
+                    .filter(n -> !descriptor.getName().orElse(List.of()).contains(n)).toList();
+            updatedPhone = recruitToEdit.getPhones().stream()
+                    .filter(n -> !descriptor.getPhone().orElse(List.of()).contains(n)).toList();
+            updatedEmail = recruitToEdit.getEmails().stream()
+                    .filter(n -> !descriptor.getEmail().orElse(List.of()).contains(n)).toList();
+            updatedAddress = recruitToEdit.getAddresses().stream()
+                    .filter(n -> !descriptor.getAddress().orElse(List.of()).contains(n)).toList();
+            updatedTags = recruitToEdit.getTags().stream()
+                    .filter(n -> !descriptor.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
+            break;
         }
         default: { }
         }
@@ -175,6 +189,60 @@ public class EditCommand extends Command {
                 .add("index", index)
                 .add("editPersonDescriptor", editRecruitDescriptor)
                 .toString();
+    }
+
+    private static void verifyNoDuplicateAttributes(Recruit r, EditRecruitDescriptor d) throws CommandException {
+        assert d.operation == EditRecruitDescriptor.EditRecruitOperation.APPEND;
+
+        Set<Name> names = new HashSet<>(r.getNames());
+        Set<Phone> phones = new HashSet<>(r.getPhones());
+        Set<Email> emails = new HashSet<>(r.getEmails());
+        Set<Address> addresses = new HashSet<>(r.getAddresses());
+        Set<Tag> tags = r.getTags();
+
+        // TODO: add more detail regarding which specific value violates the duplicate constraint
+        if (d.getName().isPresent() && d.getName().get().stream().anyMatch(n -> names.contains(n))) {
+            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
+        }
+        if (d.getPhone().isPresent() && d.getPhone().get().stream().anyMatch(p -> phones.contains(p))) {
+            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
+        }
+        if (d.getEmail().isPresent() && d.getEmail().get().stream().anyMatch(e -> emails.contains(e))) {
+            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
+        }
+        if (d.getAddress().isPresent() && d.getAddress().get().stream().anyMatch(a -> addresses.contains(a))) {
+            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
+        }
+        if (d.getTags().isPresent() && d.getTags().get().stream().anyMatch(t -> tags.contains(t))) {
+            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
+        }
+    }
+
+    private static void verifyAllAttributesExist(Recruit r, EditRecruitDescriptor d) throws CommandException {
+        assert d.operation == EditRecruitDescriptor.EditRecruitOperation.REMOVE;
+
+        Set<Name> names = new HashSet<>(r.getNames());
+        Set<Phone> phones = new HashSet<>(r.getPhones());
+        Set<Email> emails = new HashSet<>(r.getEmails());
+        Set<Address> addresses = new HashSet<>(r.getAddresses());
+        Set<Tag> tags = r.getTags();
+
+        // TODO: add more detail regarding which specific value violates the existence constraint
+        if (d.getName().isPresent() && !d.getName().get().stream().allMatch(n -> names.contains(n))) {
+            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
+        }
+        if (d.getPhone().isPresent() && !d.getPhone().get().stream().allMatch(p -> phones.contains(p))) {
+            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
+        }
+        if (d.getEmail().isPresent() && !d.getEmail().get().stream().allMatch(e -> emails.contains(e))) {
+            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
+        }
+        if (d.getAddress().isPresent() && !d.getAddress().get().stream().allMatch(a -> addresses.contains(a))) {
+            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
+        }
+        if (d.getTags().isPresent() && !d.getTags().get().stream().allMatch(t -> tags.contains(t))) {
+            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
+        }
     }
 
     String formatDelta(Recruit oldRecruit, Recruit newRecruit) {
