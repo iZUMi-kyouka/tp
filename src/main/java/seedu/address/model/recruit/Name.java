@@ -16,7 +16,7 @@ public class Name implements Comparable<Name> {
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{L}][\\p{L} ]*";
+    public static final String VALIDATION_REGEX = "[\\p{L}\\d][\\p{L}\\d ]*";
 
     public final String fullName;
 
