@@ -20,6 +20,7 @@ import seedu.address.model.recruit.Recruit;
  */
 public class SortCommand extends Command {
     public static final String COMMAND_WORD = "sort";
+    public static final String OPERATION_DESCRIPTOR = "sorting of recruit by %s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sorts all recruits in the address book by specified fields.\n"
@@ -56,6 +57,7 @@ public class SortCommand extends Command {
                 .map(SortCriterion::toString)
                 .collect(Collectors.joining(", "));
 
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, "name"));
         return new CommandResult(String.format(MESSAGE_SUCCESS, criteriaDescription));
     }
 

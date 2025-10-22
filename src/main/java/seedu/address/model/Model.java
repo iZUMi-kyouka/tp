@@ -95,4 +95,19 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredRecruitList(Predicate<Recruit> predicate);
+
+    /**
+     * Saves the current address book state in history.
+     */
+    void commitAddressBook(String command);
+
+    /**
+     * Restores the previous address book state from its history.
+     */
+    String undoAddressBook();
+
+    /**
+     * Checks if undo operation is possible.
+     */
+    boolean canUndoAddressBook();
 }
