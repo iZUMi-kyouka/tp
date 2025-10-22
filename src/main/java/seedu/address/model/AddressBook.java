@@ -96,11 +96,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Sorts the recruits in the address book by name in alphabetical order.
+     * Sorts the recruits in the address book using the provided comparator.
      */
-    public void sortRecruits() {
-        Comparator<Recruit> comparator;
-        comparator = Comparator.comparing(Recruit::getName);
+    public void sortRecruits(Comparator<Recruit> comparator) {
         recruits.sort(comparator);
     }
 
