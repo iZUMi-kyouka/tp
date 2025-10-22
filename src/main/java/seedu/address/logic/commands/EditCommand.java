@@ -82,7 +82,7 @@ public class EditCommand extends Command {
         }
 
         Recruit editedRecruit = createEditedRecruit(recruitToEdit.get(), editRecruitDescriptor);
-
+        model.setRecruit(recruitToEdit.get(), editedRecruit);
         if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
