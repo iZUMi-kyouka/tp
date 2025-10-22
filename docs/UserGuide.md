@@ -101,9 +101,10 @@ Format: `list`
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the recruit at the specified `INDEX`. The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the recruit at the specified `INDEX` or `UUID`.
+* The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the recruit will be removed i.e adding of tags is not cumulative.
@@ -136,9 +137,9 @@ Examples:
 
 Deletes the specified recruit from the address book.
 
-Format: `delete INDEX`
+Format: `delete INDEX/UUID`
 
-* Deletes the recruit at the specified `INDEX`.
+* Deletes the recruit at the specified `INDEX` or `UUID`.
 * The index refers to the index number shown in the displayed recruit list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
@@ -215,8 +216,8 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Delete** | `delete INDEX/UUID`<br> e.g., `delete 3`
+**Edit**   | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
