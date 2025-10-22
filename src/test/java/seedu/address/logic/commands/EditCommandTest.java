@@ -43,7 +43,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                editCommand.formatDelta(editedRecruit, descriptor));
+                editCommand.formatDelta(editedRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);
@@ -66,7 +66,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(indexLastRecruit, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                editCommand.formatDelta(initialRecruit, descriptor));
+                editCommand.formatDelta(initialRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(lastRecruit, editedRecruit);
@@ -80,7 +80,7 @@ public class EditCommandTest {
         Recruit editedRecruit = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                Messages.format(editedRecruit));
+                editCommand.formatDelta(editedRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -99,7 +99,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                editCommand.formatDelta(initialRecruit, descriptor));
+                editCommand.formatDelta(initialRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);

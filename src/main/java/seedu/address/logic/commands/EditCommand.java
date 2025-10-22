@@ -21,6 +21,7 @@ import java.util.UUID;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -58,7 +59,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE =
             "The attribute '%s' with value '%s' already exists for this recruit.";
-    private static final String DELTA_FORMAT = " -> %s";
+    private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
     private final Index index;
     private final EditRecruitDescriptor editRecruitDescriptor;
@@ -106,10 +107,10 @@ public class EditCommand extends Command {
         }
 
         model.setRecruit(recruitToEdit, editedRecruit);
-        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editRecruitDescriptor)));
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
         return new CommandResult(String.format(
-                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editRecruitDescriptor)));
+                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editedRecruit)));
     }
 
     /**
@@ -176,27 +177,23 @@ public class EditCommand extends Command {
                 .toString();
     }
 
-    String formatDelta(Recruit person, EditRecruitDescriptor delta) {
+    String formatDelta(Recruit oldRecruit, Recruit newRecruit) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(person.getName())
-                .append(delta.getName().map(n -> String.format(DELTA_FORMAT, n)).orElse(""))
-                .append("\n Phone: ")
-                .append(person.getPhone())
-                .append(delta.getPhone().map(p -> String.format(DELTA_FORMAT, p)).orElse(""))
-                .append("\n Email: ")
-                .append(person.getEmail())
-                .append(delta.getEmail().map(e -> String.format(DELTA_FORMAT, e)).orElse(""))
-                .append("\n Address: ")
-                .append(person.getAddress())
-                .append(delta.getAddress().map(a -> String.format(DELTA_FORMAT, a)).orElse(""))
-                .append("\n Tags: ");
-        person.getTags().forEach(builder::append);
-
-        Optional<Set<Tag>> deltaTags = delta.getTags();
-        deltaTags.ifPresent(tags -> {
-            builder.append(" -> ");
-            tags.forEach(builder::append);
-        });
+        builder.append("Name: ").append(oldRecruit.getNames())
+                .append(RecruitUtil.hasSameName(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getNames().toString())
+                .append("\nPhone: ").append(oldRecruit.getPhones())
+                .append(RecruitUtil.hasSamePhone(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getPhones())
+                .append("\nEmail: ").append(oldRecruit.getEmails())
+                .append(RecruitUtil.hasSameEmail(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getEmails())
+                .append("\nAddress: ").append(oldRecruit.getAddresses())
+                .append(RecruitUtil.hasSameAddress(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getAddresses())
+                .append("\nTags: ").append(oldRecruit.getTags())
+                .append(RecruitUtil.hasSameTags(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getTags());
         return builder.toString();
     }
 
