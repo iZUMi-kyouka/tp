@@ -21,18 +21,20 @@ import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.RecruitBuilder;
 
 public class ExportCommandTest {
-    private Path path;
+    private Path tempFile;
     private ModelStubAcceptingExport modelStub;
 
     @BeforeEach
     public void setUp() throws Exception {
         modelStub = new ModelStubAcceptingExport();
-        path = Paths.get("data" , "test_recruits.csv");
+        Path dataDir = Paths.get("data");
+        Files.createDirectories(dataDir);
+        tempFile = dataDir.resolve("test_recruits.csv");
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        Files.deleteIfExists(path);
+        Files.deleteIfExists(tempFile);
     }
 
     @Test
@@ -42,7 +44,7 @@ public class ExportCommandTest {
 
     @Test
     public void execute_validFilePath_exportsSuccessfully() throws Exception {
-        Path filePath = path;
+        Path filePath = tempFile;
         ExportCommand command = new ExportCommand(filePath);
 
         CommandResult result = command.execute(modelStub);
@@ -56,6 +58,7 @@ public class ExportCommandTest {
     public void execute_nullFilePath_usesUserPrefsPath() throws Exception {
         ModelStubAcceptingExport modelStub = new ModelStubAcceptingExport();
         Path newPath = Paths.get("data" , "test_recruits_2.csv");
+        Files.createDirectories(newPath.getParent());
         modelStub.setDefaultExportPath(newPath);
         ExportCommand command = new ExportCommand();
 
