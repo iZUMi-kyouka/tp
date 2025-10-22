@@ -57,7 +57,7 @@ public class SortCommand extends Command {
                 .map(SortCriterion::toString)
                 .collect(Collectors.joining(", "));
 
-        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, "name"));
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, criteriaDescription));
         return new CommandResult(String.format(MESSAGE_SUCCESS, criteriaDescription));
     }
 
