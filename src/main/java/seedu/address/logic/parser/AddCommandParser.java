@@ -45,13 +45,13 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_DESCRIPTION, PREFIX_ID);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ID);
 
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
+        List<Name> names = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_NAME), ParserUtil::parseName);
+        List<Phone> phones = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_PHONE), ParserUtil::parsePhone);
+        List<Email> emails = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail);
+        List<Address> addresses = ParserUtil.parseAllValues(
+                argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
         Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).orElse("-"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
@@ -59,10 +59,9 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (argMultimap.getValue(PREFIX_ID).isPresent()) {
             UUID id = ParserUtil.parseID(argMultimap.getValue(PREFIX_ID).get());
-            recruit = new Recruit(id, List.of(name), List.of(phone), List.of(email), List.of(address),
-                    description, tagList);
+            recruit = new Recruit(id, names, phones, emails, addresses, description, tagList);
         } else {
-            recruit = new Recruit(name, phone, email, address, description, tagList);
+            recruit = new Recruit(names, phones, emails, addresses, description, tagList);
         }
 
         return new AddCommand(recruit);

@@ -41,7 +41,7 @@ public class Recruit {
     }
 
     /**
-     * Every must be present and not null.
+     * Every field must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
                    Description description, Set<Tag> tags) {
