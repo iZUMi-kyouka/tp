@@ -214,6 +214,11 @@ public class ExportCommandTest {
         public boolean canUndoAddressBook() {
             throw new AssertionError();
         }
+
+        @Override
+        public void refreshFilteredRecruitList() {
+            throw new AssertionError();
+        }
     }
 }
 
