@@ -137,6 +137,7 @@ public class Recruit {
     }
 
     /**
+     * Returns true if both persons have the same fields except id.
      * Returns boolean representing whether recruit entry is archived or not
      */
     public boolean isArchived() {
@@ -144,7 +145,7 @@ public class Recruit {
     }
 
     /**
-     * Returns true if both persons have the same id.
+     * Returns true if both persons have the same fields except id.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSameRecruit(Recruit otherRecruit) {
@@ -153,7 +154,11 @@ public class Recruit {
         }
 
         return otherRecruit != null
-                && otherRecruit.getID().equals(getID());
+                && names.equals(otherRecruit.names)
+                && phones.equals(otherRecruit.phones)
+                && emails.equals(otherRecruit.emails)
+                && addresses.equals(otherRecruit.addresses)
+                && tags.equals(otherRecruit.tags);
     }
 
     /**

@@ -14,6 +14,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.UniqueRecruitList;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -165,9 +166,16 @@ public class ModelManager implements Model {
         }
 
         ModelManager otherModelManager = (ModelManager) other;
-        return addressBook.equals(otherModelManager.addressBook)
+
+        UniqueRecruitList filteredRecruitsList = new UniqueRecruitList();
+        filteredRecruitsList.setRecruits(filteredRecruits.stream().toList());
+        UniqueRecruitList otherFilteredRecruitsList = new UniqueRecruitList();
+        otherFilteredRecruitsList.setRecruits(otherModelManager.filteredRecruits.stream().toList());
+        return (addressBook.equals(otherModelManager.addressBook)
+                || addressBook.hasSameRecruits(otherModelManager.addressBook))
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredRecruits.equals(otherModelManager.filteredRecruits);
+                && (filteredRecruits.equals(otherModelManager.filteredRecruits)
+                || filteredRecruitsList.hasSameRecruits(otherFilteredRecruitsList));
     }
 
     @Override

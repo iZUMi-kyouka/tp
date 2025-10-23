@@ -45,7 +45,7 @@ class JsonSerializableAddressBook {
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */
-    public AddressBook toModelType() throws IllegalValueException {
+    public ReadOnlyAddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
         for (JsonAdaptedRecruit jsonAdaptedRecruit : recruits) {
             Recruit recruit = jsonAdaptedRecruit.toModelType();
