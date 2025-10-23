@@ -96,13 +96,9 @@ public class VersionedAddressBookTest {
         AddressBook expectedAddressBook = new AddressBook();
         int extraCommits = 50;
         int totalCommits = VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + extraCommits;
-
-        // Generate UUIDs for all recruits to be added
         List<UUID> uuids = IntStream.range(0, totalCommits)
                 .mapToObj(i -> UUID.randomUUID())
                 .toList();
-
-        // Add recruits and commit for each addition
         for (int i = 0; i < totalCommits; i++) {
             String uuid = uuids.get(i).toString();
             Recruit r = new RecruitBuilder(AMY)
@@ -112,11 +108,8 @@ public class VersionedAddressBookTest {
             addressBook.addRecruit(r);
             addressBook.commit("add Amy");
         }
-
-        // Expected address book: only the most recent MAX_UNDO_HISTORY_SIZE states should remain
-        // So we take the last MAX_UNDO_HISTORY_SIZE recruits
         expectedAddressBook.setRecruits(
-                IntStream.range(extraCommits, totalCommits)
+                IntStream.range(0, extraCommits + 1)
                         .mapToObj(i -> new RecruitBuilder(AMY)
                                 .withID(uuids.get(i).toString())
                                 .withName(AMY.getName().toString() + i)
@@ -124,13 +117,14 @@ public class VersionedAddressBookTest {
                         .toList()
         );
 
-        // The first retained commit corresponds to recruit index = extraCommits (i.e., 50)
         AddressBookState expectedAddressBookState = new AddressBookState(
                 expectedAddressBook,
                 "add Amy"
         );
-
-        assertEquals(expectedAddressBookState, addressBook.getAddressBookStateList().get(0));
+        System.out.println(expectedAddressBookState.getAddressBook());
+        System.out.println(addressBook.getAddressBookStateList().get(0).getAddressBook());
+        assertEquals(expectedAddressBookState, addressBook.getAddressBookStateList()
+                .get(0));
     }
     @Test
     public void purgeFutureStates_commitAfterUndo_futureStatesPurged() {
