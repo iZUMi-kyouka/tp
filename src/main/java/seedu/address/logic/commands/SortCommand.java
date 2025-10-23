@@ -25,13 +25,15 @@ public class SortCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sorts all recruits in the address book by specified fields.\n"
             + "Parameters: "
-            + "[" + SORT_PREFIX_NAME + " NAME] "
-            + "[" + SORT_PREFIX_PHONE + " PHONE] "
-            + "[" + SORT_PREFIX_EMAIL + " EMAIL] "
-            + "[" + SORT_PREFIX_ADDRESS + " ADDRESS]...\n"
+            + "[" + SORT_PREFIX_NAME + " asc/desc] "
+            + "[" + SORT_PREFIX_PHONE + " asc/desc] "
+            + "[" + SORT_PREFIX_EMAIL + " asc/desc] "
+            + "[" + SORT_PREFIX_ADDRESS + " asc/desc]\n"
             + "Example: " + COMMAND_WORD + " "
             + SORT_PREFIX_NAME + " asc "
-            + SORT_PREFIX_PHONE + " desc ";
+            + SORT_PREFIX_PHONE + " desc\n"
+            + "Shorthands: " + COMMAND_WORD + " (sorts by name ascending), "
+            + COMMAND_WORD + " asc/desc (sorts by name asc/desc)\n";
 
     public static final String MESSAGE_SUCCESS = "Recruits sorted by: %s";
 
