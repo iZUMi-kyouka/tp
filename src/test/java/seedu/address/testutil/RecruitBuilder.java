@@ -170,7 +170,7 @@ public class RecruitBuilder {
     }
 
     public Recruit build() {
-        return new Recruit(id, name, phone, email, address, description, tags, isArchived);
+        return new Recruit(id, names, phones, emails, addresses, description, tags, isArchived);
     }
 
 }

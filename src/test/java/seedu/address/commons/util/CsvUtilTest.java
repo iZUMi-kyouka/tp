@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -38,7 +39,9 @@ public class CsvUtilTest {
                 List.of(new Phone("12345678"), new Phone("87654321")),
                 List.of(new Email("alice@example.com")),
                 List.of(new Address("123, Wonderland Street")),
-                Set.of(new Tag("friend"), new Tag("colleague"))
+                new Description("Description"),
+                Set.of(new Tag("friend"), new Tag("colleague")),
+                false
         );
     }
 
@@ -102,7 +105,9 @@ public class CsvUtilTest {
                 List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
                 List.of(), List.of(),
                 List.of(new Address(fieldWithComma)),
-                Set.of());
+                new Description("Description"),
+                Set.of(),
+                false);
         String csvComma = CsvUtil.recruitsToCsvString(List.of(recruitWithComma));
         String csvLineComma = csvComma.split("\n")[1];
         String[] colsComma = csvLineComma.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
@@ -113,7 +118,9 @@ public class CsvUtilTest {
                 List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
                 List.of(), List.of(),
                 List.of(new Address(fieldWithQuote)),
-                Set.of());
+                new Description("Description"),
+                Set.of(),
+                false);
         String csvQuote = CsvUtil.recruitsToCsvString(List.of(recruitWithQuote));
         String csvLineQuote = csvQuote.split("\n")[1];
         String[] colsQuote = csvLineQuote.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);

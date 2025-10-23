@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -51,7 +52,7 @@ public class CsvUtil {
      */
     public static String recruitsToCsvString(List<Recruit> recruits) {
         StringBuilder sb = new StringBuilder();
-        sb.append("ID,Names,Phones,Emails,Addresses,Tags\n");
+        sb.append("ID,Names,Phones,Emails,Addresses,Tags,Description,IsArchived\n");
 
         for (Recruit r : recruits) {
             String names = escapeCsvField(r.getNames().stream().map(Object::toString)
@@ -64,8 +65,11 @@ public class CsvUtil {
                     .collect(Collectors.joining(";")));
             String tags = escapeCsvField(r.getTags().stream().map(Object::toString)
                     .collect(Collectors.joining(";")));
+            String description = escapeCsvField(r.getDescription().toString());
+            String isArchived = Boolean.toString(r.isArchived());
 
-            sb.append(String.join(",", r.getID().toString(), names, phones, emails, addresses, tags));
+            sb.append(String.join(",",
+                    r.getID().toString(), names, phones, emails, addresses, tags, description, isArchived));
             sb.append("\n");
         }
 
@@ -130,8 +134,10 @@ public class CsvUtil {
                     .map(s -> s.replaceAll("^\\[|\\]$", ""))
                     .map(Tag::new)
                     .collect(Collectors.toSet());
+            Description description = new Description(cols[6]);
+            boolean isArchived = Boolean.parseBoolean(cols[7]);
 
-            recruits.add(new Recruit(id, names, phones, emails, addresses, tags));
+            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, isArchived));
         }
         return recruits;
     }
