@@ -14,6 +14,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
@@ -124,6 +125,18 @@ public class ModelManagerTest {
     @Test
     public void canUndoAddressBook_undoableOperationExists_returnsFalse() {
         assertFalse(modelManager.canUndoAddressBook());
+    }
+
+    @Test
+    public void sortRecruits_success() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+
+        ModelManager expectedModelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModelManager.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        expectedModelManager.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+
+        assertEquals(expectedModelManager, modelManager);
     }
 
     @Test

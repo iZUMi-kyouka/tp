@@ -7,11 +7,14 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
+import static seedu.address.testutil.TypicalRecruits.BENSON;
+import static seedu.address.testutil.TypicalRecruits.CARL;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -81,6 +84,20 @@ public class AddressBookTest {
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getRecruitList().remove(0));
+    }
+
+    @Test
+    public void sortRecruits_validComparator_success() {
+        addressBook.addRecruit(BENSON);
+        addressBook.addRecruit(ALICE);
+        addressBook.addRecruit(CARL);
+
+        addressBook.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+
+        List<Recruit> sortedRecruits = addressBook.getRecruitList();
+        assertEquals("Alice Pauline", sortedRecruits.get(0).getName().fullName);
+        assertEquals("Benson Meier", sortedRecruits.get(1).getName().fullName);
+        assertEquals("Carl Kurz", sortedRecruits.get(2).getName().fullName);
     }
 
     @Test
