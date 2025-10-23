@@ -26,6 +26,40 @@ public class SortCommandParserTest {
     private SortCommandParser parser = new SortCommandParser();
 
     @Test
+    public void parse_emptyArgs_success() {
+        List<SortCriterion> criteria = new ArrayList<>();
+        criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
+
+        SortCommand expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "", expectedCommand);
+        assertParseSuccess(parser, "   ", expectedCommand);
+    }
+
+    @Test
+    public void parse_ascOnly_success() {
+        List<SortCriterion> criteria = new ArrayList<>();
+        criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
+
+        SortCommand expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "asc", expectedCommand);
+        assertParseSuccess(parser, "  asc  ", expectedCommand);
+        assertParseSuccess(parser, "ASC", expectedCommand);
+        assertParseSuccess(parser, "AsC", expectedCommand);
+    }
+
+    @Test
+    public void parse_descOnly_success() {
+        List<SortCriterion> criteria = new ArrayList<>();
+        criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.DESCENDING));
+
+        SortCommand expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "desc", expectedCommand);
+        assertParseSuccess(parser, "  desc  ", expectedCommand);
+        assertParseSuccess(parser, "DESC", expectedCommand);
+        assertParseSuccess(parser, "DeSc", expectedCommand);
+    }
+
+    @Test
     public void parse_validSingleFieldAscending_success() {
         List<SortCriterion> criteria = new ArrayList<>();
         criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
@@ -115,18 +149,6 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_emptyArgs_failure() {
-        assertParseFailure(parser, "",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_whitespaceOnly_failure() {
-        assertParseFailure(parser, "   ",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-    }
-
-    @Test
     public void parse_invalidPrefix_failure() {
         assertParseFailure(parser, "-x asc",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
@@ -162,15 +184,6 @@ public class SortCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
 
         assertParseFailure(parser, "-n -p",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_missingPrefix_failure() {
-        assertParseFailure(parser, "asc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-
-        assertParseFailure(parser, "desc",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
     }
 
