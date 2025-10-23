@@ -149,6 +149,36 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
+### Sorting recruits : `sort`
+
+Sorts all recruits in the address book by specified fields in ascending or descending order.
+
+Format: `sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`
+
+* `ORDER` can be either `asc` (ascending) or `desc` (descending).
+* Multiple fields can be specified, and they will be applied in order of priority from left to right.
+* If no parameters are provided, recruits will be sorted by name in ascending order by default.
+* If only `asc` or `desc` is provided (without field prefixes), recruits will be sorted by name in that order.
+* The sort is case-insensitive for text fields (name, email, address).
+
+**Shorthand formats:**
+* `sort` - Sorts by name in ascending order
+* `sort asc` - Sorts by name in ascending order
+* `sort desc` - Sorts by name in descending order
+
+Examples:
+* `sort` - Sorts all recruits by name in ascending order (A to Z)
+* `sort desc` - Sorts all recruits by name in descending order (Z to A)
+* `sort n/ asc` - Sorts all recruits by name in ascending order
+* `sort p/ desc` - Sorts all recruits by phone number in descending order
+* `sort n/ asc p/ desc` - Sorts by name (ascending) first, then by phone number (descending) for recruits with the same name
+* `sort e/ asc a/ desc` - Sorts by email (ascending) first, then by address (descending) for recruits with the same email
+
+<box type="tip" seamless>
+
+💡 **Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
+</box>
+
 ### Deleting a recruit : `delete`
 
 Deletes the specified recruit from the address book.
@@ -236,6 +266,7 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
+**Sort**   | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
 **Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
 **Help**   | `help`
 **View**   | `view INDEX/UUID`<br> e.g., `view 2`
