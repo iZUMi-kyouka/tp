@@ -135,8 +135,14 @@ public class ModelManager implements Model {
         filteredRecruits.setPredicate(predicate);
     }
 
+    @Override
     public Optional<Recruit> getFilteredRecruitByID(UUID id) {
-        return this.filteredRecruits.stream().findFirst().filter(x -> x.getID().equals(id));
+        return this.filteredRecruits.stream().filter(x -> x.getID().equals(id)).findFirst();
+    }
+
+    @Override
+    public Optional<Recruit> getUnfilteredRecruitByID(UUID id) {
+        return this.getAddressBook().getRecruitList().stream().filter(x -> x.getID().equals(id)).findFirst();
     }
 
     @Override
@@ -169,7 +175,19 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public String redoAddressBook() {
+        String redoneCommand = addressBook.redo();
+        updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        return redoneCommand;
+    }
+
+    @Override
     public boolean canUndoAddressBook() {
         return addressBook.canUndoAddressBook();
+    }
+
+    @Override
+    public boolean canRedoAddressBook() {
+        return addressBook.canRedoAddressBook();
     }
 }

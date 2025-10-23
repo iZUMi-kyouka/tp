@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireExactlyOneIsTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
@@ -41,11 +43,26 @@ public class EditCommandParser implements Parser<EditCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
 
-        Index index;
+        UUID id = null;
+        Index index = null;
 
+        // try parsing id
+        ParseException pe = null;
+        try {
+            id = ParserUtil.parseID(argMultimap.getPreamble());
+        } catch (ParseException e) {
+            pe = e;
+        }
+
+        // try parsing index
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
+        } catch (ParseException e) {
+            pe = e;
+        }
+
+        // if both are null, input is invalid
+        if (isNull(id) && isNull(index)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
@@ -78,7 +95,11 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editRecruitDescriptor);
+        if (isNull(id)) {
+            return new EditCommand(index, editRecruitDescriptor, operation);
+        }
+
+        return new EditCommand(id, editRecruitDescriptor);
     }
 
     /**
@@ -115,5 +136,4 @@ public class EditCommandParser implements Parser<EditCommand> {
                 ? EditRecruitDescriptor.EditRecruitOperation.REMOVE
                 : EditRecruitDescriptor.EditRecruitOperation.OVERWRITE;
     }
-
 }
