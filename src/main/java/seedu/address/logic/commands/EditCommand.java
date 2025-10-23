@@ -186,9 +186,10 @@ public class EditCommand extends Command {
         List<Email> updatedEmails = new ArrayList<>(desc.getEmail().orElse(rec.getEmails()));
         List<Address> updatedAddresses = new ArrayList<>(
                 desc.getAddress().orElse(rec.getAddresses()));
+        Description updatedDescription = desc.getDescription().orElse(rec.getDescription());
         Set<Tag> updatedTags = desc.getTags().orElse(rec.getTags());
         return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
-                new Description(""), updatedTags, false);
+                updatedDescription, updatedTags, false);
     }
 
     private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -202,10 +203,12 @@ public class EditCommand extends Command {
                 .filter(n -> !desc.getEmail().orElse(List.of()).contains(n)).toList();
         List<Address> updatedAddresses = rec.getAddresses().stream()
                 .filter(n -> !desc.getAddress().orElse(List.of()).contains(n)).toList();
+        Description updatedDescription = desc.getDescription().map(d -> new Description(""))
+                .orElse(rec.getDescription());
         Set<Tag> updatedTags = rec.getTags().stream()
                 .filter(n -> !desc.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
         return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
-                new Description(""), updatedTags, false);
+                updatedDescription, updatedTags, false);
     }
 
     @Override

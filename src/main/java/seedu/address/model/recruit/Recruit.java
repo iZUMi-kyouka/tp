@@ -53,10 +53,20 @@ public class Recruit {
 
     /**
      * Every field must be present and not null.
+     * A specific UUID is provided
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
                    Description description, Set<Tag> tags, boolean archive) {
         this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags, archive);
+    }
+
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
+                   Description description, Set<Tag> tags) {
+        this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags, false);
     }
 
     /**
