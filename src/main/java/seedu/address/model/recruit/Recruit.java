@@ -21,6 +21,8 @@ import seedu.address.model.tag.Tag;
  */
 public class Recruit {
 
+    private boolean isArchived;
+
     // Identity fields
     private final UUID id;
     private final List<Name> names;
@@ -36,31 +38,40 @@ public class Recruit {
      * Every field must be present and not null.
      */
     public Recruit(Name name, Phone phone, Email email, Address address,
+                   Description description, Set<Tag> tags, boolean archive) {
+        this(UUID.randomUUID(), name, phone, email, address, description, tags, archive);
+    }
+
+    /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
+    public Recruit(Name name, Phone phone, Email email, Address address,
                    Description description, Set<Tag> tags) {
-        this(UUID.randomUUID(), name, phone, email, address, description, tags);
+        this(UUID.randomUUID(), name, phone, email, description, address, tags, false);
     }
 
     /**
      * Every field must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
-                   Description description, Set<Tag> tags) {
-        this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags);
+                   Description description, Set<Tag> tags, boolean archive) {
+        this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags, archive);
     }
 
     /**
      * Every field must be present and not null.
      */
     public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses,
-                   Description description, Set<Tag> tags) {
-        this(UUID.randomUUID(), names, phones, emails, addresses, description, tags);
+                   Description description, Set<Tag> tags, boolean archive) {
+        this(UUID.randomUUID(), names, phones, emails, addresses, description, tags, archive);
     }
 
     /**
      * Every field must be present and not null.
      */
     public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses,
-                   Description description, Set<Tag> tags) {
+                   Description description, Set<Tag> tags, boolean archive) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
         requireNonEmpty(names);
         requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
@@ -74,6 +85,7 @@ public class Recruit {
         this.description = description == null ? Description.createEmptyDescription() : description;
         this.tags.addAll(tags);
         this.id = id;
+        this.isArchived = archive;
     }
 
     public UUID getID() {
@@ -125,6 +137,13 @@ public class Recruit {
     }
 
     /**
+     * Returns boolean representing whether recruit entry is archived or not
+     */
+    public boolean isArchived() {
+        return this.isArchived;
+    }
+
+    /**
      * Returns true if both persons have the same id.
      * This defines a weaker notion of equality between two persons.
      */
@@ -159,7 +178,8 @@ public class Recruit {
                 && emails.equals(otherRecruit.emails)
                 && addresses.equals(otherRecruit.addresses)
                 && description.equals(otherRecruit.description)
-                && tags.equals(otherRecruit.tags);
+                && tags.equals(otherRecruit.tags)
+                && this.isArchived() == otherRecruit.isArchived();
     }
 
     @Override

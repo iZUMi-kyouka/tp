@@ -5,8 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CASHIER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -23,6 +30,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
+import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -40,13 +49,13 @@ public class EditCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void execute_allFieldsSpecifiedUnfilteredList_success() {
+    public void execute_overwriteOperationAllFieldsSpecifiedUnfilteredList_success() {
         Recruit editedRecruit = new RecruitBuilder(ALICE).build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(editedRecruit).build();
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                editCommand.formatDelta(editedRecruit, descriptor));
+                editCommand.formatDelta(editedRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getAddressBook().getRecruitList().get(0), editedRecruit);
@@ -55,7 +64,169 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_someFieldsSpecifiedUnfilteredList_success() {
+    public void execute_appendOperationAllFieldsSpecifiedUnfilteredList_success() {
+        Recruit initialRecruit = new RecruitBuilder(ALICE).build();
+        Recruit expectedRecruit = new RecruitBuilder(initialRecruit)
+                .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
+                .build();
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .withTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                editCommand.formatDelta(initialRecruit, expectedRecruit));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setRecruit(model.getFilteredRecruitList().get(0), expectedRecruit);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_appendOperationDuplicateAttributesUnfilteredList_failure() {
+        // duplicate name
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(ALICE.getName().fullName)
+                .withPhones(VALID_PHONE_AMY).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate phone
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY)
+                .withPhones(ALICE.getPhone().value, VALID_PHONE_AMY).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate email
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY)
+                .withEmails(ALICE.getEmail().value, VALID_EMAIL_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate address
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY)
+                .withEmails(VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_BOB, ALICE.getAddress().value).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate tags
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY)
+                .withEmails(VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_BOB)
+                .withTags("friends").build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+    }
+
+    @Test
+    public void execute_removeOperationNonExistentAttributesUnfilteredList_failure() {
+        // non-existent name
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(VALID_NAME_BOB)
+                .withPhones(ALICE.getPhone().value).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent phone
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(ALICE.getName().fullName)
+                .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent email
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(ALICE.getName().fullName)
+                .withEmails(VALID_EMAIL_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent address
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withPhones(ALICE.getPhone().value)
+                .withEmails(ALICE.getEmail().value)
+                .withAddresses(VALID_ADDRESS_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent tags
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withPhones(ALICE.getPhone().value)
+                .withEmails(ALICE.getEmail().value)
+                .withTags(VALID_TAG_CASHIER).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+    }
+
+    @Test
+    public void execute_removeOperationAllFieldsSpecifiedUnfilteredList_success() throws CommandException {
+        Recruit initialRecruit = new RecruitBuilder(ALICE)
+                .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
+                .build();
+        Recruit editedRecruit = new RecruitBuilder(ALICE)
+                .withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_AMY)
+                .withEmail(VALID_EMAIL_AMY)
+                .withAddress(VALID_ADDRESS_AMY)
+                .withTags(VALID_TAG_CASHIER)
+                .build();
+        Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        initialModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(ALICE.getName().fullName, VALID_NAME_BOB)
+                .withPhones(ALICE.getPhone().value, VALID_PHONE_BOB)
+                .withEmails(ALICE.getEmail().value, VALID_EMAIL_BOB)
+                .withAddresses(ALICE.getAddress().value, VALID_ADDRESS_BOB)
+                .withTags("friends", VALID_TAG_HUSBAND)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                editCommand.formatDelta(initialRecruit, editedRecruit));
+        Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
+        expectedModel.setRecruit(initialRecruit, editedRecruit);
+        expectedModel.commitAddressBook(String.format(
+                EditCommand.OPERATION_DESCRIPTOR, editCommand.formatDelta(initialRecruit, editedRecruit)));
+
+        assertCommandSuccess(editCommand, initialModel, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_overwriteOperationSomeFieldsSpecifiedUnfilteredList_success() {
         Optional<Recruit> recruitToEdit = model.getUnfilteredRecruitByID(TypicalIDs.ID_THIRD_RECRUIT);
         assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
@@ -69,7 +240,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_THIRD_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                editCommand.formatDelta(initialRecruit, descriptor));
+                editCommand.formatDelta(initialRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(recruitToEdit.get(), editedRecruit);
@@ -78,13 +249,13 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_noFieldSpecifiedUnfilteredList_success() {
+    public void execute_overwriteOperationNoFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, new EditRecruitDescriptor());
         Optional<Recruit> recruitToEdit = model.getUnfilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
         assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                Messages.format(recruitToEdit.get()));
+                editCommand.formatDelta(recruitToEdit.get(), recruitToEdit.get()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -103,7 +274,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
-                editCommand.formatDelta(initialRecruit, descriptor));
+                editCommand.formatDelta(initialRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(model.getFilteredRecruitList().get(0), editedRecruit);

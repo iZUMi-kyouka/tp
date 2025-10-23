@@ -72,7 +72,8 @@ public class EditRecruitDescriptorTest {
                 + editRecruitDescriptor.getEmail().orElse(null) + ", address="
                 + editRecruitDescriptor.getDescription().orElse(null) + ", description="
                 + editRecruitDescriptor.getAddress().orElse(null) + ", tags="
-                + editRecruitDescriptor.getTags().orElse(null) + "}";
+                + editRecruitDescriptor.getTags().orElse(null) + ", operation="
+                + editRecruitDescriptor.getOperation() + "}";
         assertEquals(expected, editRecruitDescriptor.toString());
     }
 }

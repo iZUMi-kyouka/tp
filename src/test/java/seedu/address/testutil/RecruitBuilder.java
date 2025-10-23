@@ -1,10 +1,12 @@
 package seedu.address.testutil;
 
+import static seedu.address.commons.util.CollectionUtil.combine;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import seedu.address.model.recruit.Address;
 import seedu.address.model.recruit.Description;
@@ -26,24 +28,26 @@ public class RecruitBuilder {
     public static final String DEFAULT_DESCRIPTION = "It's nothing but the E-mail Guy";
 
     private UUID id;
-    private List<Name> name;
-    private List<Phone> phone;
-    private List<Email> email;
-    private List<Address> address;
+    private List<Name> names;
+    private List<Phone> phones;
+    private List<Email> emails;
+    private List<Address> addresses;
     private Description description;
     private Set<Tag> tags;
+    private boolean isArchived;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public RecruitBuilder() {
         id = UUID.randomUUID();
-        name = List.of(new Name(DEFAULT_NAME));
-        phone = List.of(new Phone(DEFAULT_PHONE));
-        email = List.of(new Email(DEFAULT_EMAIL));
-        address = List.of(new Address(DEFAULT_ADDRESS));
+        names = List.of(new Name(DEFAULT_NAME));
+        phones = List.of(new Phone(DEFAULT_PHONE));
+        emails = List.of(new Email(DEFAULT_EMAIL));
+        addresses = List.of(new Address(DEFAULT_ADDRESS));
         description = new Description(DEFAULT_DESCRIPTION);
         tags = new HashSet<>();
+        isArchived = false;
     }
 
     /**
@@ -51,12 +55,13 @@ public class RecruitBuilder {
      */
     public RecruitBuilder(Recruit recruitToCopy) {
         id = recruitToCopy.getID();
-        name = recruitToCopy.getNames();
-        phone = recruitToCopy.getPhones();
-        email = recruitToCopy.getEmails();
-        address = recruitToCopy.getAddresses();
+        names = recruitToCopy.getNames();
+        phones = recruitToCopy.getPhones();
+        emails = recruitToCopy.getEmails();
+        addresses = recruitToCopy.getAddresses();
         description = recruitToCopy.getDescription();
         tags = new HashSet<>(recruitToCopy.getTags());
+        isArchived = recruitToCopy.isArchived();
     }
 
     /**
@@ -71,7 +76,64 @@ public class RecruitBuilder {
      * Sets the {@code Name} of the {@code Recruit} that we are building.
      */
     public RecruitBuilder withName(String name) {
-        this.name = List.of(new Name(name));
+        this.names = List.of(new Name(name));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withAdditionalNames(String... names) {
+        this.names = combine(List.of(this.names, Arrays.asList(names).stream().map(Name::new).toList()));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Phone} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withPhone(String phone) {
+        this.phones = List.of(new Phone(phone));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withAdditionalPhones(String... phones) {
+        this.phones = combine(List.of(this.phones, Arrays.asList(phones).stream().map(Phone::new).toList()));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Email} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withEmail(String email) {
+        this.emails = List.of(new Email(email));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withAdditionalEmails(String... emails) {
+        this.emails = combine(List.of(this.emails, Arrays.asList(emails).stream().map(Email::new).toList()));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Address} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withAddress(String address) {
+        this.addresses = List.of(new Address(address));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withAdditionalAddresses(String... addresses) {
+        this.addresses = combine(
+                List.of(this.addresses, Arrays.asList(addresses).stream().map(Address::new).toList()));
         return this;
     }
 
@@ -84,58 +146,18 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the {@code Address} of the {@code Recruit} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Recruit} that we are building.
      */
-    public RecruitBuilder withAddress(String address) {
-        this.address = List.of(new Address(address));
+    public RecruitBuilder withAdditionalTags(String ... tags) {
+        this.tags = new HashSet<>(combine(List.of(this.tags, SampleDataUtil.getTagSet(tags))));
         return this;
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Recruit} that we are building.
+     * Sets the {@code Archive Status} of the {@code Recruit} that we are building.
      */
-    public RecruitBuilder withPhone(String phone) {
-        this.phone = List.of(new Phone(phone));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Email} of the {@code Recruit} that we are building.
-     */
-    public RecruitBuilder withEmail(String email) {
-        this.email = List.of(new Email(email));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Name} of the {@code Recruit} that we are building.
-     */
-    public RecruitBuilder withAdditionalName(String name) {
-        this.name = Stream.concat(this.name.stream(), Stream.of(new Name(name))).toList();
-        return this;
-    }
-
-    /**
-     * Sets the {@code Address} of the {@code Recruit} that we are building.
-     */
-    public RecruitBuilder withAdditionalAddress(String address) {
-        this.address = Stream.concat(this.address.stream(), Stream.of(new Address(address))).toList();
-        return this;
-    }
-
-    /**
-     * Sets the {@code Phone} of the {@code Recruit} that we are building.
-     */
-    public RecruitBuilder withAdditionalPhone(String phone) {
-        this.phone = Stream.concat(this.phone.stream(), Stream.of(new Phone(phone))).toList();
-        return this;
-    }
-
-    /**
-     * Sets the {@code Email} of the {@code Recruit} that we are building.
-     */
-    public RecruitBuilder withAdditionalEmail(String email) {
-        this.email = Stream.concat(this.email.stream(), Stream.of(new Email(email))).toList();
+    public RecruitBuilder withArchivedStatus(boolean isArchived) {
+        this.isArchived = isArchived;
         return this;
     }
 
@@ -148,7 +170,7 @@ public class RecruitBuilder {
     }
 
     public Recruit build() {
-        return new Recruit(id, name, phone, email, address, description, tags);
+        return new Recruit(id, name, phone, email, address, description, tags, isArchived);
     }
 
 }

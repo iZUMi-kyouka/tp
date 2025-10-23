@@ -35,7 +35,7 @@ public class RecruitTest {
         Recruit r = new Recruit(new Name(VALID_NAME_AMY), new Phone(VALID_PHONE_AMY),
                 new Email(VALID_EMAIL_AMY), new Address(VALID_ADDRESS_AMY),
                 new Description(VALID_DESCRIPTION_AMY),
-                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))));
+                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), false);
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
@@ -48,7 +48,7 @@ public class RecruitTest {
         r = new Recruit(List.of(new Name(VALID_NAME_AMY)), List.of(new Phone(VALID_PHONE_AMY)),
                 List.of(new Email(VALID_EMAIL_AMY)), List.of(new Address(VALID_ADDRESS_AMY)),
                 new Description(VALID_DESCRIPTION_AMY),
-                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))));
+                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), false);
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
