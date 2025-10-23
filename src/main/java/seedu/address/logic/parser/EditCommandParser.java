@@ -71,7 +71,9 @@ public class EditCommandParser implements Parser<EditCommand> {
                     ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editRecruitDescriptor::setTags);
-
+        
+        // TODO: perhaps this should be refactored to throw if the resulting recruit is the same after the operation
+        // rahter than checking merely for the descriptor attributes.
         if (!editRecruitDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }

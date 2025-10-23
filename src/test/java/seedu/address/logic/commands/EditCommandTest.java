@@ -5,7 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -21,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
+import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -37,7 +44,7 @@ public class EditCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void execute_allFieldsSpecifiedUnfilteredList_success() {
+    public void execute_overwriteOperationAllFieldsSpecifiedUnfilteredList_success() {
         Recruit editedRecruit = new RecruitBuilder(ALICE).build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(editedRecruit).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
@@ -52,7 +59,35 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_someFieldsSpecifiedUnfilteredList_success() {
+    public void execute_appendOperationAllFieldsSpecifiedUnfilteredList_success() {
+        Recruit initialRecruit = new RecruitBuilder(ALICE).build();
+        Recruit expectedRecruit = new RecruitBuilder(initialRecruit)
+                .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .build();
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                editCommand.formatDelta(initialRecruit, expectedRecruit));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_overwriteOperationSomeFieldsSpecifiedUnfilteredList_success() {
         Index indexLastRecruit = Index.fromOneBased(model.getFilteredRecruitList().size());
         Recruit lastRecruit = model.getFilteredRecruitList().get(indexLastRecruit.getZeroBased());
 
@@ -75,7 +110,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_noFieldSpecifiedUnfilteredList_success() {
+    public void execute_overwriteOperationNoFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, new EditRecruitDescriptor());
         Recruit editedRecruit = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
 

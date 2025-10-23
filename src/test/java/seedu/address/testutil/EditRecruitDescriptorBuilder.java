@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -59,10 +60,27 @@ public class EditRecruitDescriptorBuilder {
     }
 
     /**
+     * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withNames(String... names) {
+        descriptor.setNames(Arrays.asList(names).stream().map(Name::new).toList());
+        return this;
+    }
+
+
+    /**
      * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withPhone(String phone) {
         descriptor.setPhones(List.of(new Phone(phone)));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withPhones(String... phones) {
+        descriptor.setPhones(Arrays.asList(phones).stream().map(Phone::new).toList());
         return this;
     }
 
@@ -75,10 +93,26 @@ public class EditRecruitDescriptorBuilder {
     }
 
     /**
+     * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withEmails(String... emails) {
+        descriptor.setEmails(Arrays.asList(emails).stream().map(Email::new).toList());
+        return this;
+    }
+
+    /**
      * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withAddress(String address) {
         descriptor.setAddresses(List.of(new Address(address)));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withAddresses(String... addresses) {
+        descriptor.setAddresses(Arrays.asList(addresses).stream().map(Address::new).toList());
         return this;
     }
 
