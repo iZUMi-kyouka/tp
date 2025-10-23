@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
@@ -33,17 +34,20 @@ public class RecruitTest {
         // recruit with random uuid and non-list params
         Recruit r = new Recruit(new Name(VALID_NAME_AMY), new Phone(VALID_PHONE_AMY),
                 new Email(VALID_EMAIL_AMY), new Address(VALID_ADDRESS_AMY),
+                new Description(VALID_DESCRIPTION_AMY),
                 new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))));
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
         assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail());
         assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress());
+        assertEquals(new Description(VALID_DESCRIPTION_AMY), r.getDescription());
         assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
 
         // recruit with random uuid and list params
         r = new Recruit(List.of(new Name(VALID_NAME_AMY)), List.of(new Phone(VALID_PHONE_AMY)),
                 List.of(new Email(VALID_EMAIL_AMY)), List.of(new Address(VALID_ADDRESS_AMY)),
+                new Description(VALID_DESCRIPTION_AMY),
                 new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))));
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());

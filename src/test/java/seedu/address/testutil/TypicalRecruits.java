@@ -54,29 +54,32 @@ public class TypicalRecruits {
             .withPhone("87652533")
             .withEmail("cornelia@example.com")
             .withAddress("10th street")
-            .withDescription("Creative marketing strategist with strong communication skills and team leadership experience.")
+            .withDescription("Creative marketing strategist with strong communication skills and "
+                    + "team leadership experience.")
             .withTags("friends").build();
     public static final Recruit ELLE = new RecruitBuilder()
             .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa954")
             .withName("Elle Meyer")
             .withPhone("9482224")
             .withEmail("werner@example.com")
-            .withDescription("UX designer passionate about crafting intuitive user experiences and clean visual design. "
-                    + "They display strong problem-solving and communication skills.")
+            .withDescription("UX designer passionate about crafting intuitive user experiences and clean visual "
+                    + "design. They display strong problem-solving and communication skills.")
             .withAddress("michegan ave").build();
     public static final Recruit FIONA = new RecruitBuilder()
             .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa955")
             .withName("Fiona Kunz")
             .withPhone("9482427")
             .withEmail("lydia@example.com")
-            .withDescription("Driven project manager who excels at coordinating cross-functional teams and meeting deadlines.")
+            .withDescription("Driven project manager who excels at coordinating cross-functional teams and meeting "
+                    + "deadlines.")
             .withAddress("little tokyo").build();
     public static final Recruit GEORGE = new RecruitBuilder()
             .withID("eac9b117-2ded-42c3-9264-ccf3dfaaa956")
             .withName("George Best")
             .withPhone("9482442")
             .withEmail("anna@example.com")
-            .withDescription("Talented software tester with an eye for detail and a passion for improving product quality.")
+            .withDescription("Talented software tester with an eye for detail and a passion for improving product "
+                    + "quality.")
             .withAddress("4th street").build();
 
     // Manually added

@@ -1,10 +1,10 @@
 package seedu.address.model.recruit;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 public class DescriptionTest {
 
@@ -92,9 +92,11 @@ public class DescriptionTest {
                 This is it!
                 Wow.
                 Wow.
-                We know that you, as a bee, have worked your whole life to get to the point where you can work for your whole life.
+                We know that you, as a bee, have worked your whole life to get to the point where you can work for \
+                your whole life.
                 Honey begins when our valiant Pollen Jocks bring the nectar to The Hive.
-                Our top-secret formula is automatically color-corrected, scent-adjusted and bubble-contoured into this soothing sweet syrup with its distinctive golden glow you know as... Honey!
+                Our top-secret formula is automatically color-corrected, scent-adjusted and bubble-contoured into this \
+                soothing sweet syrup with its distinctive golden glow you know as... Honey!
                 That girl was hot.
                 She's my cousin!
                 She is?
@@ -201,7 +203,8 @@ public class DescriptionTest {
                 I could say anything right now.
                 I'm gonna get an ant tattoo!
                 Let's open some honey and celebrate!
-                Maybe I'll pierce my thorax. Shave my antennae. Shack up with a grasshopper. Get a gold tooth and call everybody "dawg"!
+                Maybe I'll pierce my thorax. Shave my antennae. Shack up with a grasshopper. Get a gold tooth and call \
+                everybody "dawg"!
                 I'm so proud.
                 We're starting work today!
                 Today's the day.
