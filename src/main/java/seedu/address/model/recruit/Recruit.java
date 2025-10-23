@@ -21,6 +21,8 @@ import seedu.address.model.tag.Tag;
  */
 public class Recruit {
 
+    private boolean isArchived;
+
     // Identity fields
     private final UUID id;
     private final List<Name> names;
@@ -34,14 +36,22 @@ public class Recruit {
     /**
      * Every field must be present and not null.
      */
+    public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags, boolean archive) {
+        this(UUID.randomUUID(), name, phone, email, address, tags, archive);
+    }
+
+    /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
     public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(UUID.randomUUID(), name, phone, email, address, tags);
+        this(UUID.randomUUID(), name, phone, email, address, tags, false);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags, boolean archive) {
         requireAllNonNull(id, name, phone, email, address, tags);
         requireAllNonBlankString(List.of(name, phone, email, address).stream().map(Object::toString).toList());
         requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
@@ -52,20 +62,39 @@ public class Recruit {
         this.addresses = List.of(address);
         this.tags.addAll(tags);
         this.id = id;
+        this.isArchived = archive;
     }
 
     /**
      * Every field must be present and not null.
      */
+    public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags,
+                   boolean archive) {
+        this(UUID.randomUUID(), names, phones, emails, addresses, tags, archive);
+    }
+
+    /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
     public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags) {
-        this(UUID.randomUUID(), names, phones, emails, addresses, tags);
+        this(UUID.randomUUID(), names, phones, emails, addresses, tags, false);
+    }
+
+    /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
+    public Recruit(UUID id, List<Name> names, List<Phone> phones,
+            List<Email> emails, List<Address> addresses, Set<Tag> tags) {
+        this(id, names, phones, emails, addresses, tags, false);
     }
 
     /**
      * Every field must be present and not null.
      */
     public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails,
-            List<Address> addresses, Set<Tag> tags) {
+            List<Address> addresses, Set<Tag> tags, boolean archive) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
         requireNonEmpty(names);
         requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
@@ -78,6 +107,7 @@ public class Recruit {
         this.addresses = addresses;
         this.tags.addAll(tags);
         this.id = id;
+        this.isArchived = archive;
     }
 
     public UUID getID() {
@@ -122,6 +152,13 @@ public class Recruit {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns boolean representing whether recruit entry is archived or not
+     */
+    public boolean isArchived() {
+        return this.isArchived;
     }
 
     /**

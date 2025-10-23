@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
+import seedu.address.logic.parser.ListCommandParser.ListOperation;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -26,7 +27,7 @@ public class RedoCommandTest {
 
         new AddCommand(AMY).execute(model);
         new DeleteCommand(ALICE.getID()).execute(model);
-        new ListCommand().execute(model);
+        new ListCommand(ModelManager.PREDICATE_SHOW_ALL_RECRUITS, ListOperation.FULL_LIST_OP).execute(model);
         new UndoCommand().execute(model);
         new UndoCommand().execute(model);
 
@@ -53,7 +54,7 @@ public class RedoCommandTest {
     public void execute_noRedoableOperationExists_failure() throws Exception {
         new AddCommand(AMY).execute(model);
         new DeleteCommand(ALICE.getID()).execute(model);
-        new ListCommand().execute(model);
+        new ListCommand(ModelManager.PREDICATE_SHOW_ALL_RECRUITS, ListOperation.FULL_LIST_OP).execute(model);
 
         assertCommandFailure(new RedoCommand(), model, RedoCommand.MESSAGE_NO_OPERATION_TO_REDO);
     }

@@ -39,6 +39,8 @@ public class RecruitCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label archivedLabel;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -55,5 +57,8 @@ public class RecruitCard extends UiPart<Region> {
         recruit.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        archivedLabel.setVisible(recruit.isArchived());
+        archivedLabel.setManaged(recruit.isArchived());
     }
 }
