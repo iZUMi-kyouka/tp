@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
+import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
 import static seedu.address.testutil.TypicalRecruits.AMY;
 import static seedu.address.testutil.TypicalRecruits.BENSON;
+import static seedu.address.testutil.TypicalRecruits.BOB;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import java.nio.file.Path;
@@ -123,8 +125,52 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void canUndoAddressBook_undoableOperationExists_returnsFalse() {
+    public void canUndoAddressBook_noUndoableOperationExists_returnsFalse() {
         assertFalse(modelManager.canUndoAddressBook());
+    }
+
+    @Test
+    public void redoAddressBook_redoableOperationExists_success() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.addRecruit(AMY);
+        modelManager.commitAddressBook("add Amy");
+        modelManager.undoAddressBook();
+        modelManager.redoAddressBook();
+
+        AddressBook expectedAddressBook = getTypicalAddressBook();
+        expectedAddressBook.addRecruit(AMY);
+        ModelManager expectedModelManager = new ModelManager(expectedAddressBook, new UserPrefs());
+
+        assertEquals(expectedModelManager, modelManager);
+    }
+
+
+    @Test
+    public void redoAddressBook_noRedoableOperationExists_failure() {
+        assertThrows(IllegalStateException.class, () -> modelManager.redoAddressBook());
+    }
+
+    @Test
+    public void canRedoAddressBook_redoableOperationExists_returnsTrue() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.addRecruit(AMY);
+        modelManager.commitAddressBook("add Amy");
+        modelManager.undoAddressBook();
+        assertTrue(modelManager.canRedoAddressBook());
+    }
+
+    @Test
+    public void canRedoAddressBook_noRedoableOperationExists_returnsFalse() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.addRecruit(AMY);
+        modelManager.commitAddressBook("add Amy");
+
+        modelManager.undoAddressBook();
+
+        modelManager.addRecruit(BOB);
+        modelManager.commitAddressBook("add Bob");
+
+        assertFalse(modelManager.canRedoAddressBook());
     }
 
     @Test
@@ -169,7 +215,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        modelManager.updateFilteredRecruitList(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();

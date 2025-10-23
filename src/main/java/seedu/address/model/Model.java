@@ -16,6 +16,8 @@ import seedu.address.model.recruit.Recruit;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Recruit> PREDICATE_SHOW_ALL_RECRUITS = unused -> true;
+    Predicate<Recruit> PREDICATE_SHOW_UNARCHVIED_RECRUITS = recruit -> !recruit.isArchived();
+    Predicate<Recruit> PREDICATE_SHOW_ARCHIVED_RECRUITS = Recruit::isArchived;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -85,16 +87,28 @@ public interface Model {
     ObservableList<Recruit> getFilteredRecruitList();
 
     /**
-     * Returns the recruit with the given ID.
+     * Returns the filtered recruit with the given ID.
      * @throws IllegalArgumentException if there is no recruit with the given ID.
      */
     Optional<Recruit> getFilteredRecruitByID(UUID id);
+
+    /**
+     * Returns the unfiltered recruit with the given ID.
+     * @throws IllegalArgumentException if there is no recruit with the given ID.
+     */
+    Optional<Recruit> getUnfilteredRecruitByID(UUID id);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredRecruitList(Predicate<Recruit> predicate);
+
+    /**
+     * Refreshes the recruit list on modification of recruits, ensuring that all
+     * listed recruits match the current {@code predicate}
+     */
+    void refreshFilteredRecruitList();
 
     /**
      * Saves the current address book state in history.
@@ -107,7 +121,17 @@ public interface Model {
     String undoAddressBook();
 
     /**
+     * Restores the last undone address book state from its history.
+     */
+    String redoAddressBook();
+
+    /**
      * Checks if undo operation is possible.
      */
     boolean canUndoAddressBook();
+
+    /**
+     * Checks if redo operation is possible.
+     */
+    boolean canRedoAddressBook();
 }

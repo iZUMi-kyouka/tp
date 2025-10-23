@@ -31,6 +31,8 @@ public class RecruitCard extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
+    private Label index;
+    @FXML
     private Label id;
     @FXML
     private Label phone;
@@ -38,6 +40,8 @@ public class RecruitCard extends UiPart<Region> {
     private Label address;
     @FXML
     private Label email;
+    @FXML
+    private Label archivedLabel;
     @FXML
     private FlowPane tags;
 
@@ -47,7 +51,8 @@ public class RecruitCard extends UiPart<Region> {
     public RecruitCard(Recruit recruit, int displayedIndex) {
         super(FXML);
         this.recruit = recruit;
-        id.setText(displayedIndex + ". ");
+        index.setText(displayedIndex + ". ");
+        id.setText(recruit.getID().toString());
         name.setText(recruit.getName().fullName);
         phone.setText(recruit.getPhone().value);
         address.setText(recruit.getAddress().value);
@@ -55,5 +60,8 @@ public class RecruitCard extends UiPart<Region> {
         recruit.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        archivedLabel.setVisible(recruit.isArchived());
+        archivedLabel.setManaged(recruit.isArchived());
     }
 }

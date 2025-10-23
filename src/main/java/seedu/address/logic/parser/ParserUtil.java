@@ -2,8 +2,14 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,6 +17,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -23,7 +30,8 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_ID = "ID is not in UUID format";
-
+    public static final String MESSAGE_EMPTY_FILEPATH = "The file path provided is empty";
+    public static final String MESSAGE_INVALID_FILEPATH = "The file path provided is invalid";
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -113,6 +121,25 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String description} into an {@code Description}.
+     * Leading and trailing whitespaces will be trimmed.
+     * Note that we allow null to be returned as a {@code Description},
+     * indicating no description provided
+     *
+     * @throws ParseException if the given {@code email} is invalid.
+     */
+    public static Description parseDescription(String description) throws ParseException {
+        if (description == null) {
+            return null;
+        }
+        String trimmedDescription = description.trim();
+        if (!Description.isValidDescription(trimmedDescription)) {
+            throw new ParseException(Description.MESSAGE_CONSTRAINTS);
+        }
+        return new Description(trimmedDescription);
+    }
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -137,5 +164,55 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String pathStr} into a {@code Path} object after validating it.
+     * The method ensures that the provided path string is non-empty, syntactically valid,
+     * and that its parent directory (if any) exists in the file system.
+     *
+     * @param pathStr The string representing the file path to parse.
+     * @return A {@code Path} object representing the specified file path.
+     * @throws ParseException If the path string is invalid, empty, or refers to a non-existent directory.
+     */
+    public static Path parsePath(String pathStr) throws ParseException {
+        try {
+            requireNonNull(pathStr);
+            String trimmed = pathStr.trim();
+            if (trimmed.isEmpty()) {
+                throw new ParseException(MESSAGE_EMPTY_FILEPATH);
+            }
+            Path path = Paths.get(trimmed);
+            if (Files.exists(path) && !Files.isWritable(path)) {
+                throw new ParseException(MESSAGE_INVALID_FILEPATH);
+            }
+            Path parent = path.getParent();
+            if (parent != null && !Files.exists(parent)) {
+                throw new ParseException(MESSAGE_INVALID_FILEPATH);
+            }
+            return path;
+        } catch (InvalidPathException e) {
+            throw new ParseException(MESSAGE_INVALID_FILEPATH, e);
+        }
+    }
+    /**
+     * Parses all values from ArgumentMultimap for the given prefix using the given parser.
+     */
+    public static <T> List<T> parseAllValues(
+            List<String> values, ParserFunction<String, T> parser) throws ParseException {
+        List<T> parsedValues = new ArrayList<>();
+        for (String s : values) {
+            parsedValues.add(parser.apply(s));
+        }
+
+        return parsedValues;
+    }
+
+    /**
+     * Functional interface with checked exceptions.
+     */
+    @FunctionalInterface
+    public interface ParserFunction<T, R> {
+        R apply(T t) throws ParseException;
     }
 }

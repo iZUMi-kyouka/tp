@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.UniqueRecruitList;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -25,6 +26,7 @@ public class ModelManager implements Model {
     private final VersionedAddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Recruit> filteredRecruits;
+    private Predicate<Recruit> currPredicate = PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -36,7 +38,8 @@ public class ModelManager implements Model {
 
         this.addressBook = new VersionedAddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredRecruits = new FilteredList<>(this.addressBook.getRecruitList());
+        filteredRecruits = new FilteredList<>(this.addressBook.getRecruitList())
+                .filtered(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
     }
 
     public ModelManager() {
@@ -104,7 +107,7 @@ public class ModelManager implements Model {
     @Override
     public void addRecruit(Recruit recruit) {
         addressBook.addRecruit(recruit);
-        updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        updateFilteredRecruitList(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
     }
 
     @Override
@@ -134,10 +137,22 @@ public class ModelManager implements Model {
     public void updateFilteredRecruitList(Predicate<Recruit> predicate) {
         requireNonNull(predicate);
         filteredRecruits.setPredicate(predicate);
+        this.currPredicate = predicate;
     }
 
+    @Override
+    public void refreshFilteredRecruitList() {
+        updateFilteredRecruitList(this.currPredicate);
+    }
+
+    @Override
     public Optional<Recruit> getFilteredRecruitByID(UUID id) {
-        return this.filteredRecruits.stream().findFirst().filter(x -> x.getID().equals(id));
+        return this.filteredRecruits.stream().filter(x -> x.getID().equals(id)).findFirst();
+    }
+
+    @Override
+    public Optional<Recruit> getUnfilteredRecruitByID(UUID id) {
+        return this.getAddressBook().getRecruitList().stream().filter(x -> x.getID().equals(id)).findFirst();
     }
 
     @Override
@@ -152,9 +167,16 @@ public class ModelManager implements Model {
         }
 
         ModelManager otherModelManager = (ModelManager) other;
-        return addressBook.equals(otherModelManager.addressBook)
+
+        UniqueRecruitList filteredRecruitsList = new UniqueRecruitList();
+        filteredRecruitsList.setRecruits(filteredRecruits.stream().toList());
+        UniqueRecruitList otherFilteredRecruitsList = new UniqueRecruitList();
+        otherFilteredRecruitsList.setRecruits(otherModelManager.filteredRecruits.stream().toList());
+        return (addressBook.equals(otherModelManager.addressBook)
+                || addressBook.hasSameRecruits(otherModelManager.addressBook))
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredRecruits.equals(otherModelManager.filteredRecruits);
+                && (filteredRecruits.equals(otherModelManager.filteredRecruits)
+                || filteredRecruitsList.hasSameRecruits(otherFilteredRecruitsList));
     }
 
     @Override
@@ -170,7 +192,19 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public String redoAddressBook() {
+        String redoneCommand = addressBook.redo();
+        updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        return redoneCommand;
+    }
+
+    @Override
     public boolean canUndoAddressBook() {
         return addressBook.canUndoAddressBook();
+    }
+
+    @Override
+    public boolean canRedoAddressBook() {
+        return addressBook.canRedoAddressBook();
     }
 }
