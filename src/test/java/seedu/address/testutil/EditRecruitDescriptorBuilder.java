@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -39,6 +40,7 @@ public class EditRecruitDescriptorBuilder {
         descriptor.setPhones(recruit.getPhones());
         descriptor.setEmails(recruit.getEmails());
         descriptor.setAddresses(recruit.getAddresses());
+        descriptor.setDescription(recruit.getDescription());
         descriptor.setTags(recruit.getTags());
     }
     /**
@@ -80,6 +82,15 @@ public class EditRecruitDescriptorBuilder {
         descriptor.setAddresses(List.of(new Address(address)));
         return this;
     }
+
+    /**
+     * Sets the {@code Description} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withDescription(String description) {
+        descriptor.setDescription(new Description(description));
+        return this;
+    }
+
 
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}

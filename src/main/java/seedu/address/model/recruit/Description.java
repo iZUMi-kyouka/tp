@@ -14,7 +14,7 @@ public class Description {
      * For now it is redundant, but we leave it in case we want to impose
      * restrictions in the future.
      */
-    public static final String VALIDATION_REGEX = ".*";
+    public static final String VALIDATION_REGEX = "(?s).*";
 
     public final String value;
 
