@@ -52,7 +52,7 @@ public class CsvUtil {
      */
     public static String recruitsToCsvString(List<Recruit> recruits) {
         StringBuilder sb = new StringBuilder();
-        sb.append("ID,Names,Phones,Emails,Addresses,Tags\n");
+        sb.append("ID,Names,Phones,Emails,Addresses,Tags,Description,IsArchived\n");
 
         for (Recruit r : recruits) {
             String names = escapeCsvField(r.getNames().stream().map(Object::toString)
@@ -65,8 +65,11 @@ public class CsvUtil {
                     .collect(Collectors.joining(";")));
             String tags = escapeCsvField(r.getTags().stream().map(Object::toString)
                     .collect(Collectors.joining(";")));
+            String description = escapeCsvField(r.getDescription().toString());
+            String isArchived = Boolean.toString(r.isArchived());
 
-            sb.append(String.join(",", r.getID().toString(), names, phones, emails, addresses, tags));
+            sb.append(String.join(",",
+                    r.getID().toString(), names, phones, emails, addresses, tags, description, isArchived));
             sb.append("\n");
         }
 
@@ -127,13 +130,14 @@ public class CsvUtil {
                     .map(s -> s.replaceAll("^\"|\"$", ""))
                     .map(Address::new)
                     .toList();
-            Description description = new Description(cols[5]);
             Set<Tag> tags = Arrays.stream(cols[5].split(";"))
                     .map(s -> s.replaceAll("^\\[|\\]$", ""))
                     .map(Tag::new)
                     .collect(Collectors.toSet());
+            Description description = new Description(cols[6]);
+            boolean isArchived = Boolean.parseBoolean(cols[7]);
 
-            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, false));
+            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, isArchived));
         }
         return recruits;
     }

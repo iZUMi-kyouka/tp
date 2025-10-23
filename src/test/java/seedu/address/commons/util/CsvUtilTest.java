@@ -39,8 +39,9 @@ public class CsvUtilTest {
                 List.of(new Phone("12345678"), new Phone("87654321")),
                 List.of(new Email("alice@example.com")),
                 List.of(new Address("123, Wonderland Street")),
-                new Description(""),
-                Set.of(new Tag("friend"), new Tag("colleague")), false
+                new Description("Description"),
+                Set.of(new Tag("friend"), new Tag("colleague")),
+                false
         );
     }
 
@@ -104,8 +105,9 @@ public class CsvUtilTest {
                 List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
                 List.of(), List.of(),
                 List.of(new Address(fieldWithComma)),
-                new Description(""),
-                Set.of(), false);
+                new Description("Description"),
+                Set.of(),
+                false);
         String csvComma = CsvUtil.recruitsToCsvString(List.of(recruitWithComma));
         String csvLineComma = csvComma.split("\n")[1];
         String[] colsComma = csvLineComma.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
@@ -116,8 +118,9 @@ public class CsvUtilTest {
                 List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
                 List.of(), List.of(),
                 List.of(new Address(fieldWithQuote)),
-                new Description(""),
-                Set.of(), false);
+                new Description("Description"),
+                Set.of(),
+                false);
         String csvQuote = CsvUtil.recruitsToCsvString(List.of(recruitWithQuote));
         String csvLineQuote = csvQuote.split("\n")[1];
         String[] colsQuote = csvLineQuote.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
