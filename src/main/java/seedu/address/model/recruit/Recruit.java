@@ -48,7 +48,7 @@ public class Recruit {
      */
     public Recruit(Name name, Phone phone, Email email, Address address,
                    Description description, Set<Tag> tags) {
-        this(UUID.randomUUID(), name, phone, email, description, address, tags, false);
+        this(name, phone, email, address, description, tags, false);
     }
 
     /**

@@ -36,6 +36,24 @@ public class Description {
         return new Description("-");
     }
 
+    /**
+     * Combines to different description. The other description gets merged into this description
+     *
+     * @param otherDescription description to append
+     * @return the combined descriptions
+     */
+    public Description appendDescription(Description otherDescription) {
+        if (this.value.equals("-")) {
+            return new Description(otherDescription.value);
+        }
+
+        if (otherDescription.value.equals("-")) {
+            return this;
+        }
+
+        return new Description(this.value + otherDescription.value);
+    }
+
     @Override
     public String toString() {
         return value;

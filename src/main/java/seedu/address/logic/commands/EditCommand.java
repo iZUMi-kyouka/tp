@@ -172,8 +172,11 @@ public class EditCommand extends Command {
         List<Phone> updatedPhones = combine(List.of(rec.getPhones(), desc.getPhone().orElse(List.of())));
         List<Email> updatedEmails = combine(List.of(rec.getEmails(), desc.getEmail().orElse(List.of())));
         List<Address> updatedAddresses = combine(List.of(rec.getAddresses(), desc.getAddress().orElse(List.of())));
+        Description updatedDescription = rec.getDescription()
+                .appendDescription(desc.getDescription().orElse(new Description("")));
         Set<Tag> updatedTags = new HashSet<>(combine(List.of(rec.getTags(), desc.getTags().orElse(new HashSet<>()))));
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
+                updatedDescription, updatedTags, false);
     }
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -184,7 +187,8 @@ public class EditCommand extends Command {
         List<Address> updatedAddresses = new ArrayList<>(
                 desc.getAddress().orElse(rec.getAddresses()));
         Set<Tag> updatedTags = desc.getTags().orElse(rec.getTags());
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
+                new Description(""), updatedTags, false);
     }
 
     private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -200,7 +204,8 @@ public class EditCommand extends Command {
                 .filter(n -> !desc.getAddress().orElse(List.of()).contains(n)).toList();
         Set<Tag> updatedTags = rec.getTags().stream()
                 .filter(n -> !desc.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
+                new Description(""), updatedTags, false);
     }
 
     @Override
