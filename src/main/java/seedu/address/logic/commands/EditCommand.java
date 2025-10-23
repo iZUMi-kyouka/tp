@@ -103,8 +103,9 @@ public class EditCommand extends Command {
         List<Email> updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails());
         List<Address> updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
-
-        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        boolean isArchived = recruitToEdit.isArchived();
+        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
+                isArchived);
     }
 
     @Override

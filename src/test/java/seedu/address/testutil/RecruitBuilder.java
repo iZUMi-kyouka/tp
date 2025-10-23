@@ -29,6 +29,7 @@ public class RecruitBuilder {
     private List<Email> email;
     private List<Address> address;
     private Set<Tag> tags;
+    private boolean isArchived;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -40,6 +41,7 @@ public class RecruitBuilder {
         email = List.of(new Email(DEFAULT_EMAIL));
         address = List.of(new Address(DEFAULT_ADDRESS));
         tags = new HashSet<>();
+        isArchived = false;
     }
 
     /**
@@ -52,6 +54,7 @@ public class RecruitBuilder {
         email = recruitToCopy.getEmails();
         address = recruitToCopy.getAddresses();
         tags = new HashSet<>(recruitToCopy.getTags());
+        isArchived = recruitToCopy.isArchived();
     }
 
     /**
@@ -134,8 +137,16 @@ public class RecruitBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Archive Status} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withArchivedStatus(boolean isArchived) {
+        this.isArchived = isArchived;
+        return this;
+    }
+
     public Recruit build() {
-        return new Recruit(id, name, phone, email, address, tags);
+        return new Recruit(id, name, phone, email, address, tags, isArchived);
     }
 
 }
