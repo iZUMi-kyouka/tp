@@ -46,7 +46,7 @@ public class AddressBookTest {
     @Test
     public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
         // Two persons with the same identity fields
-        Recruit editedAlice = new RecruitBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Recruit editedAlice = new RecruitBuilder(ALICE)
                 .build();
         List<Recruit> newRecruits = Arrays.asList(ALICE, editedAlice);
         AddressBookStub newData = new AddressBookStub(newRecruits);
