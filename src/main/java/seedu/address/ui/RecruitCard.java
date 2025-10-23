@@ -31,6 +31,8 @@ public class RecruitCard extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
+    private Label index;
+    @FXML
     private Label id;
     @FXML
     private Label phone;
@@ -49,7 +51,8 @@ public class RecruitCard extends UiPart<Region> {
     public RecruitCard(Recruit recruit, int displayedIndex) {
         super(FXML);
         this.recruit = recruit;
-        id.setText(displayedIndex + ". ");
+        index.setText(displayedIndex + ". ");
+        id.setText(recruit.getID().toString());
         name.setText(recruit.getName().fullName);
         phone.setText(recruit.getPhone().value);
         address.setText(recruit.getAddress().value);
