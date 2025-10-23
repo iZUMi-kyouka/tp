@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -11,6 +12,10 @@ import java.util.stream.Stream;
  * Utility methods related to Collections
  */
 public class CollectionUtil {
+
+    public static <T> List<T> combine(Collection<Collection<T>> c) {
+        return c.stream().flatMap(Collection::stream).toList();
+    }
 
     /** @see #requireAllNonNull(Collection) */
     public static void requireAllNonNull(Object... items) {
@@ -31,6 +36,15 @@ public class CollectionUtil {
      */
     public static void requireNonEmpty(Collection<?> items) throws IllegalArgumentException {
         if (items.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Throws IllegalArgumentException if more than, or less than one item in {@code items} is true.
+     */
+    public static void requireExactlyOneIsTrue(Collection<Boolean> items) throws IllegalArgumentException {
+        if (items.stream().filter(b -> b).count() != 1) {
             throw new IllegalArgumentException();
         }
     }

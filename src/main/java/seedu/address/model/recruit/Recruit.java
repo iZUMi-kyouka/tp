@@ -82,6 +82,15 @@ public class Recruit {
     }
 
     /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
+    public Recruit(UUID id, List<Name> names, List<Phone> phones,
+            List<Email> emails, List<Address> addresses, Set<Tag> tags) {
+        this(id, names, phones, emails, addresses, tags, false);
+    }
+
+    /**
      * Every field must be present and not null.
      */
     public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails,

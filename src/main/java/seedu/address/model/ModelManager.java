@@ -143,10 +143,12 @@ public class ModelManager implements Model {
         updateFilteredRecruitList(this.currPredicate);
     }
 
+    @Override
     public Optional<Recruit> getFilteredRecruitByID(UUID id) {
         return this.filteredRecruits.stream().filter(x -> x.getID().equals(id)).findFirst();
     }
 
+    @Override
     public Optional<Recruit> getUnfilteredRecruitByID(UUID id) {
         return this.getAddressBook().getRecruitList().stream().filter(x -> x.getID().equals(id)).findFirst();
     }

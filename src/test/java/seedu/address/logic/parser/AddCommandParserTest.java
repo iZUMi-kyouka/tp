@@ -70,27 +70,27 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND;
 
         // multiple names
-        Recruit recruit = new RecruitBuilder(BOB).withAdditionalName(AMY.getName().fullName).build();
+        Recruit recruit = new RecruitBuilder(BOB).withAdditionalNames(AMY.getName().fullName).build();
         assertParseSuccess(parser, validExpectedRecruitString + NAME_DESC_AMY, new AddCommand(recruit));
 
         // multiple phones
-        recruit = new RecruitBuilder(BOB).withAdditionalPhone(AMY.getPhone().value).build();
+        recruit = new RecruitBuilder(BOB).withAdditionalPhones(AMY.getPhone().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + PHONE_DESC_AMY, new AddCommand(recruit));
 
         // multiple emails
-        recruit = new RecruitBuilder(BOB).withAdditionalEmail(AMY.getEmail().value).build();
+        recruit = new RecruitBuilder(BOB).withAdditionalEmails(AMY.getEmail().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + EMAIL_DESC_AMY, new AddCommand(recruit));
 
         // multiple addresses
-        recruit = new RecruitBuilder(BOB).withAdditionalAddress(AMY.getAddress().value).build();
+        recruit = new RecruitBuilder(BOB).withAdditionalAddresses(AMY.getAddress().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + ADDRESS_DESC_AMY, new AddCommand(recruit));
 
         // multiple fields repeated
         recruit = new RecruitBuilder(BOB)
-                        .withAdditionalName(AMY.getName().fullName)
-                        .withAdditionalPhone(AMY.getPhone().value)
-                        .withAdditionalEmail(AMY.getEmail().value)
-                        .withAdditionalAddress(AMY.getAddress().value).build();
+                        .withAdditionalNames(AMY.getName().fullName)
+                        .withAdditionalPhones(AMY.getPhone().value)
+                        .withAdditionalEmails(AMY.getEmail().value)
+                        .withAdditionalAddresses(AMY.getAddress().value).build();
         assertParseSuccess(parser,
                 validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(recruit));
