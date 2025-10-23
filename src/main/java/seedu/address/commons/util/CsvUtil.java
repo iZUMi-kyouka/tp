@@ -106,7 +106,7 @@ public class CsvUtil {
         requireNonNull(csv);
         String[] lines = csv.split("\n");
 
-        if (lines.length <= 1) { // empty or only header
+        if (lines.length <= 1) {
             return new ArrayList<>();
         }
 
@@ -119,14 +119,20 @@ public class CsvUtil {
                 continue;
             }
 
-            String[] cols = line.split(",", -1);
+            String[] cols = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
             UUID id = UUID.fromString(cols[0]);
             List<Name> names = Arrays.stream(cols[1].split(";")).map(Name::new).toList();
             List<Phone> phones = Arrays.stream(cols[2].split(";")).map(Phone::new).toList();
             List<Email> emails = Arrays.stream(cols[3].split(";")).map(Email::new).toList();
-            List<Address> addresses = Arrays.stream(cols[4].split(";")).map(Address::new).toList();
-            Set<Tag> tags = Arrays.stream(cols[5].split(";")).map(Tag::new).collect(Collectors.toSet());
+            List<Address> addresses = Arrays.stream(cols[4].split(";"))
+                    .map(s -> s.replaceAll("^\"|\"$", ""))
+                    .map(Address::new)
+                    .toList();
+            Set<Tag> tags = Arrays.stream(cols[5].split(";"))
+                    .map(s -> s.replaceAll("^\\[|\\]$", ""))
+                    .map(Tag::new)
+                    .collect(Collectors.toSet());
 
             recruits.add(new Recruit(id, names, phones, emails, addresses, tags));
         }
