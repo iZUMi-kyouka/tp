@@ -1,13 +1,14 @@
 package seedu.address.logic;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -51,7 +52,8 @@ public class SampleDataUtilTest {
         assertEquals("Blk 11 Ang Mo Kio Street 74, #11-04", charlotte.getAddress().toString());
         assertEquals("Project manager skilled in agile methodologies.",
                 charlotte.getDescription().toString());
-        assertTrue(charlotte.getTags().stream().map(Tag::toString).collect(Collectors.toSet()).contains("[neighbours]"));
+        assertTrue(charlotte.getTags().stream().map(Tag::toString)
+                .collect(Collectors.toSet()).contains("[neighbours]"));
 
         // David Li
         Recruit david = recruits[3];
