@@ -163,7 +163,7 @@ public class Recruit {
     }
 
     /**
-     * Returns true if both persons have the same id.
+     * Returns true if both persons have the same fields except id.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSameRecruit(Recruit otherRecruit) {
