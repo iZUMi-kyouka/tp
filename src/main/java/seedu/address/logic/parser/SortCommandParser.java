@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.SortCommand.SortCriterion;
@@ -39,33 +38,23 @@ public class SortCommandParser implements Parser<SortCommand> {
     @Override
     public SortCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(
-                        args,
-                        SORT_PREFIX_NAME,
-                        SORT_PREFIX_PHONE,
-                        SORT_PREFIX_EMAIL,
-                        SORT_PREFIX_ADDRESS
-                );
+        String trimmedArgs = args.trim();
 
-        boolean isInvalidCommand = (
-                !arePrefixesPresent(argMultimap, SORT_PREFIX_NAME)
-                        && !arePrefixesPresent(argMultimap, SORT_PREFIX_PHONE)
-                        && !arePrefixesPresent(argMultimap, SORT_PREFIX_EMAIL)
-                        && !arePrefixesPresent(argMultimap, SORT_PREFIX_ADDRESS)
-                        && argMultimap.getPreamble().isEmpty()
-        );
-
-        if (isInvalidCommand) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        // Handle shorthands: "sort" or "sort asc" -> sort by name ascending
+        // "sort desc" -> sort by name descending
+        if (trimmedArgs.isEmpty() || trimmedArgs.equalsIgnoreCase(ASCENDING)) {
+            List<SortCriterion> sortCriteria = new ArrayList<>();
+            sortCriteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
+            return new SortCommand(sortCriteria);
+        } else if (trimmedArgs.equalsIgnoreCase(DESCENDING)) {
+            List<SortCriterion> sortCriteria = new ArrayList<>();
+            sortCriteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.DESCENDING));
+            return new SortCommand(sortCriteria);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(
-                SORT_PREFIX_NAME, SORT_PREFIX_PHONE, SORT_PREFIX_EMAIL, SORT_PREFIX_ADDRESS);
-
+        // Otherwise, parse the full format with prefixes
         List<SortCriterion> sortCriteria = new ArrayList<>();
-
-        List<PrefixOrderPair> pairs = extractPrefixOrderPairs(args.trim());
+        List<PrefixOrderPair> pairs = extractPrefixOrderPairs(trimmedArgs);
 
         for (PrefixOrderPair pair : pairs) {
             Prefix prefix = parseSortField(pair.prefixString);
@@ -160,12 +149,5 @@ public class SortCommandParser implements Parser<SortCommand> {
             this.prefixString = prefixString;
             this.order = order;
         }
-    }
-
-    /**
-     * Returns true if all the specified prefixes are present in the given ArgumentMultimap.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
