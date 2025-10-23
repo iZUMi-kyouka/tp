@@ -164,4 +164,41 @@ public class UniqueRecruitListTest {
     public void toStringMethod() {
         assertEquals(uniqueRecruitList.asUnmodifiableObservableList().toString(), uniqueRecruitList.toString());
     }
+
+    @Test
+    public void hasSameRecruits_variousCasesIncludingDifferentFields() {
+        UniqueRecruitList list1 = new UniqueRecruitList();
+        UniqueRecruitList list2 = new UniqueRecruitList();
+
+        // Add ALICE to both lists
+        list1.add(ALICE);
+        list2.add(ALICE);
+
+        // 1. Same object
+        assertTrue(list1.hasSameRecruits(list1));
+
+        // 2. Different object, same recruits
+        assertTrue(list1.hasSameRecruits(list2));
+
+        // 3. Different object, different recruits
+        list2.setRecruits(Collections.singletonList(BOB));
+        assertFalse(list1.hasSameRecruits(list2));
+
+        // 4. Same recruit but different fields
+        Recruit editedBob = new RecruitBuilder(BOB)
+                .withAddress(VALID_ADDRESS_BOB)
+                .build();
+        list2.setRecruits(Collections.singletonList(editedBob));
+        UniqueRecruitList list3 = new UniqueRecruitList();
+        list3.add(BOB);
+        assertTrue(list2.hasSameRecruits(list3));
+
+        // 5. Different type or null object
+        assertFalse(list1.hasSameRecruits(null));
+        assertFalse(list1.hasSameRecruits(1));
+
+        // 6. Different sizes
+        list2.add(ALICE);
+        assertFalse(list1.hasSameRecruits(list2));
+    }
 }
