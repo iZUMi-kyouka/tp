@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -167,7 +168,7 @@ public class ExportCommandTest {
         }
 
         @Override
-        public void sortRecruits() {
+        public void sortRecruits(Comparator<Recruit> comparator) {
             throw new AssertionError();
         }
 
