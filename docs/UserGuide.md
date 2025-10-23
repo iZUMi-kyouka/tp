@@ -98,15 +98,11 @@ Shows a list of all recruits in the address book.
 
 Format: `list`
 
-### Editing a recruit : `edit`
-
-Edits an existing recruit in the address book.
-
 ### Viewing a recruit : `view`
 
 View the recruit located at the a particular index from the address book.
 
-Format: `delete INDEX/UUID`
+Format: `view INDEX/UUID`
 
 * Displays the full details of the recruit at the specified `INDEX` or `UUID` in the recruit list.
 * The index refers to the index number shown in the displayed recruit list.
@@ -116,6 +112,10 @@ Examples:
 * `list` followed by `view 2` displays the 2nd recruit in the address book.
 * `find Betsy` followed by `view 1` displays the 1st recruit in the results of the `find` command.
 
+
+### Editing a recruit : `edit`
+
+Edits an existing recruit in the address book.
 
 Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DESCRIPTION] [t/TAG]…​`
 
