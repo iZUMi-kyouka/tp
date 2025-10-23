@@ -108,7 +108,7 @@ public class EditCommand extends Command {
         Description updatedDescription = editRecruitDescriptor.getDescription().orElse(recruitToEdit.getDescription());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
 
-        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedDescription, updatedTags);
     }
 
     @Override

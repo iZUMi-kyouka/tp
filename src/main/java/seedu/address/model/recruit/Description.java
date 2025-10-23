@@ -7,7 +7,16 @@ import static java.util.Objects.requireNonNull;
  * Guarantees: immutable
  */
 public class Description {
-    public final String description;
+    public static final String MESSAGE_CONSTRAINTS = "Descriptions can take any values, and can be blank";
+
+    /*
+     * Descriptions can take any character.
+     * For now it is redundant, but we leave it in case we want to impose
+     * restrictions in the future.
+     */
+    public static final String VALIDATION_REGEX = ".*";
+
+    public final String value;
 
     /**
      * Constructs a {@code Description}.
@@ -16,13 +25,20 @@ public class Description {
      */
     public Description(String description) {
         requireNonNull(description);
-        this.description = description;
+        this.value = description;
     }
 
+    public static boolean isValidDescription(String test) {
+        return test.matches(VALIDATION_REGEX);
+    }
+
+    public static Description createEmptyDescription() {
+        return new Description("-");
+    }
 
     @Override
     public String toString() {
-        return description;
+        return value;
     }
 
     @Override
@@ -37,12 +53,12 @@ public class Description {
         }
 
         Description otherDescription = (Description) other;
-        return description.equals(otherDescription.description);
+        return value.equals(otherDescription.value);
     }
 
     @Override
     public int hashCode() {
-        return description.hashCode();
+        return value.hashCode();
     }
 
 }

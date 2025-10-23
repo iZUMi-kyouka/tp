@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
@@ -31,7 +32,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     public FindCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, SEARCH_PREFIX_ID, SEARCH_PREFIX_NAME, SEARCH_PREFIX_PHONE,
-                        SEARCH_PREFIX_EMAIL, SEARCH_PREFIX_ADDRESS, SEARCH_PREFIX_TAG);
+                        SEARCH_PREFIX_EMAIL, SEARCH_PREFIX_ADDRESS, SEARCH_PREFIX_DESCRIPTION, SEARCH_PREFIX_TAG);
 
         boolean isInvalidCommand = (!arePrefixesPresent(argMultimap, SEARCH_PREFIX_ID)
                 && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_NAME)

@@ -26,46 +26,41 @@ public class Recruit {
     private final List<Name> names;
     private final List<Phone> phones;
     private final List<Email> emails;
-    private Description description;
 
     // Data fields
     private final List<Address> addresses;
+    private Description description;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        this(UUID.randomUUID(), name, phone, email, address, tags);
+    public Recruit(Name name, Phone phone, Email email, Address address,
+                   Description description, Set<Tag> tags) {
+        this(UUID.randomUUID(), name, phone, email, address, description, tags);
     }
 
     /**
      * Every must be present and not null.
      */
-    public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(id, name, phone, email, address, tags);
-        requireAllNonBlankString(List.of(name, phone, email, address).stream().map(Object::toString).toList());
-        requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
-
-        this.names = List.of(name);
-        this.phones = List.of(phone);
-        this.emails = List.of(email);
-        this.addresses = List.of(address);
-        this.tags.addAll(tags);
-        this.id = id;
+    public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
+                   Description description, Set<Tag> tags) {
+        this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags) {
-        this(UUID.randomUUID(), names, phones, emails, addresses, tags);
+    public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses,
+                   Description description, Set<Tag> tags) {
+        this(UUID.randomUUID(), names, phones, emails, addresses, description, tags);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags) {
+    public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses,
+                   Description description, Set<Tag> tags) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
         requireNonEmpty(names);
         requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
@@ -76,7 +71,7 @@ public class Recruit {
         this.phones = phones;
         this.emails = emails;
         this.addresses = addresses;
-        this.description = description;
+        this.description = description == null ? Description.createEmptyDescription() : description;
         this.tags.addAll(tags);
         this.id = id;
     }
@@ -184,5 +179,4 @@ public class Recruit {
                 .add("tags", tags)
                 .toString();
     }
-
 }
