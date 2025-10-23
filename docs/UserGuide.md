@@ -80,7 +80,7 @@ Format: `help`
 
 Adds a recruit to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS d/DESCRIPTION [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -89,6 +89,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `add n/Jenny Mantle p/66612873 e/jenneram@example.com a/Shadow maze, block 3, #01-01 d/Considered a friend inside t/boss`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
 ### Listing all recruits : `list`
@@ -101,7 +102,22 @@ Format: `list`
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+### Viewing a recruit : `view`
+
+View the recruit located at the a particular index from the address book.
+
+Format: `delete INDEX/UUID`
+
+* Displays the full details of the recruit at the specified `INDEX` or `UUID` in the recruit list.
+* The index refers to the index number shown in the displayed recruit list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `list` followed by `view 2` displays the 2nd recruit in the address book.
+* `find Betsy` followed by `view 1` displays the 1st recruit in the results of the `find` command.
+
+
+Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DESCRIPTION] [t/TAG]…​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
@@ -222,3 +238,4 @@ Action     | Format, Examples
 **List**   | `list`
 **Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
 **Help**   | `help`
+**View**   | `view INDEX/UUID`<br> e.g., `view 2`
