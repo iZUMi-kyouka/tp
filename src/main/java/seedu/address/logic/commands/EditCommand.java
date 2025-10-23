@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -46,6 +47,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -148,6 +150,9 @@ public class EditCommand extends Command {
                 .append("\n Address: ")
                 .append(person.getAddress())
                 .append(delta.getAddress().map(a -> String.format(DELTA_FORMAT, a)).orElse(""))
+                .append("\n Description: ")
+                .append(person.getDescription())
+                .append(delta.getDescription().map(d -> String.format(DELTA_FORMAT, d)).orElse(""))
                 .append("\n Tags: ");
         person.getTags().forEach(builder::append);
 
@@ -192,7 +197,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(id, name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(id, name, phone, email, address, description, tags);
         }
 
         public void setID(UUID id) {
@@ -274,6 +279,7 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditRecruitDescriptor.phone)
                     && Objects.equals(email, otherEditRecruitDescriptor.email)
                     && Objects.equals(address, otherEditRecruitDescriptor.address)
+                    && Objects.equals(description, otherEditRecruitDescriptor.description)
                     && Objects.equals(tags, otherEditRecruitDescriptor.tags);
         }
 
