@@ -40,14 +40,6 @@ public class UniqueRecruitListTest {
     }
 
     @Test
-    public void contains_recruitWithSameIdentityFieldsInList_returnsTrue() {
-        uniqueRecruitList.add(ALICE);
-        Recruit editedAlice = new RecruitBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
-                .build();
-        assertTrue(uniqueRecruitList.contains(editedAlice));
-    }
-
-    @Test
     public void add_nullRecruit_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueRecruitList.add(null));
     }

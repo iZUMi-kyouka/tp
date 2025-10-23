@@ -44,5 +44,4 @@ public class JsonSerializableAddressBookTest {
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_RECRUIT,
                 dataFromFile::toModelType);
     }
-
 }

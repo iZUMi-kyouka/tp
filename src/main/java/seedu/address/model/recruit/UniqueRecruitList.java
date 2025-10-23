@@ -169,7 +169,7 @@ public class UniqueRecruitList implements Iterable<Recruit> {
     private boolean recruitsAreUnique(List<Recruit> recruits) {
         for (int i = 0; i < recruits.size() - 1; i++) {
             for (int j = i + 1; j < recruits.size(); j++) {
-                if (recruits.get(i).isSameRecruit(recruits.get(j))) {
+                if (recruits.get(i).equals(recruits.get(j))) {
                     return false;
                 }
             }
