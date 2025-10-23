@@ -46,6 +46,7 @@ public class ArchiveCommandTest {
                 recruitToArchive.getPhones(),
                 recruitToArchive.getEmails(),
                 recruitToArchive.getAddresses(),
+                recruitToArchive.getDescription(),
                 recruitToArchive.getTags(),
                 true
         );
@@ -75,6 +76,7 @@ public class ArchiveCommandTest {
                 recruitToArchive.getPhones(),
                 recruitToArchive.getEmails(),
                 recruitToArchive.getAddresses(),
+                recruitToArchive.getDescription(),
                 recruitToArchive.getTags(),
                 true
         );
