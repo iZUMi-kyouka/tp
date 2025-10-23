@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.RecruitUtil;
@@ -121,50 +120,50 @@ public class EditCommand extends Command {
      */
     private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor descriptor)
             throws CommandException {
-        assert recruitToEdit != null;
+        return switch (descriptor.operation) {
+        case APPEND -> createEditedRecruitWithAppendedAttributes(recruitToEdit, descriptor);
+        case REMOVE -> createEditedRecruitWithRemovedAttributes(recruitToEdit, descriptor);
+        case OVERWRITE -> createEditedRecruitWithOverwrittenAttributes(recruitToEdit, descriptor);
+        };
+    }
 
-        UUID updatedId = descriptor.getID().orElse(recruitToEdit.getID());
-        List<Name> updatedName = new ArrayList<>(descriptor.getName().orElse(recruitToEdit.getNames()));
-        List<Phone> updatedPhone = new ArrayList<>(descriptor.getPhone().orElse(recruitToEdit.getPhones()));
-        List<Email> updatedEmail = new ArrayList<>(descriptor.getEmail().orElse(recruitToEdit.getEmails()));
-        List<Address> updatedAddress = new ArrayList<>(
-                descriptor.getAddress().orElse(recruitToEdit.getAddresses()));
-        Set<Tag> updatedTags = descriptor.getTags().orElse(recruitToEdit.getTags());
-        LogsCenter.getLogger(EditCommand.class).info(descriptor.operation.toString());
+    private static Recruit createEditedRecruitWithAppendedAttributes(Recruit rec, EditRecruitDescriptor desc)
+            throws CommandException {
+        verifyNoDuplicateAttributes(rec, desc);
+        List<Name> updatedNames = combine(List.of(rec.getNames(), desc.getName().orElse(List.of())));
+        List<Phone> updatedPhones = combine(List.of(rec.getPhones(), desc.getPhone().orElse(List.of())));
+        List<Email> updatedEmails = combine(List.of(rec.getEmails(), desc.getEmail().orElse(List.of())));
+        List<Address> updatedAddresses = combine(List.of(rec.getAddresses(), desc.getAddress().orElse(List.of())));
+        Set<Tag> updatedTags = new HashSet<>(combine(List.of(rec.getTags(), desc.getTags().orElse(new HashSet<>()))));
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+    }
 
-        switch (descriptor.operation) {
-        case APPEND: {
-            verifyNoDuplicateAttributes(recruitToEdit, descriptor);
-            updatedName = combine(List.of(recruitToEdit.getNames(), descriptor.getName().orElse(List.of())));
-            updatedPhone = combine(
-                    List.of(recruitToEdit.getPhones(), descriptor.getPhone().orElse(List.of())));
-            updatedEmail = combine(
-                    List.of(recruitToEdit.getEmails(), descriptor.getEmail().orElse(List.of())));
-            updatedAddress = combine(
-                    List.of(recruitToEdit.getAddresses(), descriptor.getAddress().orElse(List.of())));
-            updatedTags = new HashSet<>(
-                    combine(List.of(recruitToEdit.getTags(), descriptor.getTags().orElse(new HashSet<>()))));
-            break;
-        }
-        case REMOVE: {
-            verifyAllAttributesExist(recruitToEdit, descriptor);
-            updatedName = recruitToEdit.getNames().stream()
-                    .filter(n -> !descriptor.getName().orElse(List.of()).contains(n)).toList();
-            updatedPhone = recruitToEdit.getPhones().stream()
-                    .filter(n -> !descriptor.getPhone().orElse(List.of()).contains(n)).toList();
-            updatedEmail = recruitToEdit.getEmails().stream()
-                    .filter(n -> !descriptor.getEmail().orElse(List.of()).contains(n)).toList();
-            updatedAddress = recruitToEdit.getAddresses().stream()
-                    .filter(n -> !descriptor.getAddress().orElse(List.of()).contains(n)).toList();
-            updatedTags = recruitToEdit.getTags().stream()
-                    .filter(n -> !descriptor.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
-            break;
-        }
-        default: { }
-        }
-        LogsCenter.getLogger(EditCommand.class).info(updatedName.toString());
+    private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
+            throws CommandException {
+        verifyNoDuplicateAttributes(rec, desc);
+        List<Name> updatedNames = new ArrayList<>(desc.getName().orElse(rec.getNames()));
+        List<Phone> updatedPhones = new ArrayList<>(desc.getPhone().orElse(rec.getPhones()));
+        List<Email> updatedEmails = new ArrayList<>(desc.getEmail().orElse(rec.getEmails()));
+        List<Address> updatedAddresses = new ArrayList<>(
+                desc.getAddress().orElse(rec.getAddresses()));
+        Set<Tag> updatedTags = desc.getTags().orElse(rec.getTags());
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+    }
 
-        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+    private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
+            throws CommandException {
+        verifyAllAttributesExist(rec, desc);
+        List<Name> updatedNames = rec.getNames().stream()
+                .filter(n -> !desc.getName().orElse(List.of()).contains(n)).toList();
+        List<Phone> updatedPhones = rec.getPhones().stream()
+                .filter(n -> !desc.getPhone().orElse(List.of()).contains(n)).toList();
+        List<Email> updatedEmails = rec.getEmails().stream()
+                .filter(n -> !desc.getEmail().orElse(List.of()).contains(n)).toList();
+        List<Address> updatedAddresses = rec.getAddresses().stream()
+                .filter(n -> !desc.getAddress().orElse(List.of()).contains(n)).toList();
+        Set<Tag> updatedTags = rec.getTags().stream()
+                .filter(n -> !desc.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
     }
 
     @Override
@@ -201,19 +200,19 @@ public class EditCommand extends Command {
         Set<Tag> tags = r.getTags();
 
         // TODO: add more detail regarding which specific value violates the duplicate constraint
-        if (d.getName().isPresent() && d.getName().get().stream().anyMatch(n -> names.contains(n))) {
+        if (d.getName().isPresent() && d.getName().get().stream().anyMatch(names::contains)) {
             throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
         }
-        if (d.getPhone().isPresent() && d.getPhone().get().stream().anyMatch(p -> phones.contains(p))) {
+        if (d.getPhone().isPresent() && d.getPhone().get().stream().anyMatch(phones::contains)) {
             throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
         }
-        if (d.getEmail().isPresent() && d.getEmail().get().stream().anyMatch(e -> emails.contains(e))) {
+        if (d.getEmail().isPresent() && d.getEmail().get().stream().anyMatch(emails::contains)) {
             throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
         }
-        if (d.getAddress().isPresent() && d.getAddress().get().stream().anyMatch(a -> addresses.contains(a))) {
+        if (d.getAddress().isPresent() && d.getAddress().get().stream().anyMatch(addresses::contains)) {
             throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
         }
-        if (d.getTags().isPresent() && d.getTags().get().stream().anyMatch(t -> tags.contains(t))) {
+        if (d.getTags().isPresent() && d.getTags().get().stream().anyMatch(tags::contains)) {
             throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
         }
     }
@@ -228,19 +227,19 @@ public class EditCommand extends Command {
         Set<Tag> tags = r.getTags();
 
         // TODO: add more detail regarding which specific value violates the existence constraint
-        if (d.getName().isPresent() && !d.getName().get().stream().allMatch(n -> names.contains(n))) {
+        if (d.getName().isPresent() && !d.getName().get().stream().allMatch(names::contains)) {
             throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
         }
-        if (d.getPhone().isPresent() && !d.getPhone().get().stream().allMatch(p -> phones.contains(p))) {
+        if (d.getPhone().isPresent() && !d.getPhone().get().stream().allMatch(phones::contains)) {
             throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
         }
-        if (d.getEmail().isPresent() && !d.getEmail().get().stream().allMatch(e -> emails.contains(e))) {
+        if (d.getEmail().isPresent() && !d.getEmail().get().stream().allMatch(emails::contains)) {
             throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
         }
-        if (d.getAddress().isPresent() && !d.getAddress().get().stream().allMatch(a -> addresses.contains(a))) {
+        if (d.getAddress().isPresent() && !d.getAddress().get().stream().allMatch(addresses::contains)) {
             throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
         }
-        if (d.getTags().isPresent() && !d.getTags().get().stream().allMatch(t -> tags.contains(t))) {
+        if (d.getTags().isPresent() && !d.getTags().get().stream().allMatch(tags::contains)) {
             throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
         }
     }
