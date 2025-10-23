@@ -5,8 +5,6 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.ID_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.ID_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
@@ -51,7 +49,7 @@ public class AddCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser,
-                PREAMBLE_WHITESPACE + ID_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedRecruit));
 
 
@@ -59,14 +57,14 @@ public class AddCommandParserTest {
         Recruit expectedRecruitMultipleTags = new RecruitBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         assertParseSuccess(parser,
-                ID_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                  + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 new AddCommand(expectedRecruitMultipleTags));
     }
 
     @Test
     public void parse_repeatedValues_success() {
-        String validExpectedRecruitString = ID_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        String validExpectedRecruitString = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND;
 
         // multiple names
@@ -137,7 +135,7 @@ public class AddCommandParserTest {
         // zero tags
         Recruit expectedRecruit = new RecruitBuilder(AMY).withTags().build();
         assertParseSuccess(parser,
-                ID_DESC_AMY + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
+                NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(expectedRecruit));
     }
 

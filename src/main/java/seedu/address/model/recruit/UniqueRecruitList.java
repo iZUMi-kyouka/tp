@@ -34,7 +34,7 @@ public class UniqueRecruitList implements Iterable<Recruit> {
      */
     public boolean contains(Recruit toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::isSameRecruit);
+        return internalList.stream().anyMatch(toCheck::equals);
     }
 
     /**
@@ -124,6 +124,34 @@ public class UniqueRecruitList implements Iterable<Recruit> {
         UniqueRecruitList otherUniqueRecruitList = (UniqueRecruitList) other;
         return internalList.equals(otherUniqueRecruitList.internalList);
     }
+    /**
+     * Returns true if the specified object has the same recruits using shallow comparison without id field.
+     * @param other the list of recruits to compare to.
+     * @return true if the lists are equal, false otherwise.
+     */
+    public boolean hasSameRecruits(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof UniqueRecruitList)) {
+            return false;
+        }
+
+        UniqueRecruitList otherUniqueRecruitList = (UniqueRecruitList) other;
+        var otherList = otherUniqueRecruitList.asUnmodifiableObservableList();
+
+        if (internalList.size() != otherList.size()) {
+            return false;
+        }
+
+        return internalList.stream()
+                .allMatch(recruit -> otherList.stream()
+                        .anyMatch(otherRecruit -> recruit.isSameRecruit(otherRecruit)))
+                && otherList.stream()
+                .allMatch(recruit -> internalList.stream()
+                        .anyMatch(otherRecruit -> recruit.isSameRecruit(otherRecruit)));
+    }
 
     @Override
     public int hashCode() {
@@ -141,7 +169,7 @@ public class UniqueRecruitList implements Iterable<Recruit> {
     private boolean recruitsAreUnique(List<Recruit> recruits) {
         for (int i = 0; i < recruits.size() - 1; i++) {
             for (int j = i + 1; j < recruits.size(); j++) {
-                if (recruits.get(i).isSameRecruit(recruits.get(j))) {
+                if (recruits.get(i).equals(recruits.get(j))) {
                     return false;
                 }
             }

@@ -19,6 +19,7 @@ import static seedu.address.testutil.TypicalRecruits.BOB;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -67,23 +68,28 @@ public class RecruitTest {
         // null -> returns false
         assertFalse(ALICE.isSameRecruit(null));
 
-        // same name, all other attributes different -> returns true
+        // same name, all other attributes different -> returns false
         Recruit editedAlice = new RecruitBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSameRecruit(editedAlice));
+        assertFalse(ALICE.isSameRecruit(editedAlice));
 
         // different name, all other attributes same -> returns true
         editedAlice = new RecruitBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertTrue(ALICE.isSameRecruit(editedAlice));
+        assertFalse(ALICE.isSameRecruit(editedAlice));
 
         // name differs in case, all other attributes same -> returns true
         Recruit editedBob = new RecruitBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertTrue(BOB.isSameRecruit(editedBob));
+        assertFalse(BOB.isSameRecruit(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new RecruitBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertTrue(BOB.isSameRecruit(editedBob));
+        assertFalse(BOB.isSameRecruit(editedBob));
+
+        // same fields, different id -> returns true
+        Recruit editedBobWithNewId = new RecruitBuilder(BOB).withID(UUID.randomUUID().toString())
+                .withName(VALID_NAME_BOB.toLowerCase()).build();
+        assertFalse(BOB.isSameRecruit(editedBobWithNewId));
     }
 
     @Test

@@ -138,10 +138,10 @@ public class EditCommand extends Command {
         }
 
         Recruit editedRecruit = createEditedRecruit(recruitToEdit.get(), editRecruitDescriptor);
-        model.setRecruit(recruitToEdit.get(), editedRecruit);
         if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
+        model.setRecruit(recruitToEdit.get(), editedRecruit);
 
         model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit.get(), editedRecruit)));
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);

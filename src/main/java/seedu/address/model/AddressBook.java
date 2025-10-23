@@ -83,7 +83,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setRecruit(Recruit target, Recruit editedRecruit) {
         requireNonNull(editedRecruit);
-
         recruits.setRecruit(target, editedRecruit);
     }
 
@@ -130,6 +129,26 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
         AddressBook otherAddressBook = (AddressBook) other;
         return recruits.equals(otherAddressBook.recruits);
+    }
+
+    /**
+     * Returns true if the specified address book has the same recruits using shallow comparison without id field.
+     * @param other the list to compare to.
+     * @return true if the lists are equal, false otherwise.
+     */
+    public boolean hasSameRecruits(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof AddressBook)) {
+            return false;
+        }
+        AddressBook otherAddressBook = (AddressBook) other;
+
+
+        return this.recruits.hasSameRecruits(otherAddressBook.recruits);
     }
 
     @Override
