@@ -59,6 +59,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "Duplicate attribute is not allowed.";
     public static final String MESSAGE_MISSING_ATTRIBUTE = "Target attribute does not exist.";
+    public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
 
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
@@ -140,7 +141,6 @@ public class EditCommand extends Command {
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
-        verifyNoDuplicateAttributes(rec, desc);
         List<Name> updatedNames = new ArrayList<>(desc.getName().orElse(rec.getNames()));
         List<Phone> updatedPhones = new ArrayList<>(desc.getPhone().orElse(rec.getPhones()));
         List<Email> updatedEmails = new ArrayList<>(desc.getEmail().orElse(rec.getEmails()));

@@ -41,10 +41,10 @@ public class CollectionUtil {
     }
 
     /**
-     * Throws IllegalArgumentException if more than one item in {@code items} is true.
+     * Throws IllegalArgumentException if more than, or less than one item in {@code items} is true.
      */
-    public static void requireOnlyOneIsTrue(Collection<Boolean> items) throws IllegalArgumentException {
-        if (items.stream().filter(b -> b).count() > 1) {
+    public static void requireExactlyOneIsTrue(Collection<Boolean> items) throws IllegalArgumentException {
+        if (items.stream().filter(b -> b).count() != 1) {
             throw new IllegalArgumentException();
         }
     }

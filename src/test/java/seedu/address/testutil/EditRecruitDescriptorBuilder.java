@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
 import seedu.address.model.recruit.Address;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
@@ -78,6 +79,14 @@ public class EditRecruitDescriptorBuilder {
      */
     public EditRecruitDescriptorBuilder withAddress(String address) {
         descriptor.setAddresses(List.of(new Address(address)));
+        return this;
+    }
+
+    /**
+     * Sets the {@code EditRecruitOperation} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditRecruitDescriptorBuilder withOperation(EditRecruitOperation op) {
+        descriptor.setOperation(op);
         return this;
     }
 

@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireOnlyOneIsTrue;
+import static seedu.address.commons.util.CollectionUtil.requireExactlyOneIsTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_APPEND;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_OVERWRITE;
@@ -97,13 +97,14 @@ public class EditCommandParser implements Parser<EditCommand> {
     private EditRecruitDescriptor.EditRecruitOperation parseEditOperation(ArgumentMultimap argMultiMap)
             throws ParseException {
         boolean isAppend = argMultiMap.getValue(EDIT_PREFIX_APPEND).isPresent();
-        boolean isOverwrite = argMultiMap.getValue(EDIT_PREFIX_OVERWRITE).isPresent();
         boolean isRemove = argMultiMap.getValue(EDIT_PREFIX_REMOVE).isPresent();
+        boolean isOverwrite = argMultiMap.getValue(EDIT_PREFIX_OVERWRITE).isPresent() || (!isAppend && !isRemove);
 
         try {
-            requireOnlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove));
+            requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove));
         } catch (IllegalArgumentException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), e);
+            throw new ParseException(
+                    String.format(EditCommand.MESSAGE_INVALID_OPERATION, EditCommand.MESSAGE_USAGE), e);
         }
 
         return isAppend

@@ -1,6 +1,7 @@
 package seedu.address.commons.util;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString;
@@ -11,6 +12,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -103,6 +105,34 @@ public class CollectionUtilTest {
                 "\n\n", "\t  \n \t\t\n")));
         assertIllegalArgumentExceptionThrown(() -> requireAllNonBlankString(Arrays.asList("\t\t \r\n \t\r",
                 "\n\n", "\t  \n \t\t\n")));
+    }
+
+    @Test
+    public void combine() {
+        // test with set
+        Collection<Object> input1 = new HashSet<>(List.of(1, 3, 5, 7));
+        Collection<Object> input2 = new HashSet<>(List.of(2, 4, 6, 8));
+        Collection<Object> expectedOutput = List.of(1, 3, 5, 7, 2, 4, 6, 8);
+        assertEquals(expectedOutput, CollectionUtil.combine(List.of(input1, input2)));
+
+        // test with list
+        input1 = List.of("a", "b", "c");
+        input2 = List.of("x", "y", "z");
+        expectedOutput = List.of("a", "b", "c", "x", "y", "z");
+        assertEquals(expectedOutput, CollectionUtil.combine(List.of(input1, input2)));
+    }
+
+    @Test
+    public void requireOnlyOneIsTrue() {
+        // more than one, or less than one is true
+        assertIllegalArgumentExceptionThrown(() -> CollectionUtil.requireExactlyOneIsTrue(List.of(false, true, true)));
+        assertIllegalArgumentExceptionThrown(() -> CollectionUtil.requireExactlyOneIsTrue(List.of(true, true, true)));
+        assertIllegalArgumentExceptionThrown(() -> CollectionUtil.requireExactlyOneIsTrue(
+                List.of(false, false, false)));
+
+        // exactly one is true
+        assertDoesNotThrow(() -> CollectionUtil.requireExactlyOneIsTrue(List.of(false, true, false, false)));
+        assertDoesNotThrow(() -> CollectionUtil.requireExactlyOneIsTrue(List.of(true)));
     }
 
     @Test
