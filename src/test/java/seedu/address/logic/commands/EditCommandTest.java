@@ -91,6 +91,100 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_appendOperationDuplicateAttributesUnfilteredList_failure() {
+        // duplicate name
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(ALICE.getName().fullName)
+                .withPhones(VALID_PHONE_AMY).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate phone
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY)
+                .withPhones(ALICE.getPhone().value, VALID_PHONE_AMY).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate email
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY)
+                .withEmails(ALICE.getEmail().value, VALID_EMAIL_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate address
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY)
+                .withEmails(VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_BOB, ALICE.getAddress().value).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+
+        // duplicate tags
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.APPEND)
+                .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withPhones(VALID_PHONE_AMY)
+                .withEmails(VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_BOB)
+                .withTags("friends").build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
+    }
+
+    @Test
+    public void execute_removeOperationNonExistentAttributesUnfilteredList_failure() {
+        // non-existent name
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(VALID_NAME_BOB)
+                .withPhones(ALICE.getPhone().value).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent phone
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(ALICE.getName().fullName)
+                .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent email
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(ALICE.getName().fullName)
+                .withEmails(VALID_EMAIL_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent address
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withPhones(ALICE.getPhone().value)
+                .withEmails(ALICE.getEmail().value)
+                .withAddresses(VALID_ADDRESS_BOB).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+
+        // non-existent tags
+        descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withPhones(ALICE.getPhone().value)
+                .withEmails(ALICE.getEmail().value)
+                .withTags(VALID_TAG_CASHIER).build();
+        editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
+    }
+
+    @Test
     public void execute_removeOperationAllFieldsSpecifiedUnfilteredList_success() throws CommandException {
         Recruit initialRecruit = new RecruitBuilder(ALICE)
                 .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
