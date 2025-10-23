@@ -43,6 +43,7 @@ public class UnarchiveCommandTest {
                 recruitToUnarchive.getPhones(),
                 recruitToUnarchive.getEmails(),
                 recruitToUnarchive.getAddresses(),
+                recruitToUnarchive.getDescription(),
                 recruitToUnarchive.getTags(),
                 true
         );
@@ -59,6 +60,7 @@ public class UnarchiveCommandTest {
                 archivedRecruit.getPhones(),
                 archivedRecruit.getEmails(),
                 archivedRecruit.getAddresses(),
+                archivedRecruit.getDescription(),
                 archivedRecruit.getTags(),
                 false
         );

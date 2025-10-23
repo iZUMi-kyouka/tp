@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -126,12 +127,13 @@ public class CsvUtil {
                     .map(s -> s.replaceAll("^\"|\"$", ""))
                     .map(Address::new)
                     .toList();
+            Description description = new Description(cols[5]);
             Set<Tag> tags = Arrays.stream(cols[5].split(";"))
                     .map(s -> s.replaceAll("^\\[|\\]$", ""))
                     .map(Tag::new)
                     .collect(Collectors.toSet());
 
-            recruits.add(new Recruit(id, names, phones, emails, addresses, tags));
+            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, false));
         }
         return recruits;
     }
