@@ -63,8 +63,8 @@ public class AddressBookParserTest {
         Recruit recruit = new RecruitBuilder().build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(recruit).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_RECRUIT.getOneBased() + " " + RecruitUtil.getEditRecruitDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_RECRUIT, descriptor), command);
+                + TypicalIDs.ID_FIRST_RECRUIT + " " + RecruitUtil.getEditRecruitDescriptorDetails(descriptor));
+        assertEquals(new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor), command);
     }
 
     @Test
