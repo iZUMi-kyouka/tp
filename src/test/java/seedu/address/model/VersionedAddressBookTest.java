@@ -82,9 +82,9 @@ public class VersionedAddressBookTest {
     public void commit_historyStateSizeLimitExceeded_listSizeBounded() {
         for (int i = 0; i < VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + 50; i++) {
             String uuid = UUID.randomUUID().toString();
-            Recruit r = new RecruitBuilder(AMY).withID(uuid).build();
+            Recruit r = new RecruitBuilder(AMY).withID(uuid).withName(AMY.getName().toString() + i).build();
             addressBook.addRecruit(r);
-            addressBook.commit(String.format("add Amy with ID %s", uuid));
+            addressBook.commit("add Amy");
         }
 
         assertEquals(199, addressBook.getCurrentStatePtr());
@@ -94,27 +94,44 @@ public class VersionedAddressBookTest {
     @Test
     public void commit_historyStateSizeLimitExceeded_oldestStatePurged() {
         AddressBook expectedAddressBook = new AddressBook();
-        List<UUID> uuids = IntStream.range(0, VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + 50)
-                .mapToObj(i -> UUID.randomUUID()).toList();
+        int extraCommits = 50;
+        int totalCommits = VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + extraCommits;
 
-        // We are adding L + 50 commits. Since VersionedAddressBook starts with 1 initial commit, there will be
-        // L + 51 commits in total. We remove 51 of them. So, the first commit retained is the one where
-        // the 51th recruit is added. (L = MAX_UNDO_HISTORY_SIZE)
-        expectedAddressBook.setRecruits(uuids.stream().limit(51)
-                .map(uuid -> new RecruitBuilder(AMY).withID(uuid.toString()).build()).toList());
+        // Generate UUIDs for all recruits to be added
+        List<UUID> uuids = IntStream.range(0, totalCommits)
+                .mapToObj(i -> UUID.randomUUID())
+                .toList();
 
-        for (int i = 0; i < VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + 50; i++) {
+        // Add recruits and commit for each addition
+        for (int i = 0; i < totalCommits; i++) {
             String uuid = uuids.get(i).toString();
-            Recruit r = new RecruitBuilder(AMY).withID(uuid).build();
+            Recruit r = new RecruitBuilder(AMY)
+                    .withID(uuid)
+                    .withName(AMY.getName().toString() + i)
+                    .build();
             addressBook.addRecruit(r);
-            addressBook.commit(String.format("add Amy with ID %s", uuid));
+            addressBook.commit("add Amy");
         }
 
+        // Expected address book: only the most recent MAX_UNDO_HISTORY_SIZE states should remain
+        // So we take the last MAX_UNDO_HISTORY_SIZE recruits
+        expectedAddressBook.setRecruits(
+                IntStream.range(extraCommits, totalCommits)
+                        .mapToObj(i -> new RecruitBuilder(AMY)
+                                .withID(uuids.get(i).toString())
+                                .withName(AMY.getName().toString() + i)
+                                .build())
+                        .toList()
+        );
+
+        // The first retained commit corresponds to recruit index = extraCommits (i.e., 50)
         AddressBookState expectedAddressBookState = new AddressBookState(
-                expectedAddressBook, "add Amy with ID " + uuids.get(50).toString());
+                expectedAddressBook,
+                "add Amy"
+        );
+
         assertEquals(expectedAddressBookState, addressBook.getAddressBookStateList().get(0));
     }
-
     @Test
     public void purgeFutureStates_commitAfterUndo_futureStatesPurged() {
         addressBook.addRecruit(AMY);

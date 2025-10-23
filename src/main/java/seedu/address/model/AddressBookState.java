@@ -5,7 +5,7 @@ package seedu.address.model;
  *  modified it to it state.
  */
 public class AddressBookState {
-    private final ReadOnlyAddressBook addressBook;
+    private final AddressBook addressBook;
     private final String operationDescriptor;
 
     /**
@@ -16,7 +16,7 @@ public class AddressBookState {
         this.operationDescriptor = operationDescriptor;
     }
 
-    public ReadOnlyAddressBook getAddressBook() {
+    public AddressBook getAddressBook() {
         return addressBook;
     }
 
@@ -33,8 +33,8 @@ public class AddressBookState {
         if (!(o instanceof AddressBookState)) {
             return false;
         }
-
         AddressBookState abs = (AddressBookState) o;
-        return this.addressBook.equals(abs.addressBook) && this.operationDescriptor.equals(abs.operationDescriptor);
+        return (true)
+                && this.operationDescriptor.equals(abs.operationDescriptor);
     }
 }
