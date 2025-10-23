@@ -13,6 +13,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CASHIER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -28,6 +29,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -66,6 +68,7 @@ public class EditCommandTest {
                 .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
                 .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
                 .build();
 
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
@@ -74,6 +77,7 @@ public class EditCommandTest {
                 .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
                 .withAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .withTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
@@ -81,9 +85,47 @@ public class EditCommandTest {
                 editCommand.formatDelta(initialRecruit, expectedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+        expectedModel.setRecruit(model.getFilteredRecruitList().get(0), expectedRecruit);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_removeOperationAllFieldsSpecifiedUnfilteredList_success() throws CommandException {
+        Recruit initialRecruit = new RecruitBuilder(ALICE)
+                .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
+                .build();
+        Recruit editedRecruit = new RecruitBuilder(ALICE)
+                .withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_AMY)
+                .withEmail(VALID_EMAIL_AMY)
+                .withAddress(VALID_ADDRESS_AMY)
+                .withTags(VALID_TAG_CASHIER)
+                .build();
+        Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        initialModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
+                .withOperation(EditRecruitOperation.REMOVE)
+                .withNames(ALICE.getName().fullName, VALID_NAME_BOB)
+                .withPhones(ALICE.getPhone().value, VALID_PHONE_BOB)
+                .withEmails(ALICE.getEmail().value, VALID_EMAIL_BOB)
+                .withAddresses(ALICE.getAddress().value, VALID_ADDRESS_BOB)
+                .withTags("friends", VALID_TAG_HUSBAND)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                editCommand.formatDelta(initialRecruit, editedRecruit));
+        Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
+        expectedModel.setRecruit(initialRecruit, editedRecruit);
+        expectedModel.commitAddressBook(String.format(
+                EditCommand.OPERATION_DESCRIPTOR, editCommand.formatDelta(initialRecruit, editedRecruit)));
+
+        assertCommandSuccess(editCommand, initialModel, expectedMessage, expectedModel);
     }
 
     @Test

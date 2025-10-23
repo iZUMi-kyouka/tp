@@ -79,7 +79,7 @@ public class RecruitBuilder {
         this.names = combine(List.of(this.names, Arrays.asList(names).stream().map(Name::new).toList()));
         return this;
     }
-    
+
     /**
      * Sets the {@code Phone} of the {@code Recruit} that we are building.
      */
@@ -119,7 +119,7 @@ public class RecruitBuilder {
         this.addresses = List.of(new Address(address));
         return this;
     }
-    
+
     /**
      * Sets the {@code Name} of the {@code Recruit} that we are building.
      */
@@ -134,6 +134,14 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
+        return this;
+    }
+
+    /**
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withAdditionalTags(String ... tags) {
+        this.tags = new HashSet<>(combine(List.of(this.tags, SampleDataUtil.getTagSet(tags))));
         return this;
     }
 
