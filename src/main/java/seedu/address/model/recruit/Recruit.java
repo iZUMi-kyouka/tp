@@ -65,7 +65,7 @@ public class Recruit {
      * Every field must be present and not null.
      */
     public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails,
-            List<Address> addresses, Set<Tag> tags) {
+                   List<Address> addresses, Set<Tag> tags) {
         requireAllNonNull(id, names, phones, emails, addresses, tags);
         requireNonEmpty(names);
         requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
@@ -134,7 +134,11 @@ public class Recruit {
         }
 
         return otherRecruit != null
-                && otherRecruit.getID().equals(getID());
+                && names.equals(otherRecruit.names)
+                && phones.equals(otherRecruit.phones)
+                && emails.equals(otherRecruit.emails)
+                && addresses.equals(otherRecruit.addresses)
+                && tags.equals(otherRecruit.tags);
     }
 
     /**

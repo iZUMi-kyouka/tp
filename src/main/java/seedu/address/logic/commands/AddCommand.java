@@ -24,7 +24,6 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a recruit to the address book. "
             + "Parameters: "
-            + PREFIX_ID + "ID "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
@@ -76,7 +75,7 @@ public class AddCommand extends Command {
         }
 
         AddCommand otherAddCommand = (AddCommand) other;
-        return toAdd.equals(otherAddCommand.toAdd);
+        return toAdd.isSameRecruit(otherAddCommand.toAdd);
     }
 
     @Override
