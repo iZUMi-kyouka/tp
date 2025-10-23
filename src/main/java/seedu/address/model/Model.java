@@ -84,10 +84,16 @@ public interface Model {
     ObservableList<Recruit> getFilteredRecruitList();
 
     /**
-     * Returns the recruit with the given ID.
+     * Returns the filtered recruit with the given ID.
      * @throws IllegalArgumentException if there is no recruit with the given ID.
      */
     Optional<Recruit> getFilteredRecruitByID(UUID id);
+
+    /**
+     * Returns the unfiltered recruit with the given ID.
+     * @throws IllegalArgumentException if there is no recruit with the given ID.
+     */
+    Optional<Recruit> getUnfilteredRecruitByID(UUID id);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
@@ -106,7 +112,17 @@ public interface Model {
     String undoAddressBook();
 
     /**
+     * Restores the last undone address book state from its history.
+     */
+    String redoAddressBook();
+
+    /**
      * Checks if undo operation is possible.
      */
     boolean canUndoAddressBook();
+
+    /**
+     * Checks if redo operation is possible.
+     */
+    boolean canRedoAddressBook();
 }

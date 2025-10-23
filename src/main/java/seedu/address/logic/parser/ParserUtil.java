@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -172,5 +174,26 @@ public class ParserUtil {
         } catch (InvalidPathException e) {
             throw new ParseException(MESSAGE_INVALID_FILEPATH, e);
         }
+    }
+  
+    /**
+     * Parses all values from ArgumentMultimap for the given prefix using the given parser.
+     */
+    public static <T> List<T> parseAllValues(
+            List<String> values, ParserFunction<String, T> parser) throws ParseException {
+        List<T> parsedValues = new ArrayList<>();
+        for (String s : values) {
+            parsedValues.add(parser.apply(s));
+        }
+
+        return parsedValues;
+    }
+
+    /**
+     * Functional interface with checked exceptions.
+     */
+    @FunctionalInterface
+    public interface ParserFunction<T, R> {
+        R apply(T t) throws ParseException;
     }
 }
