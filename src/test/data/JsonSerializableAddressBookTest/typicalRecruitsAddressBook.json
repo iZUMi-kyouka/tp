@@ -6,6 +6,7 @@
     "phones" : ["94351253"],
     "emails" : ["alice@example.com"],
     "addresses" : ["123, Jurong West Ave 6, #08-111"],
+    "description" : "Passionate about software engineering and enjoys mentoring junior developers.",
     "tags" : [ "friends" ]
   }, {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa951",
@@ -13,12 +14,14 @@
     "phones" : ["98765432"],
     "emails" : ["johnd@example.com"],
     "addresses" : ["311, Clementi Ave 2, #02-25"],
+    "description" : "Experienced sales executive with a knack for building long-term client relationships.",
     "tags" : [ "owesMoney", "friends" ]
   }, {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa952",
     "names" : ["Carl Kurz"],
     "phones" : ["95352563"],
     "emails" : ["heinz@example.com"],
+    "description" : "Finance professional who thrives in fast-paced environments and enjoys data analysis.",
     "addresses" : ["wall street"],
     "tags" : [ ]
   }, {
@@ -27,6 +30,7 @@
     "phones" : ["87652533"],
     "emails" : ["cornelia@example.com"],
     "addresses" : ["10th street"],
+    "description" : "Creative marketing strategist with strong communication skills and team leadership experience.",
     "tags" : [ "friends" ]
   }, {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa954",
@@ -34,6 +38,7 @@
     "phones" : ["9482224"],
     "emails" : ["werner@example.com"],
     "addresses" : ["michegan ave"],
+    "description" : "UX designer passionate about crafting intuitive user experiences and clean visual design. They display strong problem-solving and communication skills.",
     "tags" : [ ]
   }, {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa955",
@@ -41,6 +46,7 @@
     "phones" : ["9482427"],
     "emails" : ["lydia@example.com"],
     "addresses" : ["little tokyo"],
+    "description" : "Driven project manager who excels at coordinating cross-functional teams and meeting deadlines.",
     "tags" : [ ]
   }, {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa956",
@@ -48,6 +54,7 @@
     "phones" : ["9482442"],
     "emails" : ["anna@example.com"],
     "addresses" : ["4th street"],
+    "description" : "Talented software tester with an eye for detail and a passion for improving product quality.",
     "tags" : [ ]
   } ]
 }

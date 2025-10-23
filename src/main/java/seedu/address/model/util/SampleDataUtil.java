@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -20,23 +21,29 @@ public class SampleDataUtil {
     public static Recruit[] getSampleRecruits() {
         return new Recruit[] {
             new Recruit(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                new Address("Blk 30 Geylang Street 29, #06-40"),
-                getTagSet("friends")),
+                    new Address("Blk 30 Geylang Street 29, #06-40"),
+                    new Description("Enthusiastic software developer with a passion for open source."),
+                    getTagSet("friends")),
             new Recruit(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
-                getTagSet("colleagues", "friends")),
+                    new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
+                    new Description("Experienced marketing specialist with a knack for social media."),
+                    getTagSet("colleagues", "friends")),
             new Recruit(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
-                getTagSet("neighbours")),
+                    new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
+                    new Description("Project manager skilled in agile methodologies."),
+                    getTagSet("neighbours")),
             new Recruit(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
-                getTagSet("family")),
+                    new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
+                    new Description("Experienced data analyst with a focus on financial services."),
+                    getTagSet("family")),
             new Recruit(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                new Address("Blk 47 Tampines Street 20, #17-35"),
-                getTagSet("classmates")),
+                    new Address("Blk 47 Tampines Street 20, #17-35"),
+                    new Description("Recent graduate passionate about machine learning."),
+                    getTagSet("classmates")),
             new Recruit(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                new Address("Blk 45 Aljunied Street 85, #11-31"),
-                getTagSet("colleagues"))
+                    new Address("Blk 45 Aljunied Street 85, #11-31"),
+                    new Description("Experienced network engineer and cybersecurity expert."),
+                    getTagSet("colleagues"))
         };
     }
 

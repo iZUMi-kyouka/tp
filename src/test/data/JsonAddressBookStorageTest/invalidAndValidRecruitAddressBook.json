@@ -3,11 +3,13 @@
     "name": "Valid Recruit",
     "phone": "9482424",
     "email": "hans@example.com",
+    "description": "This is a valid description",
     "address": "4th street"
   }, {
     "name": "Recruit With Invalid Phone Field",
     "phone": "948asdf2424",
     "email": "hans@example.com",
+    "description": "This is a valid description",
     "address": "4th street"
   } ]
 }

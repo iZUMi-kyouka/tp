@@ -11,6 +11,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_PHONE = new Prefix("p/");
     public static final Prefix PREFIX_EMAIL = new Prefix("e/");
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
+    public static final Prefix PREFIX_DESCRIPTION = new Prefix("d/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
 
     public static final Prefix SEARCH_PREFIX_ID = new Prefix("-id");
@@ -18,6 +19,7 @@ public class CliSyntax {
     public static final Prefix SEARCH_PREFIX_PHONE = new Prefix("-p");
     public static final Prefix SEARCH_PREFIX_EMAIL = new Prefix("-e");
     public static final Prefix SEARCH_PREFIX_ADDRESS = new Prefix("-a");
+    public static final Prefix SEARCH_PREFIX_DESCRIPTION = new Prefix("-d");
     public static final Prefix SEARCH_PREFIX_TAG = new Prefix("-t");
 
     public static final Prefix EDIT_PREFIX_APPEND = new Prefix("-ap");

@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -24,12 +25,14 @@ public class RecruitBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_DESCRIPTION = "It's nothing but the E-mail Guy";
 
     private UUID id;
     private List<Name> names;
     private List<Phone> phones;
     private List<Email> emails;
     private List<Address> addresses;
+    private Description description;
     private Set<Tag> tags;
     private boolean isArchived;
 
@@ -42,6 +45,7 @@ public class RecruitBuilder {
         phones = List.of(new Phone(DEFAULT_PHONE));
         emails = List.of(new Email(DEFAULT_EMAIL));
         addresses = List.of(new Address(DEFAULT_ADDRESS));
+        description = new Description(DEFAULT_DESCRIPTION);
         tags = new HashSet<>();
         isArchived = false;
     }
@@ -55,6 +59,7 @@ public class RecruitBuilder {
         phones = recruitToCopy.getPhones();
         emails = recruitToCopy.getEmails();
         addresses = recruitToCopy.getAddresses();
+        description = recruitToCopy.getDescription();
         tags = new HashSet<>(recruitToCopy.getTags());
         isArchived = recruitToCopy.isArchived();
     }
@@ -156,8 +161,16 @@ public class RecruitBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Description} of the {@code Recruit} that we are building.
+     */
+    public RecruitBuilder withDescription(String description) {
+        this.description = new Description(description);
+        return this;
+    }
+
     public Recruit build() {
-        return new Recruit(id, names, phones, emails, addresses, tags, isArchived);
+        return new Recruit(id, name, phone, email, address, description, tags, isArchived);
     }
 
 }

@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.combine;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -28,6 +29,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Address;
+import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
@@ -50,6 +52,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -169,8 +172,11 @@ public class EditCommand extends Command {
         List<Phone> updatedPhones = combine(List.of(rec.getPhones(), desc.getPhone().orElse(List.of())));
         List<Email> updatedEmails = combine(List.of(rec.getEmails(), desc.getEmail().orElse(List.of())));
         List<Address> updatedAddresses = combine(List.of(rec.getAddresses(), desc.getAddress().orElse(List.of())));
+        Description updatedDescription = rec.getDescription()
+                .appendDescription(desc.getDescription().orElse(new Description("")));
         Set<Tag> updatedTags = new HashSet<>(combine(List.of(rec.getTags(), desc.getTags().orElse(new HashSet<>()))));
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
+                updatedDescription, updatedTags, false);
     }
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -181,7 +187,8 @@ public class EditCommand extends Command {
         List<Address> updatedAddresses = new ArrayList<>(
                 desc.getAddress().orElse(rec.getAddresses()));
         Set<Tag> updatedTags = desc.getTags().orElse(rec.getTags());
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
+                new Description(""), updatedTags, false);
     }
 
     private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -197,7 +204,8 @@ public class EditCommand extends Command {
                 .filter(n -> !desc.getAddress().orElse(List.of()).contains(n)).toList();
         Set<Tag> updatedTags = rec.getTags().stream()
                 .filter(n -> !desc.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses, updatedTags);
+        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
+                new Description(""), updatedTags, false);
     }
 
     @Override
@@ -309,6 +317,7 @@ public class EditCommand extends Command {
         private List<Phone> phone;
         private List<Email> email;
         private List<Address> address;
+        private Description description;
         private Set<Tag> tags;
         private EditRecruitOperation operation = EditRecruitOperation.OVERWRITE;
 
@@ -328,6 +337,7 @@ public class EditCommand extends Command {
             setPhones(toCopy.phone);
             setEmails(toCopy.email);
             setAddresses(toCopy.address);
+            setDescription(toCopy.description);
             setTags(toCopy.tags);
             setOperation(toCopy.operation);
         }
@@ -344,7 +354,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(id, name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(id, name, phone, email, address, description, tags);
         }
 
         public void setID(UUID id) {
@@ -383,6 +393,14 @@ public class EditCommand extends Command {
 
         public Optional<List<Address>> getAddress() {
             return Optional.ofNullable(address);
+        }
+
+        public void setDescription(Description description) {
+            this.description = description;
+        }
+
+        public Optional<Description> getDescription() {
+            return Optional.ofNullable(description);
         }
 
         /**
@@ -427,6 +445,7 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditRecruitDescriptor.phone)
                     && Objects.equals(email, otherEditRecruitDescriptor.email)
                     && Objects.equals(address, otherEditRecruitDescriptor.address)
+                    && Objects.equals(description, otherEditRecruitDescriptor.description)
                     && Objects.equals(tags, otherEditRecruitDescriptor.tags)
                     && Objects.equals(operation, otherEditRecruitDescriptor.operation);
         }
@@ -438,6 +457,7 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
+                    .add("description", description)
                     .add("tags", tags)
                     .add("operation", operation)
                     .toString();
