@@ -95,7 +95,6 @@ public class CsvUtil {
 
     /**
      * Converts a CSV string into a list of recruits.
-     *
      * Each row corresponds to a recruit. Fields with multiple values
      * (names, phones, emails, addresses, tags) are separated by ';'.
      *
@@ -118,9 +117,7 @@ public class CsvUtil {
             if (line.isEmpty()) {
                 continue;
             }
-
             String[] cols = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
             UUID id = UUID.fromString(cols[0]);
             List<Name> names = Arrays.stream(cols[1].split(";")).map(Name::new).toList();
             List<Phone> phones = Arrays.stream(cols[2].split(";")).map(Phone::new).toList();
