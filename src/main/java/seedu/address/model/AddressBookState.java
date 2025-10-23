@@ -34,7 +34,7 @@ public class AddressBookState {
             return false;
         }
         AddressBookState abs = (AddressBookState) o;
-        return (true)
+        return (this.addressBook.equals(abs.addressBook) || this.addressBook.hasSameRecruits(abs.addressBook))
                 && this.operationDescriptor.equals(abs.operationDescriptor);
     }
 }
