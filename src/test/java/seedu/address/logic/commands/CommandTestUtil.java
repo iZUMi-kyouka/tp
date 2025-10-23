@@ -2,6 +2,10 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_REMOVE;
+import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_APPEND;
+import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_OVERWRITE;
+import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_REMOVE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
@@ -42,6 +46,7 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
+    public static final String VALID_TAG_CASHIER = "cashier";
 
     public static final String ID_DESC_AMY = " " + PREFIX_ID + VALID_ID_AMY;
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
@@ -61,6 +66,10 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+
+    public static final String EDIT_OP_FLAG_APPEND = " " + EDIT_PREFIX_APPEND;
+    public static final String EDIT_OP_FLAG_OVERWRITE = " " + EDIT_PREFIX_OVERWRITE;
+    public static final String EDIT_OP_FLAG_REMOVE = " " + EDIT_PREFIX_REMOVE;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String SEARCH_NAME_FLAG = "-n";

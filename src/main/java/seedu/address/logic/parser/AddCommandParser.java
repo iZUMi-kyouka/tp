@@ -47,9 +47,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         List<Address> addresses = ParserUtil.parseAllValues(
                 argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-
         Recruit recruit = new Recruit(names, phones, emails, addresses, tagList);
-
         return new AddCommand(recruit);
     }
 

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
-import static seedu.address.testutil.Assert.assertThrows;s
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -23,6 +24,9 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.UnarchiveCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -59,12 +63,31 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_sort() throws Exception {
+        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
+    }
+
+    @Test
+    public void parseCommand_archive() throws Exception {
+        ArchiveCommand command = (ArchiveCommand) parser.parseCommand(
+                ArchiveCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
+        assertEquals(new ArchiveCommand(INDEX_FIRST_RECRUIT), command);
+    }
+
+    @Test
+    public void parseCommand_unarchive() throws Exception {
+        UnarchiveCommand command = (UnarchiveCommand) parser.parseCommand(
+                UnarchiveCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
+        assertEquals(new UnarchiveCommand(INDEX_FIRST_RECRUIT), command);
+    }
+
+    @Test
     public void parseCommand_edit() throws Exception {
         Recruit recruit = new RecruitBuilder().build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(recruit).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_RECRUIT.getOneBased() + " " + RecruitUtil.getEditRecruitDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_RECRUIT, descriptor), command);
+                + TypicalIDs.ID_FIRST_RECRUIT + " " + RecruitUtil.getEditRecruitDescriptorDetails(descriptor));
+        assertEquals(new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor), command);
     }
 
     @Test
@@ -100,6 +123,11 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_redo() throws Exception {
+        assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD) instanceof RedoCommand);
+    }
+
+    @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
             -> parser.parseCommand(""));
@@ -107,13 +135,14 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_unknownCommand_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
+        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () ->
+                parser.parseCommand("unknownCommand"));
     }
 
     @Test
     public void parseCommand_view() throws Exception {
         ViewCommand command = (ViewCommand) parser.parseCommand(
-                ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
-        assertEquals(new ViewCommand(INDEX_FIRST_RECRUIT), command);
+                ViewCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT);
+        assertEquals(new ViewCommand(TypicalIDs.ID_FIRST_RECRUIT), command);
     }
 }
