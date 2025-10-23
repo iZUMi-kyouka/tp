@@ -44,6 +44,8 @@ public class Messages {
                 .append(recruit.getEmail())
                 .append("\n Address: ")
                 .append(recruit.getAddress())
+                .append("\n Description: ")
+                .append(recruit.getDescription())
                 .append("\n Tags: ");
         recruit.getTags().forEach(builder::append);
         return builder.toString();
