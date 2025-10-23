@@ -133,7 +133,6 @@ public class CsvUtil {
 
             recruits.add(new Recruit(id, names, phones, emails, addresses, tags));
         }
-
         return recruits;
     }
 }

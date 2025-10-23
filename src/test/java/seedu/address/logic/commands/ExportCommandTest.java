@@ -15,6 +15,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.recruit.Recruit;
@@ -178,6 +179,20 @@ public class ExportCommandTest {
 
         @Override
         public java.util.Optional<Recruit> getFilteredRecruitByID(java.util.UUID id) {
+            throw new AssertionError();
+        }
+
+        @Override
+        public java.util.Optional<Recruit> getUnfilteredRecruitByID(java.util.UUID id) {
+            throw new AssertionError();
+        }
+        @Override
+        public boolean canRedoAddressBook() {
+            throw new AssertionError();
+        }
+
+        @Override
+        public String redoAddressBook() {
             throw new AssertionError();
         }
 

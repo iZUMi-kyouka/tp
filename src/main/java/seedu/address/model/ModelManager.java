@@ -143,10 +143,6 @@ public class ModelManager implements Model {
         return this.getAddressBook().getRecruitList().stream().filter(x -> x.getID().equals(id)).findFirst();
     }
 
-    public Optional<Recruit> getUnfilteredRecruitByID(UUID id) {
-        return this.addressBook.getRecruitList().stream().findFirst().filter(x -> x.getID().equals(id));
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {

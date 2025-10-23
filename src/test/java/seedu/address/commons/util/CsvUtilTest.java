@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.model.recruit.Address;
 import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
@@ -19,8 +20,6 @@ import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.TestUtil;
-
-
 
 /**
  * Tests CSV Read and Write
@@ -91,5 +90,46 @@ public class CsvUtilTest {
         assertEquals(testRecruit.getEmails(), r.getEmails());
         assertEquals(testRecruit.getAddresses(), r.getAddresses());
         assertEquals(testRecruit.getTags(), r.getTags());
+    }
+
+    @Test
+    public void escapeCsvField_handlesSpecialCharacters() {
+        String fieldWithComma = "Hello,World";
+        String fieldWithQuote = "He said \"Hi\"";
+
+        // CSV with comma
+        Recruit recruitWithComma = new Recruit(UUID.randomUUID(),
+                List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
+                List.of(), List.of(),
+                List.of(new Address(fieldWithComma)),
+                Set.of());
+        String csvComma = CsvUtil.recruitsToCsvString(List.of(recruitWithComma));
+        String csvLineComma = csvComma.split("\n")[1];
+        String[] colsComma = csvLineComma.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        assertEquals("\"Hello,World\"", colsComma[4]);
+
+        // CSV with quotes
+        Recruit recruitWithQuote = new Recruit(UUID.randomUUID(),
+                List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
+                List.of(), List.of(),
+                List.of(new Address(fieldWithQuote)),
+                Set.of());
+        String csvQuote = CsvUtil.recruitsToCsvString(List.of(recruitWithQuote));
+        String csvLineQuote = csvQuote.split("\n")[1];
+        String[] colsQuote = csvLineQuote.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        assertEquals("\"He said \"\"Hi\"\"\"", colsQuote[4]);
+    }
+
+    @Test
+    public void fromCsvString_emptyCsv_returnsEmptyList() {
+        List<Recruit> recruits = CsvUtil.fromCsvString("ID,Names,Phones,Emails,Addresses,Tags\n");
+        assertEquals(0, recruits.size());
+    }
+
+    @Test
+    public void fromCsvString_skipsEmptyLines() {
+        String csv = CsvUtil.recruitsToCsvString(List.of(testRecruit)) + "\n\n";
+        List<Recruit> recruits = CsvUtil.fromCsvString(csv);
+        assertEquals(1, recruits.size());
     }
 }
