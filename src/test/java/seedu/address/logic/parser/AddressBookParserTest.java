@@ -63,11 +63,6 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_sort() throws Exception {
-        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
-    }
-
-    @Test
     public void parseCommand_archive() throws Exception {
         ArchiveCommand command = (ArchiveCommand) parser.parseCommand(
                 ArchiveCommand.COMMAND_WORD + " " + INDEX_FIRST_RECRUIT.getOneBased());
@@ -125,6 +120,13 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_redo() throws Exception {
         assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD) instanceof RedoCommand);
+    }
+
+    @Test
+    public void parseCommand_sort() throws Exception {
+        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
+        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD + " -n asc") instanceof SortCommand);
+        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD + " -n asc -p desc") instanceof SortCommand);
     }
 
     @Test

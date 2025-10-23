@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -80,7 +81,7 @@ public interface Model {
      */
     void setRecruit(Recruit target, Recruit editedRecruit);
 
-    void sortRecruits();
+    void sortRecruits(Comparator<Recruit> comparator);
 
     /** Returns an unmodifiable view of the filtered recruit list */
     ObservableList<Recruit> getFilteredRecruitList();

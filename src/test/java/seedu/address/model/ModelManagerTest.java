@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
 import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
@@ -15,6 +16,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
@@ -169,6 +171,18 @@ public class ModelManagerTest {
         modelManager.commitAddressBook("add Bob");
 
         assertFalse(modelManager.canRedoAddressBook());
+    }
+
+    @Test
+    public void sortRecruits_success() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+
+        ModelManager expectedModelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModelManager.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        expectedModelManager.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+
+        assertEquals(expectedModelManager, modelManager);
     }
 
     @Test

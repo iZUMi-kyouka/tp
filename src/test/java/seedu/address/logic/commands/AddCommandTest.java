@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalRecruits.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -151,7 +152,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void sortRecruits() {
+        public void sortRecruits(Comparator<Recruit> comparator) {
             throw new AssertionError("This method should not be called.");
         }
 

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -117,8 +118,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void sortRecruits() {
-        addressBook.sortRecruits();
+    public void sortRecruits(Comparator<Recruit> comparator) {
+        addressBook.sortRecruits(comparator);
     }
 
     //=========== Filtered Person List Accessors =============================================================

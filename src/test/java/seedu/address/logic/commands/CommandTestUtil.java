@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_REMOVE;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_APPEND;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_OVERWRITE;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_REMOVE;
@@ -50,6 +49,8 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_TAG_CASHIER = "cashier";
+    public static final String VALID_SORT_ASCENDING = "asc";
+    public static final String VALID_SORT_DESCENDING = "desc";
 
     public static final String ID_DESC_AMY = " " + PREFIX_ID + VALID_ID_AMY;
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
