@@ -241,13 +241,13 @@ The following activity diagram summarizes what happens when a user executes a ne
 **Aspect: How undo & redo executes:**
 
 * **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
+    * Pros: Easy to implement.
+    * Cons: May have performance issues in terms of memory usage.
 
 * **Alternative 2:** Individual command knows how to undo/redo by
   itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the recruit being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
+    * Pros: Will use less memory (e.g. for `delete`, just save the recruit being deleted).
+    * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
 
@@ -289,7 +289,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
 |----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | recruiter                  | add details of a potential recruit   | refer to the various contact information for my hiring purposes                 | 
+| `* * *`  | recruiter                  | add details of a potential recruit   | refer to the various contact information for my hiring purposes                 |
 | `* * *`  | recruiter                 | edit contact details of a potential recruit |                | keep contact records relevant and updated    |
 | `* * *`  | recruiter                  | delete a contact of a potential recruit  | remove details of an uninterested recruit and comply to PDPA                     |
 | `* * *`  | recruiter           | view contact details of a potential recruit        | contact them |
@@ -328,15 +328,15 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 **Extensions**
 
 * 1a. TalentNexus detects an invalid parameter.
-   * 1a1. TalentNexus shows an error message informing which parameter is invalid.
-   
-   Use case ends.
+    * 1a1. TalentNexus shows an error message informing which parameter is invalid.
+
+  Use case ends.
 
 * 1b. TalentNexus detects missing required parameter(s).
-   * 1b1. TalentNexus shows an error message informing which parameter is required.
-   
-   Use case ends.
-<br>
+    * 1b1. TalentNexus shows an error message informing which parameter is required.
+
+  Use case ends.
+  <br>
 
 #### UC02 - View a Recruit
 
@@ -345,21 +345,21 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 1.  User views a recruit of a given UUID.
 2.  System shows the details of a the recruit with the given UUID.
 
-   Use case ends.
+Use case ends.
 
 
 **Extensions**
 
 * 1a. TalentNexus finds no recruit with the given UUID.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
 
 * 1b. TalentNexus detects that an invalid UUID is given.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
-<br>
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+  <br>
 
 #### UC03 - Search Recruit
 
@@ -368,21 +368,21 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 1.  User searches for recruits with the given parameters
 2.  System shows the list of recruits matching the criteria and their details.
 
-   Use case ends.
+Use case ends.
 
 
 **Extensions**
 
 * 1a. TalentNexus finds no recruit matching the search parameter.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
 
 * 1b. TalentNexus detects that an invalid search parameter.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
-<br>
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+  <br>
 
 #### UC04 - Edit a Recruit
 
@@ -391,26 +391,26 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 1.  User edits a recruit of a given UUID by supplying the modified parameters.
 2.  System shows success message and the updated details of the modified recruit.
 
-   Use case ends.
+Use case ends.
 
 
 **Extensions**
 
 * 1a. TalentNexus finds no recruit with the given UUID.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
 
 * 1b. TalentNexus detects that the modification removes all contact parameters.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
 
 * 1c. TalentNexus detects illegal parameter combinations.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
-<br>
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+  <br>
 
 #### UC05 - Delete a Recruit
 
@@ -419,7 +419,7 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 1.  User deletes a recruit of a given UUID.
 2.  System shows success message and details of the deleted recruit.
 
-   Use case ends.
+Use case ends.
 <br>
 
 #### UC06 - Undo the Last Performed Operation
@@ -429,15 +429,15 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 1.  User undoes the last create, edit, or delete operations.
 2.  System shows success message and details of the recruit involved.
 
-   Use case ends.
+Use case ends.
 
 **Extensions**
 
 * 1a. TalentNexus finds no last performed operation.
-   * 1a1. TalentNexus shows an error message.
-   
-   Use case ends.
-<br>
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+  <br>
 
 #### UC07 - List All Available Commands
 
@@ -446,7 +446,7 @@ For all use cases below, the **System** is **TalentNexus** and the **Actor** is 
 1.  User requests for the list of available commands
 2.  System shows the list of all available commands and example usages.
 
-   Use case ends.
+Use case ends.
 
 *{More to be added}*
 
@@ -486,15 +486,15 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
 1. _{ more test cases …​ }_
@@ -503,16 +503,16 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a recruit while all recruits are being shown
 
-   1. Prerequisites: List all recruits using the `list` command. Multiple recruits in the list.
+    1. Prerequisites: List all recruits using the `list` command. Multiple recruits in the list.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+    1. Test case: `delete 1`<br>
+       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
-      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+    1. Test case: `delete 0`<br>
+       Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
 
@@ -520,6 +520,6 @@ testers are expected to do more *exploratory* testing.
 
 1. Dealing with missing/corrupted data files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
