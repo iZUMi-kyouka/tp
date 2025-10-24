@@ -269,7 +269,7 @@ Unarchives a previously archived recruit to restore them to the active recruit l
 **Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
 </box>
 
-### Viewing archived recruits
+#### Viewing archived recruits
 
 You can view archived recruits using the `list` command with flags:
 
@@ -308,7 +308,7 @@ Exits the program.
 
 Format: `exit`
 
-### Export the data
+### Exporting recruit data: `export`
 
 Export all recruits in the address book to a .csv file.
 
@@ -318,10 +318,12 @@ Format: `export FILEPATH`
 
 Examples:
 *  `export` Exports all recruits to the default filepath found in preferences.json.
-*  `export ./data/recruits.csv` Exports all recruits to the relative filepath ./data/recruits.csv.
+*  `export ./data/recruits.csv` Exports all recruits to the relative filepath `./data/recruits.csv`.
 
-**Tip:** Use CSV exports to share data easily between users.
+<box type="tip" seamless>
 
+**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software.
+</box>
 ### Saving the data
 
 TalentNexus data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
@@ -332,15 +334,11 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 <box type="warning" seamless>
 
-**Caution:**
+**Warning:**
 * If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
 * Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
 * Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -362,11 +360,11 @@ _Details coming soon ..._
 
 Action        | Format, Examples
 --------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**       | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**       | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Archive**   | `archive INDEX`<br> e.g., `archive 2`
 **Clear**     | `clear`
 **Delete**    | `delete INDEX/UUID`<br> e.g., `delete 3`
-**Edit**      | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**      | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
 **Export**    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
 **Find**      | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Help**      | `help`
