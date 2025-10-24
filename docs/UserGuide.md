@@ -103,7 +103,7 @@ Format: `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESC
 
 <box type="tip" seamless>
 
-💡 **Tip:** A recruit can have any number of tags (or none at all)
+**Tip:** A recruit can have any number of tags (or none at all)
 </box>
 
 Examples:
@@ -144,29 +144,37 @@ Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the recruit will be removed i.e adding of tags is not cumulative.
 * You can remove all the recruit’s tags by typing `t/` without specifying any tags after it.
 
-#### Flags
-* `OPERATION`: `-ap` for append, `-rm` for remove, `-o` for overwrite.
+#### Operation Types
+
+The edit command can perform three types of operation: append, remove, and overwrite.
+* Append (`-ap`) operation adds the specified attributes to the existing list of attributes.
+* Remove (`-rm`) operation removes the specified attributes from the existing list of attributes.
+* Overwrite (`-o`) operation overwrites existing values of all the specified attributes.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd recruit to be `Betsy Crower` and clears all existing tags.
+*  `edit 1 p/91234567 e/johndoe@example.com` edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2 n/Betsy Crower t/` edits the name of the 2nd recruit to be `Betsy Crower` and clears all existing tags.
+*  `edit -ap 3 e/e01234567@u.nus.edu e/dcsat@nus.edu.sg a/1 Computing Drive` adds to the 3rd recruit the email addresses `e01234567@u.nus.edu.sg` and `dcsat@nus.edu.sg`, and the address `1 Computing Drive`.
+*  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
+*  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
 
 ### Undoing previously done operations: `undo`
 
 Undoes operations that were done recently. 
 
+* You may only continuously perform undo operations up to 200 times.
+
 Format: `undo​`
 
-Examples usage scenario:
+Example usage scenarios:
 1. You add an additional Japanese name to recruit John.
-2. You delete recruit Li
-3. You accidentally cleared all recruits
-4. You type `undo` to restore all the recruits
-5. You realise that you meant instead to delete recruit Lee instead of Li
-6. You type `undo` again to undo deletion of recruit Li
+2. You delete recruit Li.
+3. You accidentally cleared all recruits.
+4. You type `undo` to restore all the recruits.
+5. You realise that you meant instead to delete recruit Lee instead of Li.
+6. You type `undo` again to undo deletion of recruit Li.
 
 
 ### Redoing undone operations: `redo`
@@ -175,16 +183,16 @@ Redoes operations that were undone recently.
 
 <box type="warning" seamless>
 
-**Warning:** Note that if you have undone some operations, and you perform operations that modify any recruit, you will not be able to redo these undone operations anymore.
+**Warning:** If you have undone some operations, and you perform operations that modify any recruit, you will not be able to redo these undone operations anymore.
 </box>
 
 Format: `redo`
 
 Examples usage scenario:
-1. You delete recruit Li
-2. You realise you still need recruit Li's email 
-3. You type `undo` to undo deletion of recruit Li and check his email
-5. You type `redo` again to redo the deletion of Recruit Li
+1. You delete recruit Li.
+2. You realise you still need recruit Li's email. 
+3. You type `undo` to undo deletion of recruit Li and check his email.
+5. You type `redo` again to redo the deletion of Recruit Li.
 
 ### Locating recruits by name: `find`
 
@@ -207,7 +215,6 @@ Examples:
 ### Sorting recruits : `sort`
 
 Sorts all recruits in the address book by specified fields in ascending or descending order.
-
 
 * `ORDER` can be either `asc` (ascending) or `desc` (descending).
 * Multiple fields can be specified, and they will be applied in order of priority from left to right.
@@ -339,7 +346,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 <box type="warning" seamless>
 
-**⚠️ Caution:**
+**Caution:**
 * If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
 * Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
 * Therefore, edit the data file only if you are confident that you can update it correctly.
