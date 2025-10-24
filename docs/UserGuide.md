@@ -29,15 +29,27 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+   * [`help`](#viewing-help--help) : Shows help information.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * [`list`](#listing-all-recruits--list) : Lists all recruits.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
 
-   * `clear` : Deletes all contacts.
+   * [`view`](#viewing-a-recruit--view) `2` : Views the 2nd recruit in the address book.
 
-   * `exit` : Exits the app.
+   * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
+
+   * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
+
+   * [`sort`](#sorting-recruits--sort) : Sorts recruits by name in ascending order.
+
+   * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
+
+   * [`export`](#exporting-data--export) : Exports all recruits to a CSV file.
+
+   * [`clear`](#clearing-all-entries--clear) : Deletes all recruits.
+
+   * [`exit`](#exiting-the-program--exit) : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -153,7 +165,6 @@ Examples:
 
 Sorts all recruits in the address book by specified fields in ascending or descending order.
 
-Format: `sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`
 
 * `ORDER` can be either `asc` (ascending) or `desc` (descending).
 * Multiple fields can be specified, and they will be applied in order of priority from left to right.
@@ -197,7 +208,7 @@ Examples:
 
 Clears all entries from the address book.
 
-Format: `clear`  
+Format: `clear`
 
 ⚠️ **Warning:** This action cannot be undone.
 
@@ -223,17 +234,18 @@ Examples:
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TalentNexus data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TalentNexus data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
-**Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+**⚠️ Caution:**
+* If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
+* Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
+* Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
 ### Archiving data files `[coming in v2.0]`
