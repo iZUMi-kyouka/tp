@@ -22,7 +22,7 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar talentnexus.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -35,25 +35,11 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
    * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
 
-   * [`view`](#viewing-a-recruit--view) `2` : Views the 2nd recruit in the address book.
-
    * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
 
    * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
 
-   * [`sort`](#sorting-recruits--sort) : Sorts recruits by name in ascending order.
-
-   * [`archive`](#archiving-a-recruit--archive) `2` : Archives the 2nd recruit.
-
-   * [`unarchive`](#unarchiving-a-recruit--unarchive) `1` : Unarchives the 1st recruit.
-
    * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
-
-   * [`export`](#exporting-data--export) : Exports all recruits to a CSV file.
-
-   * [`clear`](#clearing-all-entries--clear) : Deletes all recruits.
-
-   * [`exit`](#exiting-the-program--exit) : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
