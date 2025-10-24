@@ -289,7 +289,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
 |----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | recruiter                  | add details of a potential recruit   | refer to the various contact information for my hiring purposes                 | 
+| `* * *`  | recruiter                  | add details of a potential recruit   | refer to the various contact information for my hiring purposes                 |
 | `* * *`  | recruiter                 | edit contact details of a potential recruit |                | keep contact records relevant and updated    |
 | `* * *`  | recruiter                  | delete a contact of a potential recruit  | remove details of an uninterested recruit and comply to PDPA                     |
 | `* * *`  | recruiter           | view contact details of a potential recruit        | contact them |

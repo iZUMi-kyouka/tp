@@ -1,7 +1,7 @@
 ---
-  layout: default.md
-  title: "User Guide"
-  pageNav: 3
+layout: default.md
+title: "User Guide"
+pageNav: 3
 ---
 
 # TalentNexus User Guide
@@ -18,15 +18,15 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * [`help`](#viewing-help--help) : Shows help information.
@@ -41,7 +41,7 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
    * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -167,7 +167,7 @@ Examples:
 
 ### Undoing previously done operations: `undo`
 
-Undoes operations that were done recently. 
+Undoes operations that were done recently.
 
 * You may only continuously perform undo operations up to 200 times.
 
@@ -184,7 +184,7 @@ Example usage scenarios:
 
 ### Redoing undone operations: `redo`
 
-Redoes operations that were undone recently. 
+Redoes operations that were undone recently.
 
 <box type="warning" seamless>
 
@@ -195,7 +195,7 @@ Format: `redo`
 
 Examples usage scenario:
 1. You delete recruit Li.
-2. You realise you still need recruit Li's email. 
+2. You realise you still need recruit Li's email.
 3. You type `undo` to undo deletion of recruit Li and check his email.
 5. You type `redo` again to redo the deletion of Recruit Li.
 
@@ -203,7 +203,7 @@ Examples usage scenario:
 
 Finds and lists all recruits whose details match any of the given keywords. The search is **case-insensitive** and can be filtered by different fields using flags.
 
-If no flag is provided, the command searches by **name** by default.  
+If no flag is provided, the command searches by **name** by default.
 If both default keyword(s) and name keyword(s) are specified, the **name keyword(s)** will take precedence.
 
 * `FLAG` specifies the field(s) to search under:
@@ -214,7 +214,7 @@ If both default keyword(s) and name keyword(s) are specified, the **name keyword
     * `-a` — Search by Address
     * `-t` — Search by Tag
 
-* `KEYWORD [MORE_KEYWORDS]...` are one or more search terms.  
+* `KEYWORD [MORE_KEYWORDS]...` are one or more search terms.
   Multiple keywords can be separated by the pipe symbol (`|`).
 
 If multiple flags are provided, the results will include recruits who satisfy all search criteria
@@ -232,10 +232,10 @@ If multiple flags are provided, the results will include recruits who satisfy al
 ---
 
 **Chaining multiple search flags:**
-* `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose  
+* `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
-* `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains 
+* `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
 “Bukit” or “Pasir”
 ---
 
