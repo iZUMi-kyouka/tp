@@ -29,15 +29,31 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+   * [`help`](#viewing-help--help) : Shows help information.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * [`list`](#listing-all-recruits--list) : Lists all recruits.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
 
-   * `clear` : Deletes all contacts.
+   * [`view`](#viewing-a-recruit--view) `2` : Views the 2nd recruit in the address book.
 
-   * `exit` : Exits the app.
+   * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
+
+   * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
+
+   * [`sort`](#sorting-recruits--sort) : Sorts recruits by name in ascending order.
+
+   * [`archive`](#archiving-a-recruit--archive) `2` : Archives the 2nd recruit.
+
+   * [`unarchive`](#unarchiving-a-recruit--unarchive) `1` : Unarchives the 1st recruit.
+
+   * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
+
+   * [`export`](#exporting-data--export) : Exports all recruits to a CSV file.
+
+   * [`clear`](#clearing-all-entries--clear) : Deletes all recruits.
+
+   * [`exit`](#exiting-the-program--exit) : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -153,7 +169,6 @@ Examples:
 
 Sorts all recruits in the address book by specified fields in ascending or descending order.
 
-Format: `sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`
 
 * `ORDER` can be either `asc` (ascending) or `desc` (descending).
 * Multiple fields can be specified, and they will be applied in order of priority from left to right.
@@ -179,6 +194,62 @@ Examples:
 💡 **Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
 </box>
 
+### Archiving a recruit : `archive`
+
+Archives a recruit to hide them from the default list view while preserving their information.
+
+**Format:** `archive INDEX`
+
+**Parameters:**
+* `INDEX` — The index number shown in the displayed recruit list
+* The index **must be a positive integer** 1, 2, 3, …​
+
+**What is archiving?**
+* Archived recruits are hidden from the default `list` view but remain in the system
+* Use this feature to organize inactive or past recruits without deleting their data
+* View archived recruits using `list -archive` or `list -all`
+
+**Examples:**
+* `list` followed by `archive 2` archives the 2nd recruit in the address book
+* `find John` followed by `archive 1` archives the 1st recruit in the results of the `find` command
+
+<box type="info" seamless>
+
+💡 **Tip:** Archive recruits you no longer actively work with to keep your main list clean and focused!
+</box>
+
+### Unarchiving a recruit : `unarchive`
+
+Unarchives a previously archived recruit to restore them to the active recruit list.
+
+**Format:** `unarchive INDEX`
+
+**Parameters:**
+* `INDEX` — The index number shown in the displayed recruit list (must be viewing archived recruits)
+* The index **must be a positive integer** 1, 2, 3, …​
+
+**Examples:**
+* `list -archive` followed by `unarchive 1` unarchives the 1st recruit in the archived list
+* `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
+
+<box type="tip" seamless>
+
+💡 **Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
+</box>
+
+### Viewing archived recruits
+
+You can view archived recruits using the `list` command with flags:
+
+**Formats:**
+* `list` — Shows only unarchived (active) recruits (default)
+* `list -archive` — Shows only archived recruits
+* `list -all` — Shows all recruits (both archived and unarchived)
+
+**Examples:**
+* `list -archive` displays all archived recruits
+* `list -all` displays all recruits regardless of archive status
+
 ### Deleting a recruit : `delete`
 
 Deletes the specified recruit from the address book.
@@ -197,7 +268,7 @@ Examples:
 
 Clears all entries from the address book.
 
-Format: `clear`  
+Format: `clear`
 
 ⚠️ **Warning:** This action cannot be undone.
 
@@ -223,17 +294,18 @@ Examples:
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TalentNexus data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TalentNexus data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
-**Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+**⚠️ Caution:**
+* If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
+* Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
+* Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
 ### Archiving data files `[coming in v2.0]`
@@ -258,15 +330,20 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear**  | `clear`
-**Delete** | `delete INDEX/UUID`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list`
-**Sort**   | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+Action        | Format, Examples
+--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Add**       | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Archive**   | `archive INDEX`<br> e.g., `archive 2`
+**Clear**     | `clear`
+**Delete**    | `delete INDEX/UUID`<br> e.g., `delete 3`
+**Edit**      | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Export**    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
+**Find**      | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Help**      | `help`
+**List**      | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
+**Sort**      | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+**Unarchive** | `unarchive INDEX`<br> e.g., `unarchive 1`
+**View**      | `view INDEX/UUID`<br> e.g., `view 2`
 **Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
 **Help**   | `help`
 **View**   | `view INDEX/UUID`<br> e.g., `view 2`
