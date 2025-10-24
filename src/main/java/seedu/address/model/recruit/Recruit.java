@@ -103,14 +103,14 @@ public class Recruit {
     /**
      * Sets the {@code Recruit} as "archived".
      */
-    public void setAsArchived() {
+    public void archive() {
         this.isArchived = true;
     }
 
     /**
      * Sets the {@code Recruit} as "not archived". This is the default state.
      */
-    public void setAsUnarchived() {
+    public void unarchive() {
         this.isArchived = false;
     }
 
@@ -193,6 +193,21 @@ public class Recruit {
         private Description description;
         private TreeSet<Tag> tags;
 
+        /**
+         * Copy constructor for Builder
+         *
+         * @param toCopy
+         */
+        public Builder(Builder toCopy) {
+            this.id = toCopy.id; // safe to copy as UUID is immutable
+            this.names = new TreeSet<>(toCopy.names);
+            this.phones = new TreeSet<>(toCopy.phones);
+            this.emails = new TreeSet<>(toCopy.emails);
+            this.addresses = new TreeSet<>(toCopy.addresses);
+            this.description = new Description(toCopy.description);
+            this.tags = new TreeSet<>(toCopy.tags);
+        }
+
         public Builder setUuid(UUID id) {
             this.id = id;
             return this;
@@ -236,14 +251,16 @@ public class Recruit {
             requireNonNull(names);
             requireAllNonBlankString(names.stream().map(Name::toString).toList());
 
-            id = Optional.ofNullable(id).orElse(UUID.randomUUID());
-            phones = Optional.ofNullable(phones).orElse(new TreeSet<>());
-            addresses = Optional.ofNullable(addresses).orElse(new TreeSet<>());
-            emails = Optional.ofNullable(emails).orElse(new TreeSet<>());
-            description = Optional.ofNullable(description).orElse(Description.createEmptyDescription());
-            tags = Optional.ofNullable(tags).orElse(new TreeSet<>());
+            Builder clone = new Builder(this);
 
-            return new Recruit(this);
+            clone.id = Optional.ofNullable(id).orElse(UUID.randomUUID());
+            clone.phones = Optional.ofNullable(phones).orElse(new TreeSet<>());
+            clone.addresses = Optional.ofNullable(addresses).orElse(new TreeSet<>());
+            clone.emails = Optional.ofNullable(emails).orElse(new TreeSet<>());
+            clone.description = Optional.ofNullable(description).orElse(Description.createEmptyDescription());
+            clone.tags = Optional.ofNullable(tags).orElse(new TreeSet<>());
+
+            return new Recruit(clone);
         }
     }
 }
