@@ -43,6 +43,10 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
    * [`sort`](#sorting-recruits--sort) : Sorts recruits by name in ascending order.
 
+   * [`archive`](#archiving-a-recruit--archive) `2` : Archives the 2nd recruit.
+
+   * [`unarchive`](#unarchiving-a-recruit--unarchive) `1` : Unarchives the 1st recruit.
+
    * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
 
    * [`export`](#exporting-data--export) : Exports all recruits to a CSV file.
@@ -190,6 +194,62 @@ Examples:
 💡 **Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
 </box>
 
+### Archiving a recruit : `archive`
+
+Archives a recruit to hide them from the default list view while preserving their information.
+
+**Format:** `archive INDEX`
+
+**Parameters:**
+* `INDEX` — The index number shown in the displayed recruit list
+* The index **must be a positive integer** 1, 2, 3, …​
+
+**What is archiving?**
+* Archived recruits are hidden from the default `list` view but remain in the system
+* Use this feature to organize inactive or past recruits without deleting their data
+* View archived recruits using `list -archive` or `list -all`
+
+**Examples:**
+* `list` followed by `archive 2` archives the 2nd recruit in the address book
+* `find John` followed by `archive 1` archives the 1st recruit in the results of the `find` command
+
+<box type="info" seamless>
+
+💡 **Tip:** Archive recruits you no longer actively work with to keep your main list clean and focused!
+</box>
+
+### Unarchiving a recruit : `unarchive`
+
+Unarchives a previously archived recruit to restore them to the active recruit list.
+
+**Format:** `unarchive INDEX`
+
+**Parameters:**
+* `INDEX` — The index number shown in the displayed recruit list (must be viewing archived recruits)
+* The index **must be a positive integer** 1, 2, 3, …​
+
+**Examples:**
+* `list -archive` followed by `unarchive 1` unarchives the 1st recruit in the archived list
+* `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
+
+<box type="tip" seamless>
+
+💡 **Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
+</box>
+
+### Viewing archived recruits
+
+You can view archived recruits using the `list` command with flags:
+
+**Formats:**
+* `list` — Shows only unarchived (active) recruits (default)
+* `list -archive` — Shows only archived recruits
+* `list -all` — Shows all recruits (both archived and unarchived)
+
+**Examples:**
+* `list -archive` displays all archived recruits
+* `list -all` displays all recruits regardless of archive status
+
 ### Deleting a recruit : `delete`
 
 Deletes the specified recruit from the address book.
@@ -270,15 +330,20 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear**  | `clear`
-**Delete** | `delete INDEX/UUID`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list`
-**Sort**   | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+Action        | Format, Examples
+--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Add**       | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Archive**   | `archive INDEX`<br> e.g., `archive 2`
+**Clear**     | `clear`
+**Delete**    | `delete INDEX/UUID`<br> e.g., `delete 3`
+**Edit**      | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Export**    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
+**Find**      | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Help**      | `help`
+**List**      | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
+**Sort**      | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+**Unarchive** | `unarchive INDEX`<br> e.g., `unarchive 1`
+**View**      | `view INDEX/UUID`<br> e.g., `view 2`
 **Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
 **Help**   | `help`
 **View**   | `view INDEX/UUID`<br> e.g., `view 2`
