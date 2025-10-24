@@ -29,15 +29,15 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all contacts.
+    * `clear` : Deletes all contacts.
 
-   * `exit` : Exits the app.
+    * `exit` : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -65,7 +65,7 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</box>
+  </box>
 
 ### Viewing help : `help`
 
@@ -125,7 +125,7 @@ Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DESCRIPTION
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the recruit will be removed i.e adding of tags is not cumulative.
 * You can remove all the recruit’s tags by typing `t/` without
-    specifying any tags after it.
+  specifying any tags after it.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
@@ -167,7 +167,7 @@ Examples:
 
 Clears all entries from the address book.
 
-Format: `clear`  
+Format: `clear`
 
 ⚠️ **Warning:** This action cannot be undone.
 
