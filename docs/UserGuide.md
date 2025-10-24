@@ -45,6 +45,25 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Command summary
+
+Action        | Format, Examples
+--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[**Add**](#adding-a-recruit-add)                | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
+[**Clear**](#clearing-all-entries--clear)       | `clear`
+[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
+[**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
+[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
+[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+[**Help**](#viewing-help--help)                 | `help`
+[**List**](#listing-all-recruits--list)         | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
+[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
+[**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## Features
 
 <box type="info" seamless>
@@ -223,13 +242,13 @@ If multiple flags are provided, the results will include recruits who satisfy al
 **Examples:**
 * `find alice` — Finds all recruits with “alice” in their name
 * `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
-* `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, 
-* and whose phone numbers contain “98765432” or “91234567”
+* `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
 <box type="tip" seamless>
-Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
+
+**Tip:** Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
 </box>
 
   ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
@@ -392,23 +411,3 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
-
-## Command summary
-
-Action        | Format, Examples
---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**       | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Archive**   | `archive INDEX`<br> e.g., `archive 2`
-**Clear**     | `clear`
-**Delete**    | `delete INDEX/UUID`<br> e.g., `delete 3`
-**Edit**      | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-**Export**    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-**Find**      | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**Help**      | `help`
-**List**      | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
-**Sort**      | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-**Unarchive** | `unarchive INDEX`<br> e.g., `unarchive 1`
-**View**      | `view INDEX/UUID`<br> e.g., `view 2`
-**Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
-**Help**   | `help`
-**View**   | `view INDEX/UUID`<br> e.g., `view 2`
