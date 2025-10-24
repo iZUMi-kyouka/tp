@@ -33,17 +33,17 @@ public class ResultDisplay extends UiPart<Region> {
             return;
         }
 
-        Text temp = new Text(text);
-        temp.setFont(resultDisplay.getFont());
+        Text font = new Text(text);
+        font.setFont(resultDisplay.getFont());
 
         double wrappingWidth = resultDisplay.getWidth() - 20;
-        temp.setWrappingWidth(wrappingWidth > 0 ? wrappingWidth : 0);
+        font.setWrappingWidth(wrappingWidth > 0 ? wrappingWidth : 0);
 
-        double textHeight = temp.getLayoutBounds().getHeight();
-
+        double textHeight = font.getLayoutBounds().getHeight();
+        double windowHeight = resultDisplay.getScene().getWindow().getHeight();
         double newHeight = Math.max(textHeight + 30, 30);
 
-        resultDisplay.setPrefHeight(newHeight);
+        resultDisplay.setPrefHeight(Math.min(newHeight, 0.5 * windowHeight));
     }
 
 }
