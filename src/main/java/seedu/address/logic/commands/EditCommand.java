@@ -145,7 +145,8 @@ public class EditCommand extends Command {
         model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
 
-        return new CommandResult(String.format(MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editedRecruit)));
+        return new CommandResult(String.format(MESSAGE_EDIT_RECRUIT_SUCCESS,
+                formatDelta(recruitToEdit, editedRecruit)));
     }
 
 

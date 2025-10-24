@@ -31,10 +31,16 @@ public class DeleteCommand extends Command {
 
     private final UUID targetID;
     private final Index targetIndex;
+    /**
+     * Creates a DeleteCommand to delete the specified recruit by {@code id}
+     */
     public DeleteCommand(UUID id) {
         this.targetID = id;
         this.targetIndex = null;
     }
+    /**
+     * Creates a DeleteCommand to delete the specified recruit by {@code index}
+     */
     public DeleteCommand(Index index) {
         this.targetIndex = index;
         this.targetID = null;

@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
@@ -31,11 +30,16 @@ public class ViewCommand extends Command {
 
     private final UUID targetID;
     private Index targetIndex;
-
+    /**
+     * Creates a ViewCommand to view the specified recruit by {@code id}
+     */
     public ViewCommand(UUID targetID) {
         this.targetID = targetID;
         this.targetIndex = null;
     }
+    /**
+     * Creates a ViewCommand to view the specified recruit by {@code index}
+     */
     public ViewCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
         this.targetID = null;
