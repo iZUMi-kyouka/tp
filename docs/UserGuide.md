@@ -309,8 +309,6 @@ Clears all entries from the address book.
 
 Format: `clear`
 
-⚠️ **Warning:** This action cannot be undone.
-
 ### Exiting the program : `exit`
 
 Exits the program.
