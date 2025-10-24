@@ -1,16 +1,15 @@
 package seedu.address.model.recruit;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireNonEmpty;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -24,78 +23,25 @@ public class Recruit {
     private boolean isArchived;
 
     // Identity fields
-    private final UUID id;
-    private final List<Name> names;
-    private final List<Phone> phones;
-    private final List<Email> emails;
+    private UUID id;
+    private TreeSet<Name> names;
 
     // Data fields
-    private final List<Address> addresses;
+    private TreeSet<Phone> phones;
+    private TreeSet<Email> emails;
+    private TreeSet<Address> addresses;
     private Description description;
-    private final Set<Tag> tags = new HashSet<>();
+    private TreeSet<Tag> tags;
 
-    /**
-     * Every field must be present and not null.
-     */
-    public Recruit(Name name, Phone phone, Email email, Address address,
-                   Description description, Set<Tag> tags, boolean archive) {
-        this(UUID.randomUUID(), name, phone, email, address, description, tags, archive);
-    }
-
-    /**
-     * Every field must be present and not null
-     * isArchived is set to false if not provided
-     */
-    public Recruit(Name name, Phone phone, Email email, Address address,
-                   Description description, Set<Tag> tags) {
-        this(name, phone, email, address, description, tags, false);
-    }
-
-    /**
-     * Every field must be present and not null.
-     * A specific UUID is provided
-     */
-    public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
-                   Description description, Set<Tag> tags, boolean archive) {
-        this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags, archive);
-    }
-
-
-    /**
-     * Every field must be present and not null.
-     */
-    public Recruit(UUID id, Name name, Phone phone, Email email, Address address,
-                   Description description, Set<Tag> tags) {
-        this(id, List.of(name), List.of(phone), List.of(email), List.of(address), description, tags, false);
-    }
-
-    /**
-     * Every field must be present and not null.
-     */
-    public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses,
-                   Description description, Set<Tag> tags, boolean archive) {
-        this(UUID.randomUUID(), names, phones, emails, addresses, description, tags, archive);
-    }
-
-    /**
-     * Every field must be present and not null.
-     */
-    public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses,
-                   Description description, Set<Tag> tags, boolean archive) {
-        requireAllNonNull(id, names, phones, emails, addresses, tags);
-        requireNonEmpty(names);
-        requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
-                .flatMap(List::stream).map(Object::toString).toList());
-        requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
-
-        this.names = names;
-        this.phones = phones;
-        this.emails = emails;
-        this.addresses = addresses;
-        this.description = description == null ? Description.createEmptyDescription() : description;
-        this.tags.addAll(tags);
-        this.id = id;
-        this.isArchived = archive;
+    private Recruit(Builder builder) {
+        this.id = builder.id;
+        this.names = builder.names;
+        this.phones = builder.phones;
+        this.emails = builder.emails;
+        this.addresses = builder.addresses;
+        this.description = builder.description;
+        this.tags = builder.tags;
+        this.isArchived = false;
     }
 
     public UUID getID() {
@@ -103,27 +49,27 @@ public class Recruit {
     }
 
     public Name getName() {
-        return names.get(0);
+        return names.first();
     }
 
     public List<Name> getNames() {
-        return this.names;
+        return this.names.stream().toList();
     }
 
     public Phone getPhone() {
-        return phones.get(0);
+        return phones.first();
     }
 
     public List<Phone> getPhones() {
-        return this.phones;
+        return this.phones.stream().toList();
     }
 
     public Email getEmail() {
-        return emails.get(0);
+        return emails.first();
     }
 
     public List<Email> getEmails() {
-        return this.emails;
+        return this.emails.stream().toList();
     }
 
     public Description getDescription() {
@@ -131,11 +77,11 @@ public class Recruit {
     }
 
     public Address getAddress() {
-        return addresses.get(0);
+        return addresses.first();
     }
 
     public List<Address> getAddresses() {
-        return this.addresses;
+        return this.addresses.stream().toList();
     }
 
     /**
@@ -152,6 +98,20 @@ public class Recruit {
      */
     public boolean isArchived() {
         return this.isArchived;
+    }
+
+    /**
+     * Sets the {@code Recruit} as "archived".
+     */
+    public void setAsArchived() {
+        this.isArchived = true;
+    }
+
+    /**
+     * Sets the {@code Recruit} as "not archived". This is the default state.
+     */
+    public void setAsUnarchived() {
+        this.isArchived = false;
     }
 
     /**
@@ -213,5 +173,77 @@ public class Recruit {
                 .add("addresses", addresses)
                 .add("tags", tags)
                 .toString();
+    }
+
+    /**
+     * Represents a Builder class to build a Recruit.
+     * Guarantees:
+     * <ul>
+     *     <li>A new {@code Recruit} with valid fields.</li>
+     *     <li>The created{@code Recruit} has to have at least 1 name</li>
+     *     <li>If a UUID is not provided, a new one is randomly generated</li>
+     * </ul>
+     */
+    public static class Builder {
+        private UUID id;
+        private TreeSet<Name> names;
+        private TreeSet<Phone> phones;
+        private TreeSet<Email> emails;
+        private TreeSet<Address> addresses;
+        private Description description;
+        private TreeSet<Tag> tags;
+
+        public Builder setUuid(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setNames(List<Name> names) {
+            this.names = new TreeSet<>(names);
+            return this;
+        }
+
+        public Builder setPhones(List<Phone> phones) {
+            this.phones = new TreeSet<>(phones);
+            return this;
+        }
+
+        public Builder setEmails(List<Email> emails) {
+            this.emails = new TreeSet<>(emails);
+            return this;
+        }
+
+        public Builder setAddresses(List<Address> addresses) {
+            this.addresses = new TreeSet<>(addresses);
+            return this;
+        }
+
+        public Builder setDescription(Description description) {
+            this.description = new Description(description);
+            return this;
+        }
+
+        public Builder setTags(Set<Tag> tags) {
+            this.tags = new TreeSet<>(tags);
+            return this;
+        }
+
+        /**
+         * Builds a {@code Recruit} using the attributes specified in the {@code Builder}
+         * @return the Recruit with matching {@code Builder} attributes
+         */
+        public Recruit build() {
+            requireNonNull(names);
+            requireAllNonBlankString(names.stream().map(Name::toString).toList());
+
+            id = Optional.ofNullable(id).orElse(UUID.randomUUID());
+            phones = Optional.ofNullable(phones).orElse(new TreeSet<>());
+            addresses = Optional.ofNullable(addresses).orElse(new TreeSet<>());
+            emails = Optional.ofNullable(emails).orElse(new TreeSet<>());
+            description = Optional.ofNullable(description).orElse(Description.createEmptyDescription());
+            tags = Optional.ofNullable(tags).orElse(new TreeSet<>());
+
+            return new Recruit(this);
+        }
     }
 }
