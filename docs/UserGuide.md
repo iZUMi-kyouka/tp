@@ -140,13 +140,15 @@ Edits an existing recruit in the address book.
 Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
-* Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes.
+* Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the recruit will be removed i.e adding of tags is not cumulative.
-* You can remove all the recruit’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the recruit’s tags by typing `t/` without specifying any tags after it.
+
+#### Flags
+* `OPERATION`: `-ap` for append, `-rm` for remove, `-o` for overwrite.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
