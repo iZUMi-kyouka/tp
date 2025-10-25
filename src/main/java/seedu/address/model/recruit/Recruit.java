@@ -6,7 +6,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -23,15 +22,15 @@ public class Recruit {
     private boolean isArchived;
 
     // Identity fields
-    private UUID id;
-    private TreeSet<Name> names;
+    private final UUID id;
+    private final TreeSet<Name> names;
 
     // Data fields
-    private TreeSet<Phone> phones;
-    private TreeSet<Email> emails;
-    private TreeSet<Address> addresses;
-    private Description description;
-    private TreeSet<Tag> tags;
+    private final TreeSet<Phone> phones;
+    private final TreeSet<Email> emails;
+    private final TreeSet<Address> addresses;
+    private final Description description;
+    private final TreeSet<Tag> tags;
 
     private Recruit(Builder builder) {
         this.id = builder.id;
@@ -41,7 +40,7 @@ public class Recruit {
         this.addresses = builder.addresses;
         this.description = builder.description;
         this.tags = builder.tags;
-        this.isArchived = false;
+        this.isArchived = builder.isArchived;
     }
 
     public UUID getID() {
@@ -103,15 +102,15 @@ public class Recruit {
     /**
      * Sets the {@code Recruit} as "archived".
      */
-    public void archive() {
-        this.isArchived = true;
+    public Recruit archive() {
+        return new Recruit.Builder(this).setArchivalState(true).build();
     }
 
     /**
      * Sets the {@code Recruit} as "not archived". This is the default state.
      */
-    public void unarchive() {
-        this.isArchived = false;
+    public Recruit unarchive() {
+        return new Recruit.Builder(this).setArchivalState(false).build();
     }
 
     /**
@@ -185,13 +184,46 @@ public class Recruit {
      * </ul>
      */
     public static class Builder {
+
         private UUID id;
+
         private TreeSet<Name> names;
         private TreeSet<Phone> phones;
         private TreeSet<Email> emails;
         private TreeSet<Address> addresses;
+
         private Description description;
         private TreeSet<Tag> tags;
+
+        private boolean isArchived;
+
+        /**
+         * Constructor for Builder
+         */
+        public Builder() {
+            this.id = UUID.randomUUID();
+            this.names = new TreeSet<>();
+            this.phones = new TreeSet<>();
+            this.addresses = new TreeSet<>();
+            this.emails = new TreeSet<>();
+            this.description = Description.createEmptyDescription();
+            this.tags = new TreeSet<>();
+            this.isArchived = false;
+        }
+
+        /**
+         * Constructor for Builder that builds upon an exsiting Recruit
+         */
+        public Builder(Recruit recruit) {
+            this.id = recruit.id;
+            this.names = new TreeSet<>(recruit.names);
+            this.phones = new TreeSet<>(recruit.phones);
+            this.addresses = new TreeSet<>(recruit.addresses);
+            this.emails = new TreeSet<>(recruit.emails);
+            this.description = new Description(recruit.description);
+            this.tags = new TreeSet<>(recruit.tags);
+            this.isArchived = recruit.isArchived;
+        }
 
         /**
          * Copy constructor for Builder
@@ -199,13 +231,14 @@ public class Recruit {
          * @param toCopy
          */
         public Builder(Builder toCopy) {
-            this.id = toCopy.id; // safe to copy as UUID is immutable
+            this.id = toCopy.id;
             this.names = new TreeSet<>(toCopy.names);
             this.phones = new TreeSet<>(toCopy.phones);
             this.emails = new TreeSet<>(toCopy.emails);
             this.addresses = new TreeSet<>(toCopy.addresses);
             this.description = new Description(toCopy.description);
             this.tags = new TreeSet<>(toCopy.tags);
+            this.isArchived = toCopy.isArchived;
         }
 
         public Builder setUuid(UUID id) {
@@ -243,6 +276,35 @@ public class Recruit {
             return this;
         }
 
+        public Builder setArchivalState(boolean isArchived) {
+            this.isArchived = isArchived;
+        }
+
+        public Builder appendNames(List<Name> names) {
+            this.names.addAll(names);
+            return this;
+        }
+
+        public Builder appendPhones(List<Phone> phones) {
+            this.phones.addAll(phones);
+            return this;
+        }
+
+        public Builder appendEmails(List<Email> emails) {
+            this.emails.addAll(emails);
+            return this;
+        }
+
+        public Builder appendAddresses(List<Address> addresses) {
+            this.addresses.addAll(addresses);
+            return this;
+        }
+
+        public Builder appendTags(Set<Tag> tags) {
+            this.tags.addAll(tags);
+            return this;
+        }
+
         /**
          * Builds a {@code Recruit} using the attributes specified in the {@code Builder}
          * @return the Recruit with matching {@code Builder} attributes
@@ -251,16 +313,7 @@ public class Recruit {
             requireNonNull(names);
             requireAllNonBlankString(names.stream().map(Name::toString).toList());
 
-            Builder clone = new Builder(this);
-
-            clone.id = Optional.ofNullable(id).orElse(UUID.randomUUID());
-            clone.phones = Optional.ofNullable(phones).orElse(new TreeSet<>());
-            clone.addresses = Optional.ofNullable(addresses).orElse(new TreeSet<>());
-            clone.emails = Optional.ofNullable(emails).orElse(new TreeSet<>());
-            clone.description = Optional.ofNullable(description).orElse(Description.createEmptyDescription());
-            clone.tags = Optional.ofNullable(tags).orElse(new TreeSet<>());
-
-            return new Recruit(clone);
+            return new Recruit(this);
         }
     }
 }

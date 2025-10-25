@@ -50,7 +50,15 @@ public class AddCommandParser implements Parser<AddCommand> {
                 argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
         Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).orElse("-"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        Recruit recruit = new Recruit(names, phones, emails, addresses, description, tagList, false);
+        Recruit recruit = new Recruit.Builder()
+                .setNames(names)
+                .setPhones(phones)
+                .setEmails(emails)
+                .setAddresses(addresses)
+                .setDescription(description)
+                .setTags(tagList)
+                .build();
+
         return new AddCommand(recruit);
     }
 
