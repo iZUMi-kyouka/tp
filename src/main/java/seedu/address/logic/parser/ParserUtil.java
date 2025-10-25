@@ -231,7 +231,7 @@ public class ParserUtil {
             return null;
         }
 
-        return ParserUtil.parseAllValues(map.getAllValues(prefix).orElse(List.of()), parserFunction);
+        return ParserUtil.parseAllValues(map.getAllValues(prefix), parserFunction);
     }
 
     /**

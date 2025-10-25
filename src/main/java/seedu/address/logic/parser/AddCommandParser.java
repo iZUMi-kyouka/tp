@@ -9,20 +9,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Description;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
-import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -44,20 +36,15 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
-        List<Name> names = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_NAME), ParserUtil::parseName);
-        List<Phone> phones = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_PHONE), ParserUtil::parsePhone);
-        List<Email> emails = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail);
-        List<Address> addresses = ParserUtil.parseAllValues(
-                argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
-        Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).orElse("-"));
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         Recruit recruit = new RecruitBuilder()
-                .setNames(names)
-                .setPhones(phones)
-                .setEmails(emails)
-                .setAddresses(addresses)
-                .setDescription(description)
-                .setTags(tagList)
+                .setNames(ParserUtil.extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName))
+                .setPhones(ParserUtil.extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone))
+                .setEmails(ParserUtil.extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail))
+                .setAddresses(ParserUtil.extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap,
+                        ParserUtil::parseAddress))
+                .setDescription(ParserUtil.extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
+                        ParserUtil::parseDescription))
+                .setTags(ParserUtil.extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag))
                 .build();
 
         return new AddCommand(recruit);
