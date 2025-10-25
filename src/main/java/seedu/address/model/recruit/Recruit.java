@@ -278,6 +278,7 @@ public class Recruit {
 
         public Builder setArchivalState(boolean isArchived) {
             this.isArchived = isArchived;
+            return this;
         }
 
         public Builder appendNames(List<Name> names) {
@@ -300,11 +301,45 @@ public class Recruit {
             return this;
         }
 
+        public Builder appendDescription(Description description) {
+            this.description.appendDescription(description);
+            return this;
+        }
+
         public Builder appendTags(Set<Tag> tags) {
             this.tags.addAll(tags);
             return this;
         }
 
+        public Builder removeNames(List<Name> names) {
+            names.forEach(this.names::remove);
+            return this;
+        }
+
+        public Builder removePhones(List<Phone> phones) {
+            phones.forEach(this.phones::remove);
+            return this;
+        }
+
+        public Builder removeEmails(List<Email> emails) {
+            emails.forEach(this.emails::remove);
+            return this;
+        }
+
+        public Builder removeAddresses(List<Address> addresses) {
+            addresses.forEach(this.addresses::remove);
+            return this;
+        }
+
+        public Builder removeDescription() {
+            this.description = Description.createEmptyDescription();
+            return this;
+        }
+
+        public Builder removeTags(Set<Tag> tags) {
+            tags.forEach(this.tags::remove);
+            return this;
+        }
         /**
          * Builds a {@code Recruit} using the attributes specified in the {@code Builder}
          * @return the Recruit with matching {@code Builder} attributes
