@@ -10,8 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.recruit.Address;
 import seedu.address.model.recruit.Description;
 import seedu.address.model.recruit.Email;
@@ -24,6 +27,7 @@ import seedu.address.model.tag.Tag;
  * Converts a Java object instance to CSV and vice versa
  */
 public class CsvUtil {
+    private static final Logger logger = LogsCenter.getLogger(CsvUtil.class);
 
     /**
      * Serializes a list of recruits to a CSV file at the given path.
@@ -38,12 +42,16 @@ public class CsvUtil {
         requireNonNull(recruits);
 
         String csvString = recruitsToCsvString(recruits);
-        FileUtil.writeToFile(filePath, csvString);
+        try {
+            FileUtil.writeToFile(filePath, csvString);
+        } catch (IOException e) {
+            logger.warning("Error writing to csvFile file " + filePath + ": " + e);
+            throw new IOException(e);
+        }
     }
 
     /**
      * Converts a list of recruits into a CSV-formatted string.
-     *
      * Each recruit may have multiple names, phones, emails, and addresses.
      * These are concatenated with ';' within the same CSV cell.
      *
@@ -89,12 +97,18 @@ public class CsvUtil {
      *
      * @param filePath Path to the CSV file.
      * @return List of recruits from the CSV.
-     * @throws IOException if reading the file fails.
+     * @throws DataLoadingException if reading the file fails.
      */
-    public static List<Recruit> deserializeRecruitsFromCsvFile(Path filePath) throws IOException {
+    public static List<Recruit> deserializeRecruitsFromCsvFile(Path filePath) throws DataLoadingException {
         requireNonNull(filePath);
-        String csvContent = Files.readString(filePath);
-        return fromCsvString(csvContent);
+        try {
+            String csvContent = Files.readString(filePath);
+            logger.info("CSV file " + filePath + " found.");
+            return fromCsvString(csvContent);
+        } catch (IOException e) {
+            logger.warning("Error reading from csvFile file " + filePath + ": " + e);
+            throw new DataLoadingException(e);
+        }
     }
 
     /**
@@ -131,7 +145,7 @@ public class CsvUtil {
                     .map(Address::new)
                     .toList();
             Set<Tag> tags = Arrays.stream(cols[5].split(";"))
-                    .map(s -> s.replaceAll("^\\[|\\]$", ""))
+                    .map(s -> s.replaceAll("^\\[|]$", ""))
                     .map(Tag::new)
                     .collect(Collectors.toSet());
             Description description = new Description(cols[6]);
