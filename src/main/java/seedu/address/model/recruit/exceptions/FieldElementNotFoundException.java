@@ -8,16 +8,23 @@ import java.util.List;
  */
 public class FieldElementNotFoundException extends IllegalRecruitBuilderActionException {
     private List<String> missingElements;
+    private String fieldType;
 
     public FieldElementNotFoundException(String s) {
         super(s);
     }
 
-    public FieldElementNotFoundException(List<String> missingElements) {
-        super("The following fields are missing: " + missingElements);
+    public FieldElementNotFoundException(String fieldType, List<String> missingElements) {
+        super(String.format("The following %ss cannot be found: %s", fieldType, missingElements));
+        this.fieldType = fieldType;
+        this.missingElements = missingElements;
     }
 
     public List<String> getMissingElements() {
         return missingElements;
+    }
+
+    public String getFieldType() {
+        return fieldType;
     }
 }

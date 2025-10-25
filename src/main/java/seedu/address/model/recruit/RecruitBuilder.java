@@ -114,7 +114,8 @@ public class RecruitBuilder {
         List<Name> duplicatedNames = CollectionUtil.addListToSet(this.names, namesToAdd);
 
         if (!duplicatedNames.isEmpty()) {
-            throw new FieldElementAlreadyExistsException(duplicatedNames.stream().map(Name::toString).toList());
+            throw new FieldElementAlreadyExistsException("name",
+                    duplicatedNames.stream().map(Name::toString).toList());
         }
 
         return this;
@@ -135,7 +136,8 @@ public class RecruitBuilder {
         List<Name> missingNames = CollectionUtil.removeListFromSet(this.names, namesToRemove);
 
         if (!missingNames.isEmpty()) {
-            throw new FieldElementNotFoundException(missingNames.stream().map(Name::toString).toList());
+            throw new FieldElementNotFoundException("name",
+                    missingNames.stream().map(Name::toString).toList());
         }
 
         return this;
@@ -169,7 +171,8 @@ public class RecruitBuilder {
         List<Phone> duplicatedPhones = CollectionUtil.addListToSet(this.phones, phonesToAdd);
 
         if (!duplicatedPhones.isEmpty()) {
-            throw new FieldElementAlreadyExistsException(duplicatedPhones.stream().map(Phone::toString).toList());
+            throw new FieldElementAlreadyExistsException("phone",
+                    duplicatedPhones.stream().map(Phone::toString).toList());
         }
 
         return this;
@@ -190,7 +193,8 @@ public class RecruitBuilder {
         List<Phone> missingPhones = CollectionUtil.removeListFromSet(this.phones, phonesToRemove);
 
         if (!missingPhones.isEmpty()) {
-            throw new FieldElementNotFoundException(missingPhones.stream().map(Phone::toString).toList());
+            throw new FieldElementNotFoundException("phone",
+                    missingPhones.stream().map(Phone::toString).toList());
         }
 
         return this;
@@ -224,7 +228,8 @@ public class RecruitBuilder {
         List<Email> duplicatedEmails = CollectionUtil.addListToSet(this.emails, emailsToAdd);
 
         if (!duplicatedEmails.isEmpty()) {
-            throw new FieldElementAlreadyExistsException(duplicatedEmails.stream().map(Email::toString).toList());
+            throw new FieldElementAlreadyExistsException("email",
+                    duplicatedEmails.stream().map(Email::toString).toList());
         }
 
         return this;
@@ -245,7 +250,8 @@ public class RecruitBuilder {
         List<Email> missingEmails = CollectionUtil.removeListFromSet(this.emails, emailsToRemove);
 
         if (!missingEmails.isEmpty()) {
-            throw new FieldElementNotFoundException(missingEmails.stream().map(Email::toString).toList());
+            throw new FieldElementNotFoundException("email",
+                    missingEmails.stream().map(Email::toString).toList());
         }
 
         return this;
@@ -279,7 +285,8 @@ public class RecruitBuilder {
         List<Address> duplicatedAddresses = CollectionUtil.addListToSet(this.addresses, addressesToAdd);
 
         if (!duplicatedAddresses.isEmpty()) {
-            throw new FieldElementAlreadyExistsException(duplicatedAddresses.stream().map(Address::toString).toList());
+            throw new FieldElementAlreadyExistsException("address",
+                    duplicatedAddresses.stream().map(Address::toString).toList());
         }
 
         return this;
@@ -300,7 +307,8 @@ public class RecruitBuilder {
         List<Address> missingAddresses = CollectionUtil.removeListFromSet(this.addresses, addressesToRemove);
 
         if (!missingAddresses.isEmpty()) {
-            throw new FieldElementNotFoundException(missingAddresses.stream().map(Address::toString).toList());
+            throw new FieldElementNotFoundException("address",
+                    missingAddresses.stream().map(Address::toString).toList());
         }
 
         return this;
@@ -377,7 +385,8 @@ public class RecruitBuilder {
         List<Tag> duplicatedTags = CollectionUtil.addListToSet(this.tags, tagsToAdd);
 
         if (!duplicatedTags.isEmpty()) {
-            throw new FieldElementAlreadyExistsException(duplicatedTags.stream().map(Tag::toString).toList());
+            throw new FieldElementAlreadyExistsException("tag",
+                    duplicatedTags.stream().map(Tag::toString).toList());
         }
 
         return this;
@@ -398,7 +407,8 @@ public class RecruitBuilder {
         List<Tag> missingTags = CollectionUtil.removeListFromSet(this.tags, tagsToRemove);
 
         if (!missingTags.isEmpty()) {
-            throw new FieldElementNotFoundException(missingTags.stream().map(Tag::toString).toList());
+            throw new FieldElementNotFoundException("tag",
+                    missingTags.stream().map(Tag::toString).toList());
         }
 
         return this;
