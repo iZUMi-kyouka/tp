@@ -2,13 +2,12 @@ package seedu.address.model.recruit;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.RecruitUtil;
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.exceptions.FieldNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
@@ -344,7 +343,7 @@ public class RecruitBuilder {
      * @param tags the set of tags to set
      * @return the Builder instance with the updated tags
      */
-    public RecruitBuilder setTags(Set<Tag> tags) {
+    public RecruitBuilder setTags(List<Tag> tags) {
         if (tags != null) {
             this.tags = new TreeSet<>(tags);
         }
@@ -358,7 +357,7 @@ public class RecruitBuilder {
      * @param tags List of tags to append
      * @return the Builder with the appended tags
      */
-    public RecruitBuilder appendTags(Set<Tag> tags) {
+    public RecruitBuilder appendTags(List<Tag> tags) {
         if (tags != null) {
             if (this.tags == null) {
                 this.tags = new TreeSet<>(tags);
@@ -426,7 +425,7 @@ public class RecruitBuilder {
         this.appendEmails(other.emails.stream().toList());
         this.appendAddresses(other.addresses.stream().toList());
         this.appendDescription(other.description);
-        this.appendTags(other.tags);
+        this.appendTags(other.tags.stream().toList());
 
         return this;
     }
@@ -444,7 +443,7 @@ public class RecruitBuilder {
         this.removeEmails(other.emails.stream().toList());
         this.removeAddresses(other.addresses.stream().toList());
         this.description = other.description == null ? this.description : Description.createEmptyDescription();
-        this.appendTags(other.tags);
+        this.appendTags(other.tags.stream().toList());
 
         return this;
     }
@@ -456,8 +455,7 @@ public class RecruitBuilder {
      * @return boolean indicating whether the Builder has been modified.
      */
     public boolean hasBeenModified() {
-        return Stream.of(this.names, this.phones, this.emails, this.addresses, this.description, this.tags)
-                .anyMatch(Objects::nonNull);
+        return CollectionUtil.isAnyNonNull(id, names, phones, emails, addresses, description, tags);
     }
 
     /**
@@ -476,5 +474,37 @@ public class RecruitBuilder {
         this.description = this.description == null ? Description.createEmptyDescription() : this.description;
         this.tags = this.tags == null ? new TreeSet<>() : this.tags;
         return new Recruit(this);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof RecruitBuilder)) {
+            return false;
+        }
+
+        RecruitBuilder otherBuilder = (RecruitBuilder) other;
+        return Objects.equals(names, otherBuilder.names)
+                && Objects.equals(phones, otherBuilder.phones)
+                && Objects.equals(emails, otherBuilder.emails)
+                && Objects.equals(addresses, otherBuilder.addresses)
+                && Objects.equals(description, otherBuilder.description)
+                && Objects.equals(tags, otherBuilder.tags);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("name", names)
+                .add("phone", phones)
+                .add("email", emails)
+                .add("address", addresses)
+                .add("description", description)
+                .add("tags", tags)
+                .toString();
     }
 }
