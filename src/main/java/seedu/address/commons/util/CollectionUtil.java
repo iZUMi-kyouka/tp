@@ -2,10 +2,12 @@ package seedu.address.commons.util;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -54,7 +56,7 @@ public class CollectionUtil {
      * string containing only whitespace codepoints.
      */
     public static void requireAllNonBlankString(Collection<? extends String> items) throws IllegalArgumentException {
-        if (items.stream().anyMatch(s -> s.isBlank())) {
+        if (items.stream().anyMatch(String::isBlank)) {
             throw new IllegalArgumentException();
         }
     }
@@ -64,5 +66,34 @@ public class CollectionUtil {
      */
     public static boolean isAnyNonNull(Object... items) {
         return items != null && Arrays.stream(items).anyMatch(Objects::nonNull);
+    }
+
+    /**
+     * Removes a list of elements from the given collection and returns a list of elements that
+     * could not be found in the collection.
+     *
+     * @param collection Collection to remove from
+     * @param toRemove List from which elements should be removed
+     * @return List of elements that could not be found in the collection.
+     */
+    public <T> List<T> remove(Set<T> collection, List<T> toRemove) {
+        if (toRemove == null) {
+            return new ArrayList<>();
+        }
+
+        if (collection == null && !toRemove.isEmpty()) {
+            throw new NullPointerException("Cannot remove element from uninitialised collection");
+        }
+
+        List<T> missing = new ArrayList<>();
+        for (T item : toRemove) {
+            if (collection.contains(item)) {
+                collection.remove(item);
+            } else {
+                missing.add(item);
+            }
+        }
+
+        return missing;
     }
 }
