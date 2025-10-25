@@ -8,6 +8,7 @@ import java.util.UUID;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.recruit.exceptions.FieldElementAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.FieldElementNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
@@ -100,20 +101,22 @@ public class RecruitBuilder {
     }
 
     /**
-     * Appends the list of names to the current set of names in the {@code Builder},
-     * only if the provided list is not null.
+     * Appends the list of names to the current set of names in the {@code Builder}
      *
-     * @param names List of names to append
+     * @param namesToAdd List of names to append
      * @return the Builder with the appended names
      */
-    public RecruitBuilder appendNames(List<Name> names) {
-        if (names != null) {
-            if (this.names == null) {
-                this.names = new TreeSet<>(names);
-            } else {
-                this.names.addAll(names);
-            }
+    public RecruitBuilder appendNames(List<Name> namesToAdd) {
+        if (namesToAdd == null) {
+            return this;
         }
+
+        List<Name> duplicatedNames = CollectionUtil.addListToSet(this.names, namesToAdd);
+
+        if (!duplicatedNames.isEmpty()) {
+            throw new FieldElementAlreadyExistsException(duplicatedNames.stream().map(Name::toString).toList());
+        }
+
         return this;
     }
 
@@ -155,17 +158,20 @@ public class RecruitBuilder {
      * Appends the list of phone numbers to the current set of phone numbers in the {@code Builder},
      * only if the provided list is not null.
      *
-     * @param phones List of phone numbers to append
+     * @param phonesToAdd List of phone numbers to append
      * @return the Builder with the appended phone numbers
      */
-    public RecruitBuilder appendPhones(List<Phone> phones) {
-        if (phones != null) {
-            if (this.phones == null) {
-                this.phones = new TreeSet<>(phones);
-            } else {
-                this.phones.addAll(phones);
-            }
+    public RecruitBuilder appendPhones(List<Phone> phonesToAdd) {
+        if (phonesToAdd == null) {
+            return this;
         }
+
+        List<Phone> duplicatedPhones = CollectionUtil.addListToSet(this.phones, phonesToAdd);
+
+        if (!duplicatedPhones.isEmpty()) {
+            throw new FieldElementAlreadyExistsException(duplicatedPhones.stream().map(Phone::toString).toList());
+        }
+
         return this;
     }
 
@@ -207,17 +213,20 @@ public class RecruitBuilder {
      * Appends the list of emails to the current set of emails in the {@code Builder},
      * only if the provided list is not null.
      *
-     * @param emails List of emails to append
+     * @param emailsToAdd List of emails to append
      * @return the Builder with the appended emails
      */
-    public RecruitBuilder appendEmails(List<Email> emails) {
-        if (emails != null) {
-            if (this.emails == null) {
-                this.emails = new TreeSet<>(emails);
-            } else {
-                this.emails.addAll(emails);
-            }
+    public RecruitBuilder appendEmails(List<Email> emailsToAdd) {
+        if (emailsToAdd == null) {
+            return this;
         }
+
+        List<Email> duplicatedEmails = CollectionUtil.addListToSet(this.emails, emailsToAdd);
+
+        if (!duplicatedEmails.isEmpty()) {
+            throw new FieldElementAlreadyExistsException(duplicatedEmails.stream().map(Email::toString).toList());
+        }
+
         return this;
     }
 
@@ -259,17 +268,20 @@ public class RecruitBuilder {
      * Appends the list of addresses to the current set of addresses in the {@code Builder},
      * only if the provided list is not null.
      *
-     * @param addresses List of addresses to append
+     * @param addressesToAdd List of addresses to append
      * @return the Builder with the appended addresses
      */
-    public RecruitBuilder appendAddresses(List<Address> addresses) {
-        if (addresses != null) {
-            if (this.addresses == null) {
-                this.addresses = new TreeSet<>(addresses);
-            } else {
-                this.addresses.addAll(addresses);
-            }
+    public RecruitBuilder appendAddresses(List<Address> addressesToAdd) {
+        if (addressesToAdd == null) {
+            return this;
         }
+
+        List<Address> duplicatedAddresses = CollectionUtil.addListToSet(this.addresses, addressesToAdd);
+
+        if (!duplicatedAddresses.isEmpty()) {
+            throw new FieldElementAlreadyExistsException(duplicatedAddresses.stream().map(Address::toString).toList());
+        }
+
         return this;
     }
 
@@ -352,19 +364,22 @@ public class RecruitBuilder {
 
     /**
      * Appends the list of tags to the current set of tags in the {@code Builder},
-     * only if the provided set is not null.
+     * only if the provided list is not null.
      *
-     * @param tags List of tags to append
+     * @param tagsToAdd List of tags to append
      * @return the Builder with the appended tags
      */
-    public RecruitBuilder appendTags(List<Tag> tags) {
-        if (tags != null) {
-            if (this.tags == null) {
-                this.tags = new TreeSet<>(tags);
-            } else {
-                this.tags.addAll(tags);
-            }
+    public RecruitBuilder appendTags(List<Tag> tagsToAdd) {
+        if (tagsToAdd == null) {
+            return this;
         }
+
+        List<Tag> duplicatedTags = CollectionUtil.addListToSet(this.tags, tagsToAdd);
+
+        if (!duplicatedTags.isEmpty()) {
+            throw new FieldElementAlreadyExistsException(duplicatedTags.stream().map(Tag::toString).toList());
+        }
+
         return this;
     }
 

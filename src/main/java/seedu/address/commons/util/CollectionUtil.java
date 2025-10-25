@@ -104,7 +104,7 @@ public class CollectionUtil {
      * @param toAdd the list of elements to add
      * @return a list of elements that were already present in the set
      */
-    public static <T> List<T> addListToCollection(Set<T> collection, List<T> toAdd) {
+    public static <T> List<T> addListToSet(Set<T> collection, List<T> toAdd) {
         if (toAdd == null || toAdd.isEmpty()) {
             return new ArrayList<>();
         }
