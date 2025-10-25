@@ -73,13 +73,13 @@ public class EditCommandParser implements Parser<EditCommand> {
         LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
 
         EditCommand.EditRecruitDescriptor editBuilder = new EditCommand.EditRecruitDescriptor(operation);
-        editBuilder.setNames(extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName));
-        editBuilder.setPhones(extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone));
-        editBuilder.setEmails(extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail));
-        editBuilder.setAddresses(extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress));
-        editBuilder.setDescription(extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
+        editBuilder.withNames(extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName));
+        editBuilder.withPhones(extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone));
+        editBuilder.withEmails(extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail));
+        editBuilder.withAddresses(extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress));
+        editBuilder.withDescription(extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
                 ParserUtil::parseDescription));
-        editBuilder.setTags(extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag));
+        editBuilder.withTags(extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag));
 
         // TODO: perhaps this should be refactored to throw if the resulting recruit is the same after the operation
         // rahter than checking merely for the descriptor attributes.

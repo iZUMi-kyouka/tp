@@ -100,14 +100,14 @@ public class Recruit {
      * Sets the {@code Recruit} as "archived".
      */
     public Recruit archive() {
-        return new RecruitBuilder(this).setArchivalState(true).build();
+        return new RecruitBuilder(this).withArchivalState(true).build();
     }
 
     /**
      * Sets the {@code Recruit} as "not archived". This is the default state.
      */
     public Recruit unarchive() {
-        return new RecruitBuilder(this).setArchivalState(false).build();
+        return new RecruitBuilder(this).withArchivalState(false).build();
     }
 
     /**

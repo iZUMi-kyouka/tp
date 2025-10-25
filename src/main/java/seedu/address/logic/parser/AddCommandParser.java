@@ -37,14 +37,14 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         Recruit recruit = new RecruitBuilder()
-                .setNames(ParserUtil.extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName))
-                .setPhones(ParserUtil.extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone))
-                .setEmails(ParserUtil.extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail))
-                .setAddresses(ParserUtil.extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap,
+                .withNames(ParserUtil.extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName))
+                .withPhones(ParserUtil.extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone))
+                .withEmails(ParserUtil.extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail))
+                .withAddresses(ParserUtil.extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap,
                         ParserUtil::parseAddress))
-                .setDescription(ParserUtil.extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
+                .withDescription(ParserUtil.extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
                         ParserUtil::parseDescription))
-                .setTags(ParserUtil.extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag))
+                .withTags(ParserUtil.extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag))
                 .build();
 
         return new AddCommand(recruit);

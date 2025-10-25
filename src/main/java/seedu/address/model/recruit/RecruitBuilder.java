@@ -88,12 +88,26 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the list of names if the provided list is not null.
+     * Sets names to be a Set with this individual name
+     *
+     * @param name the name to set
+     * @return this Builder instance with names updated
+     */
+    public RecruitBuilder withName(Name name) {
+        if (name != null) {
+            this.names = new TreeSet<Name>();
+            this.names.add(name);
+        }
+        return this;
+    }
+
+    /**
+     * Sets names to be a Set consisting of all names in the provided list.
      *
      * @param names the list of names to set
-     * @return the Builder instance with the updated names
+     * @return this Builder instance with names updated
      */
-    public RecruitBuilder setNames(List<Name> names) {
+    public RecruitBuilder withNames(List<Name> names) {
         if (names != null) {
             this.names = new TreeSet<>(names);
         }
@@ -144,12 +158,26 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the list of phone numbers if the provided list is not null.
+     * Sets phones to be a Set with this individual phone number.
+     *
+     * @param phone the phone number to set
+     * @return this Builder instance with phones updated
+     */
+    public RecruitBuilder withPhone(Phone phone) {
+        if (phone != null) {
+            this.phones = new TreeSet<>();
+            this.phones.add(phone);
+        }
+        return this;
+    }
+
+    /**
+     * Sets phones to be a Set consisting of all phone numbers in the provided list.
      *
      * @param phones the list of phone numbers to set
-     * @return the Builder instance with the updated phone numbers
+     * @return this Builder instance with phones updated
      */
-    public RecruitBuilder setPhones(List<Phone> phones) {
+    public RecruitBuilder withPhones(List<Phone> phones) {
         if (phones != null) {
             this.phones = new TreeSet<>(phones);
         }
@@ -201,12 +229,26 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the list of emails if the provided list is not null.
+     * Sets emails to be a Set with this individual email.
+     *
+     * @param email the email to set
+     * @return this Builder instance with emails updated
+     */
+    public RecruitBuilder withEmail(Email email) {
+        if (email != null) {
+            this.emails = new TreeSet<>();
+            this.emails.add(email);
+        }
+        return this;
+    }
+
+    /**
+     * Sets emails to be a Set consisting of all emails in the provided list.
      *
      * @param emails the list of emails to set
-     * @return the Builder instance with the updated emails
+     * @return this Builder instance with emails updated
      */
-    public RecruitBuilder setEmails(List<Email> emails) {
+    public RecruitBuilder withEmails(List<Email> emails) {
         if (emails != null) {
             this.emails = new TreeSet<>(emails);
         }
@@ -258,12 +300,26 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the list of addresses if the provided list is not null.
+     * Sets addresses to be a Set with this individual address.
+     *
+     * @param address the address to set
+     * @return this Builder instance with addresses updated
+     */
+    public RecruitBuilder withAddress(Address address) {
+        if (address != null) {
+            this.addresses = new TreeSet<>();
+            this.addresses.add(address);
+        }
+        return this;
+    }
+
+    /**
+     * Sets addresses to be a Set consisting of all addresses in the provided list.
      *
      * @param addresses the list of addresses to set
-     * @return the Builder instance with the updated addresses
+     * @return this Builder instance with addresses updated
      */
-    public RecruitBuilder setAddresses(List<Address> addresses) {
+    public RecruitBuilder withAddresses(List<Address> addresses) {
         if (addresses != null) {
             this.addresses = new TreeSet<>(addresses);
         }
@@ -320,7 +376,7 @@ public class RecruitBuilder {
      * @param description the description to set
      * @return the Builder instance with the updated description
      */
-    public RecruitBuilder setDescription(Description description) {
+    public RecruitBuilder withDescription(Description description) {
         if (description != null) {
             this.description = new Description(description);
         }
@@ -348,22 +404,26 @@ public class RecruitBuilder {
     }
 
     /**
-     * Removes the description currently stored in {@code Builder}.
+     * Sets tags to be a Set with this individual tag.
      *
-     * @return the Builder with the removed addresses
+     * @param tag the tag to set
+     * @return this Builder instance with tags updated
      */
-    public RecruitBuilder removeDescription() {
-        this.description = Description.createEmptyDescription();
+    public RecruitBuilder withTag(Tag tag) {
+        if (tag != null) {
+            this.tags = new TreeSet<>();
+            this.tags.add(tag);
+        }
         return this;
     }
 
     /**
-     * Sets the set of tags if the provided set is not null.
+     * Sets tags to be a Set consisting of all tags in the provided list.
      *
-     * @param tags the set of tags to set
-     * @return the Builder instance with the updated tags
+     * @param tags the list of tags to set
+     * @return this Builder instance with tags updated
      */
-    public RecruitBuilder setTags(List<Tag> tags) {
+    public RecruitBuilder withTags(List<Tag> tags) {
         if (tags != null) {
             this.tags = new TreeSet<>(tags);
         }
@@ -415,7 +475,7 @@ public class RecruitBuilder {
     }
 
 
-    public RecruitBuilder setArchivalState(boolean isArchived) {
+    public RecruitBuilder withArchivalState(boolean isArchived) {
         this.isArchived = isArchived;
         return this;
     }
