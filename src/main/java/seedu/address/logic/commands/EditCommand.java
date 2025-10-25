@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.combine;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -12,7 +11,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +32,7 @@ import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -168,15 +167,8 @@ public class EditCommand extends Command {
     private static Recruit createEditedRecruitWithAppendedAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
         verifyNoDuplicateAttributes(rec, desc);
-        List<Name> updatedNames = combine(List.of(rec.getNames(), desc.getName().orElse(List.of())));
-        List<Phone> updatedPhones = combine(List.of(rec.getPhones(), desc.getPhone().orElse(List.of())));
-        List<Email> updatedEmails = combine(List.of(rec.getEmails(), desc.getEmail().orElse(List.of())));
-        List<Address> updatedAddresses = combine(List.of(rec.getAddresses(), desc.getAddress().orElse(List.of())));
-        Description updatedDescription = rec.getDescription()
-                .appendDescription(desc.getDescription().orElse(new Description("")));
-        Set<Tag> updatedTags = new HashSet<>(combine(List.of(rec.getTags(), desc.getTags().orElse(new HashSet<>()))));
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
-                updatedDescription, updatedTags, false);
+        return new RecruitBuilder(rec)
+                .setNames(desc.names)
     }
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -314,7 +306,7 @@ public class EditCommand extends Command {
      * Stores the details to edit the person with. Each non-empty field value will replace the
      * corresponding field value of the person.
      */
-    public static class EditRecruitDescriptor {
+    private static class EditRecruitDescriptor {
         private UUID id;
         private List<Name> name;
         private List<Phone> phone;
@@ -322,19 +314,12 @@ public class EditCommand extends Command {
         private List<Address> address;
         private Description description;
         private Set<Tag> tags;
-        private EditRecruitOperation operation = EditRecruitOperation.OVERWRITE;
-
-        public EditRecruitDescriptor() {}
-
-        public EditRecruitDescriptor(EditRecruitOperation operation) {
-            this.operation = operation;
-        }
 
         /**
          * Copy constructor.
          * A defensive copy of {@code tags} is used internally.
          */
-        public EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
+        private EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
             setID(toCopy.id);
             setNames(toCopy.name);
             setPhones(toCopy.phone);
@@ -342,15 +327,6 @@ public class EditCommand extends Command {
             setAddresses(toCopy.address);
             setDescription(toCopy.description);
             setTags(toCopy.tags);
-            setOperation(toCopy.operation);
-        }
-
-        /**
-         * Copy constructor of an {@code EditRecruitDescriptor} with the specified {@code operation}.
-         */
-        public EditRecruitDescriptor(EditRecruitDescriptor toCopy, EditRecruitOperation operation) {
-            this(toCopy);
-            setOperation(operation);
         }
 
         /**
@@ -361,66 +337,31 @@ public class EditCommand extends Command {
         }
 
         public void setID(UUID id) {
-            this.id = id;
-        }
-        public Optional<UUID> getID() {
-            return Optional.ofNullable(id);
-        }
-        public void setNames(List<Name> name) {
-            this.name = name;
+            this.id = id; // UUID is immutable
         }
 
-        public Optional<List<Name>> getName() {
-            return Optional.ofNullable(name);
+        public void setNames(List<Name> name) {
+            this.name = name;
         }
 
         public void setPhones(List<Phone> phone) {
             this.phone = phone;
         }
 
-        public Optional<List<Phone>> getPhone() {
-            return Optional.ofNullable(phone);
-        }
-
         public void setEmails(List<Email> email) {
             this.email = email;
-        }
-
-        public Optional<List<Email>> getEmail() {
-            return Optional.ofNullable(email);
         }
 
         public void setAddresses(List<Address> address) {
             this.address = address;
         }
 
-        public Optional<List<Address>> getAddress() {
-            return Optional.ofNullable(address);
-        }
-
         public void setDescription(Description description) {
             this.description = description;
         }
 
-        public Optional<Description> getDescription() {
-            return Optional.ofNullable(description);
-        }
-
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
-         */
         public void setTags(Set<Tag> tags) {
             this.tags = (tags != null) ? new HashSet<>(tags) : null;
-        }
-
-        /**
-         * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
-         * if modification is attempted.
-         * Returns {@code Optional#empty()} if {@code tags} is null.
-         */
-        public Optional<Set<Tag>> getTags() {
-            return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
         public EditRecruitOperation getOperation() {

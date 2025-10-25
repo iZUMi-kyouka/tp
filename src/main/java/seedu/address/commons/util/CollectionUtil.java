@@ -76,13 +76,13 @@ public class CollectionUtil {
      * @param toRemove List from which elements should be removed
      * @return List of elements that could not be found in the collection.
      */
-    public <T> List<T> remove(Set<T> collection, List<T> toRemove) {
-        if (toRemove == null) {
+    public static <T> List<T> removeListFromCollection(Set<T> collection, List<T> toRemove) {
+        if (toRemove == null || toRemove.isEmpty()) {
             return new ArrayList<>();
         }
 
-        if (collection == null && !toRemove.isEmpty()) {
-            throw new NullPointerException("Cannot remove element from uninitialised collection");
+        if (collection == null) {
+            throw new NullPointerException("Cannot remove elements from an uninitialized collection");
         }
 
         List<T> missing = new ArrayList<>();

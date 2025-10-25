@@ -21,6 +21,7 @@ import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -50,7 +51,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                 argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
         Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).orElse("-"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        Recruit recruit = new Recruit.Builder()
+        Recruit recruit = new RecruitBuilder()
                 .setNames(names)
                 .setPhones(phones)
                 .setEmails(emails)

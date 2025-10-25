@@ -7,7 +7,10 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.RecruitUtil;
+import seedu.address.model.recruit.exceptions.FieldNotFoundException;
+import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
 import seedu.address.model.tag.Tag;
 
@@ -98,76 +101,6 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the list of phone numbers if the provided list is not null.
-     *
-     * @param phones the list of phone numbers to set
-     * @return the Builder instance with the updated phone numbers
-     */
-    public RecruitBuilder setPhones(List<Phone> phones) {
-        if (phones != null) {
-            this.phones = new TreeSet<>(phones);
-        }
-        return this;
-    }
-
-    /**
-     * Sets the list of emails if the provided list is not null.
-     *
-     * @param emails the list of emails to set
-     * @return the Builder instance with the updated emails
-     */
-    public RecruitBuilder setEmails(List<Email> emails) {
-        if (emails != null) {
-            this.emails = new TreeSet<>(emails);
-        }
-        return this;
-    }
-
-    /**
-     * Sets the list of addresses if the provided list is not null.
-     *
-     * @param addresses the list of addresses to set
-     * @return the Builder instance with the updated addresses
-     */
-    public RecruitBuilder setAddresses(List<Address> addresses) {
-        if (addresses != null) {
-            this.addresses = new TreeSet<>(addresses);
-        }
-        return this;
-    }
-
-    /**
-     * Sets the description if the provided description is not null.
-     *
-     * @param description the description to set
-     * @return the Builder instance with the updated description
-     */
-    public RecruitBuilder setDescription(Description description) {
-        if (description != null) {
-            this.description = new Description(description);
-        }
-        return this;
-    }
-
-    /**
-     * Sets the set of tags if the provided set is not null.
-     *
-     * @param tags the set of tags to set
-     * @return the Builder instance with the updated tags
-     */
-    public RecruitBuilder setTags(Set<Tag> tags) {
-        if (tags != null) {
-            this.tags = new TreeSet<>(tags);
-        }
-        return this;
-    }
-
-    public RecruitBuilder setArchivalState(boolean isArchived) {
-        this.isArchived = isArchived;
-        return this;
-    }
-
-    /**
      * Appends the list of names to the current set of names in the {@code Builder},
      * only if the provided list is not null.
      *
@@ -181,6 +114,40 @@ public class RecruitBuilder {
             } else {
                 this.names.addAll(names);
             }
+        }
+        return this;
+    }
+
+    /**
+     * Removes the list of names from the current set of names in the {@code Builder}
+     *
+     * @param namesToRemove List of names to remove
+     * @return the Builder with the removed names
+     */
+    public RecruitBuilder removeNames(List<Name> namesToRemove) {
+        if (this.names == null && namesToRemove != null && !namesToRemove.isEmpty()) {
+            throw new IllegalRecruitBuilderActionException(
+                    "Cannot remove names from a RecruitBuilder for which names has not been set");
+        }
+
+        List<Name> missingNames = CollectionUtil.removeListFromCollection(this.names, namesToRemove);
+
+        if (!missingNames.isEmpty()) {
+            throw new FieldNotFoundException(missingNames.stream().map(Name::toString).toList());
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the list of phone numbers if the provided list is not null.
+     *
+     * @param phones the list of phone numbers to set
+     * @return the Builder instance with the updated phone numbers
+     */
+    public RecruitBuilder setPhones(List<Phone> phones) {
+        if (phones != null) {
+            this.phones = new TreeSet<>(phones);
         }
         return this;
     }
@@ -204,6 +171,40 @@ public class RecruitBuilder {
     }
 
     /**
+     * Removes the list of phone numbers from the current set of phone numbers in the {@code Builder}.
+     *
+     * @param phonesToRemove List of phone numbers to remove
+     * @return the Builder with the removed phone numbers
+     */
+    public RecruitBuilder removePhones(List<Phone> phonesToRemove) {
+        if (this.phones == null && phonesToRemove != null && !phonesToRemove.isEmpty()) {
+            throw new IllegalRecruitBuilderActionException(
+                    "Cannot remove phone numbers from a RecruitBuilder for which phones have not been set");
+        }
+
+        List<Phone> missingPhones = CollectionUtil.removeListFromCollection(this.phones, phonesToRemove);
+
+        if (!missingPhones.isEmpty()) {
+            throw new FieldNotFoundException(missingPhones.stream().map(Phone::toString).toList());
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the list of emails if the provided list is not null.
+     *
+     * @param emails the list of emails to set
+     * @return the Builder instance with the updated emails
+     */
+    public RecruitBuilder setEmails(List<Email> emails) {
+        if (emails != null) {
+            this.emails = new TreeSet<>(emails);
+        }
+        return this;
+    }
+
+    /**
      * Appends the list of emails to the current set of emails in the {@code Builder},
      * only if the provided list is not null.
      *
@@ -222,6 +223,40 @@ public class RecruitBuilder {
     }
 
     /**
+     * Removes the list of emails from the current set of emails in the {@code Builder}.
+     *
+     * @param emailsToRemove List of emails to remove
+     * @return the Builder with the removed emails
+     */
+    public RecruitBuilder removeEmails(List<Email> emailsToRemove) {
+        if (this.emails == null && emailsToRemove != null && !emailsToRemove.isEmpty()) {
+            throw new IllegalRecruitBuilderActionException(
+                    "Cannot remove emails from a RecruitBuilder for which emails have not been set");
+        }
+
+        List<Email> missingEmails = CollectionUtil.removeListFromCollection(this.emails, emailsToRemove);
+
+        if (!missingEmails.isEmpty()) {
+            throw new FieldNotFoundException(missingEmails.stream().map(Email::toString).toList());
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the list of addresses if the provided list is not null.
+     *
+     * @param addresses the list of addresses to set
+     * @return the Builder instance with the updated addresses
+     */
+    public RecruitBuilder setAddresses(List<Address> addresses) {
+        if (addresses != null) {
+            this.addresses = new TreeSet<>(addresses);
+        }
+        return this;
+    }
+
+    /**
      * Appends the list of addresses to the current set of addresses in the {@code Builder},
      * only if the provided list is not null.
      *
@@ -235,6 +270,40 @@ public class RecruitBuilder {
             } else {
                 this.addresses.addAll(addresses);
             }
+        }
+        return this;
+    }
+
+    /**
+     * Removes the list of addresses from the current set of addresses in the {@code Builder}.
+     *
+     * @param addressesToRemove List of addresses to remove
+     * @return the Builder with the removed addresses
+     */
+    public RecruitBuilder removeAddresses(List<Address> addressesToRemove) {
+        if (this.addresses == null && addressesToRemove != null && !addressesToRemove.isEmpty()) {
+            throw new IllegalRecruitBuilderActionException(
+                    "Cannot remove addresses from a RecruitBuilder for which addresses have not been set");
+        }
+
+        List<Address> missingAddresses = CollectionUtil.removeListFromCollection(this.addresses, addressesToRemove);
+
+        if (!missingAddresses.isEmpty()) {
+            throw new FieldNotFoundException(missingAddresses.stream().map(Address::toString).toList());
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the description if the provided description is not null.
+     *
+     * @param description the description to set
+     * @return the Builder instance with the updated description
+     */
+    public RecruitBuilder setDescription(Description description) {
+        if (description != null) {
+            this.description = new Description(description);
         }
         return this;
     }
@@ -260,6 +329,29 @@ public class RecruitBuilder {
     }
 
     /**
+     * Removes the description currently stored in {@code Builder}.
+     *
+     * @return the Builder with the removed addresses
+     */
+    public RecruitBuilder removeDescription() {
+        this.description = Description.createEmptyDescription();
+        return this;
+    }
+
+    /**
+     * Sets the set of tags if the provided set is not null.
+     *
+     * @param tags the set of tags to set
+     * @return the Builder instance with the updated tags
+     */
+    public RecruitBuilder setTags(Set<Tag> tags) {
+        if (tags != null) {
+            this.tags = new TreeSet<>(tags);
+        }
+        return this;
+    }
+
+    /**
      * Appends the list of tags to the current set of tags in the {@code Builder},
      * only if the provided set is not null.
      *
@@ -278,83 +370,82 @@ public class RecruitBuilder {
     }
 
     /**
-     * Removes the list of names from the current set of names in the {@code Builder},
-     * only if the provided list is not null.
+     * Removes the list of tags from the current set of tags in the {@code Builder}.
      *
-     * @param names List of names to remove
-     * @return the Builder with the removed names
-     */
-    public RecruitBuilder removeNames(List<Name> names) {
-        if (names != null) {
-            names.forEach(this.names::remove);
-        }
-        return this;
-    }
-
-    /**
-     * Removes the list of phone numbers from the current set of phone numbers in the {@code Builder},
-     * only if the provided list is not null.
-     *
-     * @param phones List of phone numbers to remove
-     * @return the Builder with the removed phone numbers
-     */
-    public RecruitBuilder removePhones(List<Phone> phones) {
-        if (phones != null) {
-            phones.forEach(this.phones::remove);
-        }
-        return this;
-    }
-
-    /**
-     * Removes the list of emails from the current set of emails in the {@code Builder},
-     * only if the provided list is not null.
-     *
-     * @param emails List of emails to remove
-     * @return the Builder with the removed emails
-     */
-    public RecruitBuilder removeEmails(List<Email> emails) {
-        if (emails != null) {
-            emails.forEach(this.emails::remove);
-        }
-        return this;
-    }
-
-    /**
-     * Removes the list of addresses from the current set of addresses in the {@code Builder},
-     * only if the provided list is not null.
-     *
-     * @param addresses List of addresses to remove
-     * @return the Builder with the removed addresses
-     */
-    public RecruitBuilder removeAddresses(List<Address> addresses) {
-        if (addresses != null) {
-            addresses.forEach(this.addresses::remove);
-        }
-        return this;
-    }
-
-    /**
-     * Removes the Description stored in {@code Builder}.
-     * This replaces the Description with a new empty description if the current description is not null.
-     *
-     * @return the Builder with description now being an empty description
-     */
-    public RecruitBuilder removeDescription() {
-        this.description = Description.createEmptyDescription();
-        return this;
-    }
-
-    /**
-     * Removes the list of tags from the current set of tags in the {@code Builder},
-     * only if the provided set is not null.
-     *
-     * @param tags List of tags to remove
+     * @param tagsToRemove List of tags to remove
      * @return the Builder with the removed tags
      */
-    public RecruitBuilder removeTags(Set<Tag> tags) {
-        if (tags != null) {
-            tags.forEach(this.tags::remove);
+    public RecruitBuilder removeTags(List<Tag> tagsToRemove) {
+        if (this.tags == null && tagsToRemove != null && !tagsToRemove.isEmpty()) {
+            throw new IllegalRecruitBuilderActionException(
+                    "Cannot remove tags from a RecruitBuilder for which tags have not been set");
         }
+
+        List<Tag> missingTags = CollectionUtil.removeListFromCollection(this.tags, tagsToRemove);
+
+        if (!missingTags.isEmpty()) {
+            throw new FieldNotFoundException(missingTags.stream().map(Tag::toString).toList());
+        }
+
+        return this;
+    }
+
+
+    public RecruitBuilder setArchivalState(boolean isArchived) {
+        this.isArchived = isArchived;
+        return this;
+    }
+
+    /**
+     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
+     * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     *
+     * @param other the other builder to override the fields of this builder using.
+     * @return this builder but with fields that have been overridden.
+     */
+    public RecruitBuilder override(RecruitBuilder other) {
+        this.id = other.id == null ? this.id : other.id;
+        this.phones = other.phones == null ? this.phones : other.phones;
+        this.emails = other.emails == null ? this.emails : other.emails;
+        this.addresses = other.addresses == null ? this.addresses : other.addresses;
+        this.description = other.description == null ? this.description : other.description;
+        this.tags = other.tags == null ? this.tags : other.tags;
+        return this;
+    }
+
+    /**
+     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
+     * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     *
+     * @param other the other builder to override the fields of this builder using.
+     * @return this builder but with fields that have been overridden.
+     */
+    public RecruitBuilder append(RecruitBuilder other) {
+        this.appendNames(other.names.stream().toList());
+        this.appendPhones(other.phones.stream().toList());
+        this.appendEmails(other.emails.stream().toList());
+        this.appendAddresses(other.addresses.stream().toList());
+        this.appendDescription(other.description);
+        this.appendTags(other.tags);
+
+        return this;
+    }
+
+    /**
+     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
+     * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     *
+     * @param other the other builder to override the fields of this builder using.
+     * @return this builder but with fields that have been overridden.
+     */
+    public RecruitBuilder remove(RecruitBuilder other) {
+        this.removeNames(other.names.stream().toList());
+        this.removePhones(other.phones.stream().toList());
+        this.removeEmails(other.emails.stream().toList());
+        this.removeAddresses(other.addresses.stream().toList());
+        this.description = other.description == null ? this.description : Description.createEmptyDescription();
+        this.appendTags(other.tags);
+
         return this;
     }
 
