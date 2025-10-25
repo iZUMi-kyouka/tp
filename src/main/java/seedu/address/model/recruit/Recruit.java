@@ -1,8 +1,5 @@
 package seedu.address.model.recruit;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +7,9 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.recruit.exceptions.InvalidRecruitException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -417,11 +416,12 @@ public class Recruit {
         }
         /**
          * Builds a {@code Recruit} using the attributes specified in the {@code Builder}
-         * @return the Recruit with matching {@code Builder} attributes
+         *
+         * @return the recruit with matching builder attributes
+         * @throws InvalidRecruitException if the user attempts to build a recruit without a valid name.
          */
         public Recruit build() {
-            requireNonNull(names);
-            requireAllNonBlankString(names.stream().map(Name::toString).toList());
+            RecruitUtil.requireNonEmptyField(names);
 
             return new Recruit(this);
         }
