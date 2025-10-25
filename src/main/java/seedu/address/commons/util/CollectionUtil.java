@@ -69,31 +69,59 @@ public class CollectionUtil {
     }
 
     /**
-     * Removes a list of elements from the given collection and returns a list of elements that
-     * could not be found in the collection.
+     * Removes a list of elements from the given set and returns a list of elements that
+     * were not found in the set.
      *
-     * @param collection Collection to remove from
-     * @param toRemove List from which elements should be removed
-     * @return List of elements that could not be found in the collection.
+     * @param collection the set to remove elements from
+     * @param toRemove the list of elements to remove
+     * @return a list of elements that were not found in the set
+     * @throws IllegalArgumentException if {@code collection} is null
      */
-    public static <T> List<T> removeListFromCollection(Set<T> collection, List<T> toRemove) {
+    public static <T> List<T> removeListFromSet(Set<T> collection, List<T> toRemove) {
         if (toRemove == null || toRemove.isEmpty()) {
             return new ArrayList<>();
         }
 
         if (collection == null) {
-            throw new NullPointerException("Cannot remove elements from an uninitialized collection");
+            throw new IllegalArgumentException("Cannot remove elements from an uninitialized Set!");
         }
 
         List<T> missing = new ArrayList<>();
         for (T item : toRemove) {
-            if (collection.contains(item)) {
-                collection.remove(item);
-            } else {
+            if (!collection.remove(item)) {
                 missing.add(item);
             }
         }
 
         return missing;
+    }
+
+    /**
+     * Adds a list of elements to the given set and returns a list of elements that
+     * were already present in the set.
+     *
+     * @param collection the set to add elements to
+     * @param toAdd the list of elements to add
+     * @return a list of elements that were already present in the set
+     */
+    public static <T> List<T> addListToCollection(Set<T> collection, List<T> toAdd) {
+        if (toAdd == null || toAdd.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        if (collection == null) {
+            throw new IllegalArgumentException("Cannot add to an uninitialized Set!");
+        }
+
+        List<T> duplicates = new ArrayList<>();
+        for (T item : toAdd) {
+            if (collection.contains(item)) {
+                duplicates.add(item);
+            } else {
+                collection.add(item);
+            }
+        }
+
+        return duplicates;
     }
 }
