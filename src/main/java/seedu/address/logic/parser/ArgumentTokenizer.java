@@ -138,8 +138,12 @@ public class ArgumentTokenizer {
             .trim()
             .replace("\\\"", "\""); // remove backslash from escaped double-quote
 
-        // Remove double-quote escape from the actual value
         value = value.trim();
+        if (value.isEmpty()) {
+            return value;
+        }
+
+        // Remove double-quote escape from the actual value
         if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
             value = value.substring(1, value.length() - 1);
         }
