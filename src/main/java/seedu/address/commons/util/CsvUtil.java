@@ -85,6 +85,9 @@ public class CsvUtil {
     }
 
     private static String escapeCsvField(String value) {
+        if (value == null) {
+            return "";
+        }
         if (value.contains(",") || value.contains("\"")) {
             value = value.replace("\"", "\"\""); // escape quotes
             return "\"" + value + "\"";
@@ -136,6 +139,10 @@ public class CsvUtil {
                 continue;
             }
             String[] cols = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+            if (cols.length < 8) {
+                logger.warning("Skipping malformed line (expected 8 columns): " + line);
+                continue;
+            }
             UUID id = UUID.fromString(cols[0]);
             List<Name> names = Arrays.stream(cols[1].split(";")).map(Name::new).toList();
             List<Phone> phones = Arrays.stream(cols[2].split(";")).map(Phone::new).toList();
