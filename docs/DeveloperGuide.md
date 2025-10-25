@@ -516,6 +516,23 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Exporting recruits
+
+1. Exporting recruits using the default path
+
+    1. Prerequisites: Ensure the default export path is set in preferences.json.
+
+    1. Test case: `export`<br>
+       Expected: A .csv file containing all recruits is created in the default export path.
+
+2. Exporting recruits to a specified path
+
+    1. Ensure the target directory exists and is writable.
+
+    1. Test case: `export C:\data\recruits.csv`<br>
+       Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
+
+
 ### Saving data
 
 1. Dealing with missing/corrupted data files
