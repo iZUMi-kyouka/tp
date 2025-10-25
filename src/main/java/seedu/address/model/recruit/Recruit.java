@@ -337,121 +337,149 @@ public class Recruit {
         }
 
         /**
-         * Appends the list of names to the current set of names in the {@code Builder}
+         * Appends the list of names to the current set of names in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param names List of names to append
          * @return the Builder with the appended names
          */
         public Builder appendNames(List<Name> names) {
-            this.names.addAll(names);
+            if (names != null) {
+                this.names.addAll(names);
+            }
             return this;
         }
 
         /**
-         * Appends the list of phone numbers to the current set of phone numbers in the {@code Builder}
+         * Appends the list of phone numbers to the current set of phone numbers in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param phones List of phone numbers to append
          * @return the Builder with the appended phone numbers
          */
         public Builder appendPhones(List<Phone> phones) {
-            this.phones.addAll(phones);
+            if (phones != null) {
+                this.phones.addAll(phones);
+            }
             return this;
         }
 
         /**
-         * Appends the list of emails to the current set of emails in the {@code Builder}
+         * Appends the list of emails to the current set of emails in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param emails List of emails to append
          * @return the Builder with the appended emails
          */
         public Builder appendEmails(List<Email> emails) {
-            this.emails.addAll(emails);
+            if (emails != null) {
+                this.emails.addAll(emails);
+            }
             return this;
         }
 
         /**
-         * Appends the list of addresses to the current set of addresses in the {@code Builder}
+         * Appends the list of addresses to the current set of addresses in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param addresses List of addresses to append
          * @return the Builder with the appended addresses
          */
         public Builder appendAddresses(List<Address> addresses) {
-            this.addresses.addAll(addresses);
+            if (addresses != null) {
+                this.addresses.addAll(addresses);
+            }
             return this;
         }
 
         /**
-         * Appends a different description to the current description stored in the {@code Builder}.
+         * Appends a different description to the current description stored in the {@code Builder},
+         * only if the provided description is not null.
          * Uses {@link Description#appendDescription} to perform this operation.
          *
          * @param description The description to append
-         * @return the Builder with a new Description that is the previous description and the provided
-         *         descriptions combined.
+         * @return the Builder with a new Description that is the previous description and the provided descriptions combined.
          */
         public Builder appendDescription(Description description) {
-            this.description.appendDescription(description);
+            if (description != null) {
+                this.description.appendDescription(description);
+            }
             return this;
         }
 
         /**
-         * Appends the list of tags to the current set of tags in the {@code Builder}
+         * Appends the list of tags to the current set of tags in the {@code Builder},
+         * only if the provided set is not null.
          *
          * @param tags List of tags to append
          * @return the Builder with the appended tags
          */
         public Builder appendTags(Set<Tag> tags) {
-            this.tags.addAll(tags);
+            if (tags != null) {
+                this.tags.addAll(tags);
+            }
             return this;
         }
 
         /**
-         * Removes the list of names from the current set of names in the {@code Builder}
+         * Removes the list of names from the current set of names in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param names List of names to remove
          * @return the Builder with the removed names
          */
         public Builder removeNames(List<Name> names) {
-            names.forEach(this.names::remove);
+            if (names != null) {
+                names.forEach(this.names::remove);
+            }
             return this;
         }
 
         /**
-         * Removes the list of phone numbers from the current set of phone numbers in the {@code Builder}
+         * Removes the list of phone numbers from the current set of phone numbers in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param phones List of phone numbers to remove
          * @return the Builder with the removed phone numbers
          */
         public Builder removePhones(List<Phone> phones) {
-            phones.forEach(this.phones::remove);
+            if (phones != null) {
+                phones.forEach(this.phones::remove);
+            }
             return this;
         }
 
         /**
-         * Removes the list of emails from the current set of emails in the {@code Builder}
+         * Removes the list of emails from the current set of emails in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param emails List of emails to remove
          * @return the Builder with the removed emails
          */
         public Builder removeEmails(List<Email> emails) {
-            emails.forEach(this.emails::remove);
+            if (emails != null) {
+                emails.forEach(this.emails::remove);
+            }
             return this;
         }
 
         /**
-         * Removes the list of addresses from the current set of addresses in the {@code Builder}
+         * Removes the list of addresses from the current set of addresses in the {@code Builder},
+         * only if the provided list is not null.
          *
          * @param addresses List of addresses to remove
          * @return the Builder with the removed addresses
          */
         public Builder removeAddresses(List<Address> addresses) {
-            addresses.forEach(this.addresses::remove);
+            if (addresses != null) {
+                addresses.forEach(this.addresses::remove);
+            }
             return this;
         }
 
         /**
          * Removes the Description stored in {@code Builder}.
-         * Note that calling this will replace Description with a new empty description.
-         * As such, it does not have any parameters
+         * This replaces the Description with a new empty description if the current description is not null.
          *
          * @return the Builder with description now being an empty description
          */
@@ -461,15 +489,19 @@ public class Recruit {
         }
 
         /**
-         * Removes the list of tags from the current set of tags in the {@code Builder}
+         * Removes the list of tags from the current set of tags in the {@code Builder},
+         * only if the provided set is not null.
          *
          * @param tags List of tags to remove
          * @return the Builder with the removed tags
          */
         public Builder removeTags(Set<Tag> tags) {
-            tags.forEach(this.tags::remove);
+            if (tags != null) {
+                tags.forEach(this.tags::remove);
+            }
             return this;
         }
+
         /**
          * Builds a {@code Recruit} using the attributes specified in the {@code Builder}
          *
