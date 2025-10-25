@@ -503,7 +503,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a recruit while all recruits are being shown
 
-    1. Prerequisites: List all recruits using the `list` command. Multiple recruits in the list.
+    1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
 
     1. Test case: `delete 1`<br>
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
