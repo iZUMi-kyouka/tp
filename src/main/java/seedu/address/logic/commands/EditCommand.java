@@ -10,30 +10,19 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Description;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.recruit.exceptions.FieldElementAlreadyExistsException;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -58,10 +47,10 @@ public class EditCommand extends Command {
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
-    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "Duplicate attribute is not allowed.";
-    public static final String MESSAGE_MISSING_ATTRIBUTE = "Target attribute does not exist.";
+    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s(s) are already present.";
+    public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s(s) do not exist.";
     public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
 
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
@@ -95,22 +84,6 @@ public class EditCommand extends Command {
         this.id = null;
         this.index = index;
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
-    }
-
-    /**
-     * @param index of the person in the filtered recruit list to edit
-     * @param editRecruitDescriptor details to edit the recruit with
-     * @param operation the type of edit operation to be performed
-     */
-    public EditCommand(Index index, EditRecruitDescriptor editRecruitDescriptor,
-            EditRecruitDescriptor.EditRecruitOperation operation) {
-        // TODO: check if this method is needed or can be streamlined to remove operation parameter
-        requireNonNull(index);
-        requireNonNull(editRecruitDescriptor);
-
-        this.id = null;
-        this.index = index;
-        this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor, operation);
     }
 
     @Override
@@ -166,41 +139,27 @@ public class EditCommand extends Command {
 
     private static Recruit createEditedRecruitWithAppendedAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
-        verifyNoDuplicateAttributes(rec, desc);
-        return new RecruitBuilder(rec)
-                .setNames(desc.names)
+        try {
+            return new RecruitBuilder(rec).append(desc).build();
+        } catch (FieldElementAlreadyExistsException e) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_ATTRIBUTE,
+                    e.getFieldType(), e.getDuplicatedElements()));
+        }
     }
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
-        List<Name> updatedNames = new ArrayList<>(desc.getName().orElse(rec.getNames()));
-        List<Phone> updatedPhones = new ArrayList<>(desc.getPhone().orElse(rec.getPhones()));
-        List<Email> updatedEmails = new ArrayList<>(desc.getEmail().orElse(rec.getEmails()));
-        List<Address> updatedAddresses = new ArrayList<>(
-                desc.getAddress().orElse(rec.getAddresses()));
-        Description updatedDescription = desc.getDescription().orElse(rec.getDescription());
-        Set<Tag> updatedTags = desc.getTags().orElse(rec.getTags());
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
-                updatedDescription, updatedTags, false);
+        return new RecruitBuilder(rec).override(desc).build();
     }
 
     private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
-        verifyAllAttributesExist(rec, desc);
-        List<Name> updatedNames = rec.getNames().stream()
-                .filter(n -> !desc.getName().orElse(List.of()).contains(n)).toList();
-        List<Phone> updatedPhones = rec.getPhones().stream()
-                .filter(n -> !desc.getPhone().orElse(List.of()).contains(n)).toList();
-        List<Email> updatedEmails = rec.getEmails().stream()
-                .filter(n -> !desc.getEmail().orElse(List.of()).contains(n)).toList();
-        List<Address> updatedAddresses = rec.getAddresses().stream()
-                .filter(n -> !desc.getAddress().orElse(List.of()).contains(n)).toList();
-        Description updatedDescription = desc.getDescription().map(d -> new Description(""))
-                .orElse(rec.getDescription());
-        Set<Tag> updatedTags = rec.getTags().stream()
-                .filter(n -> !desc.getTags().orElse(new HashSet<>()).contains(n)).collect(Collectors.toSet());
-        return new Recruit(rec.getID(), updatedNames, updatedPhones, updatedEmails, updatedAddresses,
-                updatedDescription, updatedTags, false);
+        try {
+            return new RecruitBuilder(rec).remove(desc).build();
+        } catch (FieldElementAlreadyExistsException e) {
+            throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
+                    e.getFieldType(), e.getDuplicatedElements()));
+        }
     }
 
     @Override
@@ -228,60 +187,6 @@ public class EditCommand extends Command {
                 .toString();
     }
 
-    private static void verifyNoDuplicateAttributes(Recruit r, EditRecruitDescriptor d) throws CommandException {
-        assert d.operation == EditRecruitDescriptor.EditRecruitOperation.APPEND;
-
-        Set<Name> names = new HashSet<>(r.getNames());
-        Set<Phone> phones = new HashSet<>(r.getPhones());
-        Set<Email> emails = new HashSet<>(r.getEmails());
-        Set<Address> addresses = new HashSet<>(r.getAddresses());
-        Set<Tag> tags = r.getTags();
-
-        // TODO: add more detail regarding which specific value violates the duplicate constraint
-        if (d.getName().isPresent() && d.getName().get().stream().anyMatch(names::contains)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
-        }
-        if (d.getPhone().isPresent() && d.getPhone().get().stream().anyMatch(phones::contains)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
-        }
-        if (d.getEmail().isPresent() && d.getEmail().get().stream().anyMatch(emails::contains)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
-        }
-        if (d.getAddress().isPresent() && d.getAddress().get().stream().anyMatch(addresses::contains)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
-        }
-        if (d.getTags().isPresent() && d.getTags().get().stream().anyMatch(tags::contains)) {
-            throw new CommandException(MESSAGE_DUPLICATE_ATTRIBUTE);
-        }
-    }
-
-    private static void verifyAllAttributesExist(Recruit r, EditRecruitDescriptor d) throws CommandException {
-        assert d.operation == EditRecruitDescriptor.EditRecruitOperation.REMOVE;
-
-        Set<Name> names = new HashSet<>(r.getNames());
-        Set<Phone> phones = new HashSet<>(r.getPhones());
-        Set<Email> emails = new HashSet<>(r.getEmails());
-        Set<Address> addresses = new HashSet<>(r.getAddresses());
-        Set<Tag> tags = r.getTags();
-
-        // TODO: add more detail regarding which specific value violates the existence constraint
-        if (d.getName().isPresent() && !d.getName().get().stream().allMatch(names::contains)) {
-            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
-        }
-        if (d.getPhone().isPresent() && !d.getPhone().get().stream().allMatch(phones::contains)) {
-            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
-        }
-        if (d.getEmail().isPresent() && !d.getEmail().get().stream().allMatch(emails::contains)) {
-            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
-        }
-        if (d.getAddress().isPresent() && !d.getAddress().get().stream().allMatch(addresses::contains)) {
-            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
-        }
-        if (d.getTags().isPresent() && !d.getTags().get().stream().allMatch(tags::contains)) {
-            throw new CommandException(MESSAGE_MISSING_ATTRIBUTE);
-        }
-    }
-
     String formatDelta(Recruit oldRecruit, Recruit newRecruit) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Name: ").append(oldRecruit.getNames())
@@ -304,73 +209,31 @@ public class EditCommand extends Command {
 
     /**
      * Stores the details to edit the person with. Each non-empty field value will replace the
-     * corresponding field value of the person.
+     * corresponding field value of the person. Directly extends {@link RecruitBuilder}
      */
-    private static class EditRecruitDescriptor {
-        private UUID id;
-        private List<Name> name;
-        private List<Phone> phone;
-        private List<Email> email;
-        private List<Address> address;
-        private Description description;
-        private Set<Tag> tags;
+    public static class EditRecruitDescriptor extends RecruitBuilder {
+
+        private final EditCommand.EditOperation operation;
+
+        /**
+         * Creates an EditRecruitDescriptor assigned with the following operation.
+         *
+         * @param op the operation of to perform during edit.
+         */
+        public EditRecruitDescriptor(EditOperation op) {
+            super();
+
+            requireNonNull(op);
+            this.operation = op;
+        }
 
         /**
          * Copy constructor.
          * A defensive copy of {@code tags} is used internally.
          */
-        private EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
-            setID(toCopy.id);
-            setNames(toCopy.name);
-            setPhones(toCopy.phone);
-            setEmails(toCopy.email);
-            setAddresses(toCopy.address);
-            setDescription(toCopy.description);
-            setTags(toCopy.tags);
-        }
-
-        /**
-         * Returns true if at least one field is edited.
-         */
-        public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(id, name, phone, email, address, description, tags);
-        }
-
-        public void setID(UUID id) {
-            this.id = id; // UUID is immutable
-        }
-
-        public void setNames(List<Name> name) {
-            this.name = name;
-        }
-
-        public void setPhones(List<Phone> phone) {
-            this.phone = phone;
-        }
-
-        public void setEmails(List<Email> email) {
-            this.email = email;
-        }
-
-        public void setAddresses(List<Address> address) {
-            this.address = address;
-        }
-
-        public void setDescription(Description description) {
-            this.description = description;
-        }
-
-        public void setTags(Set<Tag> tags) {
-            this.tags = (tags != null) ? new HashSet<>(tags) : null;
-        }
-
-        public EditRecruitOperation getOperation() {
-            return operation;
-        }
-
-        public void setOperation(EditRecruitOperation op) {
-            requireNonNull(op);
-            this.operation = op;
+        public EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
+            super(toCopy);
+            this.operation = toCopy.operation;
         }
 
         @Override
@@ -384,35 +247,29 @@ public class EditCommand extends Command {
                 return false;
             }
 
-            EditRecruitDescriptor otherEditRecruitDescriptor = (EditRecruitDescriptor) other;
-            return Objects.equals(name, otherEditRecruitDescriptor.name)
-                    && Objects.equals(phone, otherEditRecruitDescriptor.phone)
-                    && Objects.equals(email, otherEditRecruitDescriptor.email)
-                    && Objects.equals(address, otherEditRecruitDescriptor.address)
-                    && Objects.equals(description, otherEditRecruitDescriptor.description)
-                    && Objects.equals(tags, otherEditRecruitDescriptor.tags)
-                    && Objects.equals(operation, otherEditRecruitDescriptor.operation);
+            EditRecruitDescriptor otherBuilder = (EditRecruitDescriptor) other;
+            return super.equals(otherBuilder) && this.operation == otherBuilder.operation;
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .add("name", name)
-                    .add("phone", phone)
-                    .add("email", email)
-                    .add("address", address)
+                    .add("name", names)
+                    .add("phone", phones)
+                    .add("email", emails)
+                    .add("address", addresses)
                     .add("description", description)
                     .add("tags", tags)
                     .add("operation", operation)
                     .toString();
         }
+    }
 
-        /**
-         * Represents all the possible types of operation that an 'edit' command can do
-         * to the attributes of a Recruit.
-         */
-        public static enum EditRecruitOperation {
-            APPEND, OVERWRITE, REMOVE
-        }
+    /**
+     * Represents all the possible types of operation that an 'edit' command can do
+     * to the attributes of a Recruit.
+     */
+    public static enum EditOperation {
+        APPEND, OVERWRITE, REMOVE
     }
 }
