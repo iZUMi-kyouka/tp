@@ -8,7 +8,7 @@ import java.util.UUID;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.recruit.exceptions.FieldNotFoundException;
+import seedu.address.model.recruit.exceptions.FieldElementNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
 import seedu.address.model.tag.Tag;
@@ -129,10 +129,10 @@ public class RecruitBuilder {
                     "Cannot remove names from a RecruitBuilder for which names has not been set");
         }
 
-        List<Name> missingNames = CollectionUtil.removeListFromCollection(this.names, namesToRemove);
+        List<Name> missingNames = CollectionUtil.removeListFromSet(this.names, namesToRemove);
 
         if (!missingNames.isEmpty()) {
-            throw new FieldNotFoundException(missingNames.stream().map(Name::toString).toList());
+            throw new FieldElementNotFoundException(missingNames.stream().map(Name::toString).toList());
         }
 
         return this;
@@ -181,10 +181,10 @@ public class RecruitBuilder {
                     "Cannot remove phone numbers from a RecruitBuilder for which phones have not been set");
         }
 
-        List<Phone> missingPhones = CollectionUtil.removeListFromCollection(this.phones, phonesToRemove);
+        List<Phone> missingPhones = CollectionUtil.removeListFromSet(this.phones, phonesToRemove);
 
         if (!missingPhones.isEmpty()) {
-            throw new FieldNotFoundException(missingPhones.stream().map(Phone::toString).toList());
+            throw new FieldElementNotFoundException(missingPhones.stream().map(Phone::toString).toList());
         }
 
         return this;
@@ -233,10 +233,10 @@ public class RecruitBuilder {
                     "Cannot remove emails from a RecruitBuilder for which emails have not been set");
         }
 
-        List<Email> missingEmails = CollectionUtil.removeListFromCollection(this.emails, emailsToRemove);
+        List<Email> missingEmails = CollectionUtil.removeListFromSet(this.emails, emailsToRemove);
 
         if (!missingEmails.isEmpty()) {
-            throw new FieldNotFoundException(missingEmails.stream().map(Email::toString).toList());
+            throw new FieldElementNotFoundException(missingEmails.stream().map(Email::toString).toList());
         }
 
         return this;
@@ -285,10 +285,10 @@ public class RecruitBuilder {
                     "Cannot remove addresses from a RecruitBuilder for which addresses have not been set");
         }
 
-        List<Address> missingAddresses = CollectionUtil.removeListFromCollection(this.addresses, addressesToRemove);
+        List<Address> missingAddresses = CollectionUtil.removeListFromSet(this.addresses, addressesToRemove);
 
         if (!missingAddresses.isEmpty()) {
-            throw new FieldNotFoundException(missingAddresses.stream().map(Address::toString).toList());
+            throw new FieldElementNotFoundException(missingAddresses.stream().map(Address::toString).toList());
         }
 
         return this;
@@ -380,10 +380,10 @@ public class RecruitBuilder {
                     "Cannot remove tags from a RecruitBuilder for which tags have not been set");
         }
 
-        List<Tag> missingTags = CollectionUtil.removeListFromCollection(this.tags, tagsToRemove);
+        List<Tag> missingTags = CollectionUtil.removeListFromSet(this.tags, tagsToRemove);
 
         if (!missingTags.isEmpty()) {
-            throw new FieldNotFoundException(missingTags.stream().map(Tag::toString).toList());
+            throw new FieldElementNotFoundException(missingTags.stream().map(Tag::toString).toList());
         }
 
         return this;
