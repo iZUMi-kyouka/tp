@@ -14,6 +14,8 @@ import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionExcepti
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
 import seedu.address.model.tag.Tag;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Represents a Builder class to build a Recruit.
  * Guarantees:
@@ -64,13 +66,15 @@ public class RecruitBuilder {
      * @param toCopy The other builder to copy
      */
     public RecruitBuilder(RecruitBuilder toCopy) {
+        requireNonNull(toCopy, "Cannot copy a null RecruitBuilder");
+
         this.id = toCopy.id;
-        this.names = new TreeSet<>(toCopy.names);
-        this.phones = new TreeSet<>(toCopy.phones);
-        this.emails = new TreeSet<>(toCopy.emails);
-        this.addresses = new TreeSet<>(toCopy.addresses);
-        this.description = new Description(toCopy.description);
-        this.tags = new TreeSet<>(toCopy.tags);
+        this.names = toCopy.names == null ? null : new TreeSet<>(toCopy.names);
+        this.phones = toCopy.phones == null ? null : new TreeSet<>(toCopy.phones);
+        this.emails = toCopy.emails == null ? null : new TreeSet<>(toCopy.emails);
+        this.addresses = toCopy.addresses == null ? null : new TreeSet<>(toCopy.addresses);
+        this.description = toCopy.description == null ? null : new Description(toCopy.description);
+        this.tags = toCopy.tags == null ? null : new TreeSet<>(toCopy.tags);
         this.isArchived = toCopy.isArchived;
     }
 
