@@ -18,6 +18,7 @@ import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -137,7 +138,14 @@ public class CsvUtil {
             Description description = new Description(cols[6]);
             boolean isArchived = Boolean.parseBoolean(cols[7]);
 
-            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, isArchived));
+            recruits.add(new RecruitBuilder()
+                    .setNames(names)
+                    .setPhones(phones)
+                    .setEmails(emails)
+                    .setAddresses(addresses)
+                    .setDescription(description)
+                    .setTags(tags)
+                    .setArchivalState(isArchived);
         }
         return recruits;
     }
