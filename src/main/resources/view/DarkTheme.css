@@ -336,16 +336,17 @@
     -fx-font-family: "Monospace", "Monospaced", "Consolas", "Courier New";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
-    /* optional: border customization */
     -fx-border-color: transparent transparent #ffffff transparent;
     -fx-border-width: 1;
-    -fx-background-color: transparent; /* affects base node */
+    -fx-background-color: transparent;
 }
 
+/* Required to remove white default backrgound of TextArea */
 #commandTextArea .viewport {
     -fx-background-color: transparent;
 }
 
+/* Required to remove white default backrgound of TextArea */
 #commandTextArea .content {
     -fx-background-color: transparent;
 }

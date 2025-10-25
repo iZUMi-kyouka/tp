@@ -30,8 +30,11 @@ public class CommandBox extends UiPart<Region> {
     public CommandBox(CommandExecutor commandExecutor) {
         super(FXML);
         this.commandExecutor = commandExecutor;
+
         commandTextArea.setWrapText(true);
-        commandTextArea.setPrefRowCount(2); // two seems sufficient for long commands
+        commandTextArea.setPrefRowCount(2);
+
+        // Prevent input and pasting of anything that contains newline
         commandTextArea.setTextFormatter(new TextFormatter<>(
                 c -> (c.getText().contains("\n") || c.getText().contains("\r")) ? null : c));
 
@@ -40,7 +43,7 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * Handles the Enter button pressed event.
+     * Handles keypress to execute command when ENTER is pressed.
      */
     @FXML
     private void handleKeyPressed(KeyEvent event) {
@@ -48,7 +51,6 @@ public class CommandBox extends UiPart<Region> {
             return;
         }
 
-        event.consume();
         String commandText = commandTextArea.getText();
         if (commandText.equals("")) {
             return;
