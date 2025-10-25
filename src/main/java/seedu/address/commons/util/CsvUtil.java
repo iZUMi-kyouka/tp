@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -131,10 +130,10 @@ public class CsvUtil {
                     .map(s -> s.replaceAll("^\"|\"$", ""))
                     .map(Address::new)
                     .toList();
-            Set<Tag> tags = Arrays.stream(cols[5].split(";"))
+            List<Tag> tags = Arrays.stream(cols[5].split(";"))
                     .map(s -> s.replaceAll("^\\[|\\]$", ""))
                     .map(Tag::new)
-                    .collect(Collectors.toSet());
+                    .toList();
             Description description = new Description(cols[6]);
             boolean isArchived = Boolean.parseBoolean(cols[7]);
 
@@ -145,7 +144,8 @@ public class CsvUtil {
                     .setAddresses(addresses)
                     .setDescription(description)
                     .setTags(tags)
-                    .setArchivalState(isArchived);
+                    .setArchivalState(isArchived)
+                    .build());
         }
         return recruits;
     }

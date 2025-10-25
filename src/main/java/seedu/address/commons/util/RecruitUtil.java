@@ -1,10 +1,9 @@
 package seedu.address.commons.util;
 
+import java.util.TreeSet;
+
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
-
-import java.util.Collection;
-import java.util.TreeSet;
 
 /**
  * Utility class for various operations involving Recruits.
@@ -51,7 +50,7 @@ public class RecruitUtil {
      */
     public static <T> void requireNonEmptyField(TreeSet<? extends T> fieldTree) throws InvalidRecruitException {
         if (fieldTree.isEmpty()) {
-            throw new InvalidRecruitException();
+            throw new InvalidRecruitException(String.format("%s is empty", fieldTree.getClass().getSimpleName()));
         }
     }
 }
