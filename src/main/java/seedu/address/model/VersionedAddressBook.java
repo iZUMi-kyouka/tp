@@ -11,7 +11,7 @@ public class VersionedAddressBook extends AddressBook {
     public static final int MAX_UNDO_HISTORY_SIZE = 200;
 
     private final List<AddressBookState> addressBookStateList = new ArrayList<>();
-    private int currentStatePtr;
+    private int currentStatePointer;
 
     /**
      * Creates a VersionedAddressBook using the Recruits in the {@code toBeCopied}
@@ -20,7 +20,7 @@ public class VersionedAddressBook extends AddressBook {
         super(toBeCopied);
 
         this.addressBookStateList.add(new AddressBookState(toBeCopied, INITIAL_STATE_MARKER));
-        currentStatePtr = 0;
+        currentStatePointer = 0;
     }
 
     /**
@@ -33,17 +33,17 @@ public class VersionedAddressBook extends AddressBook {
         if (addressBookStateList.size() > MAX_UNDO_HISTORY_SIZE) {
             addressBookStateList.remove(0);
         } else {
-            currentStatePtr++;
+            currentStatePointer++;
         }
 
     }
 
     public boolean canUndoAddressBook() {
-        return currentStatePtr > 0;
+        return currentStatePointer > 0;
     }
 
     public boolean canRedoAddressBook() {
-        return currentStatePtr < addressBookStateList.size() - 1;
+        return currentStatePointer < addressBookStateList.size() - 1;
     }
 
     /**
@@ -52,13 +52,13 @@ public class VersionedAddressBook extends AddressBook {
      * @return the command string of the operation that was undone
      */
     public String undo() {
-        if (currentStatePtr <= 0) {
+        if (currentStatePointer <= 0) {
             throw new IllegalStateException();
         }
 
-        String undoneOperation = addressBookStateList.get(currentStatePtr).getOperationDescriptor();
-        currentStatePtr--;
-        AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePtr);
+        String undoneOperation = addressBookStateList.get(currentStatePointer).getOperationDescriptor();
+        currentStatePointer--;
+        AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePointer);
         this.setRecruits(addressBookStateToRestore.getAddressBook().getRecruitList());
 
         return undoneOperation;
@@ -70,20 +70,20 @@ public class VersionedAddressBook extends AddressBook {
      * @return the command string of the operation that was undone
      */
     public String redo() {
-        if (currentStatePtr == addressBookStateList.size() - 1) {
+        if (currentStatePointer == addressBookStateList.size() - 1) {
             throw new IllegalStateException();
         }
 
-        currentStatePtr++;
-        String redoneOperation = addressBookStateList.get(currentStatePtr).getOperationDescriptor();
-        AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePtr);
+        currentStatePointer++;
+        String redoneOperation = addressBookStateList.get(currentStatePointer).getOperationDescriptor();
+        AddressBookState addressBookStateToRestore = addressBookStateList.get(currentStatePointer);
         this.setRecruits(addressBookStateToRestore.getAddressBook().getRecruitList());
 
         return redoneOperation;
     }
 
-    public int getCurrentStatePtr() {
-        return currentStatePtr;
+    public int getCurrentStatePointer() {
+        return currentStatePointer;
     }
 
     /**
@@ -97,8 +97,8 @@ public class VersionedAddressBook extends AddressBook {
      * Deletes all AddressBook states after the currently pointed state.
      */
     private void purgeFutureStates() {
-        if (currentStatePtr < addressBookStateList.size() - 1) {
-            addressBookStateList.subList(currentStatePtr + 1, addressBookStateList.size()).clear();
+        if (currentStatePointer < addressBookStateList.size() - 1) {
+            addressBookStateList.subList(currentStatePointer + 1, addressBookStateList.size()).clear();
         }
     }
 }
