@@ -3,9 +3,11 @@ package seedu.address.model.recruit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -200,14 +202,7 @@ public class Recruit {
          * Constructor for Builder
          */
         public Builder() {
-            this.id = UUID.randomUUID();
-            this.names = new TreeSet<>();
-            this.phones = new TreeSet<>();
-            this.addresses = new TreeSet<>();
-            this.emails = new TreeSet<>();
-            this.description = Description.createEmptyDescription();
-            this.tags = new TreeSet<>();
-            this.isArchived = false;
+
         }
 
         /**
@@ -345,7 +340,11 @@ public class Recruit {
          */
         public Builder appendNames(List<Name> names) {
             if (names != null) {
-                this.names.addAll(names);
+                if (this.names == null) {
+                    this.names = new TreeSet<>(names);
+                } else {
+                    this.names.addAll(names);
+                }
             }
             return this;
         }
@@ -359,7 +358,11 @@ public class Recruit {
          */
         public Builder appendPhones(List<Phone> phones) {
             if (phones != null) {
-                this.phones.addAll(phones);
+                if (this.phones == null) {
+                    this.phones = new TreeSet<>(phones);
+                } else {
+                    this.phones.addAll(phones);
+                }
             }
             return this;
         }
@@ -373,7 +376,11 @@ public class Recruit {
          */
         public Builder appendEmails(List<Email> emails) {
             if (emails != null) {
-                this.emails.addAll(emails);
+                if (this.emails == null) {
+                    this.emails = new TreeSet<>(emails);
+                } else {
+                    this.emails.addAll(emails);
+                }
             }
             return this;
         }
@@ -387,7 +394,11 @@ public class Recruit {
          */
         public Builder appendAddresses(List<Address> addresses) {
             if (addresses != null) {
-                this.addresses.addAll(addresses);
+                if (this.addresses == null) {
+                    this.addresses = new TreeSet<>(addresses);
+                } else {
+                    this.addresses.addAll(addresses);
+                }
             }
             return this;
         }
@@ -402,7 +413,11 @@ public class Recruit {
          */
         public Builder appendDescription(Description description) {
             if (description != null) {
-                this.description.appendDescription(description);
+                if (this.description == null) {
+                    this.description = new Description(description);
+                } else {
+                    this.description.appendDescription(description);
+                }
             }
             return this;
         }
@@ -416,7 +431,11 @@ public class Recruit {
          */
         public Builder appendTags(Set<Tag> tags) {
             if (tags != null) {
-                this.tags.addAll(tags);
+                if (this.tags == null) {
+                    this.tags = new TreeSet<>(tags);
+                } else {
+                    this.tags.addAll(tags);
+                }
             }
             return this;
         }
@@ -503,6 +522,17 @@ public class Recruit {
         }
 
         /**
+         * Checks if the {@code Builder} has been modified before.
+         * A builder has been modified if any of the "set" or "append" methods have been called.
+         *
+         * @return boolean indicating whether the Builder has been modified.
+         */
+        public boolean hasBeenModified() {
+            return Stream.of(this.names, this.phones, this.emails, this.addresses, this.description, this.tags)
+                    .anyMatch(Objects::nonNull);
+        }
+
+        /**
          * Builds a {@code Recruit} using the attributes specified in the {@code Builder}
          *
          * @return the recruit with matching builder attributes
@@ -511,6 +541,12 @@ public class Recruit {
         public Recruit build() {
             RecruitUtil.requireNonEmptyField(names);
 
+            this.id = this.id == null ? UUID.randomUUID() : this.id;
+            this.phones = this.phones == null ? new TreeSet<>() : this.phones;
+            this.emails = this.emails == null ? new TreeSet<>() : this.emails;
+            this.addresses = this.addresses == null ? new TreeSet<>() : this.addresses;
+            this.description = this.description == null ? Description.createEmptyDescription() : this.description;
+            this.tags = this.tags == null ? new TreeSet<>() : this.tags;
             return new Recruit(this);
         }
     }
