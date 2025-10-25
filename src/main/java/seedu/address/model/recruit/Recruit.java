@@ -240,38 +240,94 @@ public class Recruit {
             this.isArchived = toCopy.isArchived;
         }
 
+        /**
+         * Sets the UUID if the provided id is not null.
+         *
+         * @param id the UUID to set
+         * @return the Builder instance with the updated UUID
+         */
         public Builder setUuid(UUID id) {
-            this.id = id;
+            if (id != null) {
+                this.id = id;
+            }
             return this;
         }
 
+        /**
+         * Sets the list of names if the provided list is not null.
+         *
+         * @param names the list of names to set
+         * @return the Builder instance with the updated names
+         */
         public Builder setNames(List<Name> names) {
-            this.names = new TreeSet<>(names);
+            if (names != null) {
+                this.names = new TreeSet<>(names);
+            }
             return this;
         }
 
+        /**
+         * Sets the list of phone numbers if the provided list is not null.
+         *
+         * @param phones the list of phone numbers to set
+         * @return the Builder instance with the updated phone numbers
+         */
         public Builder setPhones(List<Phone> phones) {
-            this.phones = new TreeSet<>(phones);
+            if (phones != null) {
+                this.phones = new TreeSet<>(phones);
+            }
             return this;
         }
 
+        /**
+         * Sets the list of emails if the provided list is not null.
+         *
+         * @param emails the list of emails to set
+         * @return the Builder instance with the updated emails
+         */
         public Builder setEmails(List<Email> emails) {
-            this.emails = new TreeSet<>(emails);
+            if (emails != null) {
+                this.emails = new TreeSet<>(emails);
+            }
             return this;
         }
 
+        /**
+         * Sets the list of addresses if the provided list is not null.
+         *
+         * @param addresses the list of addresses to set
+         * @return the Builder instance with the updated addresses
+         */
         public Builder setAddresses(List<Address> addresses) {
-            this.addresses = new TreeSet<>(addresses);
+            if (addresses != null) {
+                this.addresses = new TreeSet<>(addresses);
+            }
             return this;
         }
 
+        /**
+         * Sets the description if the provided description is not null.
+         *
+         * @param description the description to set
+         * @return the Builder instance with the updated description
+         */
         public Builder setDescription(Description description) {
-            this.description = new Description(description);
+            if (description != null) {
+                this.description = new Description(description);
+            }
             return this;
         }
 
+        /**
+         * Sets the set of tags if the provided set is not null.
+         *
+         * @param tags the set of tags to set
+         * @return the Builder instance with the updated tags
+         */
         public Builder setTags(Set<Tag> tags) {
-            this.tags = new TreeSet<>(tags);
+            if (tags != null) {
+                this.tags = new TreeSet<>(tags);
+            }
             return this;
         }
 
