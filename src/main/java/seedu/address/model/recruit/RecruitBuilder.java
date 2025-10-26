@@ -1,5 +1,7 @@
 package seedu.address.model.recruit;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -13,13 +15,13 @@ import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
-import seedu.address.model.recruit.exceptions.FieldElementAlreadyExistsException;
-import seedu.address.model.recruit.exceptions.FieldElementNotFoundException;
+import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.FieldEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
 import seedu.address.model.tag.Tag;
 
-import static java.util.Objects.requireNonNull;
+
 
 /**
  * Represents a Builder class to build a Recruit.
@@ -104,7 +106,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withName(Name name) {
         if (name != null) {
-            this.names = new TreeSet<Name>();
+            this.names = new TreeSet<>();
             this.names.add(name);
         }
         return this;
@@ -137,7 +139,7 @@ public class RecruitBuilder {
         List<Name> duplicatedNames = CollectionUtil.addListToSet(this.names, namesToAdd);
 
         if (!duplicatedNames.isEmpty()) {
-            throw new FieldElementAlreadyExistsException("name",
+            throw new FieldEntryAlreadyExistsException("name",
                     duplicatedNames.stream().map(Name::toString).toList());
         }
 
@@ -159,7 +161,7 @@ public class RecruitBuilder {
         List<Name> missingNames = CollectionUtil.removeListFromSet(this.names, namesToRemove);
 
         if (!missingNames.isEmpty()) {
-            throw new FieldElementNotFoundException("name",
+            throw new FieldEntryNotFoundException("name",
                     missingNames.stream().map(Name::toString).toList());
         }
 
@@ -208,7 +210,7 @@ public class RecruitBuilder {
         List<Phone> duplicatedPhones = CollectionUtil.addListToSet(this.phones, phonesToAdd);
 
         if (!duplicatedPhones.isEmpty()) {
-            throw new FieldElementAlreadyExistsException("phone",
+            throw new FieldEntryAlreadyExistsException("phone",
                     duplicatedPhones.stream().map(Phone::toString).toList());
         }
 
@@ -230,7 +232,7 @@ public class RecruitBuilder {
         List<Phone> missingPhones = CollectionUtil.removeListFromSet(this.phones, phonesToRemove);
 
         if (!missingPhones.isEmpty()) {
-            throw new FieldElementNotFoundException("phone",
+            throw new FieldEntryNotFoundException("phone",
                     missingPhones.stream().map(Phone::toString).toList());
         }
 
@@ -279,7 +281,7 @@ public class RecruitBuilder {
         List<Email> duplicatedEmails = CollectionUtil.addListToSet(this.emails, emailsToAdd);
 
         if (!duplicatedEmails.isEmpty()) {
-            throw new FieldElementAlreadyExistsException("email",
+            throw new FieldEntryAlreadyExistsException("email",
                     duplicatedEmails.stream().map(Email::toString).toList());
         }
 
@@ -301,7 +303,7 @@ public class RecruitBuilder {
         List<Email> missingEmails = CollectionUtil.removeListFromSet(this.emails, emailsToRemove);
 
         if (!missingEmails.isEmpty()) {
-            throw new FieldElementNotFoundException("email",
+            throw new FieldEntryNotFoundException("email",
                     missingEmails.stream().map(Email::toString).toList());
         }
 
@@ -350,7 +352,7 @@ public class RecruitBuilder {
         List<Address> duplicatedAddresses = CollectionUtil.addListToSet(this.addresses, addressesToAdd);
 
         if (!duplicatedAddresses.isEmpty()) {
-            throw new FieldElementAlreadyExistsException("address",
+            throw new FieldEntryAlreadyExistsException("address",
                     duplicatedAddresses.stream().map(Address::toString).toList());
         }
 
@@ -372,7 +374,7 @@ public class RecruitBuilder {
         List<Address> missingAddresses = CollectionUtil.removeListFromSet(this.addresses, addressesToRemove);
 
         if (!missingAddresses.isEmpty()) {
-            throw new FieldElementNotFoundException("address",
+            throw new FieldEntryNotFoundException("address",
                     missingAddresses.stream().map(Address::toString).toList());
         }
 
@@ -454,7 +456,7 @@ public class RecruitBuilder {
         List<Tag> duplicatedTags = CollectionUtil.addListToSet(this.tags, tagsToAdd);
 
         if (!duplicatedTags.isEmpty()) {
-            throw new FieldElementAlreadyExistsException("tag",
+            throw new FieldEntryAlreadyExistsException("tag",
                     duplicatedTags.stream().map(Tag::toString).toList());
         }
 
@@ -476,14 +478,19 @@ public class RecruitBuilder {
         List<Tag> missingTags = CollectionUtil.removeListFromSet(this.tags, tagsToRemove);
 
         if (!missingTags.isEmpty()) {
-            throw new FieldElementNotFoundException("tag",
+            throw new FieldEntryNotFoundException("tag",
                     missingTags.stream().map(Tag::toString).toList());
         }
 
         return this;
     }
 
-
+    /**
+     * Sets the archival status to be the value "isArchived".
+     *
+     * @param isArchived the boolean indicating whether the Recruit should be archived
+     * @return this Builder instance with this artchival status
+     */
     public RecruitBuilder withArchivalState(boolean isArchived) {
         this.isArchived = isArchived;
         return this;

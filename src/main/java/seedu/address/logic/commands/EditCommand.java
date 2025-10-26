@@ -22,7 +22,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
-import seedu.address.model.recruit.exceptions.FieldElementAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -141,9 +141,9 @@ public class EditCommand extends Command {
             throws CommandException {
         try {
             return new RecruitBuilder(rec).append(desc).build();
-        } catch (FieldElementAlreadyExistsException e) {
+        } catch (FieldEntryAlreadyExistsException e) {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_ATTRIBUTE,
-                    e.getFieldType(), e.getDuplicatedElements()));
+                    e.getFieldType(), e.getDuplicatedEntries()));
         }
     }
 
@@ -156,9 +156,9 @@ public class EditCommand extends Command {
             throws CommandException {
         try {
             return new RecruitBuilder(rec).remove(desc).build();
-        } catch (FieldElementAlreadyExistsException e) {
+        } catch (FieldEntryAlreadyExistsException e) {
             throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
-                    e.getFieldType(), e.getDuplicatedElements()));
+                    e.getFieldType(), e.getDuplicatedEntries()));
         }
     }
 
