@@ -199,7 +199,7 @@ public class ParserUtil {
     /**
      * Parses all values from ArgumentMultimap for the given prefix using the given parser.
      */
-    private static <T> List<T> parseAllValues(
+    public static <T> List<T> parseAllValues(
             List<String> values, ParserFunction<String, T> parser) throws ParseException {
         List<T> parsedValues = new ArrayList<>();
         for (String s : values) {

@@ -2,13 +2,10 @@ package seedu.address.testutil;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
 import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
@@ -28,6 +25,10 @@ public class EditRecruitDescriptorBuilder {
         descriptor = new EditCommand.EditRecruitDescriptor();
     }
 
+    public EditRecruitDescriptorBuilder(EditCommand.EditOperation op) {
+        descriptor = new EditCommand.EditRecruitDescriptor(op);
+    }
+
     public EditRecruitDescriptorBuilder(EditCommand.EditRecruitDescriptor descriptor) {
         this.descriptor = new EditCommand.EditRecruitDescriptor(descriptor);
     }
@@ -37,19 +38,34 @@ public class EditRecruitDescriptorBuilder {
      */
     public EditRecruitDescriptorBuilder(Recruit recruit) {
         descriptor = new EditCommand.EditRecruitDescriptor();
-        descriptor.setID(recruit.getID());
+        descriptor.setId(recruit.getID());
         descriptor.withNames(recruit.getNames());
         descriptor.withPhones(recruit.getPhones());
         descriptor.withEmails(recruit.getEmails());
         descriptor.withAddresses(recruit.getAddresses());
         descriptor.withDescription(recruit.getDescription());
-        descriptor.withTags(recruit.getTags());
+        descriptor.withTags(recruit.getTags().stream().toList());
     }
+
+    /**
+     * Returns an {@code EditPersonDescriptor} with fields containing {@code person}'s details
+     */
+    public EditRecruitDescriptorBuilder(EditCommand.EditOperation op, Recruit recruit) {
+        descriptor = new EditCommand.EditRecruitDescriptor(op);
+        descriptor.setId(recruit.getID());
+        descriptor.withNames(recruit.getNames());
+        descriptor.withPhones(recruit.getPhones());
+        descriptor.withEmails(recruit.getEmails());
+        descriptor.withAddresses(recruit.getAddresses());
+        descriptor.withDescription(recruit.getDescription());
+        descriptor.withTags(recruit.getTags().stream().toList());
+    }
+
     /**
      * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withID(String id) {
-        descriptor.setID(UUID.fromString(id));
+        descriptor.setId(UUID.fromString(id));
         return this;
     }
 
@@ -119,14 +135,6 @@ public class EditRecruitDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code EditRecruitOperation} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditRecruitDescriptorBuilder withOperation(EditRecruitOperation op) {
-        descriptor.setOperation(op);
-        return this;
-    }
-
-    /**
      * Sets the {@code Description} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withDescription(String description) {
@@ -140,8 +148,7 @@ public class EditRecruitDescriptorBuilder {
      * that we are building.
      */
     public EditRecruitDescriptorBuilder withTags(String... tags) {
-        Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
-        descriptor.withTags(tagSet);
+        descriptor.withTags(Stream.of(tags).map(Tag::new).toList());
         return this;
     }
 

@@ -23,6 +23,8 @@ import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.FieldEntryNotFoundException;
+import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -49,8 +51,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
-    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s(s) are already present.";
-    public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s(s) do not exist.";
+    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s(s) are already present: %s";
+    public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s(s) do not exist: %s";
     public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
 
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
@@ -156,9 +158,9 @@ public class EditCommand extends Command {
             throws CommandException {
         try {
             return new RecruitBuilder(rec).remove(desc).build();
-        } catch (FieldEntryAlreadyExistsException e) {
+        } catch (FieldEntryNotFoundException e) {
             throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
-                    e.getFieldType(), e.getDuplicatedEntries()));
+                    e.getFieldType(), e.getMissingEntries()));
         }
     }
 
@@ -176,7 +178,7 @@ public class EditCommand extends Command {
         EditCommand otherEditCommand = (EditCommand) other;
         return ((!isNull(id) && id.equals(otherEditCommand.id))
                 || (!isNull(index) && index.equals(otherEditCommand.index)))
-                && editRecruitDescriptor.equals(otherEditCommand.editRecruitDescriptor);
+                && editRecruitDescriptor.hasSameData(otherEditCommand.editRecruitDescriptor);
     }
 
     @Override
@@ -216,6 +218,15 @@ public class EditCommand extends Command {
         private final EditCommand.EditOperation operation;
 
         /**
+         * Creates an EditRecruitDescriptor assigned with the default operation (overwrite)
+         */
+        public EditRecruitDescriptor() {
+            super();
+
+            this.operation = EditOperation.OVERWRITE;
+        }
+
+        /**
          * Creates an EditRecruitDescriptor assigned with the following operation.
          *
          * @param op the operation of to perform during edit.
@@ -236,6 +247,10 @@ public class EditCommand extends Command {
             this.operation = toCopy.operation;
         }
 
+        public EditOperation getOperation() {
+            return operation;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -247,8 +262,12 @@ public class EditCommand extends Command {
                 return false;
             }
 
+            // Check if data fields are equal
+            if (!super.equals(other)) {
+                return false;
+            }
             EditRecruitDescriptor otherBuilder = (EditRecruitDescriptor) other;
-            return super.equals(otherBuilder) && this.operation == otherBuilder.operation;
+            return this.operation.equals(otherBuilder.operation);
         }
 
         @Override
@@ -263,7 +282,14 @@ public class EditCommand extends Command {
                     .add("operation", operation)
                     .toString();
         }
+
+        // TODO:: WARNING! THIS VIOLATES LSP I THINK - replace with composition in the future I guess
+        @Override
+        public Recruit build() {
+            throw new IllegalRecruitBuilderActionException("Cannot build an EditRecruitDescriptor");
+        }
     }
+
 
     /**
      * Represents all the possible types of operation that an 'edit' command can do

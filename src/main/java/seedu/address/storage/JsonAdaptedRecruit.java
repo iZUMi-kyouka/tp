@@ -130,7 +130,7 @@ class JsonAdaptedRecruit {
         final Description modelDescription = new Description(description);
 
         return new RecruitBuilder()
-                .setUuid(modelId)
+                .setId(modelId)
                 .withNames(modelNames)
                 .withPhones(modelPhones)
                 .withEmails(modelEmails)

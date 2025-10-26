@@ -30,18 +30,22 @@ import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.RecruitBuilder;
+import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class RecruitTest {
 
     @Test
     public void constructors() {
 
-        // recruit with random uuid and non-list params
-        Recruit r = new Recruit(new Name(VALID_NAME_AMY), new Phone(VALID_PHONE_AMY),
-                new Email(VALID_EMAIL_AMY), new Address(VALID_ADDRESS_AMY),
-                new Description(VALID_DESCRIPTION_AMY),
-                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), false);
+        // recruit with random UUID and single-value params
+        Recruit r = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY)))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY)))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY)))
+                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withTags(List.of(new Tag(VALID_TAG_FRIEND)))
+                .build();
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
@@ -50,11 +54,15 @@ public class RecruitTest {
         assertEquals(new Description(VALID_DESCRIPTION_AMY), r.getDescription());
         assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
 
-        // recruit with random uuid and list params
-        r = new Recruit(List.of(new Name(VALID_NAME_AMY)), List.of(new Phone(VALID_PHONE_AMY)),
-                List.of(new Email(VALID_EMAIL_AMY)), List.of(new Address(VALID_ADDRESS_AMY)),
-                new Description(VALID_DESCRIPTION_AMY),
-                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), false);
+        // recruit with random UUID and list params (effectively same as above)
+        r = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY)))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY)))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY)))
+                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withTags(List.of(new Tag(VALID_TAG_FRIEND)))
+                .build();
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
@@ -65,7 +73,7 @@ public class RecruitTest {
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Recruit recruit = new RecruitBuilder().build();
+        Recruit recruit = new SimpleRecruitBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> recruit.getTags().remove(0));
     }
 
@@ -78,25 +86,25 @@ public class RecruitTest {
         assertFalse(ALICE.isSameRecruit(null));
 
         // same name, all other attributes different -> returns false
-        Recruit editedAlice = new RecruitBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
+        Recruit editedAlice = new SimpleRecruitBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.isSameRecruit(editedAlice));
 
         // different name, all other attributes same -> returns true
-        editedAlice = new RecruitBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        editedAlice = new SimpleRecruitBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.isSameRecruit(editedAlice));
 
         // name differs in case, all other attributes same -> returns true
-        Recruit editedBob = new RecruitBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
+        Recruit editedBob = new SimpleRecruitBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
         assertFalse(BOB.isSameRecruit(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob = new RecruitBuilder(BOB).withName(nameWithTrailingSpaces).build();
+        editedBob = new SimpleRecruitBuilder(BOB).withName(nameWithTrailingSpaces).build();
         assertFalse(BOB.isSameRecruit(editedBob));
 
         // same fields, different id -> returns true
-        Recruit editedBobWithNewId = new RecruitBuilder(BOB).withID(UUID.randomUUID().toString())
+        Recruit editedBobWithNewId = new SimpleRecruitBuilder(BOB).withID(UUID.randomUUID().toString())
                 .withName(VALID_NAME_BOB.toLowerCase()).build();
         assertFalse(BOB.isSameRecruit(editedBobWithNewId));
     }
@@ -104,7 +112,7 @@ public class RecruitTest {
     @Test
     public void equals() {
         // same values -> returns true
-        Recruit aliceCopy = new RecruitBuilder(ALICE).build();
+        Recruit aliceCopy = new SimpleRecruitBuilder(ALICE).build();
         assertTrue(ALICE.equals(aliceCopy));
 
         // same object -> returns true
@@ -120,23 +128,23 @@ public class RecruitTest {
         assertFalse(ALICE.equals(BOB));
 
         // different name -> returns false
-        Recruit editedAlice = new RecruitBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        Recruit editedAlice = new SimpleRecruitBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different phone -> returns false
-        editedAlice = new RecruitBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
+        editedAlice = new SimpleRecruitBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different email -> returns false
-        editedAlice = new RecruitBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
+        editedAlice = new SimpleRecruitBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different address -> returns false
-        editedAlice = new RecruitBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
+        editedAlice = new SimpleRecruitBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false
-        editedAlice = new RecruitBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
+        editedAlice = new SimpleRecruitBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
     }
 

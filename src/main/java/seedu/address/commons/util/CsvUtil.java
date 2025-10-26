@@ -138,6 +138,7 @@ public class CsvUtil {
             boolean isArchived = Boolean.parseBoolean(cols[7]);
 
             recruits.add(new RecruitBuilder()
+                    .setId(id)
                     .withNames(names)
                     .withPhones(phones)
                     .withEmails(emails)

@@ -79,7 +79,17 @@ public class EditCommandParser implements Parser<EditCommand> {
         editBuilder.withAddresses(extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress));
         editBuilder.withDescription(extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
                 ParserUtil::parseDescription));
-        editBuilder.withTags(extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag));
+
+        List<String> tagStrings = argMultimap.getAllValues(PREFIX_TAG);
+        if (tagStrings != null) {
+            if (tagStrings.size() == 1 && tagStrings.get(0).isBlank()) {
+                editBuilder.withTags(List.of());
+            } else {
+                editBuilder.withTags(ParserUtil.parseAllValues(tagStrings, ParserUtil::parseTag));
+            }
+        }
+
+
 
         // TODO: perhaps this should be refactored to throw if the resulting recruit is the same after the operation
         // rahter than checking merely for the descriptor attributes.
@@ -118,7 +128,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove));
         } catch (IllegalArgumentException e) {
             throw new ParseException(
-                    String.format(EditCommand.MESSAGE_INVALID_OPERATION, EditCommand.MESSAGE_USAGE), e);
+                    String.format(EditCommand.MESSAGE_INVALID_OPERATION), e);
         }
 
         return isAppend

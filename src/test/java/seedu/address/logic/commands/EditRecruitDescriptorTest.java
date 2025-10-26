@@ -15,7 +15,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
-import seedu.address.testutil.EditRecruitDescriptorBuilder;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
+import seedu.address.model.tag.Tag;
 
 public class EditRecruitDescriptorTest {
 
@@ -38,28 +43,33 @@ public class EditRecruitDescriptorTest {
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
         // different name -> returns false
-        EditCommand.EditRecruitDescriptor editedAmy =
-                new EditRecruitDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
+        EditCommand.EditRecruitDescriptor editedAmy = new EditRecruitDescriptor(DESC_AMY);
+        editedAmy.withName(new Name(VALID_NAME_BOB));
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different phone -> returns false
-        editedAmy = new EditRecruitDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
+        editedAmy = new EditRecruitDescriptor(DESC_AMY);
+        editedAmy.withPhone(new Phone(VALID_PHONE_BOB));
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different email -> returns false
-        editedAmy = new EditRecruitDescriptorBuilder(DESC_AMY).withEmail(VALID_EMAIL_BOB).build();
+        editedAmy = new EditRecruitDescriptor(DESC_AMY);
+        editedAmy.withEmail(new Email(VALID_EMAIL_BOB));
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different address -> returns false
-        editedAmy = new EditRecruitDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
+        editedAmy = new EditRecruitDescriptor(DESC_AMY);
+        editedAmy.withAddress(new Address(VALID_ADDRESS_BOB));
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different description -> returns false
-        editedAmy = new EditRecruitDescriptorBuilder(DESC_AMY).withDescription(VALID_DESCRIPTION_BOB).build();
+        editedAmy = new EditRecruitDescriptor(DESC_AMY);
+        editedAmy.withDescription(new Description(VALID_DESCRIPTION_BOB));
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false
-        editedAmy = new EditRecruitDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
+        editedAmy = new EditRecruitDescriptor(DESC_AMY);
+        editedAmy.withTag(new Tag(VALID_TAG_HUSBAND));
         assertFalse(DESC_AMY.equals(editedAmy));
     }
 
@@ -67,11 +77,11 @@ public class EditRecruitDescriptorTest {
     public void toStringMethod() {
         EditCommand.EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor();
         String expected = EditCommand.EditRecruitDescriptor.class.getCanonicalName() + "{name="
-                + editRecruitDescriptor.getName().orElse(null) + ", phone="
-                + editRecruitDescriptor.getPhone().orElse(null) + ", email="
-                + editRecruitDescriptor.getEmail().orElse(null) + ", address="
+                + editRecruitDescriptor.getNames().orElse(null) + ", phone="
+                + editRecruitDescriptor.getPhones().orElse(null) + ", email="
+                + editRecruitDescriptor.getEmails().orElse(null) + ", address="
                 + editRecruitDescriptor.getDescription().orElse(null) + ", description="
-                + editRecruitDescriptor.getAddress().orElse(null) + ", tags="
+                + editRecruitDescriptor.getAddresses().orElse(null) + ", tags="
                 + editRecruitDescriptor.getTags().orElse(null) + ", operation="
                 + editRecruitDescriptor.getOperation() + "}";
         assertEquals(expected, editRecruitDescriptor.toString());

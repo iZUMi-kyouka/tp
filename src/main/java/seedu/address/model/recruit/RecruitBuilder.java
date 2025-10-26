@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.UUID;
 
@@ -91,11 +92,21 @@ public class RecruitBuilder {
      * @param id the UUID to set
      * @return the Builder instance with the updated UUID
      */
-    public RecruitBuilder setUuid(UUID id) {
+    public RecruitBuilder setId(UUID id) {
         if (id != null) {
             this.id = id;
         }
         return this;
+    }
+
+    /**
+     * Gets UUID assigned to the builder
+     *
+     * @return the UUID currently assigned to the builder in the form of an Optional.
+     *         The optional is empty if there is no UUID set.
+     */
+    public Optional<UUID> getId() {
+        return Optional.ofNullable(this.id);
     }
 
     /**
@@ -136,6 +147,11 @@ public class RecruitBuilder {
             return this;
         }
 
+        if (this.names == null) {
+            this.names = new TreeSet<>(namesToAdd);
+            return this;
+        }
+
         List<Name> duplicatedNames = CollectionUtil.addListToSet(this.names, namesToAdd);
 
         if (!duplicatedNames.isEmpty()) {
@@ -166,6 +182,16 @@ public class RecruitBuilder {
         }
 
         return this;
+    }
+
+    /**
+     * Gets the names assigned to the builder.
+     *
+     * @return an Optional containing the set of Names currently assigned to the builder,
+     *         or an empty Optional if no Names have been set.
+     */
+    public Optional<TreeSet<Name>> getNames() {
+        return Optional.ofNullable(this.names);
     }
 
     /**
@@ -207,6 +233,11 @@ public class RecruitBuilder {
             return this;
         }
 
+        if (this.phones == null) {
+            this.phones = new TreeSet<>(phonesToAdd);
+            return this;
+        }
+
         List<Phone> duplicatedPhones = CollectionUtil.addListToSet(this.phones, phonesToAdd);
 
         if (!duplicatedPhones.isEmpty()) {
@@ -237,6 +268,16 @@ public class RecruitBuilder {
         }
 
         return this;
+    }
+
+    /**
+     * Gets the phones assigned to the builder.
+     *
+     * @return an Optional containing the set of Phones currently assigned to the builder,
+     *         or an empty Optional if no Phones have been set.
+     */
+    public Optional<TreeSet<Phone>> getPhones() {
+        return Optional.ofNullable(this.phones);
     }
 
     /**
@@ -278,6 +319,11 @@ public class RecruitBuilder {
             return this;
         }
 
+        if (this.emails == null) {
+            this.emails = new TreeSet<>(emailsToAdd);
+            return this;
+        }
+
         List<Email> duplicatedEmails = CollectionUtil.addListToSet(this.emails, emailsToAdd);
 
         if (!duplicatedEmails.isEmpty()) {
@@ -308,6 +354,16 @@ public class RecruitBuilder {
         }
 
         return this;
+    }
+
+    /**
+     * Gets the emails assigned to the builder.
+     *
+     * @return an Optional containing the set of Emails currently assigned to the builder,
+     *         or an empty Optional if no Emails have been set.
+     */
+    public Optional<TreeSet<Email>> getEmails() {
+        return Optional.ofNullable(this.emails);
     }
 
     /**
@@ -349,6 +405,11 @@ public class RecruitBuilder {
             return this;
         }
 
+        if (this.addresses == null) {
+            this.addresses = new TreeSet<>(addressesToAdd);
+            return this;
+        }
+
         List<Address> duplicatedAddresses = CollectionUtil.addListToSet(this.addresses, addressesToAdd);
 
         if (!duplicatedAddresses.isEmpty()) {
@@ -382,6 +443,16 @@ public class RecruitBuilder {
     }
 
     /**
+     * Gets the addresses assigned to the builder.
+     *
+     * @return an Optional containing the set of Addresses currently assigned to the builder,
+     *         or an empty Optional if no Addresses have been set.
+     */
+    public Optional<TreeSet<Address>> getAddresses() {
+        return Optional.ofNullable(this.addresses);
+    }
+
+    /**
      * Sets the description if the provided description is not null.
      *
      * @param description the description to set
@@ -399,19 +470,43 @@ public class RecruitBuilder {
      * only if the provided description is not null.
      * Uses {@link Description#appendDescription} to perform this operation.
      *
-     * @param description The description to append
+     * @param otherDescription The description to append
      * @return the Builder with a new Description that is the previous description and the provided
      *         descriptions combined.
      */
-    public RecruitBuilder appendDescription(Description description) {
-        if (description != null) {
-            if (this.description == null) {
-                this.description = new Description(description);
-            } else {
-                this.description.appendDescription(description);
-            }
+    public RecruitBuilder appendDescription(Description otherDescription) {
+        if (otherDescription == null) {
+            return this;
         }
+
+        if (this.description == null) {
+            this.description = new Description(otherDescription);
+            return this;
+        }
+
+        this.description = this.description.appendDescription(otherDescription);
         return this;
+    }
+
+    /**
+     * Removes the description from the current set of tags in the {@code Builder}.
+     *
+     * @return the Builder with the description removed.
+     */
+    public RecruitBuilder removeDescription() {
+        this.description = Description.createEmptyDescription();
+
+        return this;
+    }
+
+    /**
+     * Gets the description assigned to the builder.
+     *
+     * @return an Optional containing the description currently assigned to the builder,
+     *         or an empty Optional if no Tags have been set.
+     */
+    public Optional<Description> getDescription() {
+        return Optional.ofNullable(this.description);
     }
 
     /**
@@ -453,6 +548,11 @@ public class RecruitBuilder {
             return this;
         }
 
+        if (this.tags == null) {
+            this.tags = new TreeSet<>(tagsToAdd);
+            return this;
+        }
+
         List<Tag> duplicatedTags = CollectionUtil.addListToSet(this.tags, tagsToAdd);
 
         if (!duplicatedTags.isEmpty()) {
@@ -486,6 +586,16 @@ public class RecruitBuilder {
     }
 
     /**
+     * Gets the tags assigned to the builder.
+     *
+     * @return an Optional containing the set of Tags currently assigned to the builder,
+     *         or an empty Optional if no Tags have been set.
+     */
+    public Optional<TreeSet<Tag>> getTags() {
+        return Optional.ofNullable(this.tags);
+    }
+
+    /**
      * Sets the archival status to be the value "isArchived".
      *
      * @param isArchived the boolean indicating whether the Recruit should be archived
@@ -505,6 +615,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder override(RecruitBuilder other) {
         this.id = other.id == null ? this.id : other.id;
+        this.names = other.names == null ? this.names : other.names;
         this.phones = other.phones == null ? this.phones : other.phones;
         this.emails = other.emails == null ? this.emails : other.emails;
         this.addresses = other.addresses == null ? this.addresses : other.addresses;
@@ -521,12 +632,28 @@ public class RecruitBuilder {
      * @return this builder but with fields that have been overridden.
      */
     public RecruitBuilder append(RecruitBuilder other) {
-        this.appendNames(other.names.stream().toList());
-        this.appendPhones(other.phones.stream().toList());
-        this.appendEmails(other.emails.stream().toList());
-        this.appendAddresses(other.addresses.stream().toList());
-        this.appendDescription(other.description);
-        this.appendTags(other.tags.stream().toList());
+        if (other == null) {
+            return this;
+        }
+
+        if (other.names != null) {
+            this.appendNames(other.names.stream().toList());
+        }
+        if (other.phones != null) {
+            this.appendPhones(other.phones.stream().toList());
+        }
+        if (other.emails != null) {
+            this.appendEmails(other.emails.stream().toList());
+        }
+        if (other.addresses != null) {
+            this.appendAddresses(other.addresses.stream().toList());
+        }
+        if (other.description != null) {
+            this.appendDescription(other.description);
+        }
+        if (other.tags != null) {
+            this.appendTags(other.tags.stream().toList());
+        }
 
         return this;
     }
@@ -539,12 +666,28 @@ public class RecruitBuilder {
      * @return this builder but with fields that have been overridden.
      */
     public RecruitBuilder remove(RecruitBuilder other) {
-        this.removeNames(other.names.stream().toList());
-        this.removePhones(other.phones.stream().toList());
-        this.removeEmails(other.emails.stream().toList());
-        this.removeAddresses(other.addresses.stream().toList());
-        this.description = other.description == null ? this.description : Description.createEmptyDescription();
-        this.appendTags(other.tags.stream().toList());
+        if (other == null) {
+            return this;
+        }
+
+        if (other.names != null) {
+            this.removeNames(other.names.stream().toList());
+        }
+        if (other.phones != null) {
+            this.removePhones(other.phones.stream().toList());
+        }
+        if (other.emails != null) {
+            this.removeEmails(other.emails.stream().toList());
+        }
+        if (other.addresses != null) {
+            this.removeAddresses(other.addresses.stream().toList());
+        }
+        if (other.description != null) {
+            this.description = Description.createEmptyDescription();
+        }
+        if (other.tags != null) {
+            this.removeTags(other.tags.stream().toList());
+        }
 
         return this;
     }
@@ -566,7 +709,9 @@ public class RecruitBuilder {
      * @throws InvalidRecruitException if the user attempts to build a recruit without a valid name.
      */
     public Recruit build() {
-        RecruitUtil.requireNonEmptyField(names);
+        if (this.names == null || this.names.isEmpty()) {
+            throw new InvalidRecruitException("Cannot build Recruit without at least 1 name!");
+        }
 
         this.id = this.id == null ? UUID.randomUUID() : this.id;
         this.phones = this.phones == null ? new TreeSet<>() : this.phones;
@@ -575,6 +720,22 @@ public class RecruitBuilder {
         this.description = this.description == null ? Description.createEmptyDescription() : this.description;
         this.tags = this.tags == null ? new TreeSet<>() : this.tags;
         return new Recruit(this);
+    }
+
+    /**
+     * Checks if the current builder contains the exact same data entries as
+     * the other builder.
+     *
+     * @param otherBuilder the other builder to compare against
+     * @return true if both builders have the same entries
+     */
+    public boolean hasSameData(RecruitBuilder otherBuilder) {
+        return Objects.equals(names, otherBuilder.names)
+                && Objects.equals(phones, otherBuilder.phones)
+                && Objects.equals(emails, otherBuilder.emails)
+                && Objects.equals(addresses, otherBuilder.addresses)
+                && Objects.equals(description, otherBuilder.description)
+                && Objects.equals(tags, otherBuilder.tags);
     }
 
     @Override
@@ -589,17 +750,14 @@ public class RecruitBuilder {
         }
 
         RecruitBuilder otherBuilder = (RecruitBuilder) other;
-        return Objects.equals(names, otherBuilder.names)
-                && Objects.equals(phones, otherBuilder.phones)
-                && Objects.equals(emails, otherBuilder.emails)
-                && Objects.equals(addresses, otherBuilder.addresses)
-                && Objects.equals(description, otherBuilder.description)
-                && Objects.equals(tags, otherBuilder.tags);
+        return Objects.equals(id, otherBuilder.id)
+                && hasSameData(otherBuilder);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("id", id)
                 .add("name", names)
                 .add("phone", phones)
                 .add("email", emails)
@@ -607,5 +765,10 @@ public class RecruitBuilder {
                 .add("description", description)
                 .add("tags", tags)
                 .toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, names, phones, emails, addresses, description, tags);
     }
 }
