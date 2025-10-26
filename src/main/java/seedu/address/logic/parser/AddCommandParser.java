@@ -48,7 +48,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         List<Email> emails = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail);
         List<Address> addresses = ParserUtil.parseAllValues(
                 argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
-        Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).orElse("-"));
+        Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION)
+                .orElse("-"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         Recruit recruit = new Recruit(names, phones, emails, addresses, description, tagList, false);
         return new AddCommand(recruit);
