@@ -54,15 +54,9 @@ public class RecruitCard extends UiPart<Region> {
         index.setText(displayedIndex + ". ");
         id.setText(recruit.getID().toString());
         name.setText(recruit.getName().fullName);
-        if (recruit.getPhone().isPresent()) {
-            phone.setText(recruit.getPhone().get().value);
-        }
-        if (recruit.getAddress().isPresent()) {
-            address.setText(recruit.getAddress().get().value);
-        }
-        if (recruit.getEmail().isPresent()) {
-            email.setText(recruit.getEmail().get().value);
-        }
+        recruit.getPhone().ifPresent(phone -> this.phone.setText(phone.value));
+        recruit.getAddress().ifPresent(address -> this.address.setText(address.value));
+        recruit.getEmail().ifPresent(email -> this.email.setText(email.value));
         recruit.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
