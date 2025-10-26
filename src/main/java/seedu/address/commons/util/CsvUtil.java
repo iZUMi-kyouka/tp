@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
-import seedu.address.model.recruit.Recruit;
-import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.tag.Tag;
 
 /**

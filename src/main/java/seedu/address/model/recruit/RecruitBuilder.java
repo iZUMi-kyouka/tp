@@ -9,7 +9,6 @@ import java.util.TreeSet;
 import java.util.UUID;
 
 import seedu.address.commons.util.CollectionUtil;
-import seedu.address.commons.util.RecruitUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Description;

@@ -1,10 +1,14 @@
 package seedu.address.model.recruit.data;
 
+/**
+ * Represents the base Data class that all fields inherit from. All fields share a common value, which
+ * is a String that can be set/
+ */
 public abstract class Data {
     public final String value;
 
     /**
-     * Constructs a {@code Phone}.
+     * Constructs a {@code Data}.
      *
      * @param data A valid data field
      */
