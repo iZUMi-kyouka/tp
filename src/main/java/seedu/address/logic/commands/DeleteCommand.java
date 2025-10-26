@@ -29,21 +29,21 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_DELETE_RECRUIT_SUCCESS = "Deleted Recruit:\n%1$s";
 
-    private final UUID targetID;
-    private final Index targetIndex;
+    private final Optional<UUID> targetID;
+    private final Optional<Index> targetIndex;
     /**
      * Creates a DeleteCommand to delete the specified recruit by {@code id}
      */
     public DeleteCommand(UUID id) {
-        this.targetID = id;
-        this.targetIndex = null;
+        this.targetID = Optional.of(id);
+        this.targetIndex = Optional.empty();
     }
     /**
      * Creates a DeleteCommand to delete the specified recruit by {@code index}
      */
     public DeleteCommand(Index index) {
-        this.targetIndex = index;
-        this.targetID = null;
+        this.targetIndex = Optional.of(index);
+        this.targetID = Optional.empty();
     }
 
     @Override
@@ -51,19 +51,19 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
         List<Recruit> lastShownList = model.getFilteredRecruitList();
         Recruit targetRecruit;
-        if (targetID != null) {
+        if (targetID.isPresent()) {
             Optional<Recruit> recruitToDelete = lastShownList.stream()
-                    .filter(recruit -> recruit.getID().equals(targetID))
+                    .filter(recruit -> targetID.get().equals(recruit.getID()))
                     .findFirst();
             if (recruitToDelete.isEmpty()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
             }
             targetRecruit = recruitToDelete.get();
-        } else if (targetIndex != null) {
-            if (targetIndex.getZeroBased() < 0 || targetIndex.getOneBased() >= lastShownList.size()) {
+        } else if (targetIndex.isPresent()) {
+            if (targetIndex.get().getZeroBased() < 0 || targetIndex.get().getOneBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
             }
-            targetRecruit = lastShownList.get(targetIndex.getZeroBased());
+            targetRecruit = lastShownList.get(targetIndex.get().getZeroBased());
         } else {
             throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);
         }

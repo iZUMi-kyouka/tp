@@ -67,8 +67,8 @@ public class EditCommand extends Command {
 
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
-    private final UUID id; // TODO: use Optional
-    private final Index index; // TODO: use Optional
+    private final Optional<UUID> id;
+    private final Optional<Index> index;
     private final EditRecruitDescriptor editRecruitDescriptor;
 
     /**
@@ -79,8 +79,8 @@ public class EditCommand extends Command {
         requireNonNull(id);
         requireNonNull(editRecruitDescriptor);
 
-        this.id = id;
-        this.index = null;
+        this.id = Optional.of(id);
+        this.index = Optional.empty();
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
     }
 
@@ -89,12 +89,11 @@ public class EditCommand extends Command {
      * @param editRecruitDescriptor details to edit the recruit with
      */
     public EditCommand(Index index, EditRecruitDescriptor editRecruitDescriptor) {
-        // TODO: check if this method is needed or can be streamlined to remove operation parameter
         requireNonNull(index);
         requireNonNull(editRecruitDescriptor);
 
-        this.id = null;
-        this.index = index;
+        this.id = Optional.empty();
+        this.index = Optional.of(index);
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
     }
 
@@ -109,8 +108,8 @@ public class EditCommand extends Command {
         requireNonNull(index);
         requireNonNull(editRecruitDescriptor);
 
-        this.id = null;
-        this.index = index;
+        this.id = Optional.empty();
+        this.index = Optional.of(index);
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor, operation);
     }
 
@@ -120,17 +119,17 @@ public class EditCommand extends Command {
         requireNonNull(model);
         Recruit recruitToEdit;
 
-        if (id != null) {
+        if (id.isPresent()) {
             recruitToEdit = model.getAddressBook().getRecruitList().stream()
-                    .filter(recruit -> recruit.getID().equals(id))
+                    .filter(recruit -> recruit.getID().equals(id.get()))
                     .findFirst()
                     .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID));
-        } else if (index != null) {
+        } else if (index.isPresent()) {
             List<Recruit> lastShownList = model.getFilteredRecruitList();
-            if (index.getZeroBased() < 0 || index.getZeroBased() >= lastShownList.size()) {
+            if (index.get().getZeroBased() < 0 || index.get().getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
             }
-            recruitToEdit = lastShownList.get(index.getZeroBased());
+            recruitToEdit = lastShownList.get(index.get().getZeroBased());
         } else {
             throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);
         }

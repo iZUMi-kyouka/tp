@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
@@ -28,21 +29,21 @@ public class ViewCommand extends Command {
 
     public static final String MESSAGE_VIEW_RECRUIT_SUCCESS = "Viewing Recruit:\n%1$s";
 
-    private final UUID targetID;
-    private Index targetIndex;
+    private final Optional<UUID> targetID;
+    private final Optional<Index> targetIndex;
     /**
      * Creates a ViewCommand to view the specified recruit by {@code id}
      */
     public ViewCommand(UUID targetID) {
-        this.targetID = targetID;
-        this.targetIndex = null;
+        this.targetID = Optional.of(targetID);
+        this.targetIndex = Optional.empty();
     }
     /**
      * Creates a ViewCommand to view the specified recruit by {@code index}
      */
     public ViewCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
-        this.targetID = null;
+        this.targetIndex = Optional.of(targetIndex);
+        this.targetID = Optional.empty();
     }
 
     @Override
@@ -51,20 +52,20 @@ public class ViewCommand extends Command {
 
         Recruit recruitToView;
 
-        if (targetID != null) {
+        if (targetID.isPresent()) {
             // View by ID
             List<Recruit> allRecruits = model.getAddressBook().getRecruitList();
             recruitToView = allRecruits.stream()
-                    .filter(recruit -> recruit.getID().equals(targetID))
+                    .filter(recruit -> recruit.getID().equals(targetID.get()))
                     .findFirst()
                     .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID));
-        } else if (targetIndex != null) {
+        } else if (targetIndex.isPresent()) {
             // View by index
             List<Recruit> lastShownList = model.getFilteredRecruitList();
-            if (targetIndex.getZeroBased() < 0 || targetIndex.getZeroBased() >= lastShownList.size()) {
+            if (targetIndex.get().getZeroBased() < 0 || targetIndex.get().getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
             }
-            recruitToView = lastShownList.get(targetIndex.getZeroBased());
+            recruitToView = lastShownList.get(targetIndex.get().getZeroBased());
         } else {
             // Neither ID nor index provided
             throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);

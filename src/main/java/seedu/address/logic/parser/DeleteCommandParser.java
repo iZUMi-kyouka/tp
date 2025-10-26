@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
@@ -20,19 +21,35 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      */
     public DeleteCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
+
+        Optional<UUID> idOpt = tryParseID(trimmedArgs);
+        if (idOpt.isPresent()) {
+            return new DeleteCommand(idOpt.get());
+        }
+
+        Optional<Index> indexOpt = tryParseIndex(trimmedArgs);
+        if (indexOpt.isPresent()) {
+            return new DeleteCommand(indexOpt.get());
+        }
+
+        throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE)
+        );
+    }
+
+    private Optional<UUID> tryParseID(String s) {
         try {
-            UUID id = ParserUtil.parseID(trimmedArgs);
-            return new DeleteCommand(id);
+            return Optional.of(ParserUtil.parseID(s));
         } catch (ParseException e) {
-            // Not a valid UUID, try parsing as index
-            try {
-                Index index = ParserUtil.parseIndex(trimmedArgs);
-                return new DeleteCommand(index);
-            } catch (ParseException e2) {
-                // Both parsing attempts failed
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), e2);
-            }
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Index> tryParseIndex(String s) {
+        try {
+            return Optional.of(ParserUtil.parseIndex(s));
+        } catch (ParseException e) {
+            return Optional.empty();
         }
     }
 

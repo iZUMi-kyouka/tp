@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireExactlyOneIsTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -46,22 +45,8 @@ public class EditCommandParser implements Parser<EditCommand> {
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
 
         String preamble = argMultimap.getPreamble().trim();
-
-        UUID id = null;
-        Index index = null;
-
-        // Try parsing as UUID first
-        try {
-            id = ParserUtil.parseID(preamble);
-        } catch (ParseException e) {
-            // Not a valid UUID, try parsing as index
-            try {
-                index = ParserUtil.parseIndex(preamble);
-            } catch (ParseException e2) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), e2);
-            }
-        }
+        Optional<UUID> idOpt = tryParseID(preamble);
+        Optional<Index> indexOpt = idOpt.isEmpty() ? tryParseIndex(preamble) : Optional.empty();
 
         EditRecruitDescriptor.EditRecruitOperation operation = parseEditOperation(argMultimap);
         EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor(operation);
@@ -92,10 +77,28 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (!editRecruitDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
-        if (id != null) {
-            return new EditCommand(id, editRecruitDescriptor);
-        } else {
-            return new EditCommand(index, editRecruitDescriptor, operation);
+        if (idOpt.isPresent()) {
+            return new EditCommand(idOpt.get(), editRecruitDescriptor);
+        }
+        if (indexOpt.isPresent()) {
+            return new EditCommand(indexOpt.get(), editRecruitDescriptor);
+        }
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+    }
+
+    private Optional<UUID> tryParseID(String s) {
+        try {
+            return Optional.of(ParserUtil.parseID(s));
+        } catch (ParseException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Index> tryParseIndex(String s) {
+        try {
+            return Optional.of(ParserUtil.parseIndex(s));
+        } catch (ParseException e) {
+            return Optional.empty();
         }
     }
 
