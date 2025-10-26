@@ -378,7 +378,7 @@ Examples:
 
 <box type="tip" seamless>
 
-**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software.
+**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.
 </box>
 ### Saving the data
 
