@@ -18,7 +18,7 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F09-3/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
@@ -50,17 +50,19 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 Action        | Format, Examples
 --------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 [**Add**](#adding-a-recruit-add)                | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
-[**Clear**](#clearing-all-entries--clear)       | `clear`
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
 [**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-[**Help**](#viewing-help--help)                 | `help`
-[**List**](#listing-all-recruits--list)         | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
-[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
 [**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
+[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
+[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+[**List**](#listing-all-recruits--list)         | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
+[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
+[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
+[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`
+[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`
+[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
+[**Clear**](#clearing-all-entries--clear)       | `clear`
+[**Help**](#viewing-help--help)                 | `help`
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -397,7 +399,7 @@ Examples:
 
 <box type="tip" seamless>
 
-**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software.
+**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.
 </box>
 
 ### Saving the data
