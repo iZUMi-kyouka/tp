@@ -34,11 +34,11 @@ import static seedu.address.testutil.TypicalRecruits.BOB;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
-import seedu.address.model.recruit.Recruit;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.SimpleRecruitBuilder;
 
@@ -56,7 +56,8 @@ public class AddCommandParserTest {
 
 
         // multiple tags - all accepted
-        Recruit expectedRecruitMultipleTags = new SimpleRecruitBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+        Recruit expectedRecruitMultipleTags = new SimpleRecruitBuilder(BOB)
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -92,7 +93,8 @@ public class AddCommandParserTest {
                         .withAdditionalEmails(AMY.getEmail().value)
                         .withAdditionalAddresses(AMY.getAddress().value).build();
         assertParseSuccess(parser,
-                validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY,
+                validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                        + NAME_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(recruit));
 
         // invalid value followed by valid value

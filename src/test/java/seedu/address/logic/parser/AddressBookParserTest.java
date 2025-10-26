@@ -34,8 +34,8 @@ import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
 import seedu.address.model.recruit.NestedOrPredicate;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
-import seedu.address.testutil.SimpleRecruitBuilder;
 import seedu.address.testutil.RecruitUtil;
+import seedu.address.testutil.SimpleRecruitBuilder;
 import seedu.address.testutil.TypicalIDs;
 
 public class AddressBookParserTest {

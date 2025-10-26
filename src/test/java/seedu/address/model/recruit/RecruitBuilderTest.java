@@ -1,16 +1,10 @@
 package seedu.address.model.recruit;
 
-import org.junit.jupiter.api.Test;
-
-import seedu.address.model.recruit.data.*;
-import seedu.address.model.recruit.exceptions.*;
-
-import seedu.address.model.tag.Tag;
-
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AMY;
@@ -23,6 +17,23 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.testutil.Assert.assertThrows;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
+import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.FieldEntryNotFoundException;
+import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
+import seedu.address.model.recruit.exceptions.InvalidRecruitException;
+import seedu.address.model.tag.Tag;
 
 public class RecruitBuilderTest {
 
