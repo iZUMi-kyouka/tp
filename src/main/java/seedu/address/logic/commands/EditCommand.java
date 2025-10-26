@@ -45,7 +45,7 @@ public class EditCommand extends Command {
     public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
-            + "by the index/uuide used in the displayed recruit list. "
+            + "by the index/uuid used in the displayed recruit list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX/UUID "
             + "[" + PREFIX_NAME + "NAME] "
