@@ -39,10 +39,10 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.TypicalIDs;
@@ -63,7 +63,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
 
         // no field specified
-        assertParseFailure(parser, targetID.toString(), EditCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, targetID.toString(), EditCommand.MESSAGE_NO_FIELD_PROVIDED);
 
         // no index and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);

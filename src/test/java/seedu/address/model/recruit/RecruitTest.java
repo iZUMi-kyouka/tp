@@ -24,6 +24,11 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.RecruitBuilder;
 

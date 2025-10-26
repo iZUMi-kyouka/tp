@@ -1,12 +1,13 @@
-package seedu.address.model.recruit;
+package seedu.address.model.recruit.data;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents the Description of a Recruit in the address book.
  * Guarantees: immutable
  */
-public class Description {
+public class Description extends Data {
     public static final String MESSAGE_CONSTRAINTS = "Descriptions can take any values, and can be blank";
 
     /*
@@ -16,16 +17,13 @@ public class Description {
      */
     public static final String VALIDATION_REGEX = "(?s).*";
 
-    public final String value;
-
     /**
      * Constructs a {@code Description}.
      *
      * @param description A description for that Recruit.
      */
     public Description(String description) {
-        requireNonNull(description);
-        this.value = description;
+        super(validateDescription(description));
     }
 
     /**
@@ -33,11 +31,17 @@ public class Description {
      * @param other
      */
     public Description(Description other) {
-        this.value = other.value;
+        super(other.value);
     }
 
     public static boolean isValidDescription(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    private static String validateDescription(String test) {
+        requireNonNull(test);
+        checkArgument(isValidDescription(test), MESSAGE_CONSTRAINTS);
+        return test;
     }
 
     public static Description createEmptyDescription() {
