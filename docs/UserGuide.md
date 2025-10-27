@@ -358,6 +358,17 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Dismissing command result message: `dismiss`
+
+Clears the command result message box.
+
+Format: `dismiss`
+
+<box type="tip" seamless>
+
+**Tip:** You could dismiss command result message that you have read to regain more space to view the recruit list.
+</box>
+
 ### Exiting the program : `exit`
 
 Exits the program.
