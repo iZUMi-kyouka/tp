@@ -74,6 +74,9 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    @FXML
+    private Label userGuideLabel;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -81,7 +84,8 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
+        userGuideLabel.setText("Refer to the user guide: " + USERGUIDE_URL);
+        helpMessage.setText(COMMAND_HELP_MESSAGE);
     }
 
     /**
