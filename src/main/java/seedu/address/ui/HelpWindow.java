@@ -62,8 +62,6 @@ public class HelpWindow extends UiPart<Stage> {
             clear
             \s
            """;
-    public static final String HELP_MESSAGE = "Refer to the user guide: "
-            + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -84,7 +82,9 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root) {
         super(FXML, root);
+        // Header of help window
         userGuideLabel.setText("Refer to the user guide: " + USERGUIDE_URL);
+        // Body of help window
         helpMessage.setText(COMMAND_HELP_MESSAGE);
     }
 
