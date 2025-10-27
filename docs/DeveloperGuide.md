@@ -447,6 +447,29 @@ Use case ends.
 2.  System shows the list of all available commands and example usages.
 
 Use case ends.
+<br>
+
+#### UC08 - Sort the Recruit List
+
+**MSS**
+
+1.  User requests to sort the recruit list by a specified field.
+2.  System sorts the recruit list according to the specified field and displays the sorted list.
+
+Use case ends.
+
+**Extensions**
+
+* 1a. TalentNexus detects an invalid sort field.
+    * 1a1. TalentNexus shows an error message informing that the sort field is invalid.
+
+  Use case ends.
+
+* 1b. TalentNexus detects missing sort field parameter.
+    * 1b1. TalentNexus shows an error message informing that the sort field is required.
+
+  Use case ends.
+  <br>
 
 *{More to be added}*
 
