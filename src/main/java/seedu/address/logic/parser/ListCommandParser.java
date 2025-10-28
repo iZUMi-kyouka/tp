@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import seedu.address.commons.util.CommandUtil;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LIST_ALL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LIST_ARCHIVE;
@@ -31,8 +32,11 @@ public class ListCommandParser implements Parser<ListCommand> {
     public ListCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_LIST_ALL, PREFIX_LIST_ARCHIVE);
+        verifySyntax(argMultimap);
+
         boolean isListAllPrefixPresent = argMultimap.getValue(PREFIX_LIST_ALL).isPresent();
         boolean isListArchivePrefixPresent = argMultimap.getValue(PREFIX_LIST_ARCHIVE).isPresent();
+        
         // Both flags are provided (invalid input)
         if (isListAllPrefixPresent && isListArchivePrefixPresent) {
             throw new ParseException(
@@ -45,4 +49,21 @@ public class ListCommandParser implements Parser<ListCommand> {
             return new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, ListOperation.NORMAL_LIST_OP);
         }
     }
+
+    /**
+     * Verify that the list command is valid based on the following criteria:
+     * 1. No preamble
+     * 2. The value of any flag (e.g. -archive) is empty string
+     */
+    private void verifySyntax(ArgumentMultimap argMultimap) throws ParseException {
+        ParseException pe = new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw pe;
+        }
+        if (!CommandUtil.verifyValuesOfAllPrefixesAreEmpty(argMultimap)) {
+            throw pe;
+        }
+    }  
 }
