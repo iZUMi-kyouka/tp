@@ -23,7 +23,7 @@ public class HelpWindow extends UiPart<Stage> {
             TLDR List of Commands:
             \s
             1. Create recruit
-            add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             2. View recruit
             view INDEX/UUID
