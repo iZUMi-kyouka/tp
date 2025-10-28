@@ -1,4 +1,4 @@
-package seedu.address.logic;
+package seedu.address.model.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.util.SampleDataUtil;
 
 public class SampleDataUtilTest {
 
