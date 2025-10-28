@@ -61,6 +61,11 @@ public class HelpWindow extends UiPart<Stage> {
             13. Clear all recruits
             clear
             \s
+            14. Dismiss displayed results after executing a command
+            dismiss
+            \s
+            15. Exit application
+            exit
            """;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
