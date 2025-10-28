@@ -39,24 +39,38 @@ public class Messages {
      */
     public static String format(Recruit recruit) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(recruit.getName());
+        builder.append(" ID: ").append(recruit.getID());
 
-        recruit.getPhones().stream().findFirst().ifPresent(phone ->
-                builder.append("\n Phone: ").append(phone)
-        );
+        builder.append("\n Name: [")
+                .append(recruit.getNames().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
 
-        recruit.getEmails().stream().findFirst().ifPresent(email ->
-                builder.append("\n Email: ").append(email)
-        );
+        builder.append("\n Phone: [")
+                .append(recruit.getPhones().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
 
-        recruit.getAddresses().stream().findFirst().ifPresent(address ->
-                builder.append("\n Address: ").append(address)
-        );
+        builder.append("\n Email: [")
+                .append(recruit.getEmails().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
+
+        builder.append("\n Address: [")
+                .append(recruit.getAddresses().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
 
         builder.append("\n Description: ").append(recruit.getDescription());
 
-        builder.append("\n Tags: ");
-        recruit.getTags().forEach(tag -> builder.append(tag).append(" "));
+        builder.append("\n Tags: ")
+                .append(recruit.getTags().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")));
 
         return builder.toString();
     }
