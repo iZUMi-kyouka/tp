@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -69,17 +70,17 @@ public class CollectionUtil {
     }
 
     /**
-     * Removes a list of elements from the given set and returns a list of elements that
-     * were not found in the set.
+     * Removes all elements in {@code toRemove} from the given set and returns a list of
+     * elements that were not found in the set.
      *
      * @param collection the set to remove elements from
      * @param toRemove the list of elements to remove
      * @return a list of elements that were not found in the set
      * @throws IllegalArgumentException if {@code collection} is null
      */
-    public static <T> List<T> removeListFromSet(Set<T> collection, List<T> toRemove) {
+    public static <T> List<T> removeListFromSetReturnMissing(Set<T> collection, Collection<? extends T> toRemove) {
         if (toRemove == null || toRemove.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         if (collection == null) {
@@ -97,16 +98,17 @@ public class CollectionUtil {
     }
 
     /**
-     * Adds a list of elements to the given set and returns a list of elements that
-     * were already present in the set.
+     * Adds all elements in {@code toAdd} to the given set and returns a list of
+     * elements that were already present.
      *
      * @param collection the set to add elements to
      * @param toAdd the list of elements to add
      * @return a list of elements that were already present in the set
+     * @throws IllegalArgumentException if {@code collection} is null
      */
-    public static <T> List<T> addListToSet(Set<T> collection, List<T> toAdd) {
+    public static <T> List<T> addListToSetReturnDuplicates(Set<T> collection, Collection<? extends T> toAdd) {
         if (toAdd == null || toAdd.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         if (collection == null) {
@@ -115,10 +117,8 @@ public class CollectionUtil {
 
         List<T> duplicates = new ArrayList<>();
         for (T item : toAdd) {
-            if (collection.contains(item)) {
+            if (!collection.add(item)) {
                 duplicates.add(item);
-            } else {
-                collection.add(item);
             }
         }
 

@@ -2,6 +2,7 @@ package seedu.address.model.recruit;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -11,14 +12,17 @@ import java.util.UUID;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Data;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
-import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
-import seedu.address.model.recruit.exceptions.FieldEntryNotFoundException;
+import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
+import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.TagNotFoundException;
 import seedu.address.model.tag.Tag;
 
 
@@ -128,7 +132,7 @@ public class RecruitBuilder {
      * @param names the list of names to set
      * @return this Builder instance with names updated
      */
-    public RecruitBuilder withNames(List<Name> names) {
+    public RecruitBuilder withNames(Collection<Name> names) {
         if (names != null) {
             this.names = new TreeSet<>(names);
         }
@@ -141,23 +145,8 @@ public class RecruitBuilder {
      * @param namesToAdd List of names to append
      * @return the Builder with the appended names
      */
-    public RecruitBuilder appendNames(List<Name> namesToAdd) {
-        if (namesToAdd == null) {
-            return this;
-        }
-
-        if (this.names == null) {
-            this.names = new TreeSet<>(namesToAdd);
-            return this;
-        }
-
-        List<Name> duplicatedNames = CollectionUtil.addListToSet(this.names, namesToAdd);
-
-        if (!duplicatedNames.isEmpty()) {
-            throw new FieldEntryAlreadyExistsException("name",
-                    duplicatedNames.stream().map(Name::toString).toList());
-        }
-
+    public RecruitBuilder appendNames(Collection<Name> namesToAdd) {
+        this.names = appendEntriesToTree("name", this.names, namesToAdd);
         return this;
     }
 
@@ -167,21 +156,12 @@ public class RecruitBuilder {
      * @param namesToRemove List of names to remove
      * @return the Builder with the removed names
      */
-    public RecruitBuilder removeNames(List<Name> namesToRemove) {
-        if (this.names == null && namesToRemove != null && !namesToRemove.isEmpty()) {
-            throw new IllegalRecruitBuilderActionException(
-                    "Cannot remove names from a RecruitBuilder for which names has not been set");
-        }
-
-        List<Name> missingNames = CollectionUtil.removeListFromSet(this.names, namesToRemove);
-
-        if (!missingNames.isEmpty()) {
-            throw new FieldEntryNotFoundException("name",
-                    missingNames.stream().map(Name::toString).toList());
-        }
-
+    public RecruitBuilder removeNames(Collection<Name> namesToRemove) {
+        this.names = removeEntriesFromTree("name", this.names, namesToRemove);
         return this;
     }
+
+
 
     /**
      * Gets the names assigned to the builder.
@@ -213,7 +193,7 @@ public class RecruitBuilder {
      * @param phones the list of phone numbers to set
      * @return this Builder instance with phones updated
      */
-    public RecruitBuilder withPhones(List<Phone> phones) {
+    public RecruitBuilder withPhones(Collection<Phone> phones) {
         if (phones != null) {
             this.phones = new TreeSet<>(phones);
         }
@@ -227,23 +207,8 @@ public class RecruitBuilder {
      * @param phonesToAdd List of phone numbers to append
      * @return the Builder with the appended phone numbers
      */
-    public RecruitBuilder appendPhones(List<Phone> phonesToAdd) {
-        if (phonesToAdd == null) {
-            return this;
-        }
-
-        if (this.phones == null) {
-            this.phones = new TreeSet<>(phonesToAdd);
-            return this;
-        }
-
-        List<Phone> duplicatedPhones = CollectionUtil.addListToSet(this.phones, phonesToAdd);
-
-        if (!duplicatedPhones.isEmpty()) {
-            throw new FieldEntryAlreadyExistsException("phone",
-                    duplicatedPhones.stream().map(Phone::toString).toList());
-        }
-
+    public RecruitBuilder appendPhones(Collection<Phone> phonesToAdd) {
+        this.phones = appendEntriesToTree("phone", this.phones, phonesToAdd);
         return this;
     }
 
@@ -253,19 +218,8 @@ public class RecruitBuilder {
      * @param phonesToRemove List of phone numbers to remove
      * @return the Builder with the removed phone numbers
      */
-    public RecruitBuilder removePhones(List<Phone> phonesToRemove) {
-        if (this.phones == null && phonesToRemove != null && !phonesToRemove.isEmpty()) {
-            throw new IllegalRecruitBuilderActionException(
-                    "Cannot remove phone numbers from a RecruitBuilder for which phones have not been set");
-        }
-
-        List<Phone> missingPhones = CollectionUtil.removeListFromSet(this.phones, phonesToRemove);
-
-        if (!missingPhones.isEmpty()) {
-            throw new FieldEntryNotFoundException("phone",
-                    missingPhones.stream().map(Phone::toString).toList());
-        }
-
+    public RecruitBuilder removePhones(Collection<Phone> phonesToRemove) {
+        this.phones = removeEntriesFromTree("phone", this.phones, phonesToRemove);
         return this;
     }
 
@@ -299,7 +253,7 @@ public class RecruitBuilder {
      * @param emails the list of emails to set
      * @return this Builder instance with emails updated
      */
-    public RecruitBuilder withEmails(List<Email> emails) {
+    public RecruitBuilder withEmails(Collection<Email> emails) {
         if (emails != null) {
             this.emails = new TreeSet<>(emails);
         }
@@ -313,23 +267,8 @@ public class RecruitBuilder {
      * @param emailsToAdd List of emails to append
      * @return the Builder with the appended emails
      */
-    public RecruitBuilder appendEmails(List<Email> emailsToAdd) {
-        if (emailsToAdd == null) {
-            return this;
-        }
-
-        if (this.emails == null) {
-            this.emails = new TreeSet<>(emailsToAdd);
-            return this;
-        }
-
-        List<Email> duplicatedEmails = CollectionUtil.addListToSet(this.emails, emailsToAdd);
-
-        if (!duplicatedEmails.isEmpty()) {
-            throw new FieldEntryAlreadyExistsException("email",
-                    duplicatedEmails.stream().map(Email::toString).toList());
-        }
-
+    public RecruitBuilder appendEmails(Collection<Email> emailsToAdd) {
+        this.emails = appendEntriesToTree("email", this.emails, emailsToAdd);
         return this;
     }
 
@@ -339,19 +278,8 @@ public class RecruitBuilder {
      * @param emailsToRemove List of emails to remove
      * @return the Builder with the removed emails
      */
-    public RecruitBuilder removeEmails(List<Email> emailsToRemove) {
-        if (this.emails == null && emailsToRemove != null && !emailsToRemove.isEmpty()) {
-            throw new IllegalRecruitBuilderActionException(
-                    "Cannot remove emails from a RecruitBuilder for which emails have not been set");
-        }
-
-        List<Email> missingEmails = CollectionUtil.removeListFromSet(this.emails, emailsToRemove);
-
-        if (!missingEmails.isEmpty()) {
-            throw new FieldEntryNotFoundException("email",
-                    missingEmails.stream().map(Email::toString).toList());
-        }
-
+    public RecruitBuilder removeEmails(Collection<Email> emailsToRemove) {
+        this.emails = removeEntriesFromTree("email", this.emails, emailsToRemove);
         return this;
     }
 
@@ -385,7 +313,7 @@ public class RecruitBuilder {
      * @param addresses the list of addresses to set
      * @return this Builder instance with addresses updated
      */
-    public RecruitBuilder withAddresses(List<Address> addresses) {
+    public RecruitBuilder withAddresses(Collection<Address> addresses) {
         if (addresses != null) {
             this.addresses = new TreeSet<>(addresses);
         }
@@ -399,23 +327,8 @@ public class RecruitBuilder {
      * @param addressesToAdd List of addresses to append
      * @return the Builder with the appended addresses
      */
-    public RecruitBuilder appendAddresses(List<Address> addressesToAdd) {
-        if (addressesToAdd == null) {
-            return this;
-        }
-
-        if (this.addresses == null) {
-            this.addresses = new TreeSet<>(addressesToAdd);
-            return this;
-        }
-
-        List<Address> duplicatedAddresses = CollectionUtil.addListToSet(this.addresses, addressesToAdd);
-
-        if (!duplicatedAddresses.isEmpty()) {
-            throw new FieldEntryAlreadyExistsException("address",
-                    duplicatedAddresses.stream().map(Address::toString).toList());
-        }
-
+    public RecruitBuilder appendAddresses(Collection<Address> addressesToAdd) {
+        this.addresses = appendEntriesToTree("address", this.addresses, addressesToAdd);
         return this;
     }
 
@@ -425,19 +338,8 @@ public class RecruitBuilder {
      * @param addressesToRemove List of addresses to remove
      * @return the Builder with the removed addresses
      */
-    public RecruitBuilder removeAddresses(List<Address> addressesToRemove) {
-        if (this.addresses == null && addressesToRemove != null && !addressesToRemove.isEmpty()) {
-            throw new IllegalRecruitBuilderActionException(
-                    "Cannot remove addresses from a RecruitBuilder for which addresses have not been set");
-        }
-
-        List<Address> missingAddresses = CollectionUtil.removeListFromSet(this.addresses, addressesToRemove);
-
-        if (!missingAddresses.isEmpty()) {
-            throw new FieldEntryNotFoundException("address",
-                    missingAddresses.stream().map(Address::toString).toList());
-        }
-
+    public RecruitBuilder removeAddresses(Collection<Address> addressesToRemove) {
+        this.addresses = removeEntriesFromTree("address", this.addresses, addressesToRemove);
         return this;
     }
 
@@ -543,22 +445,22 @@ public class RecruitBuilder {
      * @return the Builder with the appended tags
      */
     public RecruitBuilder appendTags(List<Tag> tagsToAdd) {
-        if (tagsToAdd == null) {
+        if (tagsToAdd == null || tagsToAdd.isEmpty()) {
             return this;
         }
 
         if (this.tags == null) {
             this.tags = new TreeSet<>(tagsToAdd);
-            return this;
         }
 
-        List<Tag> duplicatedTags = CollectionUtil.addListToSet(this.tags, tagsToAdd);
+        TreeSet<Tag> copy = new TreeSet<>(this.tags);
+        List<Tag> duplicatedTags = CollectionUtil.addListToSetReturnDuplicates(copy, tagsToAdd);
 
         if (!duplicatedTags.isEmpty()) {
-            throw new FieldEntryAlreadyExistsException("tag",
-                    duplicatedTags.stream().map(Tag::toString).toList());
+            throw new TagAlreadyExistsException(duplicatedTags);
         }
 
+        this.tags.addAll(tagsToAdd);
         return this;
     }
 
@@ -569,18 +471,23 @@ public class RecruitBuilder {
      * @return the Builder with the removed tags
      */
     public RecruitBuilder removeTags(List<Tag> tagsToRemove) {
-        if (this.tags == null && tagsToRemove != null && !tagsToRemove.isEmpty()) {
+        if (tagsToRemove == null || tagsToRemove.isEmpty()) {
+            return this;
+        }
+
+        if (this.tags == null) {
             throw new IllegalRecruitBuilderActionException(
                     "Cannot remove tags from a RecruitBuilder for which tags have not been set");
         }
 
-        List<Tag> missingTags = CollectionUtil.removeListFromSet(this.tags, tagsToRemove);
+        TreeSet<Tag> copy = new TreeSet<>(this.tags);
+        List<Tag> missing = CollectionUtil.removeListFromSetReturnMissing(copy, tagsToRemove);
 
-        if (!missingTags.isEmpty()) {
-            throw new FieldEntryNotFoundException("tag",
-                    missingTags.stream().map(Tag::toString).toList());
+        if (!missing.isEmpty()) {
+            throw new TagNotFoundException(missing);
         }
 
+        tagsToRemove.forEach(this.tags::remove);
         return this;
     }
 
@@ -763,11 +670,86 @@ public class RecruitBuilder {
                 .add("address", addresses)
                 .add("description", description)
                 .add("tags", tags)
+                .add("isArchived", isArchived)
                 .toString();
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, names, phones, emails, addresses, description, tags);
+    }
+
+    /**
+     * Creates a copy of container and appends all entries in dataToAdd into this copy.
+     * This copy is then returned.
+     *
+     * <p>If dataToAdd is null or empty, it just returns the original container unaltered.</p>
+     *
+     * <p>Datatype must be provided for the purposes of printing error messages.</p>
+     *
+     * <p>Guarantees that the original container is not altered in any way.</p>
+     *
+     * @param dataType the type of data that is being processed
+     * @param container the original container with the data
+     * @param dataToAdd the data to add into this container
+     * @return a copy of the container with entries in dataToAdd added to this copy.
+     * @throws DataEntryAlreadyExistsException if any of the elements in dataToAdd already exist in container.
+     */
+    private <T extends Data & Comparable<T>> TreeSet<T> appendEntriesToTree(
+            String dataType, TreeSet<T> container, Collection<? extends T> dataToAdd) {
+        if (dataToAdd == null || dataToAdd.isEmpty()) {
+            return container;
+        }
+
+        if (container == null) {
+            return new TreeSet<>(dataToAdd);
+        }
+
+        TreeSet<T> copy = new TreeSet<>(container);
+        List<T> duplicates = CollectionUtil.addListToSetReturnDuplicates(copy, dataToAdd);
+
+        if (!duplicates.isEmpty()) {
+            throw new DataEntryAlreadyExistsException(dataType, duplicates);
+        }
+
+        return copy;
+    }
+
+    /**
+     * Creates a copy of container and removes each entry of dataToRemove from this copy.
+     * This copy is then returned.
+     *
+     * <p>Datatype must be provided for the purposes of printing error messages.</p>
+     *
+     * <p>Guarantees that the original container is not altered in any way.</p>
+     *
+     * @param dataType the type of data that is being processed
+     * @param container the original container with the data
+     * @param dataToRemove the data to remove from this container
+     * @return a copy of the container with entries in dataToRemove removed from this copy.
+     * @throws DataEntryNotFoundException if any of the elements in dataToRemove cannot be found in container.
+     * @throws IllegalRecruitBuilderActionException if container was null but dataToRemove is not empty or null.
+     */
+    private <T extends Data & Comparable<T>> TreeSet<T> removeEntriesFromTree(
+            String dataType, TreeSet<T> container, Collection<? extends T> dataToRemove) {
+
+        if (dataToRemove == null || dataToRemove.isEmpty()) {
+            return container;
+        }
+
+        if (container == null) {
+            throw new IllegalRecruitBuilderActionException(
+                    String.format("Cannot remove %s entries from a RecruitBuilder where no %s have been set.",
+                            dataType, dataType));
+        }
+
+        TreeSet<T> copy = new TreeSet<>(container);
+        List<T> missing = CollectionUtil.removeListFromSetReturnMissing(copy, dataToRemove);
+
+        if (!missing.isEmpty()) {
+            throw new DataEntryNotFoundException(dataType, missing);
+        }
+
+        return copy;
     }
 }

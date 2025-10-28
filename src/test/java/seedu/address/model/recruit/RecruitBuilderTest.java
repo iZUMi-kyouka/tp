@@ -29,10 +29,12 @@ import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
-import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
-import seedu.address.model.recruit.exceptions.FieldEntryNotFoundException;
+import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
+import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.TagNotFoundException;
 import seedu.address.model.tag.Tag;
 
 public class RecruitBuilderTest {
@@ -106,7 +108,7 @@ public class RecruitBuilderTest {
     @Test
     void appendNames_duplicate_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withNames(List.of(new Name(VALID_NAME_AMY)));
-        assertThrows(FieldEntryAlreadyExistsException.class, () ->
+        assertThrows(DataEntryAlreadyExistsException.class, () ->
                 builder.appendNames(List.of(new Name(VALID_NAME_AMY))));
     }
 
@@ -125,7 +127,7 @@ public class RecruitBuilderTest {
     @Test
     void removeNames_missing_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withNames(List.of(new Name(VALID_NAME_AMY)));
-        assertThrows(FieldEntryNotFoundException.class, () ->
+        assertThrows(DataEntryNotFoundException.class, () ->
                 builder.removeNames(List.of(new Name("Bob"))));
     }
 
@@ -165,7 +167,7 @@ public class RecruitBuilderTest {
     @Test
     void appendPhones_duplicate_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withPhones(List.of(new Phone(VALID_PHONE_AMY)));
-        assertThrows(FieldEntryAlreadyExistsException.class, () ->
+        assertThrows(DataEntryAlreadyExistsException.class, () ->
                 builder.appendPhones(List.of(new Phone(VALID_PHONE_AMY))));
     }
 
@@ -184,7 +186,7 @@ public class RecruitBuilderTest {
     @Test
     void removePhones_missing_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withPhones(List.of(new Phone(VALID_PHONE_AMY)));
-        assertThrows(FieldEntryNotFoundException.class, () ->
+        assertThrows(DataEntryNotFoundException.class, () ->
                 builder.removePhones(List.of(new Phone("87654321"))));
     }
 
@@ -224,7 +226,7 @@ public class RecruitBuilderTest {
     @Test
     void appendEmails_duplicate_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withEmails(List.of(new Email(VALID_EMAIL_AMY)));
-        assertThrows(FieldEntryAlreadyExistsException.class, () ->
+        assertThrows(DataEntryAlreadyExistsException.class, () ->
                 builder.appendEmails(List.of(new Email(VALID_EMAIL_AMY))));
     }
 
@@ -243,7 +245,7 @@ public class RecruitBuilderTest {
     @Test
     void removeEmails_missing_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withEmails(List.of(new Email(VALID_EMAIL_AMY)));
-        assertThrows(FieldEntryNotFoundException.class, () ->
+        assertThrows(DataEntryNotFoundException.class, () ->
                 builder.removeEmails(List.of(new Email("bob@example.com"))));
     }
 
@@ -284,7 +286,7 @@ public class RecruitBuilderTest {
     @Test
     void appendAddresses_duplicate_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withAddresses(List.of(new Address(VALID_ADDRESS_AMY)));
-        assertThrows(FieldEntryAlreadyExistsException.class, () ->
+        assertThrows(DataEntryAlreadyExistsException.class, () ->
                 builder.appendAddresses(List.of(new Address(VALID_ADDRESS_AMY))));
     }
 
@@ -303,7 +305,7 @@ public class RecruitBuilderTest {
     @Test
     void removeAddresses_missing_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withAddresses(List.of(new Address(VALID_ADDRESS_AMY)));
-        assertThrows(FieldEntryNotFoundException.class, () ->
+        assertThrows(DataEntryNotFoundException.class, () ->
                 builder.removeAddresses(List.of(new Address("789 Unknown Street"))));
     }
 
@@ -344,7 +346,7 @@ public class RecruitBuilderTest {
     @Test
     void appendTags_duplicate_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withTags(List.of(new Tag(VALID_TAG_FRIEND)));
-        assertThrows(FieldEntryAlreadyExistsException.class, () ->
+        assertThrows(TagAlreadyExistsException.class, () ->
                 builder.appendTags(List.of(new Tag(VALID_TAG_FRIEND))));
     }
 
@@ -363,7 +365,7 @@ public class RecruitBuilderTest {
     @Test
     void removeTags_missing_throwsException() {
         RecruitBuilder builder = new RecruitBuilder().withTags(List.of(new Tag(VALID_TAG_FRIEND)));
-        assertThrows(FieldEntryNotFoundException.class, () ->
+        assertThrows(TagNotFoundException.class, () ->
                 builder.removeTags(List.of(new Tag("colleague"))));
     }
 

@@ -22,9 +22,11 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
-import seedu.address.model.recruit.exceptions.FieldEntryAlreadyExistsException;
-import seedu.address.model.recruit.exceptions.FieldEntryNotFoundException;
+import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
+import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
+import seedu.address.model.recruit.exceptions.TagNotFoundException;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -51,8 +53,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
-    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s(s) are already present: %s";
-    public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s(s) do not exist: %s";
+    public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
+    public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s do not exist: %s";
     public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
 
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
@@ -143,9 +145,12 @@ public class EditCommand extends Command {
             throws CommandException {
         try {
             return new RecruitBuilder(rec).append(desc).build();
-        } catch (FieldEntryAlreadyExistsException e) {
+        } catch (DataEntryAlreadyExistsException e) {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_ATTRIBUTE,
-                    e.getFieldType(), e.getDuplicatedEntries()));
+                    e.getDataType(), e.getDuplicatedEntries()));
+        } catch (TagAlreadyExistsException e) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_ATTRIBUTE,
+                    "tag", e.getDuplicatedTags()));
         }
     }
 
@@ -158,9 +163,12 @@ public class EditCommand extends Command {
             throws CommandException {
         try {
             return new RecruitBuilder(rec).remove(desc).build();
-        } catch (FieldEntryNotFoundException e) {
+        } catch (DataEntryNotFoundException e) {
             throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
-                    e.getFieldType(), e.getMissingEntries()));
+                    e.getDataType(), e.getMissingEntries()));
+        } catch (TagNotFoundException e) {
+            throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
+                    "tag", e.getMissingTags()));
         }
     }
 
