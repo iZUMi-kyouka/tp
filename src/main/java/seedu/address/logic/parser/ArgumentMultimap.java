@@ -78,6 +78,23 @@ public class ArgumentMultimap {
     }
 
     /**
+     * Throws a {@code ParseException} if any of the prefixes given in {@code prefixes} has non-blank
+     * string value.
+     */
+    public void verifyValuesOfAllPrefixesAreEmpty() throws ParseException {
+        // Remove the empty string prefix to indicate start and end of command
+        List<Prefix> prefixes = argMultimap.keySet().stream().filter(p -> !p.getPrefix().isEmpty()).toList();
+
+        if (!prefixes.stream().allMatch(p -> {
+            List<String> values = argMultimap.get(p);
+            return values.size() == 1 && values.get(0).isEmpty();
+        })) {
+            throw new ParseException(
+                    Messages.getErrorMessageForNonValueAcceptingPrefixes(prefixes.toArray(Prefix[]::new)));
+        }
+    }
+
+    /**
      * Returns all Prefix that are found.
      */
     public Set<Prefix> getAllPrefixes() {

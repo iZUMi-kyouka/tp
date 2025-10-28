@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import seedu.address.commons.util.CommandUtil;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LIST_ALL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LIST_ARCHIVE;
@@ -29,6 +28,7 @@ public class ListCommandParser implements Parser<ListCommand> {
      * and returns a DeleteCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
+    @Override
     public ListCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_LIST_ALL, PREFIX_LIST_ARCHIVE);
@@ -36,7 +36,7 @@ public class ListCommandParser implements Parser<ListCommand> {
 
         boolean isListAllPrefixPresent = argMultimap.getValue(PREFIX_LIST_ALL).isPresent();
         boolean isListArchivePrefixPresent = argMultimap.getValue(PREFIX_LIST_ARCHIVE).isPresent();
-        
+
         // Both flags are provided (invalid input)
         if (isListAllPrefixPresent && isListArchivePrefixPresent) {
             throw new ParseException(
@@ -56,14 +56,11 @@ public class ListCommandParser implements Parser<ListCommand> {
      * 2. The value of any flag (e.g. -archive) is empty string
      */
     private void verifySyntax(ArgumentMultimap argMultimap) throws ParseException {
-        ParseException pe = new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
-        
-        if (!argMultimap.getPreamble().isEmpty()) {
-            throw pe;
+        if (!argMultimap.getPreamble().trim().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
         }
-        if (!CommandUtil.verifyValuesOfAllPrefixesAreEmpty(argMultimap)) {
-            throw pe;
-        }
-    }  
+
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_LIST_ALL, PREFIX_LIST_ARCHIVE);
+        argMultimap.verifyValuesOfAllPrefixesAreEmpty();
+    }
 }
