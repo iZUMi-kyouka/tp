@@ -26,7 +26,7 @@ public class VersionedAddressBookTest {
         List<AddressBookState> expectedAddressBookStateList = List.of(
                 new AddressBookState(new AddressBook(), VersionedAddressBook.INITIAL_STATE_MARKER));
 
-        assertEquals(0, addressBook.getCurrentStatePtr());
+        assertEquals(0, addressBook.getCurrentStatePointer());
         assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
 
         // Test initialisation with populated address book
@@ -34,7 +34,7 @@ public class VersionedAddressBookTest {
                 new AddressBookState(getTypicalAddressBook(), VersionedAddressBook.INITIAL_STATE_MARKER));
         VersionedAddressBook vab1 = new VersionedAddressBook(getTypicalAddressBook());
 
-        assertEquals(0, vab1.getCurrentStatePtr());
+        assertEquals(0, vab1.getCurrentStatePointer());
         assertEquals(expectedAddressBookStateList, vab1.getAddressBookStateList());
     }
 
@@ -94,7 +94,7 @@ public class VersionedAddressBookTest {
                 new AddressBookState(ab1, "add Amy"),
                 new AddressBookState(new AddressBook(), "delete Amy"));
 
-        assertEquals(1, addressBook.getCurrentStatePtr());
+        assertEquals(1, addressBook.getCurrentStatePointer());
         assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
         assertEquals(3, addressBook.getAddressBookStateList().size());
     }
@@ -131,7 +131,7 @@ public class VersionedAddressBookTest {
                 new AddressBookState(ab1, "add Amy"),
                 new AddressBookState(new AddressBook(), "delete Amy"));
 
-        assertEquals(2, addressBook.getCurrentStatePtr());
+        assertEquals(2, addressBook.getCurrentStatePointer());
         assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
         assertEquals(3, addressBook.getAddressBookStateList().size());
     }
@@ -162,7 +162,7 @@ public class VersionedAddressBookTest {
             addressBook.commit("add Amy");
         }
 
-        assertEquals(199, addressBook.getCurrentStatePtr());
+        assertEquals(199, addressBook.getCurrentStatePointer());
         assertEquals(VersionedAddressBook.MAX_UNDO_HISTORY_SIZE, addressBook.getAddressBookStateList().size());
     }
 

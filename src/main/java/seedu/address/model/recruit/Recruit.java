@@ -3,6 +3,7 @@ package seedu.address.model.recruit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -57,16 +58,16 @@ public class Recruit {
         return this.names.stream().toList();
     }
 
-    public Phone getPhone() {
-        return phones.first();
+    public Optional<Phone> getPhone() {
+        return phones.isEmpty() ? Optional.empty() : Optional.of(phones.first());
     }
 
     public List<Phone> getPhones() {
         return this.phones.stream().toList();
     }
 
-    public Email getEmail() {
-        return emails.first();
+    public Optional<Email> getEmail() {
+        return emails.isEmpty() ? Optional.empty() : Optional.of(emails.first());
     }
 
     public List<Email> getEmails() {
@@ -77,8 +78,8 @@ public class Recruit {
         return this.description;
     }
 
-    public Address getAddress() {
-        return addresses.first();
+    public Optional<Address> getAddress() {
+        return addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first());
     }
 
     public List<Address> getAddresses() {
@@ -175,5 +176,4 @@ public class Recruit {
                 .add("tags", tags)
                 .toString();
     }
-
 }

@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
@@ -59,7 +60,7 @@ public class CsvUtilTest {
     }
 
     @Test
-    public void deserializeRecruitsFromCsvFile_noExceptionThrown() throws IOException {
+    public void deserializeRecruitsFromCsvFile_noExceptionThrown() throws IOException, DataLoadingException {
         List<Recruit> recruits = List.of(testRecruit);
         CsvUtil.serializeRecruitsToCsvFile(CSV_FILE, recruits);
 
