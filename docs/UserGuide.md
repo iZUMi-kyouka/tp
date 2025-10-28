@@ -49,7 +49,7 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
 Action        | Format, Examples
 --------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 [**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
 [**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
 [**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
@@ -125,7 +125,7 @@ Adds a recruit to the address book.
 * You may specify more than one recruit attributes like names and email addresses.
 * You may also provide names in various langugaes.
 
-Format: `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
+Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -378,6 +378,17 @@ Examples:
 Clears all entries from the address book.
 
 Format: `clear`
+
+### Dismissing command result message: `dismiss`
+
+Clears the command result message box.
+
+Format: `dismiss`
+
+<box type="tip" seamless>
+
+**Tip:** You could dismiss command result message that you have read to regain more space to view the recruit list.
+</box>
 
 ### Exiting the program : `exit`
 
