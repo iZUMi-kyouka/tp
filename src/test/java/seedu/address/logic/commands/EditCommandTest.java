@@ -109,7 +109,7 @@ public class EditCommandTest {
                 .withPhones(ALICE.getPhone().get().value, VALID_PHONE_AMY).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, String.format(EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE,
-                "phone", List.of(ALICE.getPhone().value)).toString());
+                "phone", List.of(ALICE.getPhone().get().value)).toString());
 
         // duplicate email
         descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
@@ -118,7 +118,7 @@ public class EditCommandTest {
                 .withEmails(ALICE.getEmail().get().value, VALID_EMAIL_BOB).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, String.format(EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE,
-                "email", List.of(ALICE.getEmail().value)).toString());
+                "email", List.of(ALICE.getEmail().get().value)).toString());
 
         // duplicate address
         descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
@@ -128,7 +128,7 @@ public class EditCommandTest {
                 .withAddresses(VALID_ADDRESS_BOB, ALICE.getAddress().get().value).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, String.format(EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE,
-                "address", List.of(ALICE.getAddress().value)).toString());
+                "address", List.of(ALICE.getAddress().get().value)).toString());
 
         // duplicate tags
         descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
