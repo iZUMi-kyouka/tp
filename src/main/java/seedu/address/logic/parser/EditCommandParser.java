@@ -47,6 +47,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         String preamble = argMultimap.getPreamble().trim();
         Optional<UUID> idOpt = tryParseID(preamble);
         Optional<Index> indexOpt = idOpt.isEmpty() ? tryParseIndex(preamble) : Optional.empty();
+        if (idOpt.isEmpty() && indexOpt.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
 
         EditRecruitDescriptor.EditRecruitOperation operation = parseEditOperation(argMultimap);
         EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor(operation);

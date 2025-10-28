@@ -40,4 +40,11 @@ public class RecruitUtil {
     public static boolean hasSameTags(Recruit r1, Recruit r2) {
         return r1.getTags().equals(r2.getTags());
     }
+
+    /**
+     * Returns true if both recruit have the same description.
+     */
+    public static boolean hasSameDescription(Recruit r1, Recruit r2) {
+        return r1.getDescription().equals(r2.getDescription());
+    }
 }

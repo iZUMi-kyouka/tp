@@ -108,7 +108,7 @@ public class DeleteCommandTest {
     public void toStringMethod() {
         UUID targetID = UUID.randomUUID();
         DeleteCommand deleteCommand = new DeleteCommand(targetID);
-        String expected = DeleteCommand.class.getCanonicalName() + "{targetID=" + targetID.toString() + "}";
+        String expected = DeleteCommand.class.getCanonicalName() + "{targetID=" + Optional.of(targetID) + "}";
         assertEquals(expected, deleteCommand.toString());
     }
 

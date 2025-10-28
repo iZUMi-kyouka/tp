@@ -1,6 +1,5 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.combine;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -220,8 +219,10 @@ public class EditCommand extends Command {
         }
 
         EditCommand otherEditCommand = (EditCommand) other;
-        return ((!isNull(id) && id.equals(otherEditCommand.id))
-                || (!isNull(index) && index.equals(otherEditCommand.index)))
+        System.out.println(id);
+        System.out.println(otherEditCommand.id);
+        return (id.isPresent() && otherEditCommand.id.isPresent() && id.equals(otherEditCommand.id)
+                || (index.isPresent() && otherEditCommand.index.isPresent() && index.equals(otherEditCommand.index)))
                 && editRecruitDescriptor.equals(otherEditCommand.editRecruitDescriptor);
     }
 
@@ -301,6 +302,9 @@ public class EditCommand extends Command {
                 .append("\nAddress: ").append(oldRecruit.getAddresses())
                 .append(RecruitUtil.hasSameAddress(oldRecruit, newRecruit)
                         ? "" : DELTA_SEP + newRecruit.getAddresses())
+                .append("\nDescription: ").append(oldRecruit.getDescription())
+                .append(RecruitUtil.hasSameDescription(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getDescription())
                 .append("\nTags: ").append(oldRecruit.getTags())
                 .append(RecruitUtil.hasSameTags(oldRecruit, newRecruit)
                         ? "" : DELTA_SEP + newRecruit.getTags());
@@ -439,8 +443,8 @@ public class EditCommand extends Command {
             if (!(other instanceof EditRecruitDescriptor)) {
                 return false;
             }
-
             EditRecruitDescriptor otherEditRecruitDescriptor = (EditRecruitDescriptor) other;
+
             return Objects.equals(name, otherEditRecruitDescriptor.name)
                     && Objects.equals(phone, otherEditRecruitDescriptor.phone)
                     && Objects.equals(email, otherEditRecruitDescriptor.email)
