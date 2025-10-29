@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_RECRUIT;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
+import seedu.address.testutil.TypicalIDs;
 
 public class UnarchiveCommandTest {
 
@@ -114,10 +116,18 @@ public class UnarchiveCommandTest {
     }
 
     @Test
-    public void toStringMethod() {
+    public void toStringMethod_index() {
         Index index = INDEX_FIRST_RECRUIT;
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(index);
-        String expected = UnarchiveCommand.class.getCanonicalName() + "{index=" + index + "}";
+        String expected = UnarchiveCommand.class.getCanonicalName() + "{index=" + index + ", uuid=" + null + "}";
+        assertEquals(expected, unarchiveCommand.toString());
+    }
+
+    @Test
+    public void toStringMethod_uuid() {
+        UUID uuid = TypicalIDs.ID_FIRST_RECRUIT;
+        UnarchiveCommand unarchiveCommand = new UnarchiveCommand(uuid);
+        String expected = UnarchiveCommand.class.getCanonicalName() + "{index=" + null + ", uuid=" + uuid + "}";
         assertEquals(expected, unarchiveCommand.toString());
     }
 }

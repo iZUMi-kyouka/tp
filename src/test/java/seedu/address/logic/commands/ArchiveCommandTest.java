@@ -13,6 +13,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
@@ -22,6 +23,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
+import seedu.address.testutil.TypicalIDs;
 
 public class ArchiveCommandTest {
 
@@ -111,10 +113,18 @@ public class ArchiveCommandTest {
     }
 
     @Test
-    public void toStringMethod() {
+    public void toStringMethod_index() {
         Index index = INDEX_FIRST_RECRUIT;
         ArchiveCommand archiveCommand = new ArchiveCommand(index);
-        String expected = ArchiveCommand.class.getCanonicalName() + "{index=" + index + "}";
+        String expected = ArchiveCommand.class.getCanonicalName() + "{index=" + index + ", uuid=" + null + "}";
+        assertEquals(expected, archiveCommand.toString());
+    }
+
+    @Test
+    public void toStringMethod_uuid() {
+        UUID uuid = TypicalIDs.ID_FIRST_RECRUIT;
+        ArchiveCommand archiveCommand = new ArchiveCommand(uuid);
+        String expected = ArchiveCommand.class.getCanonicalName() + "{index=" + null + ", uuid=" + uuid + "}";
         assertEquals(expected, archiveCommand.toString());
     }
 }
