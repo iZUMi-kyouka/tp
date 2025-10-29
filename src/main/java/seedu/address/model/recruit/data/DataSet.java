@@ -1,6 +1,5 @@
 package seedu.address.model.recruit.data;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;

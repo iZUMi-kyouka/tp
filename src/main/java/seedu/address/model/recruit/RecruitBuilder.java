@@ -766,15 +766,15 @@ public class RecruitBuilder {
 
     private <T extends Data & Comparable<T>> DataSet<T> appendEntriesToTree(
             String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
-            TreeSet<T> ts = this.appendEntriesToTree(dataType, (TreeSet<T>) container, dataToAdd);
-            DataSet<T> ds = new DataSet<>(ts);
-            
-            // set the new DataSet's primary data to the container DataSet's primary data, if any
-            if (!(container == null) && !container.isEmpty() && container.getPrimary().isPresent()) {
-                ds.setPrimary(container.getPrimary().get());
-            }
+        TreeSet<T> ts = this.appendEntriesToTree(dataType, (TreeSet<T>) container, dataToAdd);
+        DataSet<T> ds = new DataSet<>(ts);
+        
+        // set the new DataSet's primary data to the container DataSet's primary data, if any
+        if (!(container == null) && (!container.isEmpty() && container.getPrimary().isPresent())) {
+            ds.setPrimary(container.getPrimary().get());
+        }
 
-            return ds;
+        return ds;
     }
 
     /**
@@ -819,7 +819,7 @@ public class RecruitBuilder {
         TreeSet<T> ts = this.removeEntriesFromTree(dataType, (TreeSet<T>) container, dataToAdd);
         DataSet<T> ds = new DataSet<>(ts);
 
-        if (!(container == null) && container.isEmpty() || container.getPrimary().isEmpty()) {
+        if (!(container == null) && (container.isEmpty() || container.getPrimary().isEmpty())) {
             return ds;
         }
 
@@ -829,6 +829,6 @@ public class RecruitBuilder {
             ds.setPrimary(prevPrimary);
         }
 
-        return new DataSet<>(ts);
+        return ds;
     }
 }

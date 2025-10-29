@@ -277,8 +277,9 @@ public class RecruitBuilderTest {
         builder.appendAddresses(List.of(new Address(VALID_ADDRESS_BOB)));
 
         assertTrue(builder.hasBeenModified());
-        RecruitBuilder solution = new RecruitBuilder().withAddresses(
-                List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)));
+        RecruitBuilder solution = new RecruitBuilder()
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_AMY)); // append preserves base's primary
 
         assertHasSameData(builder, solution);
     }
@@ -545,9 +546,11 @@ public class RecruitBuilderTest {
                 .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
                 .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
                 .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_AMY)) // append the base's primary
                 .withDescription(new Description(VALID_DESCRIPTION_AMY)
                         .appendDescription(new Description(VALID_DESCRIPTION_BOB)))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND), new Tag(VALID_TAG_HUSBAND)));
+        
 
         assertHasSameData(base, solution);
     }

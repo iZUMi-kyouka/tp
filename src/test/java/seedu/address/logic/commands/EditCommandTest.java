@@ -71,7 +71,6 @@ public class EditCommandTest {
                 .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
                 .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
-                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
                 .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
                 .build();
 
@@ -79,7 +78,6 @@ public class EditCommandTest {
                 .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
                 .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
-                .withAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
