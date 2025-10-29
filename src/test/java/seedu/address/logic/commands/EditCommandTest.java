@@ -38,6 +38,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.SimpleRecruitBuilder;
 import seedu.address.testutil.TypicalIDs;
@@ -71,13 +72,18 @@ public class EditCommandTest {
                 .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
                 .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
                 .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
+                .build();
+        expectedRecruit = new RecruitBuilder(expectedRecruit)
+                .withPrimaryPhone(ALICE.getPhone().get()) // append preserves base's primary data
                 .build();
 
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
                 .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
                 .withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);

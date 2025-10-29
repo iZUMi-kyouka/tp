@@ -125,14 +125,6 @@ public class EditRecruitDescriptorBuilder {
     }
 
     /**
-     * Sets the primary {@code Address} of the {@code EditRecruitDescriptor} that we are building.
-     */
-    public EditRecruitDescriptorBuilder withPrimaryAddress(String address) {
-        descriptor.withPrimaryAddress(new Address(address));
-        return this;
-    }
-
-    /**
      * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withAddresses(String... addresses) {
