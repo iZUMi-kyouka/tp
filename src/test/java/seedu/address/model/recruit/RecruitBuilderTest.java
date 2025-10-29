@@ -256,7 +256,6 @@ public class RecruitBuilderTest {
                 builder.removeEmails(List.of(new Email(VALID_EMAIL_AMY))));
     }
 
-
     // Address
     @Test
     void withAddress_setsSingleAddress() {

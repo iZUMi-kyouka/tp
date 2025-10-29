@@ -648,6 +648,39 @@ public class RecruitBuilder {
     }
 
     /**
+     * Update primary data of the fields in the current {@code RecruitBuilder} with data
+     * in the fields in the other RecruitBuilder.
+     * If the other RecruitBuilder has fields containing more than one data, throws an
+     * {@code IllegalArgumentException}
+     *
+     * @param other the other builder to override the fields of this builder using.
+     * @return this builder but with fields that have been overridden.
+     */
+    public RecruitBuilder updatePrimaryData(RecruitBuilder other) throws IllegalArgumentException {
+        if (other == null) {
+            return this;
+        }
+
+        assert other.description == null && other.tags == null;
+
+        if (other.names != null) {
+            this.names.setPrimary(other.names.first());
+        }
+        if (other.phones != null) {
+            this.phones.setPrimary(other.phones.first());
+        }
+        if (other.emails != null) {
+            this.emails.setPrimary(other.emails.first());
+        }
+        if (other.addresses != null) {
+            this.addresses.setPrimary(other.addresses.first());
+        }
+
+        return this;
+    }
+
+
+    /**
      * Checks if the {@code Builder} has been modified before.
      * A builder has been modified if any of the "set" or "append" methods have been called.
      *

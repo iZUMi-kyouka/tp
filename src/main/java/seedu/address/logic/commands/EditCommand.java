@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -131,7 +132,17 @@ public class EditCommand extends Command {
         case APPEND -> createEditedRecruitWithAppendedAttributes(recruitToEdit, descriptor);
         case REMOVE -> createEditedRecruitWithRemovedAttributes(recruitToEdit, descriptor);
         case OVERWRITE -> createEditedRecruitWithOverwrittenAttributes(recruitToEdit, descriptor);
+        case UPDATE_PRIMARY -> createEditedRecruitWithUpdatedPrimaryAttributes(recruitToEdit, descriptor);
         };
+    }
+
+    private static Recruit createEditedRecruitWithUpdatedPrimaryAttributes(Recruit rec, EditRecruitDescriptor desc)
+            throws CommandException {
+        try {
+            return new RecruitBuilder(rec).updatePrimaryData(desc).build();
+        } catch (IllegalArgumentException e) {
+            throw new CommandException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        }
     }
 
     private static Recruit createEditedRecruitWithAppendedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -300,6 +311,6 @@ public class EditCommand extends Command {
      * to the attributes of a Recruit.
      */
     public static enum EditOperation {
-        APPEND, OVERWRITE, REMOVE
+        APPEND, OVERWRITE, REMOVE, UPDATE_PRIMARY
     }
 }

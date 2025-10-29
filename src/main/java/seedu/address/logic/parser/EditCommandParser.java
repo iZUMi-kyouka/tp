@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireExactlyOneIsTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_APPEND;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_OVERWRITE;
+import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_PRIMARY;
 import static seedu.address.logic.parser.CliSyntax.EDIT_PREFIX_REMOVE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -38,11 +39,12 @@ public class EditCommandParser implements Parser<EditCommand> {
      * and returns an EditCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
+    @Override
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_DESCRIPTION, PREFIX_TAG,
+                        PREFIX_DESCRIPTION, PREFIX_TAG, EDIT_PREFIX_PRIMARY,
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
 
         String preamble = argMultimap.getPreamble().trim();
@@ -119,19 +121,32 @@ public class EditCommandParser implements Parser<EditCommand> {
             throws ParseException {
         boolean isAppend = argMultiMap.getValue(EDIT_PREFIX_APPEND).isPresent();
         boolean isRemove = argMultiMap.getValue(EDIT_PREFIX_REMOVE).isPresent();
-        boolean isOverwrite = argMultiMap.getValue(EDIT_PREFIX_OVERWRITE).isPresent() || (!isAppend && !isRemove);
+        boolean isUpdatePrimary = argMultiMap.getValue(EDIT_PREFIX_PRIMARY).isPresent();
+        boolean isOverwrite = argMultiMap.getValue(EDIT_PREFIX_OVERWRITE).isPresent()
+                || (!isAppend && !isRemove && !isUpdatePrimary);
 
         try {
-            requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove));
+            requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove, isUpdatePrimary));
         } catch (IllegalArgumentException e) {
-            throw new ParseException(
-                    String.format(EditCommand.MESSAGE_INVALID_OPERATION), e);
+            throw new ParseException(String.format(EditCommand.MESSAGE_INVALID_OPERATION), e);
+        }
+
+        // disallow specifying more than one data of a particular attribute
+        // when updating primary data of any attribute
+        if (isUpdatePrimary) {
+            try {
+                argMultiMap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+            } catch (ParseException pe) {
+                throw new ParseException(String.format(EditCommand.MESSAGE_INVALID_OPERATION), pe);
+            }
         }
 
         return isAppend
                 ? EditCommand.EditOperation.APPEND
                 : isRemove
                 ? EditCommand.EditOperation.REMOVE
+                : isUpdatePrimary
+                ? EditCommand.EditOperation.UPDATE_PRIMARY
                 : EditCommand.EditOperation.OVERWRITE;
     }
 }
