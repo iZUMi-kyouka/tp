@@ -128,6 +128,19 @@ public class RecruitBuilder {
     }
 
     /**
+     * Sets the primary name to be this {@code name}
+     *
+     * @param name the name to set
+     * @return this Builder instance with names updated
+     */
+    public RecruitBuilder withPrimaryName(Name name) {
+        if (!this.names.setPrimary(name)) {
+            throw new DataEntryNotFoundException("name", List.of(name));
+        }
+        return this;
+    }
+
+    /**
      * Sets names to be a Set consisting of all names in the provided list.
      *
      * @param names the list of names to set
@@ -182,6 +195,19 @@ public class RecruitBuilder {
         if (phone != null) {
             this.phones = new DataSet<>();
             this.phones.add(phone);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the primary phone number to be this {@code phone}
+     *
+     * @param phone the phone to set
+     * @return this Builder instance with primary phone updated
+     */
+    public RecruitBuilder withPrimaryPhone(Phone phone) {
+        if (!this.phones.setPrimary(phone)) {
+            throw new DataEntryNotFoundException("phone", List.of(phone));
         }
         return this;
     }
@@ -247,6 +273,19 @@ public class RecruitBuilder {
     }
 
     /**
+     * Sets the primary email to be this {@code email}
+     *
+     * @param email the email to set
+     * @return this Builder instance with primary email updated
+     */
+    public RecruitBuilder withPrimaryEmail(Email email) {
+        if (!this.emails.setPrimary(email)) {
+            throw new DataEntryNotFoundException("email", List.of(email));
+        }
+        return this;
+    }
+
+    /**
      * Sets emails to be a Set consisting of all emails in the provided list.
      *
      * @param emails the list of emails to set
@@ -302,6 +341,19 @@ public class RecruitBuilder {
         if (address != null) {
             this.addresses = new DataSet<>();
             this.addresses.add(address);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the primary address to be this {@code address}
+     *
+     * @param address the address to set
+     * @return this Builder instance with primary address updated
+     */
+    public RecruitBuilder withPrimaryAddress(Address address) {
+        if (!this.addresses.setPrimary(address)) {
+            throw new DataEntryNotFoundException("address", List.of(address));
         }
         return this;
     }
@@ -717,7 +769,14 @@ public class RecruitBuilder {
     private <T extends Data & Comparable<T>> DataSet<T> appendEntriesToTree(
             String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
             TreeSet<T> ts = this.appendEntriesToTree(dataType, (TreeSet<T>) container, dataToAdd);
-            return new DataSet<>(ts);
+            DataSet<T> ds = new DataSet<>(ts);
+            
+            // set the new DataSet's primary data to the container DataSet's primary data, if any
+            if (!container.isEmpty() && container.getPrimary().isPresent()) {
+                ds.setPrimary(container.getPrimary().get());
+            }
+
+            return ds;
     }
 
     /**
@@ -760,6 +819,18 @@ public class RecruitBuilder {
     private <T extends Data & Comparable<T>> DataSet<T> removeEntriesFromTree(
             String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
         TreeSet<T> ts = this.removeEntriesFromTree(dataType, (TreeSet<T>) container, dataToAdd);
+        DataSet<T> ds = new DataSet<>(ts);
+
+        if (container.isEmpty() || container.getPrimary().isEmpty()) {
+            return ds;
+        }
+
+        // set the new DataSet's primary data to the previous primary data, if any
+        T prevPrimary = container.getPrimary().get();
+        if (ds.contains(prevPrimary)) {
+            ds.setPrimary(prevPrimary);
+        }
+
         return new DataSet<>(ts);
     }
 }

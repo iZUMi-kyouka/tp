@@ -21,22 +21,22 @@ public class DataSet<T extends Data> extends TreeSet<T> {
     /**
      * Constructs a DataSet containing items in {@code ts}. The first item
      * in the resulting DataSet, will be set as the primary data.
-     * @param ts
+     * @param coll
      */
-    public DataSet(Collection<? extends T> ts) {
-        super(ts);
-        primaryData = this.isEmpty() ? Optional.empty() : Optional.of(this.first());
+    public DataSet(Collection<? extends T> coll) {
+        this(coll, null);
     }
 
     /**
      * Constructs a DataSet containing items in {@code ts}, where the ordering
      * of the items is maintained based on the given {@code comparator}.
      * The first item in the resulting DataSet, will be set as the primary data.
-     * @param ts
+     * @param coll
      */
-    public DataSet(Collection<? extends T> ts, Comparator<? super T> comp) {
+    public DataSet(Collection<? extends T> coll, Comparator<? super T> comp) {
         super(comp);
-        this.addAll(ts);
+        this.addAll(coll);
+        primaryData = this.isEmpty() ? Optional.empty() : Optional.of(this.first());
     }
 
     public boolean setPrimary(T data) {
