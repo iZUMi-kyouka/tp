@@ -12,6 +12,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.ParserUtil.extractValueFromMultimap;
+import static seedu.address.logic.parser.ParserUtil.extractValuesFromMultimap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +25,6 @@ import java.util.UUID;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 
@@ -51,42 +52,35 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
 
-        EditRecruitDescriptor.EditRecruitOperation operation = parseEditOperation(argMultimap);
-        EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor(operation);
-        LogsCenter.getLogger(EditCommandParser.class).info(editRecruitDescriptor.getOperation().toString());
+        EditCommand.EditOperation operation = parseEditOperation(argMultimap);
+        LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
 
-        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editRecruitDescriptor.setNames(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_NAME), ParserUtil::parseName));
-        }
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editRecruitDescriptor.setPhones(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_PHONE), ParserUtil::parsePhone));
-        }
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editRecruitDescriptor.setEmails(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail));
-        }
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editRecruitDescriptor.setAddresses(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress));
-        }
-        if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            editRecruitDescriptor.setDescription(
-                    ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
-        }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editRecruitDescriptor::setTags);
+        EditCommand.EditRecruitDescriptor editBuilder = new EditCommand.EditRecruitDescriptor(operation);
+        editBuilder.withNames(extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName));
+        editBuilder.withPhones(extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone));
+        editBuilder.withEmails(extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail));
+        editBuilder.withAddresses(extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress));
+        editBuilder.withDescription(extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
+                ParserUtil::parseDescription));
 
-        if (!editRecruitDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+        List<String> tagStrings = argMultimap.getAllValues(PREFIX_TAG);
+        if (tagStrings != null) {
+            if (tagStrings.size() == 1 && tagStrings.get(0).isBlank()) {
+                editBuilder.withTags(List.of());
+            } else {
+                editBuilder.withTags(ParserUtil.parseAllValues(tagStrings, ParserUtil::parseTag));
+            }
         }
+
+        if (!editBuilder.hasBeenModified()) {
+            throw new ParseException(EditCommand.MESSAGE_NO_FIELD_PROVIDED);
+        }
+
         if (idOpt.isPresent()) {
-            return new EditCommand(idOpt.get(), editRecruitDescriptor);
+            return new EditCommand(idOpt.get(), editBuilder);
+        } else {
+            return new EditCommand(indexOpt.get(), editBuilder);
         }
-        if (indexOpt.isPresent()) {
-            return new EditCommand(indexOpt.get(), editRecruitDescriptor);
-        }
-        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
     }
 
     private Optional<UUID> tryParseID(String s) {
@@ -120,7 +114,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
-    private EditRecruitDescriptor.EditRecruitOperation parseEditOperation(ArgumentMultimap argMultiMap)
+    private EditCommand.EditOperation parseEditOperation(ArgumentMultimap argMultiMap)
             throws ParseException {
         boolean isAppend = argMultiMap.getValue(EDIT_PREFIX_APPEND).isPresent();
         boolean isRemove = argMultiMap.getValue(EDIT_PREFIX_REMOVE).isPresent();
@@ -130,13 +124,13 @@ public class EditCommandParser implements Parser<EditCommand> {
             requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove));
         } catch (IllegalArgumentException e) {
             throw new ParseException(
-                    String.format(EditCommand.MESSAGE_INVALID_OPERATION, EditCommand.MESSAGE_USAGE), e);
+                    String.format(EditCommand.MESSAGE_INVALID_OPERATION), e);
         }
 
         return isAppend
-                ? EditRecruitDescriptor.EditRecruitOperation.APPEND
+                ? EditCommand.EditOperation.APPEND
                 : isRemove
-                ? EditRecruitDescriptor.EditRecruitOperation.REMOVE
-                : EditRecruitDescriptor.EditRecruitOperation.OVERWRITE;
+                ? EditCommand.EditOperation.REMOVE
+                : EditCommand.EditOperation.OVERWRITE;
     }
 }

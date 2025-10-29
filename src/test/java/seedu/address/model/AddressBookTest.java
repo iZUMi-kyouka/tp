@@ -21,7 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.exceptions.DuplicateRecruitException;
-import seedu.address.testutil.RecruitBuilder;
+import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class AddressBookTest {
 
@@ -47,7 +47,7 @@ public class AddressBookTest {
     @Test
     public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
         // Two persons with the same identity fields
-        Recruit editedAlice = new RecruitBuilder(ALICE)
+        Recruit editedAlice = new SimpleRecruitBuilder(ALICE)
                 .build();
         List<Recruit> newRecruits = Arrays.asList(ALICE, editedAlice);
         AddressBookStub newData = new AddressBookStub(newRecruits);
@@ -82,12 +82,12 @@ public class AddressBookTest {
         addressBook.addRecruit(ALICE);
         addressBook.addRecruit(CARL);
 
-        addressBook.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+        addressBook.sortRecruits(Comparator.comparing(r -> r.getName().value));
 
         List<Recruit> sortedRecruits = addressBook.getRecruitList();
-        assertEquals("Alice Pauline", sortedRecruits.get(0).getName().fullName);
-        assertEquals("Benson Meier", sortedRecruits.get(1).getName().fullName);
-        assertEquals("Carl Kurz", sortedRecruits.get(2).getName().fullName);
+        assertEquals("Alice Pauline", sortedRecruits.get(0).getName().value);
+        assertEquals("Benson Meier", sortedRecruits.get(1).getName().value);
+        assertEquals("Carl Kurz", sortedRecruits.get(2).getName().value);
     }
 
     @Test

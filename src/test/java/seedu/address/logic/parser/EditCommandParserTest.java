@@ -38,11 +38,11 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor.EditRecruitOperation;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
+import seedu.address.logic.commands.EditCommand.EditOperation;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.TypicalIDs;
@@ -63,7 +63,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
 
         // no field specified
-        assertParseFailure(parser, targetId.toString(), EditCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, targetId.toString(), EditCommand.MESSAGE_NO_FIELD_PROVIDED);
 
         // no index and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
@@ -141,9 +141,9 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND + EDIT_OP_FLAG_APPEND;
 
-        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).withOperation(EditRecruitOperation.APPEND).build();
+        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
+                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -165,9 +165,9 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND + EDIT_OP_FLAG_REMOVE;
 
-        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).withOperation(EditRecruitOperation.REMOVE).build();
+        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                .withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
+                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -194,8 +194,8 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_RECRUIT;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY + EDIT_OP_FLAG_APPEND;
 
-        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_AMY).withOperation(EditRecruitOperation.APPEND).build();
+        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -206,8 +206,8 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_RECRUIT;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY + EDIT_OP_FLAG_REMOVE;
 
-        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_AMY).withOperation(EditRecruitOperation.REMOVE).build();
+        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -253,36 +253,36 @@ public class EditCommandParserTest {
         // name
         Index targetIndex = INDEX_THIRD_RECRUIT;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY + EDIT_OP_FLAG_APPEND;
-        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
-                .withName(VALID_NAME_AMY).withOperation(EditRecruitOperation.APPEND).build();
+        EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withName(VALID_NAME_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
         userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + EDIT_OP_FLAG_APPEND;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withPhone(VALID_PHONE_AMY).withOperation(EditRecruitOperation.APPEND).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withPhone(VALID_PHONE_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
         userInput = targetIndex.getOneBased() + EMAIL_DESC_AMY + EDIT_OP_FLAG_APPEND;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withEmail(VALID_EMAIL_AMY).withOperation(EditRecruitOperation.APPEND).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withEmail(VALID_EMAIL_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
         userInput = targetIndex.getOneBased() + ADDRESS_DESC_AMY + EDIT_OP_FLAG_APPEND;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withAddress(VALID_ADDRESS_AMY).withOperation(EditRecruitOperation.APPEND).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withAddress(VALID_ADDRESS_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND + EDIT_OP_FLAG_APPEND;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withTags(VALID_TAG_FRIEND).withOperation(EditRecruitOperation.APPEND).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
+                .withTags(VALID_TAG_FRIEND).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -293,36 +293,36 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_RECRUIT;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY + EDIT_OP_FLAG_REMOVE;
         EditCommand.EditRecruitDescriptor descriptor =
-                new EditRecruitDescriptorBuilder()
-                        .withName(VALID_NAME_AMY).withOperation(EditRecruitOperation.REMOVE).build();
+                new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                        .withName(VALID_NAME_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
         userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + EDIT_OP_FLAG_REMOVE;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withPhone(VALID_PHONE_AMY).withOperation(EditRecruitOperation.REMOVE).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                .withPhone(VALID_PHONE_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
         userInput = targetIndex.getOneBased() + EMAIL_DESC_AMY + EDIT_OP_FLAG_REMOVE;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withEmail(VALID_EMAIL_AMY).withOperation(EditRecruitOperation.REMOVE).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                .withEmail(VALID_EMAIL_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
         userInput = targetIndex.getOneBased() + ADDRESS_DESC_AMY + EDIT_OP_FLAG_REMOVE;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withAddress(VALID_ADDRESS_AMY).withOperation(EditRecruitOperation.REMOVE).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                .withAddress(VALID_ADDRESS_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND + EDIT_OP_FLAG_REMOVE;
-        descriptor = new EditRecruitDescriptorBuilder()
-                .withTags(VALID_TAG_FRIEND).withOperation(EditRecruitOperation.REMOVE).build();
+        descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE)
+                .withTags(VALID_TAG_FRIEND).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
