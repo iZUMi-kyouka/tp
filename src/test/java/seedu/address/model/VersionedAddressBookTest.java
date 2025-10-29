@@ -196,8 +196,6 @@ public class VersionedAddressBookTest {
                 expectedAddressBook,
                 "add Amy"
         );
-        System.out.println(expectedAddressBookState.getAddressBook());
-        System.out.println(addressBook.getAddressBookStateList().get(0).getAddressBook());
         assertEquals(expectedAddressBookState, addressBook.getAddressBookStateList()
                 .get(0));
     }

@@ -656,8 +656,6 @@ public class RecruitBuilder {
         }
 
         RecruitBuilder otherBuilder = (RecruitBuilder) other;
-        System.out.println(id);
-        System.out.println(otherBuilder.id);
         return Objects.equals(id, otherBuilder.id)
                 && hasSameData(otherBuilder);
     }
