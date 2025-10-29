@@ -38,7 +38,7 @@ public class HelpWindow extends UiPart<Stage> {
             find KEYWORD [MORE_KEYWORDS]
             \s
             6. List recruits
-            list [-archive] [-all]
+            list [-archived] [-all]
             \s
             7. Sort recruits
             sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]

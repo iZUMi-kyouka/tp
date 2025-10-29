@@ -53,7 +53,7 @@ public class ListCommandParser implements Parser<ListCommand> {
     /**
      * Verify that the list command is valid based on the following criteria:
      * 1. No preamble
-     * 2. The value of any flag (e.g. -archive) is empty string
+     * 2. The value of any flag (e.g. -archived) is empty string
      */
     private void verifySyntax(ArgumentMultimap argMultimap) throws ParseException {
         if (!argMultimap.getPreamble().trim().isEmpty()) {
