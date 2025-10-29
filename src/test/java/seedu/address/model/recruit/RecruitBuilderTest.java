@@ -32,7 +32,7 @@ import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
-import seedu.address.model.recruit.exceptions.InvalidRecruitException;
+import seedu.address.model.recruit.exceptions.NoNameRecruitException;
 import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.TagNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -667,7 +667,7 @@ public class RecruitBuilderTest {
     @Test
     void build_noName_throwsInvalidRecruitException() {
         RecruitBuilder builder = new RecruitBuilder();
-        assertThrows(InvalidRecruitException.class, builder::build);
+        assertThrows(NoNameRecruitException.class, builder::build);
     }
 
     // equals() and toString()
