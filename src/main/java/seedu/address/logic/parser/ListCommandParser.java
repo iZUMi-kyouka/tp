@@ -10,7 +10,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
