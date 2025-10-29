@@ -52,7 +52,7 @@ public class RecruitUtil {
     }
 
     /**
-     * Throws {@link InvalidRecruitException} if any element of {@code items} is an empty string or
+     * Throws {@link InvalidRecruitException} if any element of {@code fieldTree} is an empty string or
      * string containing only whitespace codepoints.
      */
     public static <T> void requireNonEmptyField(TreeSet<? extends T> fieldTree) throws InvalidRecruitException {
