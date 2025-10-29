@@ -369,9 +369,12 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from the address book. 
 
-Format: `clear`
+Format: `clear -confirm`
+
+* The `-confirm` flag is required to confirm deletion of all recruits.
+* When `-confirm` is not specified, this command will simply display a help message.
 
 ### Dismissing command result message: `dismiss`
 
