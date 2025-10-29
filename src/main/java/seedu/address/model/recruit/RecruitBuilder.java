@@ -13,6 +13,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Data;
+import seedu.address.model.recruit.data.DataSet;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
@@ -40,10 +41,10 @@ public class RecruitBuilder {
 
     protected UUID id;
 
-    protected TreeSet<Name> names;
-    protected TreeSet<Phone> phones;
-    protected TreeSet<Email> emails;
-    protected TreeSet<Address> addresses;
+    protected DataSet<Name> names;
+    protected DataSet<Phone> phones;
+    protected DataSet<Email> emails;
+    protected DataSet<Address> addresses;
 
     protected Description description;
     protected TreeSet<Tag> tags;
@@ -62,10 +63,10 @@ public class RecruitBuilder {
      */
     public RecruitBuilder(Recruit recruit) {
         this.id = recruit.getID();
-        this.names = new TreeSet<>(recruit.getNames());
-        this.phones = new TreeSet<>(recruit.getPhones());
-        this.addresses = new TreeSet<>(recruit.getAddresses());
-        this.emails = new TreeSet<>(recruit.getEmails());
+        this.names = new DataSet<>(recruit.getNames());
+        this.phones = new DataSet<>(recruit.getPhones());
+        this.addresses = new DataSet<>(recruit.getAddresses());
+        this.emails = new DataSet<>(recruit.getEmails());
         this.description = new Description(recruit.getDescription());
         this.tags = new TreeSet<>(recruit.getTags());
         this.isArchived = recruit.isArchived();
@@ -80,10 +81,10 @@ public class RecruitBuilder {
         requireNonNull(toCopy, "Cannot copy a null RecruitBuilder");
 
         this.id = toCopy.id;
-        this.names = toCopy.names == null ? null : new TreeSet<>(toCopy.names);
-        this.phones = toCopy.phones == null ? null : new TreeSet<>(toCopy.phones);
-        this.emails = toCopy.emails == null ? null : new TreeSet<>(toCopy.emails);
-        this.addresses = toCopy.addresses == null ? null : new TreeSet<>(toCopy.addresses);
+        this.names = toCopy.names == null ? null : new DataSet<>(toCopy.names);
+        this.phones = toCopy.phones == null ? null : new DataSet<>(toCopy.phones);
+        this.emails = toCopy.emails == null ? null : new DataSet<>(toCopy.emails);
+        this.addresses = toCopy.addresses == null ? null : new DataSet<>(toCopy.addresses);
         this.description = toCopy.description == null ? null : new Description(toCopy.description);
         this.tags = toCopy.tags == null ? null : new TreeSet<>(toCopy.tags);
         this.isArchived = toCopy.isArchived;
@@ -120,7 +121,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withName(Name name) {
         if (name != null) {
-            this.names = new TreeSet<>();
+            this.names = new DataSet<>();
             this.names.add(name);
         }
         return this;
@@ -134,7 +135,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withNames(Collection<Name> names) {
         if (names != null) {
-            this.names = new TreeSet<>(names);
+            this.names = new DataSet<>(names);
         }
         return this;
     }
@@ -161,15 +162,13 @@ public class RecruitBuilder {
         return this;
     }
 
-
-
     /**
      * Gets the names assigned to the builder.
      *
      * @return an Optional containing the set of Names currently assigned to the builder,
      *         or an empty Optional if no Names have been set.
      */
-    public Optional<TreeSet<Name>> getNames() {
+    public Optional<DataSet<Name>> getNames() {
         return Optional.ofNullable(this.names);
     }
 
@@ -181,7 +180,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withPhone(Phone phone) {
         if (phone != null) {
-            this.phones = new TreeSet<>();
+            this.phones = new DataSet<>();
             this.phones.add(phone);
         }
         return this;
@@ -195,7 +194,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withPhones(Collection<Phone> phones) {
         if (phones != null) {
-            this.phones = new TreeSet<>(phones);
+            this.phones = new DataSet<>(phones);
         }
         return this;
     }
@@ -229,7 +228,7 @@ public class RecruitBuilder {
      * @return an Optional containing the set of Phones currently assigned to the builder,
      *         or an empty Optional if no Phones have been set.
      */
-    public Optional<TreeSet<Phone>> getPhones() {
+    public Optional<DataSet<Phone>> getPhones() {
         return Optional.ofNullable(this.phones);
     }
 
@@ -241,7 +240,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withEmail(Email email) {
         if (email != null) {
-            this.emails = new TreeSet<>();
+            this.emails = new DataSet<>();
             this.emails.add(email);
         }
         return this;
@@ -255,7 +254,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withEmails(Collection<Email> emails) {
         if (emails != null) {
-            this.emails = new TreeSet<>(emails);
+            this.emails = new DataSet<>(emails);
         }
         return this;
     }
@@ -289,7 +288,7 @@ public class RecruitBuilder {
      * @return an Optional containing the set of Emails currently assigned to the builder,
      *         or an empty Optional if no Emails have been set.
      */
-    public Optional<TreeSet<Email>> getEmails() {
+    public Optional<DataSet<Email>> getEmails() {
         return Optional.ofNullable(this.emails);
     }
 
@@ -301,7 +300,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withAddress(Address address) {
         if (address != null) {
-            this.addresses = new TreeSet<>();
+            this.addresses = new DataSet<>();
             this.addresses.add(address);
         }
         return this;
@@ -315,7 +314,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withAddresses(Collection<Address> addresses) {
         if (addresses != null) {
-            this.addresses = new TreeSet<>(addresses);
+            this.addresses = new DataSet<>(addresses);
         }
         return this;
     }
@@ -349,7 +348,7 @@ public class RecruitBuilder {
      * @return an Optional containing the set of Addresses currently assigned to the builder,
      *         or an empty Optional if no Addresses have been set.
      */
-    public Optional<TreeSet<Address>> getAddresses() {
+    public Optional<DataSet<Address>> getAddresses() {
         return Optional.ofNullable(this.addresses);
     }
 
@@ -620,9 +619,9 @@ public class RecruitBuilder {
         }
 
         this.id = this.id == null ? UUID.randomUUID() : this.id;
-        this.phones = this.phones == null ? new TreeSet<>() : this.phones;
-        this.emails = this.emails == null ? new TreeSet<>() : this.emails;
-        this.addresses = this.addresses == null ? new TreeSet<>() : this.addresses;
+        this.phones = this.phones == null ? new DataSet<>() : this.phones;
+        this.emails = this.emails == null ? new DataSet<>() : this.emails;
+        this.addresses = this.addresses == null ? new DataSet<>() : this.addresses;
         this.description = this.description == null ? Description.createEmptyDescription() : this.description;
         this.tags = this.tags == null ? new TreeSet<>() : this.tags;
         return new Recruit(this);
@@ -715,6 +714,12 @@ public class RecruitBuilder {
         return copy;
     }
 
+    private <T extends Data & Comparable<T>> DataSet<T> appendEntriesToTree(
+            String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
+            TreeSet<T> ts = this.appendEntriesToTree(dataType, (TreeSet<T>) container, dataToAdd);
+            return new DataSet<>(ts);
+    }
+
     /**
      * Creates a copy of container and removes each entry of dataToRemove from this copy.
      * This copy is then returned.
@@ -732,7 +737,6 @@ public class RecruitBuilder {
      */
     private <T extends Data & Comparable<T>> TreeSet<T> removeEntriesFromTree(
             String dataType, TreeSet<T> container, Collection<? extends T> dataToRemove) {
-
         if (dataToRemove == null || dataToRemove.isEmpty()) {
             return container;
         }
@@ -751,5 +755,11 @@ public class RecruitBuilder {
         }
 
         return copy;
+    }
+
+    private <T extends Data & Comparable<T>> DataSet<T> removeEntriesFromTree(
+            String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
+        TreeSet<T> ts = this.removeEntriesFromTree(dataType, (TreeSet<T>) container, dataToAdd);
+        return new DataSet<>(ts);
     }
 }

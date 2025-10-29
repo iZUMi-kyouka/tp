@@ -14,6 +14,10 @@ import java.util.TreeSet;
 public class DataSet<T extends Data> extends TreeSet<T> {
     private Optional<T> primaryData;
 
+    public DataSet() {
+        super();
+    }
+
     /**
      * Constructs a DataSet containing items in {@code ts}. The first item
      * in the resulting DataSet, will be set as the primary data.
