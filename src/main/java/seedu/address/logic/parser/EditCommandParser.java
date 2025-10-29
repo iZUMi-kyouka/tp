@@ -56,7 +56,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
 
         EditCommand.EditRecruitDescriptor editBuilder = new EditCommand.EditRecruitDescriptor(operation);
-        idOpt.ifPresent(id -> editBuilder.setId(idOpt.get()));
+
         editBuilder.withNames(extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName));
         editBuilder.withPhones(extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone));
         editBuilder.withEmails(extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail));

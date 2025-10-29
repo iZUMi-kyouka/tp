@@ -82,10 +82,8 @@ public class AddressBookParserTest {
     public void parseCommand_edit() throws Exception {
         UUID targetId = UUID.randomUUID();
         Recruit recruit = new SimpleRecruitBuilder()
-                .withID(targetId.toString())
                 .build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(recruit)
-                .withID(targetId.toString())
                 .build();
         String input = EditCommand.COMMAND_WORD + " " + targetId + " "
                 + RecruitUtil.getEditRecruitDescriptorDetails(descriptor);
