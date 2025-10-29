@@ -19,6 +19,8 @@ public class Messages {
     public static final String MESSAGE_RECRUITS_LISTED_OVERVIEW = "%1$d recruits listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_NON_VALUE_ACCEPTING_FLAGS =
+                "The following flag(s) do not accept any argument: ";
     public static final String MESSAGE_NO_ID_OR_INDEX = "Either UUID or index must be provided.";
 
 
@@ -32,6 +34,18 @@ public class Messages {
                 Stream.of(duplicatePrefixes).map(Prefix::toString).collect(Collectors.toSet());
 
         return MESSAGE_DUPLICATE_FIELDS + String.join(" ", duplicateFields);
+    }
+
+    /**
+     * Returns an error message indicating the duplicate prefixes.
+     */
+    public static String getErrorMessageForNonValueAcceptingPrefixes(Prefix... prefixes) {
+        assert prefixes.length > 0;
+
+        Set<String> fields =
+                Stream.of(prefixes).map(Prefix::toString).collect(Collectors.toSet());
+
+        return MESSAGE_NON_VALUE_ACCEPTING_FLAGS + String.join(" ", fields);
     }
 
     /**
