@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.recruit.Recruit;
-import seedu.address.testutil.RecruitBuilder;
+import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class ExportCommandTest {
     private Path tempFile;
@@ -76,8 +76,8 @@ public class ExportCommandTest {
         private Path defaultExportPath;
 
         public ModelStubAcceptingExport() {
-            recruitsAdded.add(new RecruitBuilder(ALICE).build());
-            recruitsAdded.add(new RecruitBuilder(BOB).build());
+            recruitsAdded.add(new SimpleRecruitBuilder(ALICE).build());
+            recruitsAdded.add(new SimpleRecruitBuilder(BOB).build());
         }
 
 
@@ -89,8 +89,8 @@ public class ExportCommandTest {
 
                 {
                     if (recruits.isEmpty()) {
-                        recruits.add(new RecruitBuilder(ALICE).build());
-                        recruits.add(new RecruitBuilder(BOB).build());
+                        recruits.add(new SimpleRecruitBuilder(ALICE).build());
+                        recruits.add(new SimpleRecruitBuilder(BOB).build());
                     }
                 }
 

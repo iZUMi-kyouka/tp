@@ -34,7 +34,7 @@ public class SortCommandTest {
 
         SortCommand sortCommand = new SortCommand(criteria);
 
-        Comparator<Recruit> comparator = Comparator.comparing(recruit -> recruit.getName().fullName.toLowerCase());
+        Comparator<Recruit> comparator = Comparator.comparing(recruit -> recruit.getName().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-n (ascending)");
@@ -43,8 +43,8 @@ public class SortCommandTest {
         // Verify the list is sorted alphabetically by name
         var recruitList = model.getFilteredRecruitList();
         for (int i = 0; i < recruitList.size() - 1; i++) {
-            String currentName = recruitList.get(i).getName().fullName.toLowerCase();
-            String nextName = recruitList.get(i + 1).getName().fullName.toLowerCase();
+            String currentName = recruitList.get(i).getName().value.toLowerCase();
+            String nextName = recruitList.get(i + 1).getName().value.toLowerCase();
             assertFalse(currentName.compareTo(nextName) > 0,
                     "Recruits should be sorted alphabetically. Found: "
                     + currentName + " before " + nextName);
@@ -59,7 +59,7 @@ public class SortCommandTest {
         SortCommand sortCommand = new SortCommand(criteria);
 
         Comparator<Recruit> comparator = Comparator.comparing((
-                Recruit recruit) -> recruit.getName().fullName.toLowerCase()).reversed();
+                Recruit recruit) -> recruit.getName().value.toLowerCase()).reversed();
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-n (descending)");
@@ -68,8 +68,8 @@ public class SortCommandTest {
         // Verify the list is sorted in reverse alphabetical order by name
         var recruitList = model.getFilteredRecruitList();
         for (int i = 0; i < recruitList.size() - 1; i++) {
-            String currentName = recruitList.get(i).getName().fullName.toLowerCase();
-            String nextName = recruitList.get(i + 1).getName().fullName.toLowerCase();
+            String currentName = recruitList.get(i).getName().value.toLowerCase();
+            String nextName = recruitList.get(i + 1).getName().value.toLowerCase();
             assertFalse(currentName.compareTo(nextName) < 0,
                     "Recruits should be sorted in reverse alphabetically. Found: "
                     + currentName + " before " + nextName);
@@ -150,7 +150,7 @@ public class SortCommandTest {
         SortCommand sortCommand = new SortCommand(criteria);
 
         Comparator<Recruit> comparator = Comparator
-                .comparing((Recruit recruit) -> recruit.getName().fullName.toLowerCase())
+                .comparing((Recruit recruit) -> recruit.getName().value.toLowerCase())
                 .thenComparing(Comparator.comparing((Recruit r) -> r.getPhone().get().value).reversed())
                 .thenComparing(recruit -> recruit.getEmail().get().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
@@ -171,7 +171,7 @@ public class SortCommandTest {
         SortCommand sortCommand = new SortCommand(criteria);
 
         Comparator<Recruit> comparator = Comparator
-                .comparing((Recruit recruit) -> recruit.getName().fullName.toLowerCase())
+                .comparing((Recruit recruit) -> recruit.getName().value.toLowerCase())
                 .thenComparing(recruit -> recruit.getPhone().get().value)
                 .thenComparing(recruit -> recruit.getEmail().get().value.toLowerCase())
                 .thenComparing(recruit -> recruit.getAddress().get().value.toLowerCase());

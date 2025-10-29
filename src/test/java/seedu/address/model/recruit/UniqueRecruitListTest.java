@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.recruit.exceptions.DuplicateRecruitException;
 import seedu.address.model.recruit.exceptions.RecruitNotFoundException;
-import seedu.address.testutil.RecruitBuilder;
+import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class UniqueRecruitListTest {
 
@@ -77,7 +77,7 @@ public class UniqueRecruitListTest {
     @Test
     public void setRecruit_editedRecruitHasSameIdentity_success() {
         uniqueRecruitList.add(ALICE);
-        Recruit editedAlice = new RecruitBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+        Recruit editedAlice = new SimpleRecruitBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         uniqueRecruitList.setRecruit(ALICE, editedAlice);
         UniqueRecruitList expectedUniqueRecruitList = new UniqueRecruitList();
@@ -185,7 +185,7 @@ public class UniqueRecruitListTest {
         assertFalse(list1.hasSameRecruits(list2));
 
         // 4. Same recruit but different fields
-        Recruit editedBob = new RecruitBuilder(BOB)
+        Recruit editedBob = new SimpleRecruitBuilder(BOB)
                 .withAddress(VALID_ADDRESS_BOB)
                 .build();
         list2.setRecruits(Collections.singletonList(editedBob));
