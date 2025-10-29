@@ -333,10 +333,10 @@ public class EditCommandTest {
 
     @Test
     public void toStringMethod() {
-        UUID targetID = UUID.randomUUID();
+        UUID targetId = UUID.randomUUID();
         EditRecruitDescriptor editRecruitDescriptor = new EditRecruitDescriptor();
-        EditCommand editCommand = new EditCommand(targetID, editRecruitDescriptor);
-        String expected = EditCommand.class.getCanonicalName() + "{ID=" + Optional.of(targetID)
+        EditCommand editCommand = new EditCommand(targetId, editRecruitDescriptor);
+        String expected = EditCommand.class.getCanonicalName() + "{ID=" + Optional.of(targetId)
                 + ", editPersonDescriptor="
                 + editRecruitDescriptor + "}";
         assertEquals(expected, editCommand.toString());
