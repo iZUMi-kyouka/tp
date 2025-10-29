@@ -2,6 +2,7 @@ package seedu.address.model.recruit.data;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
 
@@ -50,5 +51,51 @@ public class DataSet<T extends Data> extends TreeSet<T> {
 
     public Optional<T> getPrimary() {
         return primaryData;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        
+        if (!primaryData.isPresent()) {
+            return super.toString();
+        }
+
+        T primaryData = this.primaryData.get();
+        int i = 0;
+        int size = this.size();
+        for (T data : this) {
+            sb.append(data.toString());
+            if (data.equals(primaryData)) {
+                sb.append(" (primary)");
+            }
+            if (i != size - 1) {
+                sb.append(", ");
+            }
+            i++;
+        }
+
+        sb.append(']');
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof DataSet)) {
+            return false;
+        }
+
+        DataSet<?> ds = (DataSet<?>) other;
+        return super.equals(other) && primaryData.equals(ds.primaryData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), primaryData);
     }
 }

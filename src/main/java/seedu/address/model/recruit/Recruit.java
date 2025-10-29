@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.DataSet;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
@@ -26,12 +27,12 @@ public class Recruit {
 
     // Identity fields
     private final UUID id;
-    private final TreeSet<Name> names;
+    private final DataSet<Name> names;
 
     // Data fields
-    private final TreeSet<Phone> phones;
-    private final TreeSet<Email> emails;
-    private final TreeSet<Address> addresses;
+    private final DataSet<Phone> phones;
+    private final DataSet<Email> emails;
+    private final DataSet<Address> addresses;
     private final Description description;
     private final TreeSet<Tag> tags;
 
