@@ -78,8 +78,8 @@ public class ArgumentMultimap {
     }
 
     /**
-     * Throws a {@code ParseException} if any of the prefixes given in {@code prefixes} has non-blank
-     * string value.
+     * Throws a {@code ParseException} if any of the prefixes present has a non-blank
+     * string value. Note that this does not verify that all the prefixes have at most one value.
      */
     public void verifyValuesOfAllPrefixesAreEmpty() throws ParseException {
         // Remove the empty string prefix to indicate start and end of command
@@ -87,7 +87,7 @@ public class ArgumentMultimap {
 
         if (!prefixes.stream().allMatch(p -> {
             List<String> values = argMultimap.get(p);
-            return values.size() == 1 && values.get(0).isEmpty();
+            return values.stream().allMatch(String::isEmpty);
         })) {
             throw new ParseException(
                     Messages.getErrorMessageForNonValueAcceptingPrefixes(prefixes.toArray(Prefix[]::new)));
@@ -95,7 +95,7 @@ public class ArgumentMultimap {
     }
 
     /**
-     * Returns all Prefix that are found.
+     * Returns all {@code Prefix} that are present in a {@code Set}.
      */
     public Set<Prefix> getAllPrefixes() {
         return argMultimap.keySet();
