@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
 
-/** 
+/**
  * A minimally extended TreeSet with a primary data attribute.
  * Users are responsible for ensuring the current state of primary data
  * is valid i.e. it should generally be an item that is equal to one of the
@@ -16,6 +16,9 @@ import java.util.TreeSet;
 public class DataSet<T extends Data> extends TreeSet<T> {
     private Optional<T> primaryData;
 
+    /**
+     * Constructs an empty DataSet with unset primary data.
+     */
     public DataSet() {
         super();
         primaryData = Optional.empty();
@@ -68,7 +71,7 @@ public class DataSet<T extends Data> extends TreeSet<T> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        
+
         // only show '(primary)' indicator when there are more than 1 data
         // and a primary data is set
         if (!primaryData.isPresent() || this.size() == 1) {

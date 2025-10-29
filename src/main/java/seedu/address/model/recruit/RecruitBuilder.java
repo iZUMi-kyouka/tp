@@ -613,7 +613,7 @@ public class RecruitBuilder {
     }
 
     /**
-     * Remove all data from the fields in the current {@code RecruitBuilder} that exist in the fields 
+     * Remove all data from the fields in the current {@code RecruitBuilder} that exist in the fields
      * in the other RecruitBuilder. If the other RecruitBuilder has fields that have not been modified,
      * ignore those fields.
      *
@@ -768,7 +768,7 @@ public class RecruitBuilder {
             String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
         TreeSet<T> ts = this.appendEntriesToTree(dataType, (TreeSet<T>) container, dataToAdd);
         DataSet<T> ds = new DataSet<>(ts);
-        
+
         // set the new DataSet's primary data to the container DataSet's primary data, if any
         if (!(container == null) && (!container.isEmpty() && container.getPrimary().isPresent())) {
             ds.setPrimary(container.getPrimary().get());

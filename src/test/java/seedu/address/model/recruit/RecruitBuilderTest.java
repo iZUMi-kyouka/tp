@@ -550,7 +550,7 @@ public class RecruitBuilderTest {
                 .withDescription(new Description(VALID_DESCRIPTION_AMY)
                         .appendDescription(new Description(VALID_DESCRIPTION_BOB)))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND), new Tag(VALID_TAG_HUSBAND)));
-        
+
 
         assertHasSameData(base, solution);
     }
