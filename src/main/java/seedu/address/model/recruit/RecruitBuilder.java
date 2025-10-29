@@ -121,8 +121,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withName(Name name) {
         if (name != null) {
-            this.names = new DataSet<>();
-            this.names.add(name);
+            this.names = new DataSet<>(name);
         }
         return this;
     }
@@ -193,8 +192,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withPhone(Phone phone) {
         if (phone != null) {
-            this.phones = new DataSet<>();
-            this.phones.add(phone);
+            this.phones = new DataSet<>(phone);
         }
         return this;
     }
@@ -266,8 +264,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withEmail(Email email) {
         if (email != null) {
-            this.emails = new DataSet<>();
-            this.emails.add(email);
+            this.emails = new DataSet<>(email);
         }
         return this;
     }
@@ -339,8 +336,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withAddress(Address address) {
         if (address != null) {
-            this.addresses = new DataSet<>();
-            this.addresses.add(address);
+            this.addresses = new DataSet<>(address);
         }
         return this;
     }
@@ -582,8 +578,9 @@ public class RecruitBuilder {
     }
 
     /**
-     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
+     * Appends the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
      * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     * Only keeps primary data from the current {@code RecruitBuilder}
      *
      * @param other the other builder to override the fields of this builder using.
      * @return this builder but with fields that have been overridden.
@@ -616,8 +613,9 @@ public class RecruitBuilder {
     }
 
     /**
-     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
-     * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     * Remove all data from the fields in the current {@code RecruitBuilder} that exist in the fields 
+     * in the other RecruitBuilder. If the other RecruitBuilder has fields that have not been modified,
+     * ignore those fields.
      *
      * @param other the other builder to override the fields of this builder using.
      * @return this builder but with fields that have been overridden.
@@ -772,7 +770,7 @@ public class RecruitBuilder {
             DataSet<T> ds = new DataSet<>(ts);
             
             // set the new DataSet's primary data to the container DataSet's primary data, if any
-            if (!container.isEmpty() && container.getPrimary().isPresent()) {
+            if (!(container == null) && !container.isEmpty() && container.getPrimary().isPresent()) {
                 ds.setPrimary(container.getPrimary().get());
             }
 
@@ -821,7 +819,7 @@ public class RecruitBuilder {
         TreeSet<T> ts = this.removeEntriesFromTree(dataType, (TreeSet<T>) container, dataToAdd);
         DataSet<T> ds = new DataSet<>(ts);
 
-        if (container.isEmpty() || container.getPrimary().isEmpty()) {
+        if (!(container == null) && container.isEmpty() || container.getPrimary().isEmpty()) {
             return ds;
         }
 

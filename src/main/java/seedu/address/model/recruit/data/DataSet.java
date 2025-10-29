@@ -1,7 +1,9 @@
 package seedu.address.model.recruit.data;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
@@ -17,6 +19,16 @@ public class DataSet<T extends Data> extends TreeSet<T> {
 
     public DataSet() {
         super();
+        primaryData = Optional.empty();
+    }
+
+    /**
+     * Constructs a DataSet containing the only data {@code t}, which will
+     * also be set as the primary data.
+     * @param coll
+     */
+    public DataSet(T t) {
+        this(List.of(t), null);
     }
 
     /**
@@ -58,7 +70,9 @@ public class DataSet<T extends Data> extends TreeSet<T> {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         
-        if (!primaryData.isPresent()) {
+        // only show '(primary)' indicator when there are more than 1 data
+        // and a primary data is set
+        if (!primaryData.isPresent() || this.size() == 1) {
             return super.toString();
         }
 

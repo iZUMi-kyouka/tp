@@ -52,7 +52,7 @@ public class Recruit {
     }
 
     public Name getName() {
-        return names.first();
+        return names.getPrimary().get();
     }
 
     public List<Name> getNames() {
@@ -60,7 +60,8 @@ public class Recruit {
     }
 
     public Optional<Phone> getPhone() {
-        return phones.isEmpty() ? Optional.empty() : Optional.of(phones.first());
+        return phones.getPrimary()
+                .or(() -> phones.isEmpty() ? Optional.empty() : Optional.of(phones.first()));
     }
 
     public List<Phone> getPhones() {
@@ -68,7 +69,8 @@ public class Recruit {
     }
 
     public Optional<Email> getEmail() {
-        return emails.isEmpty() ? Optional.empty() : Optional.of(emails.first());
+        return emails.getPrimary()
+                .or(() -> emails.isEmpty() ? Optional.empty() : Optional.of(emails.first()));
     }
 
     public List<Email> getEmails() {
@@ -80,7 +82,8 @@ public class Recruit {
     }
 
     public Optional<Address> getAddress() {
-        return addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first());
+        return addresses.getPrimary()
+                .or(() -> addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first()));
     }
 
     public List<Address> getAddresses() {
