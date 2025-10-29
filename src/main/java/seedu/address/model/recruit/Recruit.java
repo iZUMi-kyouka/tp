@@ -130,7 +130,9 @@ public class Recruit {
                 && phones.equals(otherRecruit.phones)
                 && emails.equals(otherRecruit.emails)
                 && addresses.equals(otherRecruit.addresses)
-                && tags.equals(otherRecruit.tags);
+                && description.equals(otherRecruit.description)
+                && tags.equals(otherRecruit.tags)
+                && isArchived == otherRecruit.isArchived;
     }
 
     /**

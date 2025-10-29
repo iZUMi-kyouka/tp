@@ -136,7 +136,7 @@ public class ParserUtil {
         if (!Description.isValidDescription(trimmedDescription)) {
             throw new ParseException(Description.MESSAGE_CONSTRAINTS);
         }
-        return new Description(trimmedDescription);
+        return Description.createDescription(trimmedDescription);
     }
 
     /**
@@ -233,6 +233,7 @@ public class ParserUtil {
 
         return ParserUtil.parseAllValues(map.getAllValues(prefix), parserFunction);
     }
+
 
     /**
      * Uses the result of extracting {@link Prefix} values from the provided {@link ArgumentMultimap}

@@ -52,6 +52,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified. %1$s";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
     public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s do not exist: %s";
@@ -99,6 +100,10 @@ public class EditCommand extends Command {
             Recruit recruitToEdit = model.getFilteredRecruitList().get(index.getZeroBased());
             Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
 
+            if (editedRecruit.isSameRecruit(recruitToEdit)) {
+                return new CommandResult(String.format(MESSAGE_RECRUIT_UNCHANGED, Messages.format(recruitToEdit)));
+            }
+
             model.setRecruit(recruitToEdit, editedRecruit);
             model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
             model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
@@ -117,6 +122,9 @@ public class EditCommand extends Command {
         }
 
         Recruit editedRecruit = createEditedRecruit(recruitToEdit.get(), editRecruitDescriptor);
+        if (editedRecruit.isSameRecruit(recruitToEdit.get())) {
+            return new CommandResult(String.format(MESSAGE_RECRUIT_UNCHANGED, Messages.format(recruitToEdit.get())));
+        }
         if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
@@ -211,6 +219,9 @@ public class EditCommand extends Command {
                 .append("\nAddress: ").append(oldRecruit.getAddresses())
                 .append(RecruitUtil.hasSameAddress(oldRecruit, newRecruit)
                         ? "" : DELTA_SEP + newRecruit.getAddresses())
+                .append("\nDescription: ").append(oldRecruit.getDescription())
+                .append(RecruitUtil.hasSameDescription(oldRecruit, newRecruit)
+                        ? "" : DELTA_SEP + newRecruit.getDescription())
                 .append("\nTags: ").append(oldRecruit.getTags())
                 .append(RecruitUtil.hasSameTags(oldRecruit, newRecruit)
                         ? "" : DELTA_SEP + newRecruit.getTags());

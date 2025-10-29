@@ -7,7 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_APPEND;
 import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_OVERWRITE;
 import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_REMOVE;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
@@ -39,7 +38,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditOperation;
-import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
@@ -86,11 +84,13 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
+        // There is currently no way to obtain an invalid address or description when parsing the edit command
+        // since if a blank String is provided to the edit command, it is treated as clearing the Data field.
+
         UUID targetID = TypicalIDs.ID_FIRST_RECRUIT;
         assertParseFailure(parser, targetID + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
         assertParseFailure(parser, targetID + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
         assertParseFailure(parser, targetID + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
-        assertParseFailure(parser, targetID + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
         assertParseFailure(parser, targetID + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
 
         // invalid phone followed by valid email

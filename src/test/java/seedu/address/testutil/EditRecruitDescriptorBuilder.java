@@ -138,7 +138,7 @@ public class EditRecruitDescriptorBuilder {
      * Sets the {@code Description} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withDescription(String description) {
-        descriptor.withDescription(new Description(description));
+        descriptor.withDescription(Description.createDescription(description));
         return this;
     }
 

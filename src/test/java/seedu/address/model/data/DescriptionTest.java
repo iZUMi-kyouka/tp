@@ -15,8 +15,8 @@ import seedu.address.model.recruit.data.Description;
 public class DescriptionTest {
 
     @Test
-    public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Description((String) null));
+    public void createDescription_null_createsEmptyDescription() {
+        assertTrue(Description.createDescription(null).isEmptyDescription());
     }
 
 
@@ -46,8 +46,8 @@ public class DescriptionTest {
 
     @Test
     void appendDescription_normalCombination_combinesText() {
-        Description d1 = new Description("First part");
-        Description d2 = new Description("second part");
+        Description d1 = Description.createDescription("First part");
+        Description d2 = Description.createDescription("second part");
 
         Description combined = d1.appendDescription(d2);
 
@@ -56,8 +56,8 @@ public class DescriptionTest {
 
     @Test
     void appendDescription_withWhitespace_stripsProperly() {
-        Description d1 = new Description("  Hello  ");
-        Description d2 = new Description("  World  ");
+        Description d1 = Description.createDescription("  Hello  ");
+        Description d2 = Description.createDescription("  World  ");
 
         Description combined = d1.appendDescription(d2);
 
@@ -66,7 +66,7 @@ public class DescriptionTest {
 
     @Test
     void appendDescription_withEmptyOther_returnsCopyOfOriginal() {
-        Description d1 = new Description("Something");
+        Description d1 = Description.createDescription("Something");
         Description empty = Description.createEmptyDescription();
 
         Description result = d1.appendDescription(empty);
@@ -78,7 +78,7 @@ public class DescriptionTest {
     @Test
     void appendDescription_emptyAppendsToNonEmpty_returnsOtherValue() {
         Description empty = Description.createEmptyDescription();
-        Description d1 = new Description("Content");
+        Description d1 = Description.createDescription("Content");
 
         Description result = empty.appendDescription(d1);
 
@@ -86,59 +86,36 @@ public class DescriptionTest {
     }
 
     @Test
-    void isEmptyDescription_onlySingletonReturnsTrue() {
-        Description empty = Description.createEmptyDescription();
-        Description anotherEmpty = new Description("");
-
-        assertTrue(empty.isEmptyDescription());
-        assertFalse(anotherEmpty.isEmptyDescription(),
-                "New Description(\"\") should not be treated as singleton empty");
-    }
-
-    @Test
-    void emptyDescriptionEquality_valueBasedEqualityHolds() {
-        Description empty = Description.createEmptyDescription();
-        Description other = new Description("");
-
-        // They are equal because both have the same value
-        assertEquals(empty, other);
-
-        // But only singleton reports itself as empty
-        assertTrue(empty.isEmptyDescription());
-        assertFalse(other.isEmptyDescription());
-    }
-
-    @Test
     void equals_sameValue_returnsTrue() {
-        Description d1 = new Description("foo");
-        Description d2 = new Description("foo");
+        Description d1 = Description.createDescription("foo");
+        Description d2 = Description.createDescription("foo");
         assertEquals(d1, d2);
         assertEquals(d1.hashCode(), d2.hashCode());
     }
 
     @Test
     void equals_differentValues_returnsFalse() {
-        Description d1 = new Description("foo");
-        Description d2 = new Description("bar");
+        Description d1 = Description.createDescription("foo");
+        Description d2 = Description.createDescription("bar");
         assertNotEquals(d1, d2);
     }
 
     @Test
     void equals_self_returnsTrue() {
-        Description d = new Description("test");
+        Description d = Description.createDescription("test");
         assertEquals(d, d);
     }
 
     @Test
     void equals_nullOrDifferentType_returnsFalse() {
-        Description d = new Description("test");
+        Description d = Description.createDescription("test");
         assertNotEquals(null, d);
         assertNotEquals("test", d);
     }
 
     @Test
     void copyConstructor_createsEqualButDistinctInstance() {
-        Description d1 = new Description("original");
+        Description d1 = Description.createDescription("original");
         Description d2 = new Description(d1);
 
         assertEquals(d1, d2);
@@ -157,10 +134,10 @@ public class DescriptionTest {
 
     @Test
     public void equals() {
-        Description description = new Description("Valid Description");
+        Description description = Description.createDescription("Valid Description");
 
         // same values -> returns true
-        assertTrue(description.equals(new Description("Valid Description")));
+        assertTrue(description.equals(Description.createDescription("Valid Description")));
 
         // same object -> returns true
         assertTrue(description.equals(description));
@@ -172,6 +149,6 @@ public class DescriptionTest {
         assertFalse(description.equals(5.0f));
 
         // different values -> returns false
-        assertFalse(description.equals(new Description("Other Valid Description")));
+        assertFalse(description.equals(Description.createDescription("Other Valid Description")));
     }
 }

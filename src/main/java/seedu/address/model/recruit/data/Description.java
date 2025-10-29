@@ -10,11 +10,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Description extends Data {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Descriptions can take any values, and can be blank.";
+            "Descriptions can take any value, but cannot be blank.";
 
     /*
-     * Descriptions can take any character.
-     * It is currently unconstrained, but this allows future validation rules.
+     * Descriptions can be composed of any character, but it must not be blank.
      */
     public static final String VALIDATION_REGEX = "(?s).*";
 
@@ -26,7 +25,7 @@ public class Description extends Data {
      *
      * @param description A description for the Recruit.
      */
-    public Description(String description) {
+    private Description(String description) {
         super(validateDescription(description));
     }
 
@@ -36,7 +35,21 @@ public class Description extends Data {
      * @param other The {@code Description} to copy.
      */
     public Description(Description other) {
-        super(other.value);
+        super(requireNonNull(other).value);
+    }
+
+    /**
+     * Factory method for creating a {@code Description}
+     * Creates an empty description if the String provided is blank
+     *
+     * @param description
+     * @return
+     */
+    public static Description createDescription(String description) {
+        if (description == null || description.isBlank()) {
+            return EMPTY_DESCRIPTION;
+        }
+        return new Description(description);
     }
 
     /**
@@ -77,7 +90,7 @@ public class Description extends Data {
         }
 
         String combined = (this.value.strip() + " " + otherDescription.value.strip()).strip();
-        return new Description(combined);
+        return Description.createDescription(combined);
     }
 
     /**
@@ -119,7 +132,7 @@ public class Description extends Data {
         public Description appendDescription(Description otherDescription) {
             requireNonNull(otherDescription);
             // Just return the other description; empty adds nothing.
-            return new Description(otherDescription.value.strip());
+            return Description.createDescription(otherDescription.value.strip());
         }
 
         @Override

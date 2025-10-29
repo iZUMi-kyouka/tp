@@ -51,7 +51,9 @@ public class Messages {
                 builder.append("\n Address: ").append(address)
         );
 
-        builder.append("\n Description: ").append(recruit.getDescription());
+        if (!recruit.getDescription().isEmptyDescription()) {
+            builder.append("\n Description: ").append(recruit.getDescription());
+        }
 
         builder.append("\n Tags: ");
         recruit.getTags().forEach(tag -> builder.append(tag).append(" "));
