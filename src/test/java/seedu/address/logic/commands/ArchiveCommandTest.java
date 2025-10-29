@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_ID;
 import static seedu.address.logic.commands.ArchiveCommand.MESSAGE_ARCHIVE_RECRUIT_SUCCESS;
 import static seedu.address.logic.commands.ArchiveCommand.MESSAGE_DUPLICATE_RECRUIT;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -63,11 +65,46 @@ public class ArchiveCommandTest {
     }
 
     @Test
+    public void execute_validUuidUnarchivedRecruit_success() throws Exception {
+        Recruit recruitToArchive = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
+        ArchiveCommand archiveCommand = new ArchiveCommand(recruitToArchive.getID());
+
+        String expectedMessage = String.format(MESSAGE_ARCHIVE_RECRUIT_SUCCESS, Messages.format(recruitToArchive));
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Recruit archivedRecruit = new RecruitBuilder()
+                .setId(recruitToArchive.getID())
+                .withNames(recruitToArchive.getNames())
+                .withPhones(recruitToArchive.getPhones())
+                .withEmails(recruitToArchive.getEmails())
+                .withAddresses(recruitToArchive.getAddresses())
+                .withDescription(recruitToArchive.getDescription())
+                .withTags(recruitToArchive.getTags().stream().toList())
+                .withArchivalState(true)
+                .build();
+        expectedModel.setRecruit(recruitToArchive, archivedRecruit);
+        expectedModel.refreshFilteredRecruitList();
+
+        CommandResult result = archiveCommand.execute(model);
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertEquals(expectedModel.getAddressBook(), model.getAddressBook());
+    }
+
+    @Test
     public void execute_invalidIndex_throwsCommandException() {
         int outOfBoundIndex = model.getFilteredRecruitList().size() + 1;
         ArchiveCommand archiveCommand = new ArchiveCommand(Index.fromOneBased(outOfBoundIndex));
 
         assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, () ->
+                archiveCommand.execute(model));
+    }
+
+    @Test
+    public void execute_invalidUuid_throwsCommandException() {
+        UUID uuid = UUID.fromString("00d8a5d5-d6b2-474f-a605-4d785e37cc5c");
+        ArchiveCommand archiveCommand = new ArchiveCommand(uuid);
+
+        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_ID, () ->
                 archiveCommand.execute(model));
     }
 

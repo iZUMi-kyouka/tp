@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_ID;
 import static seedu.address.logic.commands.UnarchiveCommand.MESSAGE_ARCHIVE_RECRUIT_SUCCESS;
 import static seedu.address.logic.commands.UnarchiveCommand.RECRUIT_ALREADY_UNARCHIVED;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -55,6 +56,55 @@ public class UnarchiveCommandTest {
 
         model.updateFilteredRecruitList(Model.PREDICATE_SHOW_ARCHIVED_RECRUITS);
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(INDEX_FIRST_RECRUIT);
+        String expectedMessage = String.format(MESSAGE_ARCHIVE_RECRUIT_SUCCESS, Messages.format(recruitToUnarchive));
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Recruit unarchivedRecruit = new RecruitBuilder()
+                .setId(recruitToUnarchive.getID())
+                .withNames(recruitToUnarchive.getNames())
+                .withPhones(recruitToUnarchive.getPhones())
+                .withEmails(recruitToUnarchive.getEmails())
+                .withAddresses(recruitToUnarchive.getAddresses())
+                .withDescription(recruitToUnarchive.getDescription())
+                .withTags(recruitToUnarchive.getTags().stream().toList())
+                .withArchivalState(false)
+                .build();
+        expectedModel.setRecruit(archivedRecruit, unarchivedRecruit);
+        expectedModel.refreshFilteredRecruitList();
+
+        CommandResult result = unarchiveCommand.execute(model);
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertEquals(expectedModel.getAddressBook(), model.getAddressBook());
+    }
+
+    @Test
+    public void execute_invalidUuid_throwsCommandException() {
+        UUID uuid = UUID.fromString("00d8a5d5-d6b2-474f-a605-4d785e37cc5c");
+        ArchiveCommand archiveCommand = new ArchiveCommand(uuid);
+
+        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_ID, () ->
+                archiveCommand.execute(model));
+    }
+
+    @Test
+    public void execute_validUuidArchivedRecruit_success() throws Exception {
+        Recruit recruitToUnarchive = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
+
+        // Manually mark as archived
+        Recruit archivedRecruit = new RecruitBuilder()
+                .setId(recruitToUnarchive.getID())
+                .withNames(recruitToUnarchive.getNames())
+                .withPhones(recruitToUnarchive.getPhones())
+                .withEmails(recruitToUnarchive.getEmails())
+                .withAddresses(recruitToUnarchive.getAddresses())
+                .withDescription(recruitToUnarchive.getDescription())
+                .withTags(recruitToUnarchive.getTags().stream().toList())
+                .withArchivalState(true)
+                .build();
+        model.setRecruit(recruitToUnarchive, archivedRecruit);
+
+        model.updateFilteredRecruitList(Model.PREDICATE_SHOW_ARCHIVED_RECRUITS);
+        UnarchiveCommand unarchiveCommand = new UnarchiveCommand(recruitToUnarchive.getID());
         String expectedMessage = String.format(MESSAGE_ARCHIVE_RECRUIT_SUCCESS, Messages.format(recruitToUnarchive));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
