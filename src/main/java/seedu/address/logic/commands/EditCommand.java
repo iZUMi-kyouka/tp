@@ -272,7 +272,6 @@ public class EditCommand extends Command {
             }
             EditRecruitDescriptor otherBuilder = (EditRecruitDescriptor) other;
             return this.operation.equals(otherBuilder.operation);
-
         }
 
         @Override
