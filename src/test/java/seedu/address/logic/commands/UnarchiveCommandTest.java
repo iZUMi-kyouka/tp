@@ -80,10 +80,10 @@ public class UnarchiveCommandTest {
     @Test
     public void execute_invalidUuid_throwsCommandException() {
         UUID uuid = UUID.fromString("00d8a5d5-d6b2-474f-a605-4d785e37cc5c");
-        ArchiveCommand archiveCommand = new ArchiveCommand(uuid);
+        UnarchiveCommand unarchiveCommand = new UnarchiveCommand(uuid);
 
         assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_ID, () ->
-                archiveCommand.execute(model));
+                unarchiveCommand.execute(model));
     }
 
     @Test
