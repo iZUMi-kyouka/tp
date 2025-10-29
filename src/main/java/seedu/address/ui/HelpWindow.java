@@ -22,45 +22,65 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String COMMAND_HELP_MESSAGE = """
             TLDR List of Commands:
             \s
-            1. Create recruit
-            add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            1. add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...
+            Adds a recruit with the provided details into the recruit list.
             \s
-            2. View recruit
-            view INDEX/UUID
+            2. view INDEX|UUID
+            View the recruit at the provided INDEX in the recruit list or with the provided UUID.
             \s
-            3. Edit recruit's details
-            edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            3. edit INDEX/UUID [OPERATION] [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]\
+             [t/TAG]...
+            Edit the details of the recruit at the provided INDEX in the recruit list or with the provided UUID.
+            There are 3 different types of OPERATION:
+            -o : Overrides the details of the target recruit with the provided attributes.
+            -ap : Appends the provided attributes to the target recruit.
+            -rm : Remove the provided attributes from the target recruit.
             \s
-            4. Delete recruit
-            delete INDEX/UUID
+            4. delete INDEX/UUID
+            Deletes the recruit at the provided INDEX in the recruit list or with the provided UUID.
             \s
-            5. Find recruits
-            find KEYWORD [MORE_KEYWORDS]
+            5. list [-archived|-all]
+            Lists the recruits as a recruit list.
+            By default it lists all unarchived recruits. But this command can also accept 2 different flags:
+            -archived : Shows a the list of only archived recruits.
+            -all : Shows all archive and unarchived recruits.
             \s
-            6. List recruits
-            list [-archived] [-all]
+            6. sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]
+            Sorts the recruits based on the field specified by the provided prefixes in ascending or descending \
+            order depending on the ORDER specified.
+            ORDER can be either:
+            asc : to sort in ascending order.
+            desc : to sort in descending order.
             \s
-            7. Sort recruits
-            sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]
+            7. find KEYWORD [MORE_KEYWORDS]
+            Finds and lists all recruits whose details match any of the given keywords.
+            The search is case-insensitive and can be filtered by different fields using flags.
+            For more details, please check our user guide.
             \s
-            8. Archive recruit
-            archive INDEX
+            8. archive INDEX
+            Archives the recruit at the provided INDEX, hiding them from the standard recruit list.
             \s
-            9. Unarchive recruit
-            unarchive INDEX
+            9. unarchive INDEX
+            Brings the recruit out of the archived state, allowing the recruit to be visible in \
+            the standard recruit list.
             \s
-            10. Undo command
-            undo
+            10. clear
+            Clears all recruits in the recruit list, effectively deleting them permanently.
             \s
-            11. Redo command
-            undo
+            12. export [FILEPATH]
+            Export the recruits to the given FILEPATH.
             \s
-            12. Export recruits
-            export [FILEPATH]
+            13. undo
+            Undoes the previously executed command.
             \s
-            13. Clear all recruits
-            clear
+            14. redo
+            Redoes the last undo-ed command.
             \s
+            15. dismiss
+            Dismisses the result of the previously executed command, hence its the result message.
+            \s
+            16. help
+            Opens this help menu.
            """;
     public static final String HELP_MESSAGE = "Refer to the user guide: "
             + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;
