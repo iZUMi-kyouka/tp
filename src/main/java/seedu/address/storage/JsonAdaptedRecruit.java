@@ -1,22 +1,20 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Description;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -64,14 +62,14 @@ class JsonAdaptedRecruit {
      */
     public JsonAdaptedRecruit(Recruit source) {
         id = source.getID().toString();
-        names = source.getNames().stream().map(n -> n.fullName).toList();
+        names = source.getNames().stream().map(n -> n.value).toList();
         phones = source.getPhones().stream().map(p -> p.value).toList();
         emails = source.getEmails().stream().map(e -> e.value).toList();
         addresses = source.getAddresses().stream().map(a -> a.value).toList();
         description = source.getDescription().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
+                .toList());
         isArchived = source.isArchived();
     }
 
@@ -131,9 +129,16 @@ class JsonAdaptedRecruit {
         }
         final Description modelDescription = new Description(description);
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Recruit(modelId, modelNames, modelPhones, modelEmails, modelAddresses,
-                modelDescription, modelTags, isArchived);
+        return new RecruitBuilder()
+                .setId(modelId)
+                .withNames(modelNames)
+                .withPhones(modelPhones)
+                .withEmails(modelEmails)
+                .withAddresses(modelAddresses)
+                .withDescription(modelDescription)
+                .withTags(personTags)
+                .withArchivalState(isArchived)
+                .build();
     }
 
 }

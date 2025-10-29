@@ -108,7 +108,7 @@ public class SortCommand extends Command {
         public Comparator<Recruit> getComparator() {
             Comparator<Recruit> comparator;
             if (prefix.equals(SORT_PREFIX_NAME)) {
-                comparator = Comparator.comparing(recruit -> recruit.getName().fullName.toLowerCase());
+                comparator = Comparator.comparing(recruit -> recruit.getName().value.toLowerCase());
             } else if (prefix.equals(SORT_PREFIX_PHONE)) {
                 comparator = Comparator.comparing(recruit -> recruit.getPhone().isEmpty() ? ""
                         : recruit.getPhone().get().value.toLowerCase());

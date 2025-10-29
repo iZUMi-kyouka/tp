@@ -88,9 +88,7 @@ public class UnarchiveCommand extends Command {
      */
     private static Recruit unarchiveRecruit(Recruit recruitToEdit) {
         assert recruitToEdit != null;
-        return new Recruit(recruitToEdit.getID(), recruitToEdit.getNames(), recruitToEdit.getPhones(),
-                recruitToEdit.getEmails(), recruitToEdit.getAddresses(), recruitToEdit.getDescription(),
-                recruitToEdit.getTags(), false);
+        return recruitToEdit.unarchive();
     }
 
     @Override
