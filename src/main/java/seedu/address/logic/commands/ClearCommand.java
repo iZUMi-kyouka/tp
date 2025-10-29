@@ -25,4 +25,13 @@ public class ClearCommand extends Command {
         model.commitAddressBook(OPERATION_DESCRIPTOR);
         return new CommandResult(MESSAGE_SUCCESS);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        return o instanceof ClearCommand;
+    }
 }
