@@ -29,17 +29,17 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * [`help`](#viewing-help--help) : Shows help information.
+    * [`help`](#viewing-help--help) : Shows help information.
 
-   * [`list`](#listing-all-recruits--list) : Lists all recruits.
+    * [`list`](#listing-all-recruits--list) : Lists all recruits.
 
-   * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
+    * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
 
-   * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
+    * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
 
-   * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
+    * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
 
-   * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
+    * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
 
 6. Refer to the [Features](#features) below for details of each command.
 
@@ -107,7 +107,7 @@ Action        | Format, Examples
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</box>
+  </box>
 
 ### Viewing help : `help`
 
@@ -149,10 +149,6 @@ You can view [**archived**](#archiving-a-recruit--archive) recruits by following
 * `list -archive` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
-**Examples:**
-* `list -archive` displays all archived recruits
-* `list -all` displays all recruits regardless of archive status
-* 
 Format: `list`
 
 ### Viewing a recruit : `view`
@@ -268,7 +264,7 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
 * `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
-“Bukit” or “Pasir”
+  “Bukit” or “Pasir”
 ---
 
 **Examples:**
@@ -283,8 +279,8 @@ If multiple flags are provided, the results will include recruits who satisfy al
 **Tip:** Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
 </box>
 
-  ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
-  ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 
 ### Sorting recruits : `sort`
 
@@ -425,7 +421,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 * If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
 * Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
 * Therefore, edit the data file only if you are confident that you can update it correctly.
-</box>
+  </box>
 
 --------------------------------------------------------------------------------------------------------------------
 
