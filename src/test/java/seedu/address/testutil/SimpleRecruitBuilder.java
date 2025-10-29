@@ -41,7 +41,6 @@ public class SimpleRecruitBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public SimpleRecruitBuilder() {
-        id = UUID.randomUUID();
         names = List.of(new Name(DEFAULT_NAME));
         phones = List.of(new Phone(DEFAULT_PHONE));
         emails = List.of(new Email(DEFAULT_EMAIL));
