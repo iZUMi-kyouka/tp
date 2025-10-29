@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,7 +15,6 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
