@@ -27,7 +27,12 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
 import seedu.address.model.recruit.Recruit;
-import seedu.address.testutil.EditRecruitDescriptorBuilder;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
+import seedu.address.model.tag.Tag;
 
 
 /**
@@ -86,12 +91,21 @@ public class CommandTestUtil {
     public static final EditCommand.EditRecruitDescriptor DESC_BOB;
 
     static {
-        DESC_AMY = new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withDescription(VALID_DESCRIPTION_AMY).withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        DESC_AMY = new EditCommand.EditRecruitDescriptor(EditCommand.EditOperation.OVERWRITE);
+        DESC_AMY.withName(new Name(VALID_NAME_AMY));
+        DESC_AMY.withPhone(new Phone(VALID_PHONE_AMY));
+        DESC_AMY.withEmail(new Email(VALID_EMAIL_AMY));
+        DESC_AMY.withAddress(new Address(VALID_ADDRESS_AMY));
+        DESC_AMY.withDescription(new Description(VALID_DESCRIPTION_AMY));
+        DESC_AMY.withTag(new Tag(VALID_TAG_FRIEND));
+
+        DESC_BOB = new EditCommand.EditRecruitDescriptor(EditCommand.EditOperation.OVERWRITE);
+        DESC_BOB.withName(new Name(VALID_NAME_BOB));
+        DESC_BOB.withPhone(new Phone(VALID_PHONE_BOB));
+        DESC_BOB.withEmail(new Email(VALID_EMAIL_BOB));
+        DESC_BOB.withAddress(new Address(VALID_ADDRESS_BOB));
+        DESC_BOB.withDescription(new Description(VALID_DESCRIPTION_BOB));
+        DESC_BOB.withTags(List.of(new Tag(VALID_TAG_HUSBAND), new Tag(VALID_TAG_FRIEND)));
     }
 
     /**
@@ -146,7 +160,7 @@ public class CommandTestUtil {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredRecruitList().size());
 
         Recruit recruit = model.getFilteredRecruitList().get(targetIndex.getZeroBased());
-        final String[] splitName = recruit.getName().fullName.split("\\s+");
+        final String[] splitName = recruit.getName().value.split("\\s+");
         model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(
                 Arrays.asList(splitName[0]), SEARCH_PREFIX_NAME));
 
@@ -160,7 +174,7 @@ public class CommandTestUtil {
     public static void showRecruitAtID(Model model, UUID targetID) {
         Optional<Recruit> recruit = model.getFilteredRecruitByID(targetID);
         assertTrue(recruit.isPresent());
-        final String[] splitName = recruit.get().getName().fullName.split("\\s+");
+        final String[] splitName = recruit.get().getName().value.split("\\s+");
         model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(Arrays.asList(splitName[0]),
                 SEARCH_PREFIX_NAME));
 

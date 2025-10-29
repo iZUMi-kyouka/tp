@@ -35,8 +35,8 @@ import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
 import seedu.address.model.recruit.NestedOrPredicate;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
-import seedu.address.testutil.RecruitBuilder;
 import seedu.address.testutil.RecruitUtil;
+import seedu.address.testutil.SimpleRecruitBuilder;
 import seedu.address.testutil.TypicalIDs;
 
 public class AddressBookParserTest {
@@ -45,7 +45,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Recruit recruit = new RecruitBuilder().build();
+        Recruit recruit = new SimpleRecruitBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(RecruitUtil.getAddCommand(recruit));
         assertEquals(new AddCommand(recruit), command);
     }
@@ -79,10 +79,11 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Recruit recruit = new RecruitBuilder().build();
+        Recruit recruit = new SimpleRecruitBuilder().build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(recruit).build();
-        EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + TypicalIDs.ID_FIRST_RECRUIT + " " + RecruitUtil.getEditRecruitDescriptorDetails(descriptor));
+        String input = EditCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT + " "
+                + RecruitUtil.getEditRecruitDescriptorDetails(descriptor);
+        EditCommand command = (EditCommand) parser.parseCommand(input);
         assertEquals(new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor), command);
     }
 

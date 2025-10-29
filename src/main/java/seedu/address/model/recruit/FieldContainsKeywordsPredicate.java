@@ -39,7 +39,7 @@ public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
         } else if (prefix.equals(SEARCH_PREFIX_NAME)) {
             return keywords.stream()
                     .anyMatch(keyword -> recruit.getNames().stream()
-                            .anyMatch(n -> n.fullName.toLowerCase().contains(keyword)));
+                            .anyMatch(n -> n.value.toLowerCase().contains(keyword)));
         } else if (prefix.equals(SEARCH_PREFIX_EMAIL)) {
             return keywords.stream()
                     .anyMatch(keyword -> recruit.getEmails().stream()

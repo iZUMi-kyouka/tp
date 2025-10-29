@@ -53,7 +53,7 @@ public class RecruitCard extends UiPart<Region> {
         this.recruit = recruit;
         index.setText(displayedIndex + ". ");
         id.setText(recruit.getID().toString());
-        name.setText(recruit.getName().fullName);
+        name.setText(recruit.getName().value);
         recruit.getPhone().ifPresent(phone -> this.phone.setText(phone.value));
         recruit.getAddress().ifPresent(address -> this.address.setText(address.value));
         recruit.getEmail().ifPresent(email -> this.email.setText(email.value));

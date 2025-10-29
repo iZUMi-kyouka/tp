@@ -1,4 +1,4 @@
-package seedu.address.model.recruit;
+package seedu.address.model.recruit.data;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Person's email in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidEmail(String)}
  */
-public class Email {
+public class Email extends Data implements Comparable<Email> {
 
     private static final String SPECIAL_CHARACTERS = "+_.-";
     public static final String MESSAGE_CONSTRAINTS = "Emails should be of the format local-part@domain "
@@ -31,17 +31,13 @@ public class Email {
     private static final String DOMAIN_REGEX = "(" + DOMAIN_PART_REGEX + "\\.)*" + DOMAIN_LAST_PART_REGEX;
     public static final String VALIDATION_REGEX = LOCAL_PART_REGEX + "@" + DOMAIN_REGEX;
 
-    public final String value;
-
     /**
      * Constructs an {@code Email}.
      *
      * @param email A valid email address.
      */
     public Email(String email) {
-        requireNonNull(email);
-        checkArgument(isValidEmail(email), MESSAGE_CONSTRAINTS);
-        value = email;
+        super(validateEmail(email));
     }
 
     /**
@@ -51,9 +47,10 @@ public class Email {
         return test.matches(VALIDATION_REGEX);
     }
 
-    @Override
-    public String toString() {
-        return value;
+    private static String validateEmail(String test) {
+        requireNonNull(test);
+        checkArgument(isValidEmail(test), MESSAGE_CONSTRAINTS);
+        return test;
     }
 
     @Override
@@ -72,8 +69,7 @@ public class Email {
     }
 
     @Override
-    public int hashCode() {
-        return value.hashCode();
+    public int compareTo(Email o) {
+        return this.value.compareTo(o.value);
     }
-
 }
