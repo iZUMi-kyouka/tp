@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.logic.Messages;
@@ -79,6 +80,30 @@ public class ArgumentMultimap {
         if (duplicatedPrefixes.length > 0) {
             throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(duplicatedPrefixes));
         }
+    }
+
+    /**
+     * Throws a {@code ParseException} if any of the prefixes present has a non-blank
+     * string value. Note that this does not verify that all the prefixes have at most one value.
+     */
+    public void verifyValuesOfAllPrefixesAreEmpty() throws ParseException {
+        // Remove the empty string prefix to indicate start and end of command
+        List<Prefix> prefixes = argMultimap.keySet().stream().filter(p -> !p.getPrefix().isEmpty()).toList();
+
+        if (!prefixes.stream().allMatch(p -> {
+            List<String> values = argMultimap.get(p);
+            return values.stream().allMatch(String::isEmpty);
+        })) {
+            throw new ParseException(
+                    Messages.getErrorMessageForNonValueAcceptingPrefixes(prefixes.toArray(Prefix[]::new)));
+        }
+    }
+
+    /**
+     * Returns all {@code Prefix} that are present in a {@code Set}.
+     */
+    public Set<Prefix> getAllPrefixes() {
+        return argMultimap.keySet();
     }
 
     /**

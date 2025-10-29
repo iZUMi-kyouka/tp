@@ -329,10 +329,10 @@ public class EditCommandTest {
         // same values -> returns true
         EditRecruitDescriptor copyDescriptor = new EditRecruitDescriptor(DESC_AMY);
         EditCommand commandWithSameValues = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, copyDescriptor);
-        assertTrue(standardCommand.equals(commandWithSameValues));
+        assertEquals(standardCommand, commandWithSameValues);
 
         // same object -> returns true
-        assertTrue(standardCommand.equals(standardCommand));
+        assertEquals(standardCommand, standardCommand);
 
         // null -> returns false
         assertFalse(standardCommand.equals(null));
@@ -340,7 +340,7 @@ public class EditCommandTest {
         // different types -> returns false
         assertFalse(standardCommand.equals(new ClearCommand()));
 
-        // different index -> returns false
+        // different id -> returns false
         assertFalse(standardCommand.equals(new EditCommand(TypicalIDs.ID_SECOND_RECRUIT, DESC_AMY)));
 
         // different descriptor -> returns false
@@ -349,10 +349,10 @@ public class EditCommandTest {
 
     @Test
     public void toStringMethod() {
-        UUID targetID = UUID.randomUUID();
+        UUID targetId = UUID.randomUUID();
         EditRecruitDescriptor editRecruitDescriptor = new EditRecruitDescriptor();
-        EditCommand editCommand = new EditCommand(targetID, editRecruitDescriptor);
-        String expected = EditCommand.class.getCanonicalName() + "{ID=" + targetID.toString()
+        EditCommand editCommand = new EditCommand(targetId, editRecruitDescriptor);
+        String expected = EditCommand.class.getCanonicalName() + "{ID=" + Optional.of(targetId)
                 + ", editPersonDescriptor="
                 + editRecruitDescriptor + "}";
         assertEquals(expected, editCommand.toString());

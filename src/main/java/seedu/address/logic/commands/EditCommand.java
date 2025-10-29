@@ -1,6 +1,5 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -37,9 +36,9 @@ public class EditCommand extends Command {
     public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
-            + "by the index number used in the displayed recruit list. "
+            + "by the index/uuid used in the displayed recruit list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: INDEX/UUID "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -52,16 +51,15 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified. %1$s";
+    public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
     public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s do not exist: %s";
     public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
-
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
-    private final UUID id; // TODO: use Optional
-    private final Index index; // TODO: use Optional
+    private final Optional<UUID> id;
+    private final Optional<Index> index;
     private final EditRecruitDescriptor editRecruitDescriptor;
 
     /**
@@ -72,8 +70,8 @@ public class EditCommand extends Command {
         requireNonNull(id);
         requireNonNull(editRecruitDescriptor);
 
-        this.id = id;
-        this.index = null;
+        this.id = Optional.of(id);
+        this.index = Optional.empty();
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
     }
 
@@ -82,60 +80,52 @@ public class EditCommand extends Command {
      * @param editRecruitDescriptor details to edit the recruit with
      */
     public EditCommand(Index index, EditRecruitDescriptor editRecruitDescriptor) {
-        // TODO: check if this method is needed or can be streamlined to remove operation parameter
         requireNonNull(index);
         requireNonNull(editRecruitDescriptor);
 
-        this.id = null;
-        this.index = index;
+        this.id = Optional.empty();
+        this.index = Optional.of(index);
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor);
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        Recruit recruitToEdit;
 
-        // handle edit by index
-        if (id == null) {
-            Recruit recruitToEdit = model.getFilteredRecruitList().get(index.getZeroBased());
-            Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
-
-            if (editedRecruit.isSameRecruit(recruitToEdit)) {
-                return new CommandResult(String.format(MESSAGE_RECRUIT_UNCHANGED, Messages.format(recruitToEdit)));
+        if (id.isEmpty() && index.isEmpty()) {
+            throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);
+        }
+        if (id.isPresent()) {
+            recruitToEdit = model.getAddressBook().getRecruitList().stream()
+                    .filter(recruit -> recruit.getID().equals(id.get()))
+                    .findFirst()
+                    .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID));
+        } else {
+            List<Recruit> lastShownList = model.getFilteredRecruitList();
+            if (index.get().getZeroBased() < 0 || index.get().getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
             }
-
-            model.setRecruit(recruitToEdit, editedRecruit);
-            model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
-            model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
-            return new CommandResult(String.format(
-                    MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editedRecruit)));
+            recruitToEdit = lastShownList.get(index.get().getZeroBased());
         }
 
-        // handle edit by id
-        List<Recruit> recruits = model.getAddressBook().getRecruitList();
-        Optional<Recruit> recruitToEdit = recruits.stream()
-                .filter(recruit -> recruit.getID().equals(this.id))
-                .findFirst();
+        Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
 
-        if (recruitToEdit.isEmpty()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
-        }
-
-        Recruit editedRecruit = createEditedRecruit(recruitToEdit.get(), editRecruitDescriptor);
-        if (editedRecruit.isSameRecruit(recruitToEdit.get())) {
-            return new CommandResult(String.format(MESSAGE_RECRUIT_UNCHANGED, Messages.format(recruitToEdit.get())));
-        }
-        if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
+        if (model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
-        model.setRecruit(recruitToEdit.get(), editedRecruit);
 
-        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit.get(), editedRecruit)));
+        if (editedRecruit.isSameRecruit(recruitToEdit)) {
+            throw new CommandException(String.format(MESSAGE_RECRUIT_UNCHANGED));
+        }
+
+        model.setRecruit(recruitToEdit, editedRecruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
-        return new CommandResult(String.format(
-                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit.get(), editedRecruit)));
-    }
 
+        return new CommandResult(String.format(MESSAGE_EDIT_RECRUIT_SUCCESS,
+                formatDelta(recruitToEdit, editedRecruit)));
+    }
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
@@ -182,19 +172,19 @@ public class EditCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
+        if (this == other) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof EditCommand)) {
             return false;
         }
 
-        EditCommand otherEditCommand = (EditCommand) other;
-        return ((!isNull(id) && id.equals(otherEditCommand.id))
-                || (!isNull(index) && index.equals(otherEditCommand.index)))
-                && editRecruitDescriptor.hasSameData(otherEditCommand.editRecruitDescriptor);
+        EditCommand otherCommand = (EditCommand) other;
+
+        boolean sameId = id.isPresent() && otherCommand.id.isPresent() && id.equals(otherCommand.id);
+        boolean sameIndex = index.isPresent() && otherCommand.index.isPresent() && index.equals(otherCommand.index);
+
+        return (sameId || sameIndex) && editRecruitDescriptor.equals(otherCommand.editRecruitDescriptor);
     }
 
     @Override

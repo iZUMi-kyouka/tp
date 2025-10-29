@@ -55,7 +55,7 @@ Action        | Format, Examples
 [**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
 [**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 [**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**List**](#listing-all-recruits--list)         | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
+[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
 [**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
 [**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
 [**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`
@@ -78,7 +78,7 @@ Action        | Format, Examples
 [**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
 [**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 [**Help**](#viewing-help--help)                 | `help`
-[**List**](#listing-all-recruits--list)         | `list [-archive] [-all]`<br> e.g., `list`, `list -archive`, `list -all`
+[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
 [**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
 [**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
 [**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
@@ -146,7 +146,7 @@ You can view [**archived**](#archiving-a-recruit--archive) recruits by following
 
 **Formats:**
 * `list` — Shows only unarchived (active) recruits (default)
-* `list -archive` — Shows only archived recruits
+* `list -archived` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
 Format: `list`
@@ -323,7 +323,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 **What is archiving?**
 * Archived recruits are hidden from the default [**`list`**](#listing-all-recruits--list) view but remain in the system
 * Use this feature to organize inactive or past recruits without deleting their data
-* View archived recruits using `list -archive` or `list -all`
+* View archived recruits using `list -archived` or `list -all`
 
 **Examples:**
 * `list` followed by `archive 2` archives the 2nd recruit in the address book
@@ -345,12 +345,12 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * The index **must be a positive integer** 1, 2, 3, …​
 
 **Examples:**
-* `list -archive` followed by `unarchive 1` unarchives the 1st recruit in the archived list
+* `list -archived` followed by `unarchive 1` unarchives the 1st recruit in the archived list
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
 <box type="tip" seamless>
 
-**Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
+**Tip:** To unarchive a recruit, first use `list -archived` to view your archived recruits, then use `unarchive INDEX`.
 </box>
 
 ### Deleting a recruit : `delete`
@@ -463,7 +463,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 ---
 
 **Q:** How do I view archived recruits?  
-**A:** Use `list -archive` to show only archived recruits, or `list -all` to view both archived and active recruits.
+**A:** Use `list -archived` to show only archived recruits, or `list -all` to view both archived and active recruits.
 
 ---
 
@@ -504,5 +504,6 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **If you are running a Linux-based operating system such as Ubuntu and Linux Mint**, you may experience issues when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. If you work with data that require IME input, you may type your command in other text editing program and copy-paste it into the command box.
 
 --------------------------------------------------------------------------------------------------------------------

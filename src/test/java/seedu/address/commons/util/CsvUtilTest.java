@@ -69,7 +69,6 @@ public class CsvUtilTest {
         assertEquals(1, deserializedRecruits.size());
 
         Recruit r = deserializedRecruits.get(0);
-        System.out.println(r);
         assertEquals(testRecruit.getID(), r.getID());
         assertEquals(testRecruit.getNames(), r.getNames());
         assertEquals(testRecruit.getPhones(), r.getPhones());
