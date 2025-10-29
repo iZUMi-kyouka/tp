@@ -286,10 +286,14 @@ If multiple flags are provided, the results will include recruits who satisfy al
 
 Sorts all recruits in the address book by specified fields in ascending or descending order.
 
+Format: `sort [PARAMETER ORDER]...`
+
+* `PARAMETER` includes `-n` for name, `-p` for phone, `-e` for email, and `-a` for address.
 * `ORDER` can be either `asc` (ascending) or `desc` (descending).
-* Multiple fields can be specified, and they will be applied in order of priority from left to right.
-* If no parameters are provided, recruits will be sorted by name in ascending order by default.
+* Multiple fields can be specified, and the sorting will be applied in order of priority from left to right.
+* If no parameters and orders are provided, recruits will be sorted by name in ascending order by default.
 * If only `asc` or `desc` is provided (without field prefixes), recruits will be sorted by name in that order.
+* For any parameter, if the order is not specified, recruits will be sorted in ascending order by default. 
 * The sort is case-insensitive for text fields (name, email, address).
 
 **Shorthand formats:**
@@ -300,10 +304,12 @@ Sorts all recruits in the address book by specified fields in ascending or desce
 Examples:
 * `sort` - Sorts all recruits by name in ascending order (A to Z)
 * `sort desc` - Sorts all recruits by name in descending order (Z to A)
-* `sort n/ asc` - Sorts all recruits by name in ascending order
-* `sort p/ desc` - Sorts all recruits by phone number in descending order
-* `sort n/ asc p/ desc` - Sorts by name (ascending) first, then by phone number (descending) for recruits with the same name
-* `sort e/ asc a/ desc` - Sorts by email (ascending) first, then by address (descending) for recruits with the same email
+* `sort -n asc` - Sorts all recruits by name in ascending order
+* `sort -p desc` - Sorts all recruits by phone number in descending order
+* `sort -n asc -p desc` - Sorts by name (ascending) first, then by phone number (descending) for recruits with the same name
+* `sort -e asc -a desc` - Sorts by email (ascending) first, then by address (descending) for recruits with the same email
+* `sort -n -p desc` - Sorts by name (ascending) first, then by phone number (descending) for recruits with the same name
+* `sort -n -e` - Sorts by name (ascending) first, the by email (ascending) for recruit with the same name
 
 <box type="tip" seamless>
 
