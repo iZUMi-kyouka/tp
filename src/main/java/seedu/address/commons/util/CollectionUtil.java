@@ -2,10 +2,13 @@ package seedu.address.commons.util;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -54,7 +57,7 @@ public class CollectionUtil {
      * string containing only whitespace codepoints.
      */
     public static void requireAllNonBlankString(Collection<? extends String> items) throws IllegalArgumentException {
-        if (items.stream().anyMatch(s -> s.isBlank())) {
+        if (items.stream().anyMatch(String::isBlank)) {
             throw new IllegalArgumentException();
         }
     }
@@ -64,5 +67,61 @@ public class CollectionUtil {
      */
     public static boolean isAnyNonNull(Object... items) {
         return items != null && Arrays.stream(items).anyMatch(Objects::nonNull);
+    }
+
+    /**
+     * Removes all elements in {@code toRemove} from the given set and returns a list of
+     * elements that were not found in the set.
+     *
+     * @param collection the set to remove elements from
+     * @param toRemove the list of elements to remove
+     * @return a list of elements that were not found in the set
+     * @throws IllegalArgumentException if {@code collection} is null
+     */
+    public static <T> List<T> removeListFromSetReturnMissing(Set<T> collection, Collection<? extends T> toRemove) {
+        if (toRemove == null || toRemove.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        if (collection == null) {
+            throw new IllegalArgumentException("Cannot remove elements from an uninitialized Set!");
+        }
+
+        List<T> missing = new ArrayList<>();
+        for (T item : toRemove) {
+            if (!collection.remove(item)) {
+                missing.add(item);
+            }
+        }
+
+        return missing;
+    }
+
+    /**
+     * Adds all elements in {@code toAdd} to the given set and returns a list of
+     * elements that were already present.
+     *
+     * @param collection the set to add elements to
+     * @param toAdd the list of elements to add
+     * @return a list of elements that were already present in the set
+     * @throws IllegalArgumentException if {@code collection} is null
+     */
+    public static <T> List<T> addListToSetReturnDuplicates(Set<T> collection, Collection<? extends T> toAdd) {
+        if (toAdd == null || toAdd.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        if (collection == null) {
+            throw new IllegalArgumentException("Cannot add to an uninitialized Set!");
+        }
+
+        List<T> duplicates = new ArrayList<>();
+        for (T item : toAdd) {
+            if (!collection.add(item)) {
+                duplicates.add(item);
+            }
+        }
+
+        return duplicates;
     }
 }

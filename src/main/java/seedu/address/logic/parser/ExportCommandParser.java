@@ -20,11 +20,11 @@ public class ExportCommandParser implements Parser<ExportCommand> {
      */
     public ExportCommand parse(String args) throws ParseException {
         requireNonNull(args);
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            return new ExportCommand();
+        }
         try {
-            String trimmedArgs = args.trim();
-            if (trimmedArgs.isEmpty()) {
-                return new ExportCommand();
-            }
             Path path = ParserUtil.parsePath(args);
             if (!path.toString().toLowerCase().endsWith(".csv")) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));

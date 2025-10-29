@@ -1,4 +1,4 @@
-package seedu.address.model.recruit;
+package seedu.address.model.data;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -6,11 +6,13 @@ import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.recruit.data.Description;
+
 public class DescriptionTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Description(null));
+        assertThrows(NullPointerException.class, () -> new Description((String) null));
     }
 
     @Test

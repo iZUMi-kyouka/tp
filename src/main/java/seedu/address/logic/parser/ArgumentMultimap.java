@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.logic.Messages;
@@ -30,29 +31,34 @@ public class ArgumentMultimap {
      * @param argValue Argument value to be associated with the specified prefix key
      */
     public void put(Prefix prefix, String argValue) {
-        List<String> argValues = getAllValues(prefix);
-        argValues.add(argValue);
-        argMultimap.put(prefix, argValues);
+        if (!argMultimap.containsKey(prefix)) {
+            argMultimap.put(prefix, new ArrayList<>());
+        }
+        argMultimap.get(prefix).add(argValue);
+    }
+
+    /**
+     * Returns the last value of {@code prefix}.
+     */
+    public boolean hasValue(Prefix prefix) {
+        return this.argMultimap.containsKey(prefix);
     }
 
     /**
      * Returns the last value of {@code prefix}.
      */
     public Optional<String> getValue(Prefix prefix) {
-        List<String> values = getAllValues(prefix);
-        return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
+        return Optional.ofNullable(this.getAllValues(prefix)).map(vs -> vs.get(vs.size() - 1));
     }
 
     /**
      * Returns all values of {@code prefix}.
-     * If the prefix does not exist or has no values, this will return an empty list.
+     * If the prefix does not exist it will return null.
+     * If the prefix has no values, it will return an empty List.
      * Modifying the returned list will not affect the underlying data structure of the ArgumentMultimap.
      */
     public List<String> getAllValues(Prefix prefix) {
-        if (!argMultimap.containsKey(prefix)) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(argMultimap.get(prefix));
+        return argMultimap.get(prefix);
     }
 
     /**
@@ -74,5 +80,29 @@ public class ArgumentMultimap {
         if (duplicatedPrefixes.length > 0) {
             throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(duplicatedPrefixes));
         }
+    }
+
+    /**
+     * Throws a {@code ParseException} if any of the prefixes present has a non-blank
+     * string value. Note that this does not verify that all the prefixes have at most one value.
+     */
+    public void verifyValuesOfAllPrefixesAreEmpty() throws ParseException {
+        // Remove the empty string prefix to indicate start and end of command
+        List<Prefix> prefixes = argMultimap.keySet().stream().filter(p -> !p.getPrefix().isEmpty()).toList();
+
+        if (!prefixes.stream().allMatch(p -> {
+            List<String> values = argMultimap.get(p);
+            return values.stream().allMatch(String::isEmpty);
+        })) {
+            throw new ParseException(
+                    Messages.getErrorMessageForNonValueAcceptingPrefixes(prefixes.toArray(Prefix[]::new)));
+        }
+    }
+
+    /**
+     * Returns all {@code Prefix} that are present in a {@code Set}.
+     */
+    public Set<Prefix> getAllPrefixes() {
+        return argMultimap.keySet();
     }
 }
