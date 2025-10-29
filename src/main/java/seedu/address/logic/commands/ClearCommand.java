@@ -16,7 +16,7 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes all recruits in the address book. "
             + "\nWhen used without any flag, this command simply displays this help message."
-            + "\nUse " + PREFIX_CLEAR_CONFIRM +  " to confirm deletion of all recruits. ";
+            + "\nUse " + PREFIX_CLEAR_CONFIRM + " to confirm deletion of all recruits. ";
 
     @Override
     public CommandResult execute(Model model) {
