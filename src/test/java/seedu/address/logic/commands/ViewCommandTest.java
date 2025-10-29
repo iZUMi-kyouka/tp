@@ -103,9 +103,9 @@ public class ViewCommandTest {
 
     @Test
     public void toStringMethod() {
-        UUID targetID = UUID.randomUUID();
-        ViewCommand viewCommand = new ViewCommand(targetID);
-        String expected = ViewCommand.class.getCanonicalName() + "{targetID=" + Optional.of(targetID) + "}";
+        UUID targetId = UUID.randomUUID();
+        ViewCommand viewCommand = new ViewCommand(targetId);
+        String expected = ViewCommand.class.getCanonicalName() + "{targetID=" + Optional.of(targetId) + "}";
         assertEquals(expected, viewCommand.toString());
     }
 }

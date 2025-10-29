@@ -154,11 +154,11 @@ public class CommandTestUtil {
     }
 
     /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetID} in the
+     * Updates {@code model}'s filtered list to show only the person at the given {@code targetId} in the
      * {@code model}'s address book.
      */
-    public static void showRecruitAtID(Model model, UUID targetID) {
-        Optional<Recruit> recruit = model.getFilteredRecruitByID(targetID);
+    public static void showRecruitAtID(Model model, UUID targetId) {
+        Optional<Recruit> recruit = model.getFilteredRecruitByID(targetId);
         assertTrue(recruit.isPresent());
         final String[] splitName = recruit.get().getName().fullName.split("\\s+");
         model.updateFilteredRecruitList(new FieldContainsKeywordsPredicate(Arrays.asList(splitName[0]),

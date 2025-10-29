@@ -29,13 +29,13 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_DELETE_RECRUIT_SUCCESS = "Deleted Recruit:\n%1$s";
 
-    private final Optional<UUID> targetID;
+    private final Optional<UUID> targetId;
     private final Optional<Index> targetIndex;
     /**
      * Creates a DeleteCommand to delete the specified recruit by {@code id}
      */
     public DeleteCommand(UUID id) {
-        this.targetID = Optional.of(id);
+        this.targetId = Optional.of(id);
         this.targetIndex = Optional.empty();
     }
     /**
@@ -43,7 +43,7 @@ public class DeleteCommand extends Command {
      */
     public DeleteCommand(Index index) {
         this.targetIndex = Optional.of(index);
-        this.targetID = Optional.empty();
+        this.targetId = Optional.empty();
     }
 
     @Override
@@ -51,9 +51,9 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
         List<Recruit> lastShownList = model.getFilteredRecruitList();
         Recruit targetRecruit;
-        if (targetID.isPresent()) {
+        if (targetId.isPresent()) {
             Optional<Recruit> recruitToDelete = lastShownList.stream()
-                    .filter(recruit -> targetID.get().equals(recruit.getID()))
+                    .filter(recruit -> targetId.get().equals(recruit.getID()))
                     .findFirst();
             if (recruitToDelete.isEmpty()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
@@ -84,13 +84,13 @@ public class DeleteCommand extends Command {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetID.equals(otherDeleteCommand.targetID);
+        return targetId.equals(otherDeleteCommand.targetId);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetID", targetID)
+                .add("targetID", targetId)
                 .toString();
     }
 }

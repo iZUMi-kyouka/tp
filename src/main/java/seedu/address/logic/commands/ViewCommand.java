@@ -29,13 +29,13 @@ public class ViewCommand extends Command {
 
     public static final String MESSAGE_VIEW_RECRUIT_SUCCESS = "Viewing Recruit:\n%1$s";
 
-    private final Optional<UUID> targetID;
+    private final Optional<UUID> targetId;
     private final Optional<Index> targetIndex;
     /**
      * Creates a ViewCommand to view the specified recruit by {@code id}
      */
-    public ViewCommand(UUID targetID) {
-        this.targetID = Optional.of(targetID);
+    public ViewCommand(UUID targetId) {
+        this.targetId = Optional.of(targetId);
         this.targetIndex = Optional.empty();
     }
     /**
@@ -43,7 +43,7 @@ public class ViewCommand extends Command {
      */
     public ViewCommand(Index targetIndex) {
         this.targetIndex = Optional.of(targetIndex);
-        this.targetID = Optional.empty();
+        this.targetId = Optional.empty();
     }
 
     @Override
@@ -51,24 +51,23 @@ public class ViewCommand extends Command {
         requireNonNull(model);
 
         Recruit recruitToView;
-
-        if (targetID.isPresent()) {
+        if (targetId.isEmpty() && targetIndex.isEmpty()) {
+            throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);
+        }
+        if (targetId.isPresent()) {
             // View by ID
             List<Recruit> allRecruits = model.getAddressBook().getRecruitList();
             recruitToView = allRecruits.stream()
-                    .filter(recruit -> recruit.getID().equals(targetID.get()))
+                    .filter(recruit -> recruit.getID().equals(targetId.get()))
                     .findFirst()
                     .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID));
-        } else if (targetIndex.isPresent()) {
+        } else {
             // View by index
             List<Recruit> lastShownList = model.getFilteredRecruitList();
             if (targetIndex.get().getZeroBased() < 0 || targetIndex.get().getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
             }
             recruitToView = lastShownList.get(targetIndex.get().getZeroBased());
-        } else {
-            // Neither ID nor index provided
-            throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);
         }
 
         return new CommandResult(String.format(MESSAGE_VIEW_RECRUIT_SUCCESS, Messages.format(recruitToView)));
@@ -87,13 +86,13 @@ public class ViewCommand extends Command {
         }
 
         ViewCommand otherViewCommand = (ViewCommand) other;
-        return targetID.equals(otherViewCommand.targetID);
+        return targetId.equals(otherViewCommand.targetId);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetID", targetID)
+                .add("targetID", targetId)
                 .toString();
     }
 }
