@@ -23,7 +23,7 @@ import seedu.address.logic.commands.SortCommand.SortOrder;
  */
 public class SortCommandParserTest {
 
-    private SortCommandParser parser = new SortCommandParser();
+    private final SortCommandParser parser = new SortCommandParser();
 
     @Test
     public void parse_emptyArgs_success() {
@@ -170,6 +170,25 @@ public class SortCommandParserTest {
 
         assertParseFailure(parser, "-p up",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_missingOrder_success() {
+        // missing all order
+        List<SortCriterion> criteria = new ArrayList<>();
+        criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
+
+        SortCommand expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "-n", expectedCommand);
+
+        criteria.add(new SortCriterion(SORT_PREFIX_PHONE, SortOrder.ASCENDING));
+        expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "-n -p", expectedCommand);
+
+        // some params are missing order
+        criteria.add(new SortCriterion(SORT_PREFIX_EMAIL, SortOrder.DESCENDING));
+        expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "-n -p -e desc", expectedCommand);
     }
 
     @Test
