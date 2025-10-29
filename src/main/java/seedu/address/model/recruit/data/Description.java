@@ -4,66 +4,87 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents the Description of a Recruit in the address book.
- * Guarantees: immutable
+ * Represents the description of a Recruit in the address book.
+ * Guarantees immutability.
  */
 public class Description extends Data {
-    public static final String MESSAGE_CONSTRAINTS = "Descriptions can take any values, and can be blank";
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "Descriptions can take any values, and can be blank.";
 
     /*
      * Descriptions can take any character.
-     * For now it is redundant, but we leave it in case we want to impose
-     * restrictions in the future.
+     * It is currently unconstrained, but this allows future validation rules.
      */
     public static final String VALIDATION_REGEX = "(?s).*";
+
+    // Singleton instance of an "empty" Description.
+    private static final Description EMPTY_DESCRIPTION = new EmptyDescription();
 
     /**
      * Constructs a {@code Description}.
      *
-     * @param description A description for that Recruit.
+     * @param description A description for the Recruit.
      */
     public Description(String description) {
         super(validateDescription(description));
     }
 
     /**
-     * Copy constructor for {@code Description}
-     * @param other
+     * Copy constructor for {@code Description}.
+     *
+     * @param other The {@code Description} to copy.
      */
     public Description(Description other) {
         super(other.value);
     }
 
-    public static boolean isValidDescription(String test) {
-        return test.matches(VALIDATION_REGEX);
+    /**
+     * Returns a shared immutable empty {@code Description}.
+     */
+    public static Description createEmptyDescription() {
+        return EMPTY_DESCRIPTION;
     }
 
+    /**
+     * Validates that the given description is non-null and matches the regex.
+     */
     private static String validateDescription(String test) {
         requireNonNull(test);
         checkArgument(isValidDescription(test), MESSAGE_CONSTRAINTS);
         return test;
     }
 
-    public static Description createEmptyDescription() {
-        return new Description("-");
+    /**
+     * Returns true if a given string is a valid description.
+     */
+    public static boolean isValidDescription(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     /**
-     * Combines to different description. The other description gets merged into this description
+     * Returns a new {@code Description} that is the result of appending
+     * the other description to this one.
      *
-     * @param otherDescription description to append
-     * @return the combined descriptions
+     * @param otherDescription The description to append.
+     * @return The combined description.
      */
     public Description appendDescription(Description otherDescription) {
-        if (this.value.equals("-")) {
-            return new Description(otherDescription.value);
+        requireNonNull(otherDescription);
+
+        if (otherDescription.isEmptyDescription()) {
+            return new Description(this);
         }
 
-        if (otherDescription.value.equals("-")) {
-            return this;
-        }
+        String combined = (this.value.strip() + " " + otherDescription.value.strip()).strip();
+        return new Description(combined);
+    }
 
-        return new Description(this.value + otherDescription.value);
+    /**
+     * Returns {@code true} if this description represents an empty description.
+     */
+    public boolean isEmptyDescription() {
+        return this == EMPTY_DESCRIPTION;
     }
 
     @Override
@@ -73,17 +94,9 @@ public class Description extends Data {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof Description)) {
-            return false;
-        }
-
-        Description otherDescription = (Description) other;
-        return value.equals(otherDescription.value);
+        return other == this
+                || (other instanceof Description
+                && value.equals(((Description) other).value));
     }
 
     @Override
@@ -91,4 +104,27 @@ public class Description extends Data {
         return value.hashCode();
     }
 
+    /**
+     * Represents an empty (placeholder) description.
+     * Singleton instance returned via {@link #createEmptyDescription()}.
+     */
+    private static final class EmptyDescription extends Description {
+        private static final String EMPTY_VALUE = "";
+
+        private EmptyDescription() {
+            super(EMPTY_VALUE);
+        }
+
+        @Override
+        public Description appendDescription(Description otherDescription) {
+            requireNonNull(otherDescription);
+            // Just return the other description; empty adds nothing.
+            return new Description(otherDescription.value.strip());
+        }
+
+        @Override
+        public String toString() {
+            return "";
+        }
+    }
 }

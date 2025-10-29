@@ -379,12 +379,12 @@ public class RecruitBuilderTest {
     // --- Description handling ---
     @Test
     void appendDescription_combinesDescriptions() {
-        RecruitBuilder builder = new RecruitBuilder().withDescription(new Description("Hello"));
-        builder.appendDescription(new Description("World"));
+        RecruitBuilder builder = new RecruitBuilder().withDescription(new Description("   Hello"));
+        builder.appendDescription(new Description("   World   "));
         assertTrue(builder.toString().contains("Hello"));
         assertTrue(builder.toString().contains("World"));
 
-        RecruitBuilder solution = new RecruitBuilder().withDescription(new Description("HelloWorld"));
+        RecruitBuilder solution = new RecruitBuilder().withDescription(new Description("Hello World"));
         assertHasSameData(builder, solution);
     }
 

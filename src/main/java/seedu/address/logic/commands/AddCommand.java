@@ -21,7 +21,7 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
     public static final String OPERATION_DESCRIPTOR = "creation of new recruit:\n%s";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a recruit to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a recruit to the address book.\n"
             + "Parameters: "
             + PREFIX_NAME + "NAME...\n"
             + "[" + PREFIX_PHONE + "PHONE]...\n"
