@@ -2,7 +2,11 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.util.UUID;
+
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.UnarchiveCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -17,8 +21,13 @@ public class UnarchiveCommandParser implements Parser<UnarchiveCommand> {
      */
     public UnarchiveCommand parse(String args) throws ParseException {
         try {
-            Index index = ParserUtil.parseIndex(args);
-            return new UnarchiveCommand(index);
+            if (StringUtil.isNonZeroUnsignedInteger(args.trim())) {
+                Index index = ParserUtil.parseIndex(args);
+                return new UnarchiveCommand(index);
+            } else {
+                UUID uuid = ParserUtil.parseID(args);
+                return new UnarchiveCommand(uuid);
+            }
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnarchiveCommand.MESSAGE_USAGE), pe);

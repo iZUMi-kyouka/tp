@@ -20,29 +20,29 @@ public class ListCommandParserTest {
     public void parse_noArgs_returnsListCommand() {
         ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS,
                 ListOperation.NORMAL_LIST_OP);
-        assertParseSuccess(parser, "list", expectedListCommand);
+        assertParseSuccess(parser, "", expectedListCommand);
     }
 
     @Test
     public void parse_allArg_returnsListCommand() {
         ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ALL_RECRUITS, ListOperation.FULL_LIST_OP);
-        assertParseSuccess(parser, "list -all", expectedListCommand);
-        assertParseSuccess(parser, "list \n -all \t", expectedListCommand);
+        assertParseSuccess(parser, " -all", expectedListCommand);
+        assertParseSuccess(parser, " \n -all \t", expectedListCommand);
     }
 
     @Test
     public void parse_archivedArg_returnsListCommand() {
         ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS,
                 ListOperation.ARCHIVE_LIST_OP);
-        assertParseSuccess(parser, "list -archived", expectedListCommand);
-        assertParseSuccess(parser, "list \n -archived \t", expectedListCommand);
+        assertParseSuccess(parser, " -archive", expectedListCommand);
+        assertParseSuccess(parser, " \n -archive \t", expectedListCommand);
     }
 
     @Test
     public void parse_allAndArchivedArgs_throwsParseException() {
-        assertParseFailure(parser, "list -all -archived",
+        assertParseFailure(parser, " -all -archive",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
-        assertParseFailure(parser, "list -archived -all",
+        assertParseFailure(parser, " -archive -all",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
     }
 }

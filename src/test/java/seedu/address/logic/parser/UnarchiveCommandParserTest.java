@@ -7,7 +7,9 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.UnarchiveCommand;
+import seedu.address.testutil.TypicalIDs;
 
 public class UnarchiveCommandParserTest {
 
@@ -21,6 +23,12 @@ public class UnarchiveCommandParserTest {
 
         // with extra whitespaces
         assertParseSuccess(parser, "   1   ", expectedCommand);
+    }
+
+    @Test
+    public void parse_validArgsUUID_returnsUnarchiveCommand() {
+        assertParseSuccess(parser, "eac9b117-2ded-42c3-9264-ccf3dfaaa950",
+                new UnarchiveCommand(TypicalIDs.ID_FIRST_RECRUIT));
     }
 
     @Test

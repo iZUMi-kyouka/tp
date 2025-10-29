@@ -7,7 +7,10 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ARCHIVED_RECRUITS;
 import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 
+import java.util.regex.Pattern;
+
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -29,6 +32,18 @@ public class ListCommandParser implements Parser<ListCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ListCommand parse(String args) throws ParseException {
+        Pattern expected = Pattern.compile(
+                "^(?:\\s*-(?:archive|all))+$"
+        );
+
+        if (args == null) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        }
+
+        if (!args.trim().isEmpty() && !expected.matcher(args.trim()).matches()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        }
+
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_LIST_ALL, PREFIX_LIST_ARCHIVE);
         boolean isListAllPrefixPresent = argMultimap.getValue(PREFIX_LIST_ALL).isPresent();
