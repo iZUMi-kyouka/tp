@@ -167,19 +167,19 @@ public class EditCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
+        if (this == other) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof EditCommand)) {
             return false;
         }
 
-        EditCommand otherEditCommand = (EditCommand) other;
-        return (id.isPresent() && otherEditCommand.id.isPresent() && id.equals(otherEditCommand.id)
-                || (index.isPresent() && otherEditCommand.index.isPresent() && index.equals(otherEditCommand.index)))
-                && editRecruitDescriptor.equals(otherEditCommand.editRecruitDescriptor);
+        EditCommand otherCommand = (EditCommand) other;
+
+        boolean sameId = id.isPresent() && otherCommand.id.isPresent() && id.equals(otherCommand.id);
+        boolean sameIndex = index.isPresent() && otherCommand.index.isPresent() && index.equals(otherCommand.index);
+
+        return (sameId || sameIndex) && editRecruitDescriptor.equals(otherCommand.editRecruitDescriptor);
     }
 
     @Override
