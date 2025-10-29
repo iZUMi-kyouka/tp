@@ -67,18 +67,14 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_overwriteOperationRecruitUnchanged_success() {
+    public void execute_overwriteOperationRecruitUnchanged_fail() {
         Recruit editedRecruit = new SimpleRecruitBuilder(ALICE).build();
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(editedRecruit).build();
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_RECRUIT_UNCHANGED,
-                Messages.format(editedRecruit));
+        String expectedMessage = String.format(EditCommand.MESSAGE_RECRUIT_UNCHANGED);
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setRecruit(model.getAddressBook().getRecruitList().get(0), editedRecruit);
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
@@ -270,12 +266,9 @@ public class EditCommandTest {
         Optional<Recruit> recruitToEdit = model.getUnfilteredRecruitByID(TypicalIDs.ID_FIRST_RECRUIT);
         assertTrue(recruitToEdit.isPresent(), Messages.MESSAGE_INVALID_RECRUIT_ID);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_RECRUIT_UNCHANGED,
-                Messages.format(recruitToEdit.get()));
+        String expectedMessage = EditCommand.MESSAGE_RECRUIT_UNCHANGED;
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test

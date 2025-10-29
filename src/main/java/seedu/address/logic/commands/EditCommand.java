@@ -111,12 +111,12 @@ public class EditCommand extends Command {
 
         Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
 
-        if (model.hasRecruit(editedRecruit)) {
-            throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
-        }
-
         if (editedRecruit.isSameRecruit(recruitToEdit)) {
             throw new CommandException(String.format(MESSAGE_RECRUIT_UNCHANGED));
+        }
+
+        if (model.hasRecruit(editedRecruit)) {
+            throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
 
         model.setRecruit(recruitToEdit, editedRecruit);
