@@ -34,7 +34,7 @@ import seedu.address.model.recruit.exceptions.TagNotFoundException;
 public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
-    public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
+    public static final String OPERATION_DESCRIPTOR = "the following modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
             + "by the INDEX|UUID used in the displayed recruit list. "

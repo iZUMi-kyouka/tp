@@ -57,25 +57,23 @@ public class Messages {
         builder.append(" ID: ").append(recruit.getID());
 
         builder.append("\n Name: [")
-                .append(recruit.getNames().stream()
-                        .map(Object::toString)
+                .append(recruit.getNames().toStringList().stream()
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
         builder.append("\n Phone: [")
-                .append(recruit.getPhones().stream()
-                        .map(Object::toString)
+                .append(recruit.getPhones().toStringList().stream()
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
         builder.append("\n Email: [")
-                .append(recruit.getEmails().stream()
+                .append(recruit.getEmails().toStringList().stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
         builder.append("\n Address: [")
-                .append(recruit.getAddresses().stream()
+                .append(recruit.getAddresses().toStringList().stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(", ")))
                 .append("]");
