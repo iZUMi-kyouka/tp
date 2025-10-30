@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireExactlyOneIsTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -46,33 +45,18 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_DESCRIPTION, PREFIX_TAG,
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
 
-        UUID id = null;
-        Index index = null;
-
-        // try parsing id
-        ParseException pe = null;
-        try {
-            id = ParserUtil.parseID(argMultimap.getPreamble());
-        } catch (ParseException e) {
-            pe = e;
-        }
-
-        // try parsing index
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException e) {
-            pe = e;
-        }
-
-        // if both are null, input is invalid
-        if (isNull(id) && isNull(index)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
+        String preamble = argMultimap.getPreamble().trim();
+        Optional<UUID> idOpt = tryParseID(preamble);
+        Optional<Index> indexOpt = idOpt.isEmpty() ? tryParseIndex(preamble) : Optional.empty();
+        if (idOpt.isEmpty() && indexOpt.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
 
         EditCommand.EditOperation operation = parseEditOperation(argMultimap);
         LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
 
         EditCommand.EditRecruitDescriptor editBuilder = new EditCommand.EditRecruitDescriptor(operation);
+
         editBuilder.withNames(extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName));
         editBuilder.withPhones(extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone));
         editBuilder.withEmails(extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail));
@@ -89,18 +73,31 @@ public class EditCommandParser implements Parser<EditCommand> {
             }
         }
 
-
-
-        // TODO: perhaps this should be refactored to throw if the resulting recruit is the same after the operation
-        // rahter than checking merely for the descriptor attributes.
         if (!editBuilder.hasBeenModified()) {
             throw new ParseException(EditCommand.MESSAGE_NO_FIELD_PROVIDED);
         }
 
-        if (isNull(id)) {
-            return new EditCommand(index, editBuilder);
+        if (idOpt.isPresent()) {
+            return new EditCommand(idOpt.get(), editBuilder);
+        } else {
+            return new EditCommand(indexOpt.get(), editBuilder);
         }
-        return new EditCommand(id, editBuilder);
+    }
+
+    private Optional<UUID> tryParseID(String s) {
+        try {
+            return Optional.of(ParserUtil.parseID(s));
+        } catch (ParseException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Index> tryParseIndex(String s) {
+        try {
+            return Optional.of(ParserUtil.parseIndex(s));
+        } catch (ParseException e) {
+            return Optional.empty();
+        }
     }
 
     /**

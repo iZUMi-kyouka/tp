@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
 import static seedu.address.testutil.TypicalRecruits.BOB;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -22,20 +22,40 @@ import seedu.address.model.recruit.Recruit;
 import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class ExportCommandTest {
+
+    private final List<Path> tempFiles = new ArrayList<>(); // 🔹 Track all temp files
     private Path tempFile;
     private ModelStubAcceptingExport modelStub;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() throws IOException {
         modelStub = new ModelStubAcceptingExport();
-        Path dataDir = Paths.get("data");
-        Files.createDirectories(dataDir);
-        tempFile = dataDir.resolve("test_recruits.csv");
+        tempFile = createTempFile("test_recruits.csv"); // 🔹 Use helper
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
-        Files.deleteIfExists(tempFile);
+    public void tearDown() throws IOException {
+        for (Path file : tempFiles) { // 🔹 Delete all tracked files
+            Files.deleteIfExists(file);
+        }
+        tempFiles.clear();
+    }
+
+    /** Helper method to create a temp file and track it for cleanup */
+    private Path createTempFile(String fileName) throws IOException {
+        Path dataDir = Paths.get("data");
+        Files.createDirectories(dataDir);
+        Path file = dataDir.resolve(fileName);
+        tempFiles.add(file);
+        return file;
+    }
+
+    /** Helper method to create sample recruits */
+    private static List<Recruit> createSampleRecruits() {
+        List<Recruit> recruits = new ArrayList<>();
+        recruits.add(new SimpleRecruitBuilder(ALICE).build());
+        recruits.add(new SimpleRecruitBuilder(BOB).build());
+        return recruits;
     }
 
     @Test
@@ -45,71 +65,50 @@ public class ExportCommandTest {
 
     @Test
     public void execute_validFilePath_exportsSuccessfully() throws Exception {
-        Path filePath = tempFile;
-        ExportCommand command = new ExportCommand(filePath);
+        ExportCommand command = new ExportCommand(tempFile);
 
         CommandResult result = command.execute(modelStub);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, filePath), result.getFeedbackToUser());
-        List<String> lines = Files.readAllLines(filePath);
-        assertEquals(modelStub.recruitsAdded.size() + 1, lines.size());
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, tempFile), result.getFeedbackToUser());
+        List<String> lines = Files.readAllLines(tempFile);
+        int expectedLineCount = modelStub.recruitsAdded.size() + 1; // +1 for CSV header
+        assertEquals(expectedLineCount, lines.size());
     }
 
     @Test
     public void execute_nullFilePath_usesUserPrefsPath() throws Exception {
-        ModelStubAcceptingExport modelStub = new ModelStubAcceptingExport();
-        Path newPath = Paths.get("data" , "test_recruits_2.csv");
-        Files.createDirectories(newPath.getParent());
+        Path newPath = createTempFile("test_recruits_2.csv");
         modelStub.setDefaultExportPath(newPath);
         ExportCommand command = new ExportCommand();
 
         CommandResult result = command.execute(modelStub);
 
         assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, newPath), result.getFeedbackToUser());
-        Files.deleteIfExists(newPath);
     }
+
     /**
-     * A model stub that accepts recruits being exported.
+     * Model stub that accepts recruits being exported.
      */
     private static class ModelStubAcceptingExport implements Model {
-        final List<Recruit> recruitsAdded = new ArrayList<>();
+
+        final List<Recruit> recruitsAdded = createSampleRecruits();
         private Path defaultExportPath;
 
-        public ModelStubAcceptingExport() {
-            recruitsAdded.add(new SimpleRecruitBuilder(ALICE).build());
-            recruitsAdded.add(new SimpleRecruitBuilder(BOB).build());
+        public void setDefaultExportPath(Path path) {
+            this.defaultExportPath = path;
         }
-
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new ReadOnlyAddressBook() {
                 private final javafx.collections.ObservableList<Recruit> recruits =
-                        javafx.collections.FXCollections.observableArrayList();
-
-                {
-                    if (recruits.isEmpty()) {
-                        recruits.add(new SimpleRecruitBuilder(ALICE).build());
-                        recruits.add(new SimpleRecruitBuilder(BOB).build());
-                    }
-                }
+                        javafx.collections.FXCollections.observableArrayList(recruitsAdded);
 
                 @Override
                 public javafx.collections.ObservableList<Recruit> getRecruitList() {
                     return recruits;
                 }
             };
-        }
-
-        public void setDefaultExportPath(Path path) {
-            this.defaultExportPath = path;
-        }
-
-
-        // all other Model methods throw AssertionError
-        @Override
-        public void setUserPrefs(seedu.address.model.ReadOnlyUserPrefs userPrefs) {
-            throw new AssertionError();
         }
 
         @Override
@@ -122,104 +121,114 @@ public class ExportCommandTest {
             };
         }
 
+        /** All other Model methods throw AssertionError using helper */
+        private static <T> T failStub() {
+            throw new AssertionError("This method should not be called in the stub.");
+        }
+
+        @Override
+        public void setUserPrefs(seedu.address.model.ReadOnlyUserPrefs userPrefs) {
+            failStub();
+        }
+
         @Override
         public void setGuiSettings(seedu.address.commons.core.GuiSettings guiSettings) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public seedu.address.commons.core.GuiSettings getGuiSettings() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public Path getAddressBookFilePath() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public void setAddressBookFilePath(Path path) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public void addRecruit(Recruit recruit) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public void setAddressBook(ReadOnlyAddressBook newData) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public boolean hasRecruit(Recruit recruit) {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public void deleteRecruit(Recruit target) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public void setRecruit(Recruit target, Recruit editedRecruit) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
-        public void sortRecruits(Comparator<Recruit> comparator) {
-            throw new AssertionError();
+        public void sortRecruits(java.util.Comparator<Recruit> comparator) {
+            failStub();
         }
 
         @Override
         public void updateFilteredRecruitList(java.util.function.Predicate<Recruit> predicate) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public java.util.Optional<Recruit> getFilteredRecruitByID(java.util.UUID id) {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public java.util.Optional<Recruit> getUnfilteredRecruitByID(java.util.UUID id) {
-            throw new AssertionError();
+            return failStub();
         }
+
         @Override
         public boolean canRedoAddressBook() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public String redoAddressBook() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public javafx.collections.ObservableList<Recruit> getFilteredRecruitList() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public void commitAddressBook(String command) {
-            throw new AssertionError();
+            failStub();
         }
 
         @Override
         public String undoAddressBook() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public boolean canUndoAddressBook() {
-            throw new AssertionError();
+            return failStub();
         }
 
         @Override
         public void refreshFilteredRecruitList() {
-            throw new AssertionError();
+            failStub();
         }
     }
 }
-
