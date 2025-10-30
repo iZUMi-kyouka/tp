@@ -9,12 +9,17 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.recruit.Recruit;
 import seedu.address.model.recruit.RecruitBuilder;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -37,12 +42,20 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_NO_NAME));
         }
 
+        List<Name> extractedNames = ParserUtil.extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName);
+        List<Phone> extractedPhones = ParserUtil.extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone);
+        List<Email> extractedEmails = ParserUtil.extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail);
+        List<Address> extractedAddresses = ParserUtil.extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress);
+
         Recruit recruit = new RecruitBuilder()
-                .withNames(ParserUtil.extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName))
-                .withPhones(ParserUtil.extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone))
-                .withEmails(ParserUtil.extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail))
-                .withAddresses(ParserUtil.extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap,
-                        ParserUtil::parseAddress))
+                .withNames(extractedNames)
+                .withPrimaryName(extractedNames.get(0))
+                .withPhones(extractedPhones)
+                .withPrimaryPhone(extractedPhones.get(0))
+                .withEmails(extractedEmails)
+                .withPrimaryEmail(extractedEmails.get(0))
+                .withAddresses(extractedAddresses)
+                .withPrimaryAddress(extractedAddresses.get(0))
                 .withDescription(ParserUtil.extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
                         ParserUtil::parseDescription))
                 .withTags(ParserUtil.extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag))
