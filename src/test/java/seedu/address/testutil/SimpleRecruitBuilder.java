@@ -55,10 +55,10 @@ public class SimpleRecruitBuilder {
      */
     public SimpleRecruitBuilder(Recruit recruitToCopy) {
         id = recruitToCopy.getID();
-        names = recruitToCopy.getNames();
-        phones = recruitToCopy.getPhones();
-        emails = recruitToCopy.getEmails();
-        addresses = recruitToCopy.getAddresses();
+        names = recruitToCopy.getNames().stream().toList();
+        phones = recruitToCopy.getPhones().stream().toList();
+        emails = recruitToCopy.getEmails().stream().toList();
+        addresses = recruitToCopy.getAddresses().stream().toList();
         description = recruitToCopy.getDescription();
         tags = new HashSet<>(recruitToCopy.getTags());
         isArchived = recruitToCopy.isArchived();
