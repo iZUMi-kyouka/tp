@@ -18,7 +18,7 @@
     <Image url="@/images/help_icon.png" />
   </icons>
   <scene>
-    <Scene width="700" height="600">
+    <Scene width="750" height="600">
       <stylesheets>
         <URL value="@HelpWindow.css" />
       </stylesheets>

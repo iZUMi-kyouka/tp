@@ -42,7 +42,7 @@
 
 #helpMessage, #userGuideLabel {
     -fx-font-family: "Segoe UI";
-    -fx-font-size: 10pt;
+    -fx-font-size: 11pt;
     -fx-text-fill: white;
 }
 
