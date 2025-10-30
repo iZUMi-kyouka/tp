@@ -129,14 +129,20 @@ public class RecruitBuilder {
 
     /**
      * Sets the primary name to be this {@code name}.
+     * This method does nothing to this Builder instance if {@code name} is null.
      *
      * @param name the name to set, which <b>must be present in the list of names</b>
      * @return this Builder instance with the primary name updated
      */
     public RecruitBuilder withPrimaryName(Name name) {
+        if (name == null) {
+            return this;
+        }
+
         if (!this.names.setPrimary(name)) {
             throw new DataEntryNotFoundException("name", List.of(name));
         }
+
         return this;
     }
 
@@ -200,11 +206,16 @@ public class RecruitBuilder {
 
     /**
      * Sets the primary phone number to be this {@code phone}
+     * This method does nothing to this Builder instance if {@code phone} is null.
      *
      * @param phone the phone to set, which <b>must be present in the list of phone numbers</b>
      * @return this Builder instance with primary phone updated
      */
     public RecruitBuilder withPrimaryPhone(Phone phone) {
+        if (phone == null) {
+            return this;
+        }
+
         if (!this.phones.setPrimary(phone)) {
             throw new DataEntryNotFoundException("phone", List.of(phone));
         }
@@ -272,11 +283,16 @@ public class RecruitBuilder {
 
     /**
      * Sets the primary email to be this {@code email}
+     * This method does nothing to this Builder instance if {@code email} is null.
      *
      * @param email the email to set, which <b>must be present in the list of emails</b>
      * @return this Builder instance with primary email updated
      */
     public RecruitBuilder withPrimaryEmail(Email email) {
+        if (email == null) {
+            return this;
+        }
+
         if (!this.emails.setPrimary(email)) {
             throw new DataEntryNotFoundException("email", List.of(email));
         }
@@ -343,15 +359,21 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the primary address to be this {@code address}
+     * Sets the primary address to be this {@code address}.
+     * This method does nothing to this Builder instance if {@code address} is null.
      *
      * @param address the address to set, which <b>must be present in the list of addresses</b>
      * @return this Builder instance with primary address updated
      */
     public RecruitBuilder withPrimaryAddress(Address address) {
+        if (address == null) {
+            return this;
+        }
+
         if (!this.addresses.setPrimary(address)) {
             throw new DataEntryNotFoundException("address", List.of(address));
         }
+
         return this;
     }
 

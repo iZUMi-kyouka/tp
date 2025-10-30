@@ -53,13 +53,14 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Recruit recruit = new RecruitBuilder()
                 .withNames(extractedNames)
-                .withPrimaryName(extractedNames.get(0))
+                .withPrimaryName(extractedNames == null || extractedNames.isEmpty() ? null : extractedNames.get(0))
                 .withPhones(extractedPhones)
-                .withPrimaryPhone(extractedPhones.get(0))
+                .withPrimaryPhone(extractedPhones == null || extractedPhones.isEmpty() ? null : extractedPhones.get(0))
                 .withEmails(extractedEmails)
-                .withPrimaryEmail(extractedEmails.get(0))
+                .withPrimaryEmail(extractedEmails == null || extractedEmails.isEmpty() ? null : extractedEmails.get(0))
                 .withAddresses(extractedAddresses)
-                .withPrimaryAddress(extractedAddresses.get(0))
+                .withPrimaryAddress(extractedAddresses == null || extractedAddresses.isEmpty()
+                        ? null : extractedAddresses.get(0))
                 .withDescription(ParserUtil.extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
                         ParserUtil::parseDescription))
                 .withTags(ParserUtil.extractValuesFromMultimap(PREFIX_TAG, argMultimap, ParserUtil::parseTag))
