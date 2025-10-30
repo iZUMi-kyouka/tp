@@ -23,20 +23,20 @@ public class HelpWindow extends UiPart<Stage> {
             Command Summary:
             \s
             1. Create recruit
-            add n/NAME... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             2. View recruit
-            view INDEX/UUID
+            view INDEX|UUID
             \s
             3. Edit recruit's details
-            edit INDEX/UUID [OPERATION] [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... \
+            edit INDEX|UUID [OPERATION] [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... \
             [t/TAG]...
             \s
             4. Delete recruit
-            delete INDEX/UUID
+            delete INDEX|UUID
             \s
-            5. Find recruits
-            find KEYWORD [MORE_KEYWORDS]
+            5. Search recruits
+            find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]
             \s
             6. List recruits
             list [-archived] [-all]

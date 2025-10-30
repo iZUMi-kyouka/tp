@@ -35,6 +35,7 @@ public class SortCommand extends Command {
             + "Shorthands: " + COMMAND_WORD + " (sorts by name ascending), "
             + COMMAND_WORD + " asc/desc (sorts by name asc/desc)\n";
 
+    // TODO: replace flags with actual name of field e.g. Recruits sorted by: name (ascending), ...
     public static final String MESSAGE_SUCCESS = "Recruits sorted by: %s";
 
     private final List<SortCriterion> sortCriteria;
@@ -126,7 +127,7 @@ public class SortCommand extends Command {
 
         @Override
         public String toString() {
-            return prefix.toString() + " (" + order.getDisplayName() + ")";
+            return String.format("%s (%s)", prefix.getPrefix(), order.getDisplayName());
         }
 
         @Override
