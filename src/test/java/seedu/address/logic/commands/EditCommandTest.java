@@ -23,6 +23,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -303,6 +304,29 @@ public class EditCommandTest {
                 new EditRecruitDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_RECRUIT_ID);
+    }
+    @Test
+    public void execute_overwriteRecruitWithoutName_throwsCommandException() {
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().build();
+        descriptor.withNames(Collections.emptyList());
+
+        EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
+
+        String expectedMessage = EditCommand.MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME;
+
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_removeRecruitNames_throwsCommandException() {
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.REMOVE).build();
+        descriptor.withNames(new SimpleRecruitBuilder(ALICE).build().getNames());
+
+        EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
+
+        String expectedMessage = EditCommand.MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME;
+
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
