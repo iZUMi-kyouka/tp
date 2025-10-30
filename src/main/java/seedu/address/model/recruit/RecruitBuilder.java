@@ -127,10 +127,10 @@ public class RecruitBuilder {
     }
 
     /**
-     * Sets the primary name to be this {@code name}
+     * Sets the primary name to be this {@code name}.
      *
-     * @param name the name to set
-     * @return this Builder instance with names updated
+     * @param name the name to set, which <b>must be present in the list of names</b>
+     * @return this Builder instance with the primary name updated
      */
     public RecruitBuilder withPrimaryName(Name name) {
         if (!this.names.setPrimary(name)) {
@@ -200,7 +200,7 @@ public class RecruitBuilder {
     /**
      * Sets the primary phone number to be this {@code phone}
      *
-     * @param phone the phone to set
+     * @param phone the phone to set, which <b>must be present in the list of phone numbers</b>
      * @return this Builder instance with primary phone updated
      */
     public RecruitBuilder withPrimaryPhone(Phone phone) {
@@ -272,7 +272,7 @@ public class RecruitBuilder {
     /**
      * Sets the primary email to be this {@code email}
      *
-     * @param email the email to set
+     * @param email the email to set, which <b>must be present in the list of emails</b>
      * @return this Builder instance with primary email updated
      */
     public RecruitBuilder withPrimaryEmail(Email email) {
@@ -344,7 +344,7 @@ public class RecruitBuilder {
     /**
      * Sets the primary address to be this {@code address}
      *
-     * @param address the address to set
+     * @param address the address to set, which <b>must be present in the list of addresses</b>
      * @return this Builder instance with primary address updated
      */
     public RecruitBuilder withPrimaryAddress(Address address) {
