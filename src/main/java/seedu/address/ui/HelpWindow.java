@@ -54,7 +54,7 @@ public class HelpWindow extends UiPart<Stage> {
             undo
             \s
             11. Redo command
-            undo
+            redo
             \s
             12. Export recruits
             export [FILEPATH]
