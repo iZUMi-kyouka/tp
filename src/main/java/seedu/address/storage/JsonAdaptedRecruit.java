@@ -144,7 +144,7 @@ class JsonAdaptedRecruit {
         if (!Description.isValidDescription(description)) {
             throw new IllegalValueException(Description.MESSAGE_CONSTRAINTS);
         }
-        final Description modelDescription = new Description(description);
+        final Description modelDescription = Description.createDescription(description);
 
         RecruitBuilder rb = new RecruitBuilder()
                 .setId(modelId)

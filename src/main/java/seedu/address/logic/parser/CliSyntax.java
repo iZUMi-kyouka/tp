@@ -34,4 +34,6 @@ public class CliSyntax {
 
     public static final Prefix PREFIX_LIST_ALL = new Prefix("-all");
     public static final Prefix PREFIX_LIST_ARCHIVE = new Prefix("-archived");
+
+    public static final Prefix PREFIX_CLEAR_CONFIRM = new Prefix("-confirm");
 }

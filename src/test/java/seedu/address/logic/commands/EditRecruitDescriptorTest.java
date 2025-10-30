@@ -64,7 +64,7 @@ public class EditRecruitDescriptorTest {
 
         // different description -> returns false
         editedAmy = new EditRecruitDescriptor(DESC_AMY);
-        editedAmy.withDescription(new Description(VALID_DESCRIPTION_BOB));
+        editedAmy.withDescription(Description.createDescription(VALID_DESCRIPTION_BOB));
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false

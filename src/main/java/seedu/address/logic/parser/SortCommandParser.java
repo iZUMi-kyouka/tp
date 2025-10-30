@@ -71,11 +71,11 @@ public class SortCommandParser implements Parser<SortCommand> {
      */
     private List<PrefixOrderPair> extractPrefixOrderPairs(String args) throws ParseException {
         Pattern wholePattern = Pattern.compile(
-                "^(?:\\s*-[npea]\\s+(?i:asc|desc)\\s*)+$"
+                "^(?:\\s*-[npea](?:\\s+(?:asc|desc)\\s*)?)+$"
         );
 
         Pattern pairPattern = Pattern.compile(
-                "-(?<prefix>[npea])\\s+(?<order>(?i:asc|desc))"
+                "-(?<prefix>[npea])(?:\\s+(?<order>(?:asc|desc)))?"
         );
 
         if (args == null || args.isBlank()) {
@@ -94,7 +94,8 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         while (m.find()) {
             String prefix = m.group("prefix"); // "n" | "p" | "e" | "a"
-            String order = m.group("order").toLowerCase(Locale.ROOT); // normalize order
+            String order = m.group("order");
+            order = order == null ? "asc" : order.toLowerCase(Locale.ROOT); // normalize order
 
             // duplicate detection. For some reason testing ArgumentMultimap's verifyNoDuplicate does not work.
             if (seenPrefixes.contains(prefix)) {

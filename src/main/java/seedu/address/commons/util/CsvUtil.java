@@ -171,7 +171,7 @@ public class CsvUtil {
                         .map(s -> s.replaceAll("^\\[|]$", ""))
                         .map(Tag::new)
                         .toList();
-                Description description = new Description(cols[6]);
+                Description description = Description.createDescription(cols[6]);
                 boolean isArchived = Boolean.parseBoolean(cols[7]);
 
                 recruits.add(new RecruitBuilder()

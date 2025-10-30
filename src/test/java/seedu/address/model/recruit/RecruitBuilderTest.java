@@ -33,7 +33,7 @@ import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
-import seedu.address.model.recruit.exceptions.InvalidRecruitException;
+import seedu.address.model.recruit.exceptions.NoNameRecruitException;
 import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.TagNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -54,7 +54,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_AMY))
                 .withEmail(new Email(VALID_EMAIL_AMY))
                 .withAddress(new Address(VALID_ADDRESS_AMY))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTag(new Tag(VALID_TAG_FRIEND));
 
         RecruitBuilder copy = new RecruitBuilder(original);
@@ -439,18 +439,18 @@ public class RecruitBuilderTest {
     // --- Description handling ---
     @Test
     void appendDescription_combinesDescriptions() {
-        RecruitBuilder builder = new RecruitBuilder().withDescription(new Description("Hello"));
-        builder.appendDescription(new Description("World"));
+        RecruitBuilder builder = new RecruitBuilder().withDescription(Description.createDescription("   Hello"));
+        builder.appendDescription(Description.createDescription("   World   "));
         assertTrue(builder.toString().contains("Hello"));
         assertTrue(builder.toString().contains("World"));
 
-        RecruitBuilder solution = new RecruitBuilder().withDescription(new Description("HelloWorld"));
+        RecruitBuilder solution = new RecruitBuilder().withDescription(Description.createDescription("Hello World"));
         assertHasSameData(builder, solution);
     }
 
     @Test
     void removeDescription_removesDescriptions() {
-        RecruitBuilder builder = new RecruitBuilder().withDescription(new Description("Hello"));
+        RecruitBuilder builder = new RecruitBuilder().withDescription(Description.createDescription("Hello"));
         builder.removeDescription();
 
         RecruitBuilder solution = new RecruitBuilder().withDescription(Description.createEmptyDescription());
@@ -518,7 +518,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_AMY))
                 .withEmail(new Email(VALID_EMAIL_AMY))
                 .withAddress(new Address(VALID_ADDRESS_AMY))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTag(new Tag(VALID_TAG_FRIEND));
 
         RecruitBuilder override = new RecruitBuilder()
@@ -526,7 +526,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_BOB))
                 .withEmail(new Email(VALID_EMAIL_BOB))
                 .withAddress(new Address(VALID_ADDRESS_BOB))
-                .withDescription(new Description(VALID_DESCRIPTION_BOB))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_BOB))
                 .withTag(new Tag(VALID_TAG_HUSBAND));
         base.override(override);
 
@@ -588,7 +588,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_AMY))
                 .withEmail(new Email(VALID_EMAIL_AMY))
                 .withAddress(new Address(VALID_ADDRESS_AMY))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTag(new Tag(VALID_TAG_FRIEND));
 
         RecruitBuilder toAppend = new RecruitBuilder()
@@ -596,7 +596,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_BOB))
                 .withEmail(new Email(VALID_EMAIL_BOB))
                 .withAddress(new Address(VALID_ADDRESS_BOB))
-                .withDescription(new Description(VALID_DESCRIPTION_BOB))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_BOB))
                 .withTag(new Tag(VALID_TAG_HUSBAND));
         base.append(toAppend);
 
@@ -669,8 +669,8 @@ public class RecruitBuilderTest {
                 .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
                 .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
                 .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY)
-                        .appendDescription(new Description(VALID_DESCRIPTION_BOB)))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY)
+                        .appendDescription(Description.createDescription(VALID_DESCRIPTION_BOB)))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND), new Tag(VALID_TAG_HUSBAND)));
 
         RecruitBuilder toRemove = new RecruitBuilder()
@@ -678,7 +678,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_BOB))
                 .withEmail(new Email(VALID_EMAIL_BOB))
                 .withAddress(new Address(VALID_ADDRESS_BOB))
-                .withDescription(new Description(VALID_DESCRIPTION_BOB))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_BOB))
                 .withTag(new Tag(VALID_TAG_HUSBAND));
         base.remove(toRemove);
 
@@ -805,10 +805,10 @@ public class RecruitBuilderTest {
     void remove_clearsDescription_success() {
         RecruitBuilder base = new RecruitBuilder()
                 .withName(new Name(VALID_NAME_AMY))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY));
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY));
 
         RecruitBuilder toRemove = new RecruitBuilder()
-                .withDescription(new Description("To remove"));
+                .withDescription(Description.createDescription("To remove"));
 
         base.remove(toRemove);
 
@@ -839,7 +839,7 @@ public class RecruitBuilderTest {
     @Test
     void build_noName_throwsInvalidRecruitException() {
         RecruitBuilder builder = new RecruitBuilder();
-        assertThrows(InvalidRecruitException.class, builder::build);
+        assertThrows(NoNameRecruitException.class, builder::build);
     }
 
     // equals() and toString()
@@ -875,7 +875,7 @@ public class RecruitBuilderTest {
                 .withPhone(new Phone(VALID_PHONE_AMY))
                 .withEmail(new Email(VALID_EMAIL_AMY))
                 .withAddress(new Address(VALID_ADDRESS_AMY))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTag(new Tag(VALID_TAG_FRIEND));
 
         RecruitBuilder b2 = new RecruitBuilder(b1);
@@ -889,7 +889,7 @@ public class RecruitBuilderTest {
         RecruitBuilder builder = new RecruitBuilder()
                 .withName(new Name(VALID_NAME_AMY))
                 .withEmail(new Email(VALID_EMAIL_AMY))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY));
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY));
         String result = builder.toString();
         assertTrue(result.contains("name"));
         assertTrue(result.contains("email"));

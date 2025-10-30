@@ -27,7 +27,7 @@ public class SampleDataUtil {
                         .withPhone(new Phone("87438807"))
                         .withEmail(new Email("alexyeoh@example.com"))
                         .withAddress(new Address("Blk 30 Geylang Street 29, #06-40"))
-                        .withDescription(new Description(
+                        .withDescription(Description.createDescription(
                                 "Enthusiastic software developer with a passion for open source."))
                         .withTags(createTagList("friends"))
                         .build(),
@@ -37,7 +37,7 @@ public class SampleDataUtil {
                         .withPhone(new Phone("99272758"))
                         .withEmail(new Email("berniceyu@example.com"))
                         .withAddress(new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"))
-                        .withDescription(new Description(
+                        .withDescription(Description.createDescription(
                                 "Experienced marketing specialist with a knack for social media."))
                         .withTags(createTagList("colleagues", "friends"))
                         .build(),
@@ -47,7 +47,7 @@ public class SampleDataUtil {
                         .withPhone(new Phone("93210283"))
                         .withEmail(new Email("charlotte@example.com"))
                         .withAddress(new Address("Blk 11 Ang Mo Kio Street 74, #11-04"))
-                        .withDescription(new Description(
+                        .withDescription(Description.createDescription(
                                 "Project manager skilled in agile methodologies."))
                         .withTags(createTagList("neighbours"))
                         .build(),
@@ -57,7 +57,7 @@ public class SampleDataUtil {
                         .withPhone(new Phone("91031282"))
                         .withEmail(new Email("lidavid@example.com"))
                         .withAddress(new Address("Blk 436 Serangoon Gardens Street 26, #16-43"))
-                        .withDescription(new Description(
+                        .withDescription(Description.createDescription(
                                 "Experienced data analyst with a focus on financial services."))
                         .withTags(createTagList("family"))
                         .build(),
@@ -67,7 +67,7 @@ public class SampleDataUtil {
                         .withPhone(new Phone("92492021"))
                         .withEmail(new Email("irfan@example.com"))
                         .withAddress(new Address("Blk 47 Tampines Street 20, #17-35"))
-                        .withDescription(new Description(
+                        .withDescription(Description.createDescription(
                                 "Recent graduate passionate about machine learning."))
                         .withTags(createTagList("classmates"))
                         .build(),
@@ -77,7 +77,7 @@ public class SampleDataUtil {
                         .withPhone(new Phone("92624417"))
                         .withEmail(new Email("royb@example.com"))
                         .withAddress(new Address("Blk 45 Aljunied Street 85, #11-31"))
-                        .withDescription(new Description(
+                        .withDescription(Description.createDescription(
                                 "Experienced network engineer and cybersecurity expert."))
                         .withTags(createTagList("colleagues"))
                         .build()
