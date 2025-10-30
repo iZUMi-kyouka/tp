@@ -52,6 +52,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME = "Cannot create recruit without a name.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
@@ -112,7 +113,11 @@ public class EditCommand extends Command {
 
         Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
 
-        if (!recruitToEdit.isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
+        if (editedRecruit.isSameRecruit(recruitToEdit)) {
+            throw new CommandException(String.format(MESSAGE_RECRUIT_UNCHANGED));
+        }
+
+        if (model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
 

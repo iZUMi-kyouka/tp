@@ -43,7 +43,7 @@ public class RecruitTest {
                 .withPhones(List.of(new Phone(VALID_PHONE_AMY)))
                 .withEmails(List.of(new Email(VALID_EMAIL_AMY)))
                 .withAddresses(List.of(new Address(VALID_ADDRESS_AMY)))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND)))
                 .build();
 
@@ -51,7 +51,7 @@ public class RecruitTest {
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone().get());
         assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail().get());
         assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress().get());
-        assertEquals(new Description(VALID_DESCRIPTION_AMY), r.getDescription());
+        assertEquals(Description.createDescription(VALID_DESCRIPTION_AMY), r.getDescription());
         assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
 
         // recruit with random UUID and list params (effectively same as above)
@@ -60,7 +60,7 @@ public class RecruitTest {
                 .withPhones(List.of(new Phone(VALID_PHONE_AMY)))
                 .withEmails(List.of(new Email(VALID_EMAIL_AMY)))
                 .withAddresses(List.of(new Address(VALID_ADDRESS_AMY)))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND)))
                 .build();
 

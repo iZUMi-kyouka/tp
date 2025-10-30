@@ -105,4 +105,18 @@ public class ArgumentMultimap {
     public Set<Prefix> getAllPrefixes() {
         return argMultimap.keySet();
     }
+
+    /**
+     * Checks if there is only 1 blank entry for that particular prefix.
+     *
+     * @param prefix the prefix to check
+     * @return true if there is only 1 blank entry for that particular prefix
+     */
+    public boolean hasSingleBlankValue(Prefix prefix) {
+        if (this.argMultimap.containsKey(prefix)) {
+            List<String> values = this.argMultimap.get(prefix);
+            return values.size() == 1 && values.get(0).isBlank();
+        }
+        return false;
+    }
 }

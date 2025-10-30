@@ -40,7 +40,7 @@ public class CsvUtilTest {
                 .withPhones(List.of(new Phone("12345678"), new Phone("87654321")))
                 .withEmails(List.of(new Email("alice@example.com")))
                 .withAddresses(List.of(new Address("123, Wonderland Street")))
-                .withDescription(new Description("Description"))
+                .withDescription(Description.createDescription("Description"))
                 .withTags(List.of(new Tag("friend"), new Tag("colleague")))
                 .build();
     }
@@ -106,7 +106,7 @@ public class CsvUtilTest {
                 .withPhones(List.of())
                 .withEmails(List.of())
                 .withAddresses(List.of(new Address(fieldWithComma)))
-                .withDescription(new Description("Description"))
+                .withDescription(Description.createDescription("Description"))
                 .withTags(List.of())
                 .build();
         String csvComma = CsvUtil.recruitsToCsvString(List.of(recruitWithComma));
@@ -121,7 +121,7 @@ public class CsvUtilTest {
                 .withPhones(List.of()) // empty list, same as before
                 .withEmails(List.of()) // empty list
                 .withAddresses(List.of(new Address(fieldWithQuote)))
-                .withDescription(new Description("Description"))
+                .withDescription(Description.createDescription("Description"))
                 .withTags(List.of()) // empty set before → empty list here
                 .build();
         String csvQuote = CsvUtil.recruitsToCsvString(List.of(recruitWithQuote));

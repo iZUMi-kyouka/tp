@@ -79,7 +79,9 @@ public class Messages {
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
-        builder.append("\n Description: ").append(recruit.getDescription());
+        if (!recruit.getDescription().isEmptyDescription()) {
+            builder.append("\n Description: ").append(recruit.getDescription());
+        }
 
         builder.append("\n Tags: ")
                 .append(recruit.getTags().stream()
