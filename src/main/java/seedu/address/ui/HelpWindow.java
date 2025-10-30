@@ -26,22 +26,22 @@ public class HelpWindow extends UiPart<Stage> {
             add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             2. View recruit
-            view INDEX/UUID
+            view INDEX|UUID
             \s
             3. Edit recruit's details
-            edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             4. Delete recruit
-            delete INDEX/UUID
+            delete INDEX|UUID
             \s
-            5. Find recruits
-            find KEYWORD [MORE_KEYWORDS]
+            5. Search recruits
+            find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]
             \s
             6. List recruits
             list [-archived] [-all]
             \s
             7. Sort recruits
-            sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]
+            sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]
             \s
             8. Archive recruit
             archive INDEX

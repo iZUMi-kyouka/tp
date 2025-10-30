@@ -116,6 +116,11 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 4. Open a command terminal, navigate to the folder where the .jar file is saved using the `cd` command and run the command `java -jar TalentNexus.jar`.<br>
    A GUI similar to **Figure 1** should appear in a few seconds.<br>
 
+![Ui](images/Ui.png)
+   **Figure 1:** Screenshot of the TalentNexus app
+
+<br>
+
 <div style="
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
   border-left: 6px solid #43a047;
@@ -130,9 +135,6 @@ TalentNexus is designed for **recruiters and HR professionals** who:
    <li><strong>Home Folder:</strong> The folder on the computer where the TalentNexus `.jar` file and its data files. This folder acts as the main workspace for the app.</li>
 <li><strong>cd (change directory):</strong> A command used in the command-line interface to navigate between folders on the computer. For example, `cd /path/to/folder` enters the specified folder.</li></ul>
 </div>
-
-![Ui](images/Ui.png)
-   **Figure 1:** Screenshot of the TalentNexus app
 
 5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands:
@@ -153,32 +155,29 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command Summary
 
-Action        | Format, Examples
---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-[**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
-[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
-[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`
-[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`
-[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-[**Clear**](#clearing-all-entries--clear)       | `clear`
-[**Help**](#viewing-help--help)                 | `help`
+Action        | Format, Examples                                                                                                                                                                        
+--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
+[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`                             
+[**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`                                                                                                                                                    
+[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`                                                                                                                                                
+[**Find**](#locating-recruits-by-name-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                              
+[**Sort**](#sorting-recruits--sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`                                                                                
+[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`                                                                                                               
+[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`                                                                                                                                                   
+[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`                                                                                                                                               
+[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`                                                                                                                                                                 
+[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`                                                                                                                                                                 
+[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`                                                                                                                              
+[**Clear**](#clearing-all-entries--clear)       | `clear`                                                                                                                                                                                 
+[**Dismiss**](#dismiss--dismiss)       | `dismiss`                                                                                                                                                                               
+[**Help**](#viewing-help--help)                 | `help`                                                                                                                                                                                  
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features
-
-<box type="info" seamless>
-
-**Notes about the command format:**<br>
+## Command Format
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
@@ -192,11 +191,16 @@ Action        | Format, Examples
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extra parameters for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
+  e.g. If the user types `help 123`, it will be interpreted as `help`.
 
 * For PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-  </box>
+  
+* The pipe symbol `|` denotes "or".<br>
+  e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
+</box>
+
+<br>
 
 ### Viewing help : `help`
 
@@ -208,6 +212,7 @@ Action        | Format, Examples
 
 Format: `help`
 
+<br>
 
 ### Adding a recruit: `add`
 
@@ -226,6 +231,8 @@ Examples:
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 * `add n/田中小泉 n/Max e/koizumi@example.com e/max@example.com a/30 Princess Gina Park t/swe t/test_engineer`
 
+<br>
+
 ### Listing all recruits : `list`
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
@@ -239,11 +246,13 @@ View [**archived**](#archiving-a-recruit--archive) recruits by following one of 
 
 Format: `list`
 
+<br>
+
 ### Viewing a recruit : `view`
 
 View the recruit located at the a particular index from the address book.
 
-Format: `view INDEX/UUID`
+Format: `view INDEX|UUID`
 
 * Displays the full details of the recruit at the specified `INDEX` or `UUID` in the recruit list.
 * The index refers to the index number shown in the displayed recruit list.
@@ -253,12 +262,13 @@ Examples:
 * `list` followed by `view 2` displays the 2nd recruit in the address book.
 * `find Betsy` followed by `view 1` displays the 1st recruit in the results of the `find` command.
 
+<br>
 
 ### Editing a recruit : `edit`
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
+Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
@@ -266,6 +276,8 @@ Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
+
+<br>
 
 #### Operation Types
 
@@ -281,11 +293,13 @@ Examples:
 *  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
 *  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
 
+<br>
+
 ### Deleting a recruit : `delete`
 
 Deletes the specified recruit from the address book.
 
-Format: `delete INDEX/UUID`
+Format: `delete INDEX|UUID`
 
 * Deletes the recruit at the specified `INDEX` or `UUID`.
 * The index refers to the index number shown in the displayed recruit list.
@@ -294,6 +308,8 @@ Format: `delete INDEX/UUID`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd recruit in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st recruit in the results of the `find` command.
+
+<br>
 
 ### Undoing previously done operations: `undo`
 
@@ -311,6 +327,8 @@ Example usage scenarios:
 - The user realised that recruit Lee was meant to be deleted instead of Li
 - The undo command is typed again to undo deletion of recruit Li
 
+<br>
+
 ### Redoing undone operations: `redo`
 
 Redoes operations that were undone recently.
@@ -325,14 +343,19 @@ Examples usage scenario:
 - The undo command is typed to undo the deletion of recruit Li and check the email
 - The redo command is typed to redo the deletion of recruit Li
 
-### Locating recruits by name: `find`
+<br>
 
-Finds and lists all recruits whose details match any of the given keywords. The search is **case-insensitive** and can be filtered by different fields using flags.
+### Search for recruits: `find`
 
-If no flag is provided, the command searches by **name** by default.
-If both default keyword(s) and name keyword(s) are specified, the **name keyword(s)** will take precedence.
+Finds all recruits whose details match any of the given keywords.
 
-* `FLAG` specifies the field(s) to search under:
+
+
+Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`
+
+* The `NAME` keyword(s) take precedence
+
+* The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
     * `-id` — Search by Recruit ID
     * `-n` — Search by Name
     * `-p` — Search by Phone
@@ -340,10 +363,13 @@ If both default keyword(s) and name keyword(s) are specified, the **name keyword
     * `-a` — Search by Address
     * `-t` — Search by Tag
 
-* `KEYWORD [MORE_KEYWORDS]...` are one or more search terms.
-  Multiple keywords can be separated by the pipe symbol (`|`).
+* The search is **case-insensitive**
 
-If multiple flags are provided, the results will include recruits who satisfy all search criteria
+* Multiple keywords can be separated by the pipe symbol (`|`)
+
+* If no flag is provided, the app searches using `NAME` keywords by default
+
+* If multiple search criteria are provided, the result will include all recruits who satisfy them
 
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
@@ -353,7 +379,7 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
 * `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
-**Chaining multiple search flags:**
+**Chaining multiple flags:**
 * `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
@@ -367,14 +393,17 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+
+<br>
 
 ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
 **Figure 3:** Searching for recruits with "Bukit Batok" in their address
 
-<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
-
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
+
+<br>
 
 ### Sorting recruits : `sort`
 
@@ -407,6 +436,8 @@ Examples:
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use multiple sort criteria to organise recruits more precisely. The leftmost field has the highest priority.</div>
 
+<br>
+
 ### Archiving a recruit : `archive`
 
 Archives a recruit to hide them from the default list view while preserving their information.
@@ -428,6 +459,8 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Archive recruits no longer active to keep the main list clean and focused!</div>
 
+<br>
+
 ### Unarchiving a recruit : `unarchive`
 
 Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to restore them to the active recruit list.
@@ -443,6 +476,8 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view archived recruits, then use `unarchive INDEX`.</div>
+
+<br>
 
 ### Exporting recruit data: `export`
 
@@ -461,6 +496,8 @@ Examples:
 ![ExportedRecruits](images/exported_recruits.png)
 **Figure 5:** Exported recruits list in .csv format from TalentNexus
 
+<br>
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -469,6 +506,8 @@ Format: `clear`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If recruits have been cleared accidentally, don't worry! Use the <em>undo</em> command immediately to restore previous changes</div>
 
+<br>
+
 ### Dismissing command result message: `dismiss`
 
 Clears the message shown after executing a command.
@@ -476,6 +515,8 @@ Clears the message shown after executing a command.
 Format: `dismiss`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Dismiss command result message that have been read to regain more space to view the recruit list.</div>
+
+<br>
 
 ### Exiting the program : `exit`
 
