@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -213,27 +214,21 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
-    public void tokenize_unescapedQuote_throwsParseException() {
-        String argsString = " -n This is an \"invalid\" string";
+    public void tokenize_unescapedQuote_throwsParseException() throws ParseException {
+        String argsString = " -n \"This is an \"invalid\" string\"";
 
         String expectedMessage = ParserUtil.MESSAGE_ILLEGAL_QUOTATION;
-        try {
-            ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, new Prefix("-n"));
-        } catch (ParseException e) {
-            assertEquals(expectedMessage, e.getMessage());
-        }
+        assertThrows(ParseException.class, () -> ArgumentTokenizer.tokenize(argsString, new Prefix("-n")),
+                expectedMessage);
     }
 
     @Test
     public void tokenize_unclosedEscapeSequence_throwsParseException() {
-        String argsString = " -n This is a backslash at the end\\";
+        String argsString = " -n \"This is a backslash at the end\\\"";
 
         String expectedMessage = ParserUtil.MESSAGE_UNCLOSED_ESCAPE;
-        try {
-            ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, new Prefix("-n"));
-        } catch (ParseException e) {
-            assertEquals(expectedMessage, e.getMessage());
-        }
+        assertThrows(ParseException.class, () -> ArgumentTokenizer.tokenize(argsString, new Prefix("-n")),
+                expectedMessage);
     }
 
     @Test
@@ -251,6 +246,17 @@ public class ArgumentTokenizerTest {
     public void tokenize_escapeBackslash_throwsParseException() {
         String argsString = "n/Ned d/\"This is a backslash \\\\\"";
         String solution = "This is a backslash \\";
+
+        Prefix prefix = new Prefix("d/");
+
+        ArgumentMultimap argMultimap = tokenizeWithoutError(argsString, new Prefix("n/"), prefix);
+        assertArgumentPresent(argMultimap, prefix, solution);
+    }
+
+    @Test
+    public void tokenize_backslashThenOtherChar_throwsParseException() {
+        String argsString = "n/Jamie d/\"Look I'm so \\quirky lol\"";
+        String solution = "Look I'm so \\quirky lol";
 
         Prefix prefix = new Prefix("d/");
 
