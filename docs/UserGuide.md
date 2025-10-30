@@ -50,21 +50,16 @@ TalentNexus is designed for **recruiters and HR professionals** who:
     3. If the output shows `17` or above, you can skip installation.
 
    **Install Java 17 (if not installed)**
-    1. We recommend using **SDKMAN** for easy JDK management. Install SDKMAN:
+    1. Run the following commands in Terminal:
        ```bash
        curl -s "https://get.sdkman.io" | bash
        source "$HOME/.sdkman/bin/sdkman-init.sh"
-       sdk version
-       ```
-    2. Install Java 17 FX (Zulu):
-       ```bash
        sdk install java 17.0.14.fx-zulu
        sdk default java 17.0.14.fx-zulu
        ```
-    3. Verify installation:
+    2. Verify installation:
        ```bash
        java -version
-       which java
        ```
 
    ### Windows Users
@@ -79,7 +74,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
    **Install Java 17 (if not installed)**
     1. Download Java 17 from [Adoptium Temurin 17](https://adoptium.net/temurin/releases/?version=17) or [Oracle JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
-    2. Run the installer and follow prompts.
+    2. Run the installer and follow the instructions.
     3. Verify installation:
        ```cmd
        java -version
@@ -96,7 +91,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
     3. If the output shows `17` or above, you can skip installation.
 
    **Install Java 17 (if not installed)**
-    1. Use your package manager. For Ubuntu/Debian:
+    1. Run the following commands in Terminal:
        ```bash
        sudo apt update
        sudo apt install openjdk-17-jdk
