@@ -236,6 +236,28 @@ public class ArgumentTokenizerTest {
         }
     }
 
+    @Test
+    public void tokenize_escapeEscapeQuotationMarks_throwsParseException() {
+        String argsString = " n/\"\\\"Maria del Carmen\\\" Pérez\"";
+        String solution = "\"Maria del Carmen\" Pérez";
+
+        Prefix prefix = new Prefix("n/");
+
+        ArgumentMultimap argMultimap = tokenizeWithoutError(argsString, prefix);
+        assertArgumentPresent(argMultimap, prefix, solution);
+    }
+
+    @Test
+    public void tokenize_escapeBackslash_throwsParseException() {
+        String argsString = "n/Ned d/\"This is a backslash \\\\\"";
+        String solution = "This is a backslash \\";
+
+        Prefix prefix = new Prefix("d/");
+
+        ArgumentMultimap argMultimap = tokenizeWithoutError(argsString, new Prefix("n/"), prefix);
+        assertArgumentPresent(argMultimap, prefix, solution);
+    }
+
     private static ArgumentMultimap tokenizeWithoutError(String argsString, Prefix... prefixes) {
         try {
             return ArgumentTokenizer.tokenize(argsString, prefixes);
