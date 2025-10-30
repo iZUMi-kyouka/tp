@@ -82,7 +82,7 @@ public class DataSet<T extends Data> extends TreeSet<T> {
      *  will be appended with {@code " (primary)"}.
      * @return
      */
-    public List<String> toStringStream() {
+    public List<String> toStringList() {
         return this.size() > 1
                 ? this.stream()
                         .map(t -> primaryData.map(p -> p.equals(t)).orElse(false)

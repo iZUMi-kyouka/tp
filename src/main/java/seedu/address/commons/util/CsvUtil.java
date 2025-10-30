@@ -65,10 +65,10 @@ public class CsvUtil {
         sb.append("ID,Names,Phones,Emails,Addresses,Tags,Description,IsArchived\n");
 
         for (Recruit r : recruits) {
-            String names = joinAndEscape(r.getNames().toStringStream());
-            String phones = joinAndEscape(r.getPhones().toStringStream());
-            String emails = joinAndEscape(r.getEmails().toStringStream());
-            String addresses = joinAndEscape(r.getAddresses().toStringStream());
+            String names = joinAndEscape(r.getNames().toStringList());
+            String phones = joinAndEscape(r.getPhones().toStringList());
+            String emails = joinAndEscape(r.getEmails().toStringList());
+            String addresses = joinAndEscape(r.getAddresses().toStringList());
             String tags = joinAndEscape(r.getTags());
             String description = escapeCsvField(r.getDescription().toString());
             String isArchived = Boolean.toString(r.isArchived());
