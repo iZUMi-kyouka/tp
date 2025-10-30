@@ -33,7 +33,8 @@ public class ParserUtil {
     public static final String MESSAGE_EMPTY_FILEPATH = "The file path provided is empty";
     public static final String MESSAGE_INVALID_FILEPATH = "The file path provided is invalid";
     public static final String MESSAGE_ILLEGAL_QUOTATION = "Cannot use unescaped quotation mark inside the string.";
-    public static final String MESSAGE_UNCLOSED_ESCAPE = "Unclosed escape sequence at the end of the string.";
+    public static final String MESSAGE_UNCLOSED_ESCAPE =
+            "Unclosed escape sequence at the end of the string is not allowed";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
