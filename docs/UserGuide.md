@@ -192,10 +192,7 @@ Example usage scenarios:
 
 Redoes operations that were undone recently.
 
-<box type="warning" seamless>
-
-**Warning:** If you have undone some operations, and you perform operations that modify any recruit, you will not be able to redo these undone operations anymore.
-</box>
+<div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Warning:</strong> If you have undone some operations, and you perform operations that modify any recruit, you will not be able to redo these undone operations anymore.</div>
 
 Format: `redo`
 
@@ -376,14 +373,27 @@ TalentNexus data is saved in the hard disk automatically after any command that 
 
 TalentNexus data is saved automatically as a JSON file `[JAR file location]/data/TalentNexusData.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<box type="warning" seamless>
-
-**Warning:**
-* If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
-* Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
-* Therefore, edit the data file only if you are confident that you can update it correctly.
-  </box>
-
+<div style="
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  border-left: 6px solid #fb8c00;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #5d4037;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+">
+  <strong>Warning:</strong>
+  <ul style="
+    margin: 8px 0 0 20px;
+    padding: 0;
+    color: #5d4037; /* ensures list text matches div */
+    background: transparent; /* makes sure gradient shows through */
+  ">
+    <li>If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is <strong>strongly recommended</strong> to take a backup of the file before editing it.</li>
+    <li>Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).</li>
+    <li>Therefore, edit the data file only if you are confident that you can update it correctly.</li>
+  </ul>
+</div>
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
