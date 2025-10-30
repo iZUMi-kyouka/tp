@@ -28,7 +28,7 @@ public class HelpWindow extends UiPart<Stage> {
             2. view INDEX|UUID
             View the recruit at the provided INDEX in the recruit list or with the provided UUID.
             \s
-            3. edit INDEX/UUID [OPERATION] [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]\
+            3. edit INDEX|UUID [OPERATION] [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]\
              [t/TAG]...
             Edit the details of the recruit at the provided INDEX in the recruit list or with the provided UUID.
             There are 3 different types of OPERATION:
@@ -36,12 +36,13 @@ public class HelpWindow extends UiPart<Stage> {
             -ap : Appends the provided attributes to the target recruit.
             -rm : Remove the provided attributes from the target recruit.
             \s
-            4. delete INDEX/UUID
+            4. delete INDEX|UUID
             Deletes the recruit at the provided INDEX in the recruit list or with the provided UUID.
             \s
-            5. list [-archived|-all]
+            5. list [MODE]
             Lists the recruits as a recruit list.
-            By default it lists all unarchived recruits. But this command can also accept 2 different flags:
+            By default it lists all unarchived recruits.
+            There are 2 different MODE:
             -archived : Shows a the list of only archived recruits.
             -all : Shows all archive and unarchived recruits.
             \s
