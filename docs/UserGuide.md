@@ -6,10 +6,32 @@ pageNav: 3
 
 # TalentNexus User Guide
 
-TalentNexus is a **desktop app for managing recruits, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TalentNexus can get your contact management tasks done faster than traditional GUI apps.
+TalentNexus is a **desktop app for managing recruits**, optimized for use via a Command Line Interface (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TalentNexus can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
+
+### Target Audience
+
+TalentNexus is designed for **recruiters and HR professionals** who:
+- Recruit internationally from a large and diverse talent pool
+- Favour a quick, keyboard-driven interface for efficient management
+
+<div style="
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-left: 6px solid #43a047;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1b5e20;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+">
+  <strong>Glossary:</strong>
+  <ul style="margin-top: 4px; padding-left: 20px; color: #1b5e20;">
+    <li><strong>Command Line Interface (CLI):</strong> Interact with the app by typing commands on a keyboard. Preferred by users who are familiar with keyboard commands and value speed.</li>
+    <li><strong>Graphical User Interface (GUI):</strong> Interact with the app using visual elements like buttons, menus, and windows. Easier for users who prefer point-and-click interactions.</li>
+  </ul>
+</div>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -249,7 +271,7 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
-<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol <code>|</code> to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
@@ -336,6 +358,9 @@ Examples:
 Clears all entries from the address book.
 
 Format: `clear`
+
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If you accidentally cleared all recruits, don't worry! You can use the <em>undo</em> command immediately to restore your previous changes</div>
+
 
 ### Dismissing command result message: `dismiss`
 
