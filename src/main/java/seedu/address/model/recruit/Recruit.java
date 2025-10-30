@@ -95,7 +95,6 @@ public class Recruit {
     }
 
     /**
-     * Returns true if both persons have the same fields except id.
      * Returns boolean representing whether recruit entry is archived or not
      */
     public boolean isArchived() {
