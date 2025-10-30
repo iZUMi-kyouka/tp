@@ -33,6 +33,10 @@ public class SimpleRecruitBuilder {
     private List<Phone> phones;
     private List<Email> emails;
     private List<Address> addresses;
+    private String primaryName;
+    private String primaryPhone;
+    private String primaryEmail;
+    private String primaryAddress;
     private Description description;
     private Set<Tag> tags;
     private boolean isArchived;
@@ -81,6 +85,14 @@ public class SimpleRecruitBuilder {
     }
 
     /**
+     * Sets the primary {@code Name} of the {@code Recruit} that we are building.
+     */
+    public SimpleRecruitBuilder withPrimaryName(String name) {
+        this.primaryName = name;
+        return this;
+    }
+
+    /**
      * Sets the {@code Name} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withAdditionalNames(String... names) {
@@ -95,6 +107,15 @@ public class SimpleRecruitBuilder {
         this.phones = List.of(new Phone(phone));
         return this;
     }
+
+    /**
+     * Sets the primary {@code Phone} of the {@code Recruit} that we are building.
+     */
+    public SimpleRecruitBuilder withPrimaryPhone(String phone) {
+        this.primaryPhone = phone;
+        return this;
+    }
+
 
     /**
      * Sets the {@code Name} of the {@code Recruit} that we are building.
@@ -113,6 +134,14 @@ public class SimpleRecruitBuilder {
     }
 
     /**
+     * Sets the primary {@code Email} of the {@code Recruit} that we are building.
+     */
+    public SimpleRecruitBuilder withPrimaryEmail(String email) {
+        this.primaryEmail = email;
+        return this;
+    }
+
+    /**
      * Sets the {@code Name} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withAdditionalEmails(String... emails) {
@@ -125,6 +154,14 @@ public class SimpleRecruitBuilder {
      */
     public SimpleRecruitBuilder withAddress(String address) {
         this.addresses = List.of(new Address(address));
+        return this;
+    }
+
+    /**
+     * Sets the primary {@code Address} of the {@code Recruit} that we are building.
+     */
+    public SimpleRecruitBuilder withPrimaryAddress(String address) {
+        this.primaryAddress = address;
         return this;
     }
 
