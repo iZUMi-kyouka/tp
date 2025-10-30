@@ -27,12 +27,13 @@ public class Recruit {
 
     // Identity fields
     private final UUID id;
-    private final DataSet<Name> names;
+
 
     // Data fields
-    private final DataSet<Phone> phones;
-    private final DataSet<Email> emails;
-    private final DataSet<Address> addresses;
+    private final TreeSet<Name> names;
+    private final TreeSet<Phone> phones;
+    private final TreeSet<Email> emails;
+    private final TreeSet<Address> addresses;
     private final Description description;
     private final TreeSet<Tag> tags;
 

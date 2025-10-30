@@ -159,8 +159,8 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 Action        | Format, Examples                                                                                                                                                                        
 --------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`                             
+[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
+[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`                             
 [**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`                                                                                                                                                    
 [**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`                                                                                                                                                
 [**Find**](#locating-recruits-by-name-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                              
@@ -171,9 +171,9 @@ Action        | Format, Examples
 [**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`                                                                                                                                                                 
 [**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`                                                                                                                                                                 
 [**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`                                                                                                                              
-[**Clear**](#clearing-all-entries--clear)       | `clear`                                                                                                                                                                                 
-[**Dismiss**](#dismiss--dismiss)       | `dismiss`                                                                                                                                                                               
-[**Help**](#viewing-help--help)                 | `help`                                                                                                                                                                                  
+[**Clear**](#clearing-all-entries--clear)       | `clear`<br> e.g., `clear`                                                                                                                                                                                  
+[**Dismiss**](#dismiss--dismiss)       | `dismiss`<br> e.g., `dissmiss`                                                                                                                                                                            
+[**Help**](#viewing-help--help)                 | `help`<br> e.g., `help`                                                                                                                                                                                   
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -223,7 +223,7 @@ Adds a recruit to the address book.
 * If only one data item exists for a particular attribute, this data will be considered the primary data.
 * Names may also be provided in various languages.
 
-Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
+Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]...​`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> A recruit can have any number of tags (or none at all)</div>
 
@@ -617,6 +617,8 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 
 **Q:** How do I run TalentNexus with a specific Java version?  
 **A:** Ensure the desired JDK is installed and added to the computer's environment variables. Then, run the app with that Java version.
+
+---
 
 **Q:** Where can I find the JSON schema or data format?  
 **A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
