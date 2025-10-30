@@ -455,6 +455,9 @@ Examples:
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.</div>
 
+![ExportedRecruits](images/exported_recruits.png)
+**Figure 1:** Exported recruits list in .csv format from TalentNexus
+
 ### Saving the data
 
 TalentNexus data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
