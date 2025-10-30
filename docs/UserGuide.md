@@ -20,7 +20,8 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 ### A few things to take note
 - Basic familiarity with command-line (keyboard-based) operations
 - Sufficient permissions to access and modify files on the computer
-- Java 17 is installed on the computer (Don’t worry! installation instructions are provided below)
+- Java 17 is installed on the computer (Don’t worry! Installation instructions are provided below)
+- A stable internet connection to download Java or view additional resources, although TalentNexus itself runs offline
 
 <div style="
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
@@ -110,15 +111,15 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F09-3/tp/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder to be designated as the **home folder** for your AddressBook.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Open a command terminal, type `cd` to enter into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
+   A GUI similar to **Figure 1** should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
    **Figure 1:** Screenshot of the TalentNexus app
 
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
     * [`help`](#viewing-help--help) : Shows help information.
@@ -133,7 +134,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
     * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
 
-6. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) section below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -184,7 +185,8 @@ Action        | Format, Examples
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+* Directs users to the online user guide for detailed instructions
+* Displays a complete list of all available commands in the app (see **Figure 2**)
 
 ![help message](images/helpMessage.png)
 **Figure 2:** Help message pop-up
