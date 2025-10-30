@@ -1,19 +1,64 @@
-#copyButton, #helpMessage, #openUserGuideButton {
+#mainContainer {
+    -fx-background-color: derive(#090C0F, 20%);
+}
+
+.scroll-pane {
+    -fx-background-color: derive(#090C0F, 20%);
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: derive(#090C0F, 20%);
+}
+
+.scroll-pane .content {
+    -fx-background-color: derive(#090C0F, 20%);
+}
+
+.scroll-bar {
+    -fx-background-color: derive(#090C0F, 20%);
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: derive(#090C0F, 50%);
+    -fx-background-insets: 3;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 1 8 1 8;
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-padding: 8 1 8 1;
+}
+
+#helpMessage, #userGuideLabel {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11.5pt;
     -fx-text-fill: white;
 }
 
 #copyButton, #openUserGuideButton {
-    -fx-background-color: dimgray;
+    -fx-text-fill: white;
+    -fx-background-color: derive(#090C0F, 50%);
 }
 
 #copyButton:hover, #openUserGuideButton:hover {
-    -fx-background-color: gray;
+    -fx-background-color: derive(#090C0F, 70%);
 }
 
 #copyButton:armed, #openUserGuideButton:armed {
-    -fx-background-color: darkgray;
+    -fx-background-color: derive(#090C0F, 90%);
 }
 
 #helpMessageContainer {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#090C0F, 20%);
 }

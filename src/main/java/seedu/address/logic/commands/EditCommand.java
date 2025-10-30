@@ -24,6 +24,7 @@ import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
+import seedu.address.model.recruit.exceptions.NoNameRecruitException;
 import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.TagNotFoundException;
 
@@ -51,10 +52,13 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
+    public static final String MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME = "Cannot create recruit without a name.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
     public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s do not exist: %s";
-    public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
+    public static final String MESSAGE_MAXIMUM_ONE_PRIMARY_DATA = "You cannot specify more than one primary data.";
+    public static final String MESSAGE_INVALID_OPERATION_TYPE = "Multiple edit operation type is not allowed.";
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
     private final Optional<UUID> id;
@@ -110,7 +114,11 @@ public class EditCommand extends Command {
 
         Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
 
-        if (!recruitToEdit.isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
+        if (editedRecruit.isSameRecruit(recruitToEdit)) {
+            throw new CommandException(String.format(MESSAGE_RECRUIT_UNCHANGED));
+        }
+
+        if (model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
 
@@ -131,7 +139,18 @@ public class EditCommand extends Command {
         case APPEND -> createEditedRecruitWithAppendedAttributes(recruitToEdit, descriptor);
         case REMOVE -> createEditedRecruitWithRemovedAttributes(recruitToEdit, descriptor);
         case OVERWRITE -> createEditedRecruitWithOverwrittenAttributes(recruitToEdit, descriptor);
+        case UPDATE_PRIMARY -> createEditedRecruitWithUpdatedPrimaryAttributes(recruitToEdit, descriptor);
         };
+    }
+
+    private static Recruit createEditedRecruitWithUpdatedPrimaryAttributes(Recruit rec, EditRecruitDescriptor desc)
+            throws CommandException {
+        try {
+            return new RecruitBuilder(rec).updatePrimaryData(desc).build();
+        } catch (DataEntryNotFoundException de) {
+            throw new CommandException(
+                    String.format(MESSAGE_MISSING_ATTRIBUTE, de.getDataType(), de.getUserPresentableMissingEntries()));
+        }
     }
 
     private static Recruit createEditedRecruitWithAppendedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -149,7 +168,11 @@ public class EditCommand extends Command {
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
-        return new RecruitBuilder(rec).override(desc).build();
+        try {
+            return new RecruitBuilder(rec).override(desc).build();
+        } catch (NoNameRecruitException e) {
+            throw new CommandException(MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME);
+        }
     }
 
     private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -162,6 +185,8 @@ public class EditCommand extends Command {
         } catch (TagNotFoundException e) {
             throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
                     "tag", e.getMissingTags()));
+        } catch (NoNameRecruitException e) {
+            throw new CommandException(MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME);
         }
     }
 
@@ -300,6 +325,6 @@ public class EditCommand extends Command {
      * to the attributes of a Recruit.
      */
     public static enum EditOperation {
-        APPEND, OVERWRITE, REMOVE
+        APPEND, OVERWRITE, REMOVE, UPDATE_PRIMARY
     }
 }

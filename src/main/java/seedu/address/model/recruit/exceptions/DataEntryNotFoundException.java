@@ -59,6 +59,10 @@ public class DataEntryNotFoundException extends IllegalRecruitBuilderActionExcep
         return missingEntries;
     }
 
+    public String getUserPresentableMissingEntries() {
+        return missingEntries.stream().map(Data::toString).collect(Collectors.joining(", ")).trim();
+    }
+
     public String getDataType() {
         return dataType;
     }

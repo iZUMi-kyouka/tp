@@ -313,7 +313,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *` | recruiter for multinational company | I can add names of a potential hire in multiple languages | colleagues in different locations can use localised names |
 | `* *` | data-centric recruiter            | import and export candidate's data to external files (e.g., Excel) | share among colleagues                           |
 | `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
-| `* *` | recruiter         | sort contacts by name  |  easily find contact without having to search for them |
+| `* *` | recruiter         | sort contacts by multiple fields (name, phone, email, address) in ascending or descending order |  organize and find contacts efficiently based on different criteria |
 
 *{More to be added}*
 
@@ -452,8 +452,36 @@ Use case ends.
 2.  System shows the list of all available commands and example usages.
 
 Use case ends.
+<br>
 
-*{More to be added}*
+#### UC08 - Sort the Recruit List
+
+**MSS**
+
+1.  User requests to sort the recruit list by one or more specified fields with sort order (ascending or descending).
+2.  System sorts the recruit list according to the specified fields and order, applying sort criteria in priority from left to right.
+3.  System displays the sorted list with a success message showing the field names and sort order.
+
+Use case ends.
+
+**Extensions**
+
+* 1a. TalentNexus detects an invalid sort field.
+    * 1a1. TalentNexus shows an error message informing that the sort field is invalid, and displays the correct format with valid fields.
+
+  Use case ends.
+
+* 1b. TalentNexus detects an invalid sort order.
+    * 1b1. TalentNexus shows an error message informing that the sort order must be either "asc" or "desc".
+
+  Use case ends.
+
+* 1c. User does not specify any sort field.
+    * 1c1. TalentNexus sorts by name in ascending order by default.
+    * 1c2. System displays the sorted list with a success message.
+
+  Use case resumes from step 3.
+  <br>
 
 ### Non-Functional Requirements
 
