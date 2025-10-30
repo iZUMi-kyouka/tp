@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.util.Interval;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
  * Tokenizes arguments string of the form: {@code preamble <prefix>value <prefix>value ...}<br>
@@ -26,7 +27,7 @@ public class ArgumentTokenizer {
      * @param prefixes   Prefixes to tokenize the arguments string with
      * @return           ArgumentMultimap object that maps prefixes to their arguments
      */
-    public static ArgumentMultimap tokenize(String argsString, Prefix... prefixes) {
+    public static ArgumentMultimap tokenize(String argsString, Prefix... prefixes) throws ParseException {
         List<PrefixPosition> positions = findAllPrefixPositions(argsString, prefixes);
         return extractArguments(argsString, positions);
     }
@@ -87,7 +88,8 @@ public class ArgumentTokenizer {
      * @param prefixPositions Zero-based positions of all prefixes in {@code argsString}
      * @return                ArgumentMultimap object that maps prefixes to their arguments
      */
-    private static ArgumentMultimap extractArguments(String argsString, List<PrefixPosition> prefixPositions) {
+    private static ArgumentMultimap extractArguments(String argsString, List<PrefixPosition> prefixPositions)
+            throws ParseException {
 
         // Sort by start position
         prefixPositions.sort((prefix1, prefix2) -> prefix1.getStartPosition() - prefix2.getStartPosition());
@@ -130,25 +132,54 @@ public class ArgumentTokenizer {
      */
     private static String extractArgumentValue(String argsString,
                                         PrefixPosition currentPrefixPosition,
-                                        PrefixPosition nextPrefixPosition) {
+                                        PrefixPosition nextPrefixPosition) throws ParseException {
         Prefix prefix = currentPrefixPosition.getPrefix();
 
         int valueStartPos = currentPrefixPosition.getStartPosition() + prefix.getPrefix().length();
-        String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition())
-            .trim()
-            .replace("\\\"", "\""); // remove backslash from escaped double-quote
+        int valueEndPos = nextPrefixPosition.getStartPosition();
 
-        value = value.trim();
-        if (value.isEmpty()) {
-            return value;
+        String arg = argsString.substring(valueStartPos, valueEndPos).trim();
+        if (arg.isEmpty()) {
+            return "";
         }
 
-        // Remove double-quote escape from the actual value
-        if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
-            value = value.substring(1, value.length() - 1);
+        if (arg.charAt(0) == '"' && arg.charAt(arg.length() - 1) == '"') {
+            return escapeSequence(arg.substring(1, arg.length() - 1));
         }
 
-        return value;
+        return arg;
+    }
+
+    private static String escapeSequence(String toEscape) throws ParseException {
+        boolean isEscaped = false;
+        StringBuilder value = new StringBuilder();
+
+        for (int i = 0; i < toEscape.length(); i++) {
+            char currentChar = toEscape.charAt(i);
+
+            if (isEscaped) {
+                if (currentChar == '\\') {
+                    value.append('\\');
+                } else if (currentChar == '"') {
+                    value.append('"');
+                } else {
+                    value.append('\\').append(currentChar);
+                }
+                isEscaped = false;
+            } else if (currentChar == '\\') {
+                isEscaped = true;
+            } else if (currentChar == '"') {
+                throw new ParseException(ParserUtil.MESSAGE_ILLEGAL_QUOTATION);
+            } else {
+                value.append(currentChar);
+            }
+        }
+
+        if (isEscaped) {
+            throw new ParseException(ParserUtil.MESSAGE_UNCLOSED_ESCAPE);
+        }
+
+        return value.toString();
     }
 
     private static List<Interval<Integer>> findAllDoubleQuoteIndexes(String s) {

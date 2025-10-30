@@ -17,7 +17,7 @@ public class Name extends Data implements Comparable<Name> {
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{L}\\p{N}\\-,/@][\\p{L}\\p{N}\\-,/@ ]*";
+    public static final String VALIDATION_REGEX = "[\\p{L}\\p{N}\\-,/\"'@][\\p{L}\\p{N}\\-,/\"'@ ]*";
 
     /**
      * Constructs a {@code Name}.

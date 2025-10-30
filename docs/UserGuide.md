@@ -198,6 +198,14 @@ Action        | Format, Examples
 
 * The pipe symbol `|` denotes "or".<br>
   e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
+
+* If any of the data fields contains special characters like `-` or `/`, the command may not be parsed correctly as
+  these characters are used as prefixes in other commands. Instead, surround the field with quotation marks `"`,
+  `"like this"` to ensure that the data is handled correctly. <br>
+  e.g. `add n/"Anne-Marie"` or `add n/"Nurul a/p Rahman"`
+  * If within the quotation marks `"` you want to use `\` or `"`, place the character `\` before it to "escape" it, which
+    basically tells the program that you want to input these special characters. <br>
+    e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
 </box>
 
 <br>
