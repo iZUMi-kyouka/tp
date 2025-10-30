@@ -34,8 +34,8 @@ public class HelpWindow extends UiPart<Stage> {
             4. Delete recruit
             delete INDEX|UUID
             \s
-            5. Find recruits
-            find KEYWORD [MORE_KEYWORDS]
+            5. Search recruits
+            find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]
             \s
             6. List recruits
             list [-archived] [-all]

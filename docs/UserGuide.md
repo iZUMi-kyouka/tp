@@ -163,7 +163,7 @@ Action        | Format, Examples
 [**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`                             
 [**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`                                                                                                                                                    
 [**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`                                                                                                                                                
-[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                              
+[**Find**](#locating-recruits-by-name-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                              
 [**Sort**](#sorting-recruits--sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`                                                                                
 [**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`                                                                                                               
 [**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`                                                                                                                                                   
@@ -345,14 +345,17 @@ Examples usage scenario:
 
 <br>
 
-### Locating recruits by name: `find`
+### Search for recruits: `find`
 
-Finds and lists all recruits whose details match any of the given keywords. The search is **case-insensitive** and can be filtered by different fields using flags.
+Finds all recruits whose details match any of the given keywords.
 
-If no flag is provided, the command searches by **name** by default.
-If both default keyword(s) and name keyword(s) are specified, the **name keyword(s)** will take precedence.
 
-* `FLAG` specifies the field(s) to search under:
+
+Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`
+
+* The `NAME` keyword(s) take precedence
+
+* The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
     * `-id` — Search by Recruit ID
     * `-n` — Search by Name
     * `-p` — Search by Phone
@@ -360,10 +363,13 @@ If both default keyword(s) and name keyword(s) are specified, the **name keyword
     * `-a` — Search by Address
     * `-t` — Search by Tag
 
-* `KEYWORD [MORE_KEYWORDS]...` are one or more search terms.
-  Multiple keywords can be separated by the pipe symbol (`|`).
+* The search is **case-insensitive**
 
-If multiple flags are provided, the results will include recruits who satisfy all search criteria
+* Multiple keywords can be separated by the pipe symbol (`|`)
+
+* If no flag is provided, the app searches using `NAME` keywords by default
+
+* If multiple search criteria are provided, the result will include all recruits who satisfy them
 
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
@@ -373,7 +379,7 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
 * `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
-**Chaining multiple search flags:**
+**Chaining multiple flags:**
 * `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
@@ -387,13 +393,12 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
-
-![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
-**Figure 3:** Searching for recruits with "Bukit Batok" in their address
-
 <div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 <br>
+
+![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+**Figure 3:** Searching for recruits with "Bukit Batok" in their address
 
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
