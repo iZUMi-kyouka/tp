@@ -664,25 +664,25 @@ public class RecruitBuilder {
         assert other.description == null && other.tags == null;
 
         if (other.names != null) {
-            if (!this.names.contains(other.names.first())) {
+            if (this.names == null || !this.names.contains(other.names.first())) {
                 throw new DataEntryNotFoundException("name", List.of(other.names.first()));
             }
             this.names.setPrimary(other.names.first());
         }
         if (other.phones != null) {
-            if (!this.phones.contains(other.phones.first())) {
+            if (this.phones == null || !this.phones.contains(other.phones.first())) {
                 throw new DataEntryNotFoundException("phone", List.of(other.phones.first()));
             }
             this.phones.setPrimary(other.phones.first());
         }
         if (other.emails != null) {
-            if (!this.emails.contains(other.emails.first())) {
+            if (this.emails == null || !this.emails.contains(other.emails.first())) {
                 throw new DataEntryNotFoundException("email", List.of(other.emails.first()));
             }
             this.emails.setPrimary(other.emails.first());
         }
         if (other.addresses != null) {
-            if (!this.addresses.contains(other.addresses.first())) {
+            if (this.addresses == null || !this.addresses.contains(other.addresses.first())) {
                 throw new DataEntryNotFoundException("address", List.of(other.addresses.first()));
             }
             this.addresses.setPrimary(other.addresses.first());

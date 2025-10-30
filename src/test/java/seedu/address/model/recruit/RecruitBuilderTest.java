@@ -693,6 +693,114 @@ public class RecruitBuilderTest {
         assertHasSameData(base, solution);
     }
 
+    // UpdatePrimaryData Tests
+    @Test
+    void updatePrimaryData_nullOther_returnsUnchanged() {
+        RecruitBuilder base = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY), new Name(VALID_NAME_BOB)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)));
+
+        RecruitBuilder original = new RecruitBuilder(base);
+        base.updatePrimaryData(null);
+
+        assertHasSameData(base, original);
+    }
+
+    @Test
+    void updatePrimaryData_maximalUpdate_updatesAllFields() {
+        RecruitBuilder base = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY), new Name(VALID_NAME_BOB)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_AMY));
+
+        RecruitBuilder other = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_BOB))
+                .withPhone(new Phone(VALID_PHONE_BOB))
+                .withEmail(new Email(VALID_EMAIL_BOB))
+                .withAddress(new Address(VALID_ADDRESS_BOB));
+
+        base.updatePrimaryData(other);
+
+        RecruitBuilder solution = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY), new Name(VALID_NAME_BOB)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryName(new Name(VALID_NAME_BOB))
+                .withPrimaryPhone(new Phone(VALID_PHONE_BOB))
+                .withPrimaryEmail(new Email(VALID_EMAIL_BOB))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_BOB));
+
+        assertHasSameData(base, solution);
+    }
+
+    @Test
+    void updatePrimaryData_nonExistentEntry_exceptionThrown() {
+        RecruitBuilder base = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .withPhone(new Phone(VALID_PHONE_AMY));
+
+        // Test non-existent name
+        RecruitBuilder otherWithInvalidName = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_BOB));
+        assertThrows(DataEntryNotFoundException.class, () ->
+                base.updatePrimaryData(otherWithInvalidName));
+
+        // Test non-existent phone
+        RecruitBuilder otherWithInvalidPhone = new RecruitBuilder()
+                .withPhone(new Phone(VALID_PHONE_BOB));
+        assertThrows(DataEntryNotFoundException.class, () ->
+                base.updatePrimaryData(otherWithInvalidPhone));
+
+        // Test non-existent email
+        RecruitBuilder otherWithInvalidEmail = new RecruitBuilder()
+                .withEmail(new Email(VALID_EMAIL_AMY));
+        assertThrows(DataEntryNotFoundException.class, () ->
+                base.updatePrimaryData(otherWithInvalidEmail));
+
+        // Test non-existent address
+        RecruitBuilder otherWithInvalidAddress = new RecruitBuilder()
+                .withAddress(new Address(VALID_ADDRESS_AMY));
+        assertThrows(DataEntryNotFoundException.class, () ->
+                base.updatePrimaryData(otherWithInvalidAddress));
+    }
+
+    @Test
+    void updatePrimaryData_partialUpdate_updatesOnlySpecifiedFields() {
+        RecruitBuilder base = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY), new Name(VALID_NAME_BOB)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryName(new Name(VALID_NAME_AMY))
+                .withPrimaryPhone(new Phone(VALID_PHONE_AMY))
+                .withPrimaryEmail(new Email(VALID_EMAIL_AMY))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_AMY));
+
+        // Update only name and email
+        RecruitBuilder other = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_BOB))
+                .withEmail(new Email(VALID_EMAIL_BOB));
+
+        base.updatePrimaryData(other);
+
+        // Only name and email primary should change, phone and address remain
+        RecruitBuilder expected = new RecruitBuilder()
+                .withNames(List.of(new Name(VALID_NAME_AMY), new Name(VALID_NAME_BOB)))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryName(new Name(VALID_NAME_BOB))
+                .withPrimaryPhone(new Phone(VALID_PHONE_AMY))
+                .withPrimaryEmail(new Email(VALID_EMAIL_BOB))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_AMY));
+
+        assertHasSameData(base, expected);
+    }
+
+
     @Test
     void remove_clearsDescription_success() {
         RecruitBuilder base = new RecruitBuilder()
@@ -711,6 +819,8 @@ public class RecruitBuilderTest {
 
         assertHasSameData(base, solution);
     }
+
+
 
 
     // Build Tests
