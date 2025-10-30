@@ -21,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 
 public class ArchiveCommandTest {
 
@@ -40,16 +41,16 @@ public class ArchiveCommandTest {
         String expectedMessage = String.format(MESSAGE_ARCHIVE_RECRUIT_SUCCESS, Messages.format(recruitToArchive));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        Recruit archivedRecruit = new Recruit(
-                recruitToArchive.getID(),
-                recruitToArchive.getNames(),
-                recruitToArchive.getPhones(),
-                recruitToArchive.getEmails(),
-                recruitToArchive.getAddresses(),
-                recruitToArchive.getDescription(),
-                recruitToArchive.getTags(),
-                true
-        );
+        Recruit archivedRecruit = new RecruitBuilder()
+                .setId(recruitToArchive.getID())
+                .withNames(recruitToArchive.getNames())
+                .withPhones(recruitToArchive.getPhones())
+                .withEmails(recruitToArchive.getEmails())
+                .withAddresses(recruitToArchive.getAddresses())
+                .withDescription(recruitToArchive.getDescription())
+                .withTags(recruitToArchive.getTags().stream().toList())
+                .withArchivalState(true)
+                .build();
         expectedModel.setRecruit(recruitToArchive, archivedRecruit);
         expectedModel.refreshFilteredRecruitList();
 
@@ -71,15 +72,15 @@ public class ArchiveCommandTest {
     public void execute_alreadyArchivedRecruit_throwsCommandException() throws Exception {
         Recruit recruitToArchive = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
         // Manually mark as archived
-        Recruit archivedRecruit = new Recruit(
-                recruitToArchive.getNames(),
-                recruitToArchive.getPhones(),
-                recruitToArchive.getEmails(),
-                recruitToArchive.getAddresses(),
-                recruitToArchive.getDescription(),
-                recruitToArchive.getTags(),
-                true
-        );
+        Recruit archivedRecruit = new RecruitBuilder()
+                .withNames(recruitToArchive.getNames())
+                .withPhones(recruitToArchive.getPhones())
+                .withEmails(recruitToArchive.getEmails())
+                .withAddresses(recruitToArchive.getAddresses())
+                .withDescription(recruitToArchive.getDescription())
+                .withTags(recruitToArchive.getTags().stream().toList())
+                .withArchivalState(true)
+                .build();
         model.setRecruit(recruitToArchive, archivedRecruit);
         model.updateFilteredRecruitList(Model.PREDICATE_SHOW_ARCHIVED_RECRUITS);
 

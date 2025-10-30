@@ -1,10 +1,13 @@
-package seedu.address.model.recruit;
+package seedu.address.model.data;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.model.recruit.data.Address;
+
 
 public class AddressTest {
 

@@ -4,13 +4,15 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.recruit.Recruit;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * A UI component that displays information of a {@code Person}.
  */
 public class RecruitCard extends UiPart<Region> {
 
@@ -53,15 +55,31 @@ public class RecruitCard extends UiPart<Region> {
         this.recruit = recruit;
         index.setText(displayedIndex + ". ");
         id.setText(recruit.getID().toString());
-        name.setText(recruit.getName().fullName);
-        phone.setText(recruit.getPhone().value);
-        address.setText(recruit.getAddress().value);
-        email.setText(recruit.getEmail().value);
+        name.setText(recruit.getName().value);
+        recruit.getPhone().ifPresent(phone -> this.phone.setText(phone.value));
+        recruit.getAddress().ifPresent(address -> this.address.setText(address.value));
+        recruit.getEmail().ifPresent(email -> this.email.setText(email.value));
         recruit.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
         archivedLabel.setVisible(recruit.isArchived());
         archivedLabel.setManaged(recruit.isArchived());
+    }
+
+    /**
+     * Handles the action of copying the recruit's ID to the system clipboard.
+     * <p>
+     * This method is triggered when the "Copy" button associated with the recruit's ID is clicked.
+     * It retrieves the text from the {@link #id} label and places it into the system clipboard.
+     *
+     * @param event the {@link javafx.event.ActionEvent} representing the button click event
+     */
+    @FXML
+    public void handleCopyId(javafx.event.ActionEvent event) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(id.getText());
+        clipboard.setContent(content);
     }
 }

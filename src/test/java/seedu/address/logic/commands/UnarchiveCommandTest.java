@@ -21,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 
 public class UnarchiveCommandTest {
 
@@ -37,16 +38,16 @@ public class UnarchiveCommandTest {
         Recruit recruitToUnarchive = model.getFilteredRecruitList().get(INDEX_FIRST_RECRUIT.getZeroBased());
 
         // Manually mark as archived
-        Recruit archivedRecruit = new Recruit(
-                recruitToUnarchive.getID(),
-                recruitToUnarchive.getNames(),
-                recruitToUnarchive.getPhones(),
-                recruitToUnarchive.getEmails(),
-                recruitToUnarchive.getAddresses(),
-                recruitToUnarchive.getDescription(),
-                recruitToUnarchive.getTags(),
-                true
-        );
+        Recruit archivedRecruit = new RecruitBuilder()
+                .setId(recruitToUnarchive.getID())
+                .withNames(recruitToUnarchive.getNames())
+                .withPhones(recruitToUnarchive.getPhones())
+                .withEmails(recruitToUnarchive.getEmails())
+                .withAddresses(recruitToUnarchive.getAddresses())
+                .withDescription(recruitToUnarchive.getDescription())
+                .withTags(recruitToUnarchive.getTags().stream().toList())
+                .withArchivalState(true)
+                .build();
         model.setRecruit(recruitToUnarchive, archivedRecruit);
 
         model.updateFilteredRecruitList(Model.PREDICATE_SHOW_ARCHIVED_RECRUITS);
@@ -54,16 +55,16 @@ public class UnarchiveCommandTest {
         String expectedMessage = String.format(MESSAGE_ARCHIVE_RECRUIT_SUCCESS, Messages.format(recruitToUnarchive));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        Recruit unarchivedRecruit = new Recruit(
-                archivedRecruit.getID(),
-                archivedRecruit.getNames(),
-                archivedRecruit.getPhones(),
-                archivedRecruit.getEmails(),
-                archivedRecruit.getAddresses(),
-                archivedRecruit.getDescription(),
-                archivedRecruit.getTags(),
-                false
-        );
+        Recruit unarchivedRecruit = new RecruitBuilder()
+                .setId(recruitToUnarchive.getID())
+                .withNames(recruitToUnarchive.getNames())
+                .withPhones(recruitToUnarchive.getPhones())
+                .withEmails(recruitToUnarchive.getEmails())
+                .withAddresses(recruitToUnarchive.getAddresses())
+                .withDescription(recruitToUnarchive.getDescription())
+                .withTags(recruitToUnarchive.getTags().stream().toList())
+                .withArchivalState(false)
+                .build();
         expectedModel.setRecruit(archivedRecruit, unarchivedRecruit);
         expectedModel.refreshFilteredRecruitList();
 
