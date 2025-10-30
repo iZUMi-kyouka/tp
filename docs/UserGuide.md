@@ -37,8 +37,78 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. **Ensure you have Java `17` or above installed on your computer.**
+
+   ### Mac Users
+
+   **Check if Java 17 is installed**
+    1. Open Terminal.
+    2. Run:
+       ```bash
+       java -version
+       ```
+    3. If the output shows `17` or above, you can skip installation.
+
+   **Install Java 17 (if not installed)**
+    1. We recommend using **SDKMAN** for easy JDK management. Install SDKMAN:
+       ```bash
+       curl -s "https://get.sdkman.io" | bash
+       source "$HOME/.sdkman/bin/sdkman-init.sh"
+       sdk version
+       ```
+    2. Install Java 17 FX (Zulu):
+       ```bash
+       sdk install java 17.0.14.fx-zulu
+       sdk default java 17.0.14.fx-zulu
+       ```
+    3. Verify installation:
+       ```bash
+       java -version
+       which java
+       ```
+
+   ### Windows Users
+
+   **Check if Java 17 is installed**
+    1. Open Command Prompt.
+    2. Run:
+       ```cmd
+       java -version
+       ```
+    3. If the output shows `17` or above, you can skip installation.
+
+   **Install Java 17 (if not installed)**
+    1. Download Java 17 from [Adoptium Temurin 17](https://adoptium.net/temurin/releases/?version=17) or [Oracle JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+    2. Run the installer and follow prompts.
+    3. Verify installation:
+       ```cmd
+       java -version
+       ```
+
+   ### Linux Users
+
+   **Check if Java 17 is installed**
+    1. Open Terminal.
+    2. Run:
+       ```bash
+       java -version
+       ```
+    3. If the output shows `17` or above, you can skip installation.
+
+   **Install Java 17 (if not installed)**
+    1. Use your package manager. For Ubuntu/Debian:
+       ```bash
+       sudo apt update
+       sudo apt install openjdk-17-jdk
+       ```
+    2. Verify installation:
+       ```bash
+       java -version
+       ```
+
+<div style="background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+  <strong>Tip:</strong> Java 17 is required for TalentNexus to run correctly. If multiple Java versions are installed, ensure Java 17 is set as the default.
+</div>
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F09-3/tp/releases).
 
