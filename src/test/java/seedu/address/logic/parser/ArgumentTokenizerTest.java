@@ -137,6 +137,68 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
+    public void tokenize_doublequoteUsedToEscapeParamProperly_success() {
+        Prefix dashN = new Prefix("-n");
+        Prefix sSlash = new Prefix("S/");
+        Prefix dSlash = new Prefix("D/");
+
+        // Single double-quoted arguments
+        String argsString = "1 -n \"Noor-nahida Binte Afiq S/O Srinivasan D/O Ruyeet\" S/Software Engineer";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, dashN, sSlash);
+        assertArgumentAbsent(argMultimap, dSlash);
+        assertArgumentPresent(argMultimap, sSlash, "Software Engineer");
+        assertArgumentPresent(argMultimap, dashN, "Noor-nahida Binte Afiq S/O Srinivasan D/O Ruyeet");
+
+        // Multiple double-quoted arguments
+        Prefix dashA = new Prefix("-A");
+        Prefix atSymbol = new Prefix("@");
+        Prefix plusSixTwo = new Prefix("+62");
+        argsString = "2 -n \"Htet Aung Zaw @ Mac-Allister John Atkinson\" p/\"+62 878 000 000\"";
+        argMultimap = ArgumentTokenizer.tokenize(argsString, dashN, pSlash, dashA, atSymbol, plusSixTwo);
+
+        assertArgumentAbsent(argMultimap, dashA);
+        assertArgumentAbsent(argMultimap, atSymbol);
+        assertArgumentAbsent(argMultimap, plusSixTwo);
+        assertArgumentPresent(argMultimap, pSlash, "+62 878 000 000");
+        assertArgumentPresent(argMultimap, dashN, "Htet Aung Zaw @ Mac-Allister John Atkinson");
+    }
+
+    @Test
+    public void tokenize_escapedDoublequoteInsideEscapedParam_success() {
+        Prefix dashN = new Prefix("-n");
+        Prefix dashA = new Prefix("-A");
+        String argsString = "2 -n \"Htet Aung Zaw @ Mac-Allister \\\"Yamamoto\\\" Atkinson\" p/\"78787878\"";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, dashN, pSlash, dashA);
+
+        assertArgumentAbsent(argMultimap, dashA);
+        assertArgumentPresent(argMultimap, pSlash, "78787878");
+        assertArgumentPresent(argMultimap, dashN, "Htet Aung Zaw @ Mac-Allister \"Yamamoto\" Atkinson");
+    }
+
+    public void tokenize_escapingDoublequoteUsed_success() {
+        Prefix dashN = new Prefix("-n");
+        Prefix dashA = new Prefix("-A");
+        Prefix dashF = new Prefix("-F");
+        String argsString = "1 -A qwerty\\\"@ -n \"Tonald \\\"America-First\\\" Drump\" -A melon@\\\"musk";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, dashN, dashA, dashF);
+
+        assertArgumentAbsent(argMultimap, dashN);
+        assertArgumentAbsent(argMultimap, dashF);
+        assertArgumentPresent(argMultimap, dashA, "qwerty\"@", "melon@\"musk");
+        assertArgumentPresent(argMultimap, dashN, "Tonald \"America-First\" Drump");
+    }
+
+    public void tokenize_escapingDoublequoteNotUsed_unexpectedResult() {
+        Prefix dashN = new Prefix("-n");
+        Prefix dashA = new Prefix("-A");
+        String argsString = "1 -A qwerty\"@ -n Ji Xinping -A ppc@\"party";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, dashN, dashA);
+
+        assertArgumentAbsent(argMultimap, dashN);
+        assertArgumentPresent(argMultimap, dashA, "qwerty\"@ -n Ji Xinping -A ppc@\"party");
+    }
+
+    @Test
     public void equalsMethod() {
         Prefix aaa = new Prefix("aaa");
 
