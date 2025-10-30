@@ -6,28 +6,136 @@ pageNav: 3
 
 # TalentNexus User Guide
 
-TalentNexus is a **desktop app for managing recruits, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TalentNexus can get your contact management tasks done faster than traditional GUI apps.
+TalentNexus is a **desktop app for managing recruits**, optimized for use via a Command Line Interface (CLI) while still having the benefits of a Graphical User Interface (GUI). For avid keyboard users, TalentNexus can get contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
+
+### Target Audience
+
+TalentNexus is designed for **recruiters and HR professionals** who:
+- Recruit internationally from a large and diverse talent pool
+- Favour a quick, keyboard-driven interface for efficient management
+
+### A few things to take note
+- Basic familiarity with command-line (keyboard-based) operations
+- Sufficient permissions to access and modify files on the computer
+- Java 17 is installed on the computer (Don’t worry! Installation instructions are provided below)
+- A stable internet connection to download Java or view additional resources, although TalentNexus itself runs offline
+
+<div style="
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-left: 6px solid #43a047;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1b5e20;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+">
+  <strong>Glossary:</strong>
+  <ul style="margin-top: 4px; padding-left: 20px; color: #1b5e20;">
+    <li><strong>Command Line Interface (CLI):</strong> Interact with the app by typing commands on a keyboard. Preferred by users who are familiar with keyboard commands and value speed.</li>
+    <li><strong>Graphical User Interface (GUI):</strong> Interact with the app using visual elements like buttons, menus, and windows. Easier for users who prefer point-and-click interactions.</li>
+  </ul>
+</div>
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. **Ensure Java `17` or above is installed on the computer.**
+   ### Mac Users
+   **Check if Java 17 is installed**
+    1. Open Terminal.
+    2. Run:
+       ```bash
+       java -version
+       ```
+    3. If the output shows `17` or above, skip the installation.
+
+   **Install Java 17 (if not installed)**
+    1. Run the following commands in Terminal:
+       ```bash
+       curl -s "https://get.sdkman.io" | bash
+       source "$HOME/.sdkman/bin/sdkman-init.sh"
+       sdk install java 17.0.14.fx-zulu
+       sdk default java 17.0.14.fx-zulu
+       ```
+    2. Verify installation:
+       ```bash
+       java -version
+       ```
+
+   ### Windows Users
+
+   **Check if Java 17 is installed**
+    1. Open Command Prompt.
+    2. Run:
+       ```cmd
+       java -version
+       ```
+    3. If the output shows `17` or above, skip the installation.
+
+   **Install Java 17 (if not installed)**
+    1. Download Java 17 from [Adoptium Temurin 17](https://adoptium.net/temurin/releases/?version=17) or [Oracle JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+    2. Run the installer and follow the instructions.
+    3. Verify installation:
+       ```cmd
+       java -version
+       ```
+
+   ### Linux Users
+
+   **Check if Java 17 is installed**
+    1. Open Terminal.
+    2. Run:
+       ```bash
+       java -version
+       ```
+    3. If the output shows `17` or above, skip the installation.
+
+   **Install Java 17 (if not installed)**
+    1. Run the following commands in Terminal:
+       ```bash
+       sudo apt update
+       sudo apt install openjdk-17-jdk
+       ```
+    2. Verify installation:
+       ```bash
+       java -version
+       ```
+
+<div style="background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+  <strong>Tip:</strong> Java 17 is required for TalentNexus to run correctly. If multiple Java versions are installed, ensure that Java 17 is set as the default version.
+</div>
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F09-3/tp/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder to be designated as the **home folder** for TalentNexus.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+4. Open a command terminal, navigate to the folder where the .jar file is saved using the `cd` command and run the command `java -jar TalentNexus.jar`.<br>
+   A GUI similar to **Figure 1** should appear in a few seconds.<br>
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+<div style="
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-left: 6px solid #43a047;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1b5e20;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+">
+  <strong>Glossary:</strong>
+  <ul style="margin-top: 4px; padding-left: 20px; color: #1b5e20;">
+   <li><strong>Home Folder:</strong> The folder on the computer where the TalentNexus `.jar` file and its data files. This folder acts as the main workspace for the app.</li>
+<li><strong>cd (change directory):</strong> A command used in the command-line interface to navigate between folders on the computer. For example, `cd /path/to/folder` enters the specified folder.</li></ul>
+</div>
+
+![Ui](images/Ui.png)
+   **Figure 1:** Screenshot of the TalentNexus app
+
+5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+   Some example commands:
 
     * [`help`](#viewing-help--help) : Shows help information.
 
@@ -41,7 +149,7 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 
     * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
 
-6. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) section below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -66,25 +174,6 @@ Action        | Format, Examples
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
-
-Action        | Format, Examples
---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
-[**Clear**](#clearing-all-entries--clear)       | `clear`
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-[**Help**](#viewing-help--help)                 | `help`
-[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
-[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
-[**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
-
---------------------------------------------------------------------------------------------------------------------
-
 ## Features
 
 <box type="info" seamless>
@@ -106,14 +195,16 @@ Action        | Format, Examples
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* For PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
   </box>
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+* Directs users to the online user guide for detailed instructions
+* Displays a complete list of all available commands in the app (see **Figure 2**)
 
 ![help message](images/helpMessage.png)
+**Figure 2:** Help message pop-up
 
 Format: `help`
 
@@ -122,15 +213,12 @@ Format: `help`
 
 Adds a recruit to the address book.
 
-* You may specify more than one recruit attributes like names and email addresses.
-* You may also provide names in various langugaes.
+* Specify more than one recruit attributes like names and email addresses.
+* Provide names in various languages.
 
 Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
-<box type="tip" seamless>
-
-**Tip:** A recruit can have any number of tags (or none at all)
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> A recruit can have any number of tags (or none at all)</div>
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
@@ -142,7 +230,7 @@ Examples:
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
 
-You can view [**archived**](#archiving-a-recruit--archive) recruits by following one of the command formats below:
+View [**archived**](#archiving-a-recruit--archive) recruits by following one of the command formats below:
 
 **Formats:**
 * `list` — Shows only unarchived (active) recruits (default)
@@ -177,7 +265,7 @@ Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* You can remove all the recruit’s tags by typing `t/` without specifying any tags after it.
+* Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
 
 #### Operation Types
 
@@ -193,39 +281,49 @@ Examples:
 *  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
 *  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
 
+### Deleting a recruit : `delete`
+
+Deletes the specified recruit from the address book.
+
+Format: `delete INDEX/UUID`
+
+* Deletes the recruit at the specified `INDEX` or `UUID`.
+* The index refers to the index number shown in the displayed recruit list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `list` followed by `delete 2` deletes the 2nd recruit in the address book.
+* `find Betsy` followed by `delete 1` deletes the 1st recruit in the results of the `find` command.
+
 ### Undoing previously done operations: `undo`
 
 Undoes operations that were done recently.
 
-* You may only continuously perform undo operations up to 200 times.
+*  Undo operations can only be executed consecutively up to 200 times.
 
 Format: `undo​`
 
 Example usage scenarios:
-1. You add an additional Japanese name to recruit John.
-2. You delete recruit Li.
-3. You accidentally cleared all recruits.
-4. You type `undo` to restore all the recruits.
-5. You realise that you meant instead to delete recruit Lee instead of Li.
-6. You type `undo` again to undo deletion of recruit Li.
-
+- An additional Japanese name is added to recruit John
+- Recruit Li is deleted
+- All recruits are accidentally cleared
+- The undo command is typed to restore all the recruits
+- The user realised that recruit Lee was meant to be deleted instead of Li
+- The undo command is typed again to undo deletion of recruit Li
 
 ### Redoing undone operations: `redo`
 
 Redoes operations that were undone recently.
 
-<box type="warning" seamless>
-
-**Warning:** If you have undone some operations, and you perform operations that modify any recruit, you will not be able to redo these undone operations anymore.
-</box>
+<div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Warning:</strong> If any operations have been undone and changes to a recruit are subsequently made, the previously undone operations cannot be redone.</div>
 
 Format: `redo`
 
 Examples usage scenario:
-1. You delete recruit Li.
-2. You realise you still need recruit Li's email.
-3. You type `undo` to undo deletion of recruit Li and check his email.
-5. You type `redo` again to redo the deletion of Recruit Li.
+- Recruit Li is deleted
+- The user realised that recruit Li's email is still needed.
+- The undo command is typed to undo the deletion of recruit Li and check the email
+- The redo command is typed to redo the deletion of recruit Li
 
 ### Locating recruits by name: `find`
 
@@ -247,8 +345,6 @@ If both default keyword(s) and name keyword(s) are specified, the **name keyword
 
 If multiple flags are provided, the results will include recruits who satisfy all search criteria
 
----
-
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
 * `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
@@ -257,15 +353,12 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
 * `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
----
-
 **Chaining multiple search flags:**
 * `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
 * `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
   “Bukit” or “Pasir”
----
 
 **Examples:**
 * `find alice` — Finds all recruits with “alice” in their name
@@ -274,13 +367,14 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
-<box type="tip" seamless>
-
-**Tip:** Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
-</box>
 
 ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+**Figure 3:** Searching for recruits with "Bukit Batok" in their address
+
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+**Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
 
 ### Sorting recruits : `sort`
 
@@ -311,10 +405,7 @@ Examples:
 * `sort -n -p desc` - Sorts by name (ascending) first, then by phone number (descending) for recruits with the same name
 * `sort -n -e` - Sorts by name (ascending) first, the by email (ascending) for recruit with the same name
 
-<box type="tip" seamless>
-
-**Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use multiple sort criteria to organise recruits more precisely. The leftmost field has the highest priority.</div>
 
 ### Archiving a recruit : `archive`
 
@@ -335,10 +426,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 * `list` followed by `archive 2` archives the 2nd recruit in the address book
 * `find John` followed by `archive 1` archives the 1st recruit in the results of the `find` command
 
-<box type="info" seamless>
-
-**Tip:** Archive recruits you no longer actively work with to keep your main list clean and focused!
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Archive recruits no longer active to keep the main list clean and focused!</div>
 
 ### Unarchiving a recruit : `unarchive`
 
@@ -354,47 +442,7 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -archived` followed by `unarchive 1` unarchives the 1st recruit in the archived list
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
-<box type="tip" seamless>
-
-**Tip:** To unarchive a recruit, first use `list -archived` to view your archived recruits, then use `unarchive INDEX`.
-</box>
-
-### Deleting a recruit : `delete`
-
-Deletes the specified recruit from the address book.
-
-Format: `delete INDEX/UUID`
-
-* Deletes the recruit at the specified `INDEX` or `UUID`.
-* The index refers to the index number shown in the displayed recruit list.
-* The index **must be a positive integer** 1, 2, 3, …​
-
-Examples:
-* `list` followed by `delete 2` deletes the 2nd recruit in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st recruit in the results of the `find` command.
-
-### Clearing all entries : `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
-
-### Dismissing command result message: `dismiss`
-
-Clears the command result message box.
-
-Format: `dismiss`
-
-<box type="tip" seamless>
-
-**Tip:** You could dismiss command result message that you have read to regain more space to view the recruit list.
-</box>
-
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view archived recruits, then use `unarchive INDEX`.</div>
 
 ### Exporting recruit data: `export`
 
@@ -408,33 +456,69 @@ Examples:
 *  `export` Exports all recruits to the default filepath found in preferences.json.
 *  `export ./data/recruits.csv` Exports all recruits to the relative filepath `./data/recruits.csv`.
 
-<box type="tip" seamless>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.</div>
 
-**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.
-</box>
+![ExportedRecruits](images/exported_recruits.png)
+**Figure 5:** Exported recruits list in .csv format from TalentNexus
+
+### Clearing all entries : `clear`
+
+Clears all entries from the address book.
+
+Format: `clear`
+
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If recruits have been cleared accidentally, don't worry! Use the <em>undo</em> command immediately to restore previous changes</div>
+
+### Dismissing command result message: `dismiss`
+
+Clears the message shown after executing a command.
+
+Format: `dismiss`
+
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Dismiss command result message that have been read to regain more space to view the recruit list.</div>
+
+### Exiting the program : `exit`
+
+Exits the program.
+
+Format: `exit`
 
 ### Saving the data
 
-TalentNexus data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Recruit data is saved automatically after any command is executed. There is no need to save manually.
 
 ### Editing the data file
 
-TalentNexus data is saved automatically as a JSON file `[JAR file location]/data/TalentNexusData.json`. Advanced users are welcome to update data directly by editing that data file.
+Recruit data is saved automatically as a JSON file `[JAR file location]/data/TalentNexusData.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<box type="warning" seamless>
+<div style="
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  border-left: 6px solid #fb8c00;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #5d4037;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+">
+  <strong>Warning:</strong>
+  <ul style="
+    margin: 8px 0 0 20px;
+    padding: 0;
+    color: #5d4037; /* ensures list text matches div */
+    background: transparent; /* makes sure gradient shows through */
+  ">
+    <li>If there are changes to the data file which made its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is <strong>strongly recommended</strong> to take a backup of the file before editing it.</li>
+    <li>Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).</li>
+    <li>Therefore, edit the data file while making sure it adheres to the stored format.</li>
+  </ul>
+</div>
 
-**Warning:**
-* If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
-* Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
-* Therefore, edit the data file only if you are confident that you can update it correctly.
-  </box>
-
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of the previous AddressBook home folder.
 
 ---
 
@@ -444,7 +528,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 ---
 
 **Q:** What happens if I accidentally delete a recruit?  
-**A:** You can restore deleted recruits immediately using the `undo` command (`undo`), as long as you haven’t closed the application since the deletion.
+**A:** Deleted recruits can be restored immediately using the `undo` command (`undo`), as long as the application has not been closed since the deletion.
 
 ---
 
@@ -454,17 +538,17 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 ---
 
 **Q:** Can I import data from another AddressBook or TalentNexus installation?  
-**A:** Yes. Copy the `addressbook.json` file from the other installation into your current `/data` folder, replacing the existing file. **Always back up** your current `addressbook.json` first.
+**A:** Yes. Copy the `addressbook.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `addressbook.json` file first.
 
 ---
 
 **Q:** Why are my changes not appearing after restarting the app?  
-**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `addressbook.json` file is in the `/data` folder relative to the `.jar` file you run.
+**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `addressbook.json` file is in the `/data` folder relative to the `.jar` file being run.
 
 ---
 
-**Q:** What if I enter invalid data directly into the JSON file?  
-**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file to an empty state. Always back up the file before making manual edits.
+**Q:** What if I enter invalid recruit data inside the data file?  
+**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits.
 
 ---
 
@@ -474,30 +558,30 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 ---
 
 **Q:** What should I do if a command doesn’t work?  
-**A:** Check your command syntax against the [**Command summary**](#command-summary) and the relevant command section. You can also run `help` to view the quick command guide.
+**A:** Check the command syntax against the [**Command summary**](#command-summary) and the relevant command section. Type `help` to view the quick command guide.
 
 ---
 
 **Q:** How do I reset the application to its default state?  
-**A:** Delete both `preferences.json` and `addressbook.json` from the data directory. On next launch the app will recreate default files and sample data.
+**A:** Delete both `preferences.json` and `addressbook.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
 **Q:** How do I run TalentNexus with a specific Java version?  
-**A:** Ensure the desired JDK is installed and on your `PATH`. Run the app with that Java binary, e.g.:
+**A:** Ensure the desired JDK is installed and added to the computer's environment variables. Then, run the app with that Java version.
 
 **Q:** Where can I find the JSON schema or data format?  
-**A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. If you plan to edit the file manually, back it up first and ensure you preserve valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
+**A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
 **Q:** The Help window opened off-screen or is minimized — what do I do?  
-**A:** Close the app and delete `preferences.json` in the data directory to reset window positions. Relaunch the app to restore windows to default locations.
+**A:** Close the app and delete the `preferences.json` file in the ./data folder to reset window positions. Relaunch the app to restore windows to default locations.
 
 ---
 
 **Q:** Is there a limit to how many operations I can undo?  
-**A:** You can perform up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
+**A:** There is a limit of up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
 
 ---
 
@@ -508,8 +592,8 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **If you are running a Linux-based operating system such as Ubuntu and Linux Mint**, you may experience issues when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. If you work with data that require IME input, you may type your command in other text editing program and copy-paste it into the command box.
+1. **When using multiple screens**, if the application is moved to a secondary screen, and then switched to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **If the the Help Window** is minimised and the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) is run again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **When a Linux-based operating system such as Ubuntu and Linux Mint** is used, issues may be experienced when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. Commands requiring IME input can be typed in another text editing program and then copied into the command box.
 
 --------------------------------------------------------------------------------------------------------------------
