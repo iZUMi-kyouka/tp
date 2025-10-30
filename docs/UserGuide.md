@@ -500,9 +500,12 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from the address book. 
 
-Format: `clear`
+Format: `clear -confirm`
+
+* The `-confirm` flag is required to confirm deletion of all recruits.
+* When `-confirm` is not specified, this command will simply display a help message.
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If recruits have been cleared accidentally, don't worry! Use the <em>undo</em> command immediately to restore previous changes</div>
 
