@@ -470,7 +470,7 @@ Use case ends.
 
 ### Glossary
 
-* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of Recruital data
+* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of Personal data
 * **Recruit**: A recruit being considered for a job role
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 
