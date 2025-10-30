@@ -20,7 +20,7 @@ public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-f09-3.github.io/tp/UserGuide.html";
     public static final String COMMAND_HELP_MESSAGE = """
-            TLDR List of Commands:
+            Command Summary:
             \s
             1. Create recruit
             add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
