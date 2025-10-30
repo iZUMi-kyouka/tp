@@ -66,25 +66,6 @@ Action        | Format, Examples
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
-
-Action        | Format, Examples
---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
-[**Clear**](#clearing-all-entries--clear)       | `clear`
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-[**Help**](#viewing-help--help)                 | `help`
-[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
-[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
-[**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
-
---------------------------------------------------------------------------------------------------------------------
-
 ## Features
 
 <box type="info" seamless>
@@ -127,10 +108,7 @@ Adds a recruit to the address book.
 
 Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
-<box type="tip" seamless>
-
-**Tip:** A recruit can have any number of tags (or none at all)
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> A recruit can have any number of tags (or none at all)</div>
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
@@ -274,10 +252,7 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
-<box type="tip" seamless>
-
-**Tip:** Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol <code>|</code> to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
@@ -305,10 +280,7 @@ Examples:
 * `sort n/ asc p/ desc` - Sorts by name (ascending) first, then by phone number (descending) for recruits with the same name
 * `sort e/ asc a/ desc` - Sorts by email (ascending) first, then by address (descending) for recruits with the same email
 
-<box type="tip" seamless>
-
-**Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.</div>
 
 ### Archiving a recruit : `archive`
 
@@ -329,10 +301,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 * `list` followed by `archive 2` archives the 2nd recruit in the address book
 * `find John` followed by `archive 1` archives the 1st recruit in the results of the `find` command
 
-<box type="info" seamless>
-
-**Tip:** Archive recruits you no longer actively work with to keep your main list clean and focused!
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Archive recruits you no longer actively work with to keep your main list clean and focused!</div>
 
 ### Unarchiving a recruit : `unarchive`
 
@@ -348,10 +317,8 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -archived` followed by `unarchive 1` unarchives the 1st recruit in the archived list
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
-<box type="tip" seamless>
 
-**Tip:** To unarchive a recruit, first use `list -archived` to view your archived recruits, then use `unarchive INDEX`.
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view your archived recruits, then use `unarchive INDEX`.</div>
 
 ### Deleting a recruit : `delete`
 
@@ -379,10 +346,7 @@ Clears the command result message box.
 
 Format: `dismiss`
 
-<box type="tip" seamless>
-
-**Tip:** You could dismiss command result message that you have read to regain more space to view the recruit list.
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> You could dismiss command result message that you have read to regain more space to view the recruit list.</div>
 
 ### Exiting the program : `exit`
 
@@ -402,10 +366,7 @@ Examples:
 *  `export` Exports all recruits to the default filepath found in preferences.json.
 *  `export ./data/recruits.csv` Exports all recruits to the relative filepath `./data/recruits.csv`.
 
-<box type="tip" seamless>
-
-**Tip:** Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.
-</box>
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.</div>
 
 ### Saving the data
 
