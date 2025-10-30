@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -55,7 +54,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
     public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s do not exist: %s";
-    public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
+    public static final String MESSAGE_MAXIMUM_ONE_PRIMARY_DATA = "You cannot specify more than one primary data.";
+    public static final String MESSAGE_INVALID_OPERATION_TYPE = "Multiple edit operation type is not allowed.";
     private static final String DELTA_SEP = " -> "; // separator to show modified values in success message
 
     private final Optional<UUID> id;
@@ -140,8 +140,9 @@ public class EditCommand extends Command {
             throws CommandException {
         try {
             return new RecruitBuilder(rec).updatePrimaryData(desc).build();
-        } catch (IllegalArgumentException e) {
-            throw new CommandException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        } catch (DataEntryNotFoundException de) {
+            throw new CommandException(
+                    String.format(MESSAGE_MISSING_ATTRIBUTE, de.getDataType(), de.getUserPresentableMissingEntries()));
         }
     }
 

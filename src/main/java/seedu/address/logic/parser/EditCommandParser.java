@@ -128,7 +128,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         try {
             requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove, isUpdatePrimary));
         } catch (IllegalArgumentException e) {
-            throw new ParseException(String.format(EditCommand.MESSAGE_INVALID_OPERATION), e);
+            throw new ParseException(String.format(EditCommand.MESSAGE_INVALID_OPERATION_TYPE), e);
         }
 
         // disallow specifying more than one data of a particular attribute
@@ -137,7 +137,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             try {
                 argMultiMap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
             } catch (ParseException pe) {
-                throw new ParseException(String.format(EditCommand.MESSAGE_INVALID_OPERATION), pe);
+                throw new ParseException(String.format(EditCommand.MESSAGE_MAXIMUM_ONE_PRIMARY_DATA), pe);
             }
         }
 
