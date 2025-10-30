@@ -1,7 +1,6 @@
 package seedu.address.model.recruit;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -59,8 +58,8 @@ public class Recruit {
         return names.getPrimary().get();
     }
 
-    public List<Name> getNames() {
-        return this.names.stream().toList();
+    public DataSet<Name> getNames() {
+        return new DataSet<>(names);
     }
 
     /**
@@ -72,8 +71,8 @@ public class Recruit {
                 .or(() -> phones.isEmpty() ? Optional.empty() : Optional.of(phones.first()));
     }
 
-    public List<Phone> getPhones() {
-        return this.phones.stream().toList();
+    public DataSet<Phone> getPhones() {
+        return new DataSet<>(phones);
     }
 
     /**
@@ -85,8 +84,8 @@ public class Recruit {
                 .or(() -> emails.isEmpty() ? Optional.empty() : Optional.of(emails.first()));
     }
 
-    public List<Email> getEmails() {
-        return this.emails.stream().toList();
+    public DataSet<Email> getEmails() {
+        return new DataSet<>(emails);
     }
 
     public Description getDescription() {
@@ -102,8 +101,8 @@ public class Recruit {
                 .or(() -> addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first()));
     }
 
-    public List<Address> getAddresses() {
-        return this.addresses.stream().toList();
+    public DataSet<Address> getAddresses() {
+        return new DataSet<>(addresses);
     }
 
     /**

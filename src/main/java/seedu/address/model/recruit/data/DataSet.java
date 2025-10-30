@@ -25,6 +25,14 @@ public class DataSet<T extends Data> extends TreeSet<T> {
     }
 
     /**
+     * Copy constructor of DataSet.
+     */
+    public DataSet(DataSet<T> ds) {
+        super(ds);
+        primaryData = ds.primaryData;
+    }
+
+    /**
      * Constructs a DataSet containing the only data {@code t}, which will
      * also be set as the primary data.
      * @param coll
@@ -65,6 +73,22 @@ public class DataSet<T extends Data> extends TreeSet<T> {
 
     public Optional<T> getPrimary() {
         return primaryData;
+    }
+
+    /**
+     * Returns a {@code List} of String containing the string representation of all
+     * elements in this DataSet. Each string representation is obtained by calling
+     * {@code toString} on each element. The string representation of the primary data
+     *  will be appended with {@code " (primary)"}.
+     * @return
+     */
+    public List<String> toStringStream() {
+        return this.size() > 1
+                ? this.stream()
+                        .map(t -> primaryData.map(p -> p.equals(t)).orElse(false)
+                                ? t.toString() + " (primary)" : t.toString())
+                        .toList()
+                : this.stream().map(Object::toString).toList();
     }
 
     @Override
