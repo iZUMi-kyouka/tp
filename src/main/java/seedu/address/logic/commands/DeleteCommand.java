@@ -22,8 +22,8 @@ public class DeleteCommand extends Command {
     public static final String OPERATION_DESCRIPTOR = "deletion of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the recruit identified by recruit's INDEX/UUID.\n"
-            + "Parameters: INDEX/UUID\n"
+            + ": Deletes the recruit identified by recruit's INDEX|UUID.\n"
+            + "Parameters: INDEX|UUID\n"
             + "Example: " + COMMAND_WORD + " 2\n"
             + "Example: " + COMMAND_WORD + " eac9b117-2ded-42c3-9264-ccf3dfaaa950";
 

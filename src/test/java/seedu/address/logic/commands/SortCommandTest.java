@@ -37,7 +37,7 @@ public class SortCommandTest {
         Comparator<Recruit> comparator = Comparator.comparing(recruit -> recruit.getName().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
 
-        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-n (ascending)");
+        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "name (ascending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
 
         // Verify the list is sorted alphabetically by name
@@ -62,7 +62,7 @@ public class SortCommandTest {
                 Recruit recruit) -> recruit.getName().value.toLowerCase()).reversed();
         expectedModel.sortRecruits(comparator);
 
-        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-n (descending)");
+        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "name (descending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
 
         // Verify the list is sorted in reverse alphabetical order by name
@@ -86,7 +86,7 @@ public class SortCommandTest {
         Comparator<Recruit> comparator = Comparator.comparing(recruit -> recruit.getPhone().get().value);
         expectedModel.sortRecruits(comparator);
 
-        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-p (ascending)");
+        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "phone (ascending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
 
         // Verify the list is sorted by phone number
@@ -111,7 +111,7 @@ public class SortCommandTest {
                 Recruit recruit) -> recruit.getEmail().get().value.toLowerCase()).reversed();
         expectedModel.sortRecruits(comparator);
 
-        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-e (descending)");
+        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "email (descending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
 
         // Verify the list is sorted in reverse order by email
@@ -136,7 +136,7 @@ public class SortCommandTest {
                 recruit -> recruit.getAddress().get().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
 
-        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-a (ascending)");
+        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "address (ascending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
     }
 
@@ -156,7 +156,7 @@ public class SortCommandTest {
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS,
-                "-n (ascending), -p (descending), -e (ascending)");
+                "name (ascending), phone (descending), email (ascending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
     }
 
@@ -178,7 +178,7 @@ public class SortCommandTest {
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS,
-                "-n (ascending), -p (ascending), -e (ascending), -a (ascending)");
+                "name (ascending), phone (ascending), email (ascending), address (ascending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
     }
 
@@ -192,7 +192,7 @@ public class SortCommandTest {
 
         SortCommand sortCommand = new SortCommand(criteria);
 
-        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-n (ascending)");
+        String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "name (ascending)");
         assertCommandSuccess(sortCommand, model, expectedMessage, expectedModel);
 
         // Verify empty list remains empty
@@ -202,10 +202,10 @@ public class SortCommandTest {
     @Test
     public void toString_sortCriterion_correctFormat() {
         SortCriterion criterion = new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING);
-        assertEquals("-n (ascending)", criterion.toString());
+        assertEquals("name (ascending)", criterion.toString());
 
         SortCriterion criterion2 = new SortCriterion(SORT_PREFIX_PHONE, SortOrder.DESCENDING);
-        assertEquals("-p (descending)", criterion2.toString());
+        assertEquals("phone (descending)", criterion2.toString());
     }
 }
 
