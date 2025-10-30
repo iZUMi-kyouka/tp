@@ -112,6 +112,8 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentNexus.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
+   **Figure 1:** Screenshot of the TalentNexus app
+
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
@@ -182,6 +184,7 @@ Action        | Format, Examples
 Shows a message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
+**Figure 2:** Help message pop-up
 
 Format: `help`
 
@@ -336,10 +339,15 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
 * `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
 
-<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+**Figure 3:** Searching for recruits with "Bukit Batok" in their address
+
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+
+
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+**Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
 
 ### Sorting recruits : `sort`
 
@@ -456,7 +464,7 @@ Examples:
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.</div>
 
 ![ExportedRecruits](images/exported_recruits.png)
-**Figure 1:** Exported recruits list in .csv format from TalentNexus
+**Figure 5:** Exported recruits list in .csv format from TalentNexus
 
 ### Saving the data
 
@@ -487,7 +495,8 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
     <li>Therefore, edit the data file only if you are confident that you can update it correctly.</li>
   </ul>
 </div>
---------------------------------------------------------------------------------------------------------------------
+
+---
 
 ## FAQ
 
