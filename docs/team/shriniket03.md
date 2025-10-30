@@ -11,7 +11,7 @@ Given below are my contributions to the project.
 
 * **New Feature**: Archive/Unarchive Command
   * What it does: The archive feature allows for recruits to be archived away and hidden from the main recruit list
-  * Justification: A user would like to retain the information of a recruit while not actively considering them 
+  * Justification: A user would like to retain the information of a recruit while not actively considering them
   * Highlights: The user will be able to unarchive the user for later reference if needed through the unarchive command
 
 * **Code contributed**: [RepoSense link]()

@@ -30,10 +30,10 @@ public class Recruit {
 
 
     // Data fields
-    private final TreeSet<Name> names;
-    private final TreeSet<Phone> phones;
-    private final TreeSet<Email> emails;
-    private final TreeSet<Address> addresses;
+    private final DataSet<Name> names;
+    private final DataSet<Phone> phones;
+    private final DataSet<Email> emails;
+    private final DataSet<Address> addresses;
     private final Description description;
     private final TreeSet<Tag> tags;
 

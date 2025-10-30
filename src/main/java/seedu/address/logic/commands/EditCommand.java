@@ -149,7 +149,7 @@ public class EditCommand extends Command {
             return new RecruitBuilder(rec).updatePrimaryData(desc).build();
         } catch (DataEntryNotFoundException de) {
             throw new CommandException(
-                    String.format(MESSAGE_MISSING_ATTRIBUTE, de.getDataType(), de.getUserPresentableMissingEntries()));
+                    String.format(MESSAGE_MISSING_ATTRIBUTE, de.getDataType(), de.getMissingEntries().get(0)));
         }
     }
 
