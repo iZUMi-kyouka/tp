@@ -157,23 +157,23 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 ## Command Summary
 
-Action        | Format, Examples                                                                                                                                                                        
+Action        | Format, Examples
 --------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`                             
-[**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`                                                                                                                                                    
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`                                                                                                                                                
-[**Find**](#locating-recruits-by-name-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                              
-[**Sort**](#sorting-recruits--sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`                                                                                
-[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`                                                                                                               
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`                                                                                                                                                   
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`                                                                                                                                               
-[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`                                                                                                                                                                 
-[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`                                                                                                                                                                 
-[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`                                                                                                                              
-[**Clear**](#clearing-all-entries--clear)       | `clear`<br> e.g., `clear`                                                                                                                                                                                  
-[**Dismiss**](#dismiss--dismiss)       | `dismiss`<br> e.g., `dissmiss`                                                                                                                                                                            
-[**Help**](#viewing-help--help)                 | `help`<br> e.g., `help`                                                                                                                                                                                   
+[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
+[**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`
+[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`
+[**Find**](#locating-recruits-by-name-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`
+[**Sort**](#sorting-recruits--sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
+[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
+[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
+[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`
+[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`
+[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
+[**Clear**](#clearing-all-entries--clear)       | `clear`<br> e.g., `clear`
+[**Dismiss**](#dismiss--dismiss)       | `dismiss`<br> e.g., `dissmiss`
+[**Help**](#viewing-help--help)                 | `help`<br> e.g., `help`
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -195,7 +195,7 @@ Action        | Format, Examples
   e.g. If the user types `help 123`, it will be interpreted as `help`.
 
 * For PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-  
+
 * The pipe symbol `|` denotes "or".<br>
   e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
 </box>
@@ -295,7 +295,7 @@ Examples:
 *  `edit -ap 3 e/e01234567@u.nus.edu e/dcsat@nus.edu.sg a/1 Computing Drive` adds to the 3rd recruit the email addresses `e01234567@u.nus.edu.sg` and `dcsat@nus.edu.sg`, and the address `1 Computing Drive`.
 *  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
 *  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
-*  `edit -primary 2 p/98989898 n/Dwayne "Ping Qilin" Johnsson` updates the 2nd recruit's primary phone number to `98989898` and the primary name to `Dwayne "Ping Qilin" Johnsson`, assuming that this phone number and name exist. 
+*  `edit -primary 2 p/98989898 n/Dwayne "Ping Qilin" Johnsson` updates the 2nd recruit's primary phone number to `98989898` and the primary name to `Dwayne "Ping Qilin" Johnsson`, assuming that this phone number and name exist.
 
 <br>
 
@@ -420,7 +420,7 @@ Format: `sort [PARAMETER ORDER]...`
 * Multiple fields can be specified, and the sorting will be applied in order of priority from left to right.
 * If no parameters and orders are provided, recruits will be sorted by name in ascending order by default.
 * If only `asc` or `desc` is provided (without field prefixes), recruits will be sorted by name in that order.
-* For any parameter, if the order is not specified, recruits will be sorted in ascending order by default. 
+* For any parameter, if the order is not specified, recruits will be sorted in ascending order by default.
 * The sort is case-insensitive for text fields (name, email, address).
 
 **Shorthand formats:**
@@ -504,7 +504,7 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book. 
+Clears all entries from the address book.
 
 Format: `clear -confirm`
 
@@ -570,72 +570,72 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 
 ---
 
-**Q:** Can I use TalentNexus without an internet connection?  
+**Q:** Can I use TalentNexus without an internet connection?
 **A:** Yes. TalentNexus is a fully offline desktop application — no internet connection is required for any of its features.
 
 ---
 
-**Q:** What happens if I accidentally delete a recruit?  
+**Q:** What happens if I accidentally delete a recruit?
 **A:** Deleted recruits can be restored immediately using the `undo` command (`undo`), as long as the application has not been closed since the deletion.
 
 ---
 
-**Q:** How do I back up my data?  
+**Q:** How do I back up my data?
 **A:** Copy the `addressbook.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
 
 ---
 
-**Q:** Can I import data from another AddressBook or TalentNexus installation?  
+**Q:** Can I import data from another AddressBook or TalentNexus installation?
 **A:** Yes. Copy the `addressbook.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `addressbook.json` file first.
 
 ---
 
-**Q:** Why are my changes not appearing after restarting the app?  
+**Q:** Why are my changes not appearing after restarting the app?
 **A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `addressbook.json` file is in the `/data` folder relative to the `.jar` file being run.
 
 ---
 
-**Q:** What if I enter invalid recruit data inside the data file?  
+**Q:** What if I enter invalid recruit data inside the data file?
 **A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits.
 
 ---
 
-**Q:** How do I view archived recruits?  
+**Q:** How do I view archived recruits?
 **A:** Use `list -archived` to show only archived recruits, or `list -all` to view both archived and active recruits.
 
 ---
 
-**Q:** What should I do if a command doesn’t work?  
+**Q:** What should I do if a command doesn’t work?
 **A:** Check the command syntax against the [**Command summary**](#command-summary) and the relevant command section. Type `help` to view the quick command guide.
 
 ---
 
-**Q:** How do I reset the application to its default state?  
+**Q:** How do I reset the application to its default state?
 **A:** Delete both `preferences.json` and `addressbook.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
-**Q:** How do I run TalentNexus with a specific Java version?  
+**Q:** How do I run TalentNexus with a specific Java version?
 **A:** Ensure the desired JDK is installed and added to the computer's environment variables. Then, run the app with that Java version.
 
 ---
 
-**Q:** Where can I find the JSON schema or data format?  
+**Q:** Where can I find the JSON schema or data format?
 **A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
-**Q:** The Help window opened off-screen or is minimized — what do I do?  
+**Q:** The Help window opened off-screen or is minimized — what do I do?
 **A:** Close the app and delete the `preferences.json` file in the ./data folder to reset window positions. Relaunch the app to restore windows to default locations.
 
 ---
 
-**Q:** Is there a limit to how many operations I can undo?  
+**Q:** Is there a limit to how many operations I can undo?
 **A:** There is a limit of up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
 
 ---
 
-**Q:** Who do I contact for bug reports or feature requests?  
+**Q:** Who do I contact for bug reports or feature requests?
 **A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `addressbook.json` (sanitized if needed), and the Java version used.
 
 --------------------------------------------------------------------------------------------------------------------
