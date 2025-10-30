@@ -19,6 +19,10 @@ public class Messages {
     public static final String MESSAGE_RECRUITS_LISTED_OVERVIEW = "%1$d recruits listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_NON_VALUE_ACCEPTING_FLAGS =
+                "The following flag(s) do not accept any argument: ";
+    public static final String MESSAGE_NO_ID_OR_INDEX = "Either UUID or index must be provided.";
+
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -33,28 +37,54 @@ public class Messages {
     }
 
     /**
+     * Returns an error message indicating the duplicate prefixes.
+     */
+    public static String getErrorMessageForNonValueAcceptingPrefixes(Prefix... prefixes) {
+        assert prefixes.length > 0;
+
+        Set<String> fields =
+                Stream.of(prefixes).map(Prefix::toString).collect(Collectors.toSet());
+
+        return MESSAGE_NON_VALUE_ACCEPTING_FLAGS + String.join(" ", fields);
+    }
+
+    /**
      * Formats the {@code person} for display to the user.
      */
     public static String format(Recruit recruit) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(recruit.getName());
+        builder.append(" ID: ").append(recruit.getID());
 
-        recruit.getPhones().stream().findFirst().ifPresent(phone ->
-                builder.append("\n Phone: ").append(phone)
-        );
+        builder.append("\n Name: [")
+                .append(recruit.getNames().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
 
-        recruit.getEmails().stream().findFirst().ifPresent(email ->
-                builder.append("\n Email: ").append(email)
-        );
+        builder.append("\n Phone: [")
+                .append(recruit.getPhones().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
 
-        recruit.getAddresses().stream().findFirst().ifPresent(address ->
-                builder.append("\n Address: ").append(address)
-        );
+        builder.append("\n Email: [")
+                .append(recruit.getEmails().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
+
+        builder.append("\n Address: [")
+                .append(recruit.getAddresses().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")))
+                .append("]");
 
         builder.append("\n Description: ").append(recruit.getDescription());
 
-        builder.append("\n Tags: ");
-        recruit.getTags().forEach(tag -> builder.append(tag).append(" "));
+        builder.append("\n Tags: ")
+                .append(recruit.getTags().stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", ")));
 
         return builder.toString();
     }

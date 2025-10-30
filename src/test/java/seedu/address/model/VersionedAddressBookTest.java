@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.recruit.Recruit;
-import seedu.address.testutil.RecruitBuilder;
+import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class VersionedAddressBookTest {
     private final VersionedAddressBook addressBook = new VersionedAddressBook(new AddressBook());
@@ -157,7 +157,7 @@ public class VersionedAddressBookTest {
     public void commit_historyStateSizeLimitExceeded_listSizeBounded() {
         for (int i = 0; i < VersionedAddressBook.MAX_UNDO_HISTORY_SIZE + 50; i++) {
             String uuid = UUID.randomUUID().toString();
-            Recruit r = new RecruitBuilder(AMY).withID(uuid).withName(AMY.getName().toString() + i).build();
+            Recruit r = new SimpleRecruitBuilder(AMY).withID(uuid).withName(AMY.getName().toString() + i).build();
             addressBook.addRecruit(r);
             addressBook.commit("add Amy");
         }
@@ -176,7 +176,7 @@ public class VersionedAddressBookTest {
                 .toList();
         for (int i = 0; i < totalCommits; i++) {
             String uuid = uuids.get(i).toString();
-            Recruit r = new RecruitBuilder(AMY)
+            Recruit r = new SimpleRecruitBuilder(AMY)
                     .withID(uuid)
                     .withName(AMY.getName().toString() + i)
                     .build();
@@ -185,7 +185,7 @@ public class VersionedAddressBookTest {
         }
         expectedAddressBook.setRecruits(
                 IntStream.range(0, extraCommits + 1)
-                        .mapToObj(i -> new RecruitBuilder(AMY)
+                        .mapToObj(i -> new SimpleRecruitBuilder(AMY)
                                 .withID(uuids.get(i).toString())
                                 .withName(AMY.getName().toString() + i)
                                 .build())
@@ -196,8 +196,6 @@ public class VersionedAddressBookTest {
                 expectedAddressBook,
                 "add Amy"
         );
-        System.out.println(expectedAddressBookState.getAddressBook());
-        System.out.println(addressBook.getAddressBookStateList().get(0).getAddressBook());
         assertEquals(expectedAddressBookState, addressBook.getAddressBookStateList()
                 .get(0));
     }

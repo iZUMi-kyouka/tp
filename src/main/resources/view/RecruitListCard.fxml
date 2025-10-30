@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -9,7 +10,12 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox id="cardPane"
+      fx:id="cardPane"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1">
     <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
@@ -31,7 +37,18 @@
                        managed="false"
                        styleClass="isArchivedFlair"/>
             </HBox>
-            <Label fx:id="id" styleClass="cell_small_label" text="\$id" />
+            <HBox spacing="16" alignment="CENTER_LEFT">
+                <Label fx:id="id" styleClass="cell_small_label" text="$id" />
+                <Button fx:id="copyIdButton" onAction="#handleCopyId" styleClass="copy_id_button">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@../images/copy.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
             <Label fx:id="phone" styleClass="cell_small_label" />
             <Label fx:id="email" styleClass="cell_small_label" />
             <Label fx:id="address" styleClass="cell_small_label" />

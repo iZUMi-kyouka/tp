@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
-import javafx.scene.text.Text;
 
 /**
  * A ui for the status bar that is displayed at the header of the application.
@@ -32,18 +31,23 @@ public class ResultDisplay extends UiPart<Region> {
             resultDisplay.setPrefHeight(30);
             return;
         }
-
-        Text temp = new Text(text);
-        temp.setFont(resultDisplay.getFont());
-
+        // Recalculate Text Area
+        double windowHeight = resultDisplay.getScene().getWindow().getHeight();
+        int totalLines = 0;
         double wrappingWidth = resultDisplay.getWidth() - 20;
-        temp.setWrappingWidth(wrappingWidth > 0 ? wrappingWidth : 0);
+        String[] lines = text.split("\n");
 
-        double textHeight = temp.getLayoutBounds().getHeight();
+        for (String line : lines) {
+            double avgCharWidth = resultDisplay.getFont().getSize() * 0.45;
+            double lineWidth = line.length() * avgCharWidth;
 
-        double newHeight = Math.max(textHeight + 30, 30);
+            int wraps = (int) Math.ceil(lineWidth / wrappingWidth);
+            totalLines += Math.max(1, wraps);
+        }
 
-        resultDisplay.setPrefHeight(newHeight);
+        double estimatedHeight = totalLines * 50 + 20;
+        double newHeight = Math.max(estimatedHeight, 30); // extra padding
+        resultDisplay.setPrefHeight(Math.min(newHeight, 0.5 * windowHeight));
     }
 
 }

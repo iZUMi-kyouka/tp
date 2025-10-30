@@ -1,6 +1,9 @@
 package seedu.address.commons.util;
 
+import java.util.TreeSet;
+
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.exceptions.InvalidRecruitException;
 
 /**
  * Utility class for various operations involving Recruits.
@@ -39,5 +42,22 @@ public class RecruitUtil {
      */
     public static boolean hasSameTags(Recruit r1, Recruit r2) {
         return r1.getTags().equals(r2.getTags());
+    }
+
+    /**
+     * Returns true if both recruit have the same description.
+     */
+    public static boolean hasSameDescription(Recruit r1, Recruit r2) {
+        return r1.getDescription().equals(r2.getDescription());
+    }
+
+    /**
+     * Throws {@link InvalidRecruitException} if any element of {@code items} is an empty string or
+     * string containing only whitespace codepoints.
+     */
+    public static <T> void requireNonEmptyField(TreeSet<? extends T> fieldTree) throws InvalidRecruitException {
+        if (fieldTree.isEmpty()) {
+            throw new InvalidRecruitException(String.format("%s is empty", fieldTree.getClass().getSimpleName()));
+        }
     }
 }

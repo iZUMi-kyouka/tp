@@ -176,11 +176,11 @@ public class ModelManagerTest {
     @Test
     public void sortRecruits_success() {
         modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        modelManager.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+        modelManager.sortRecruits(Comparator.comparing(r -> r.getName().value));
 
         ModelManager expectedModelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModelManager.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
-        expectedModelManager.sortRecruits(Comparator.comparing(r -> r.getName().fullName));
+        expectedModelManager.sortRecruits(Comparator.comparing(r -> r.getName().value));
 
         assertEquals(expectedModelManager, modelManager);
     }
@@ -209,7 +209,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(differentAddressBook, userPrefs)));
 
         // different filteredList -> returns false
-        String[] keywords = ALICE.getName().fullName.split("\\s+");
+        String[] keywords = ALICE.getName().value.split("\\s+");
         modelManager.updateFilteredRecruitList(
                 new FieldContainsKeywordsPredicate(Arrays.asList(keywords), SEARCH_PREFIX_NAME));
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));

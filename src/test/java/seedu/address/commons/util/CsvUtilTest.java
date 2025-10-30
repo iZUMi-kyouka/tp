@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +13,13 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.logic.commands.CommandTestUtil;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Description;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.TestUtil;
 
@@ -34,16 +34,15 @@ public class CsvUtilTest {
 
     @BeforeEach
     public void setUp() {
-        testRecruit = new Recruit(
-                UUID.randomUUID(),
-                List.of(new Name("Alice"), new Name("Ally")),
-                List.of(new Phone("12345678"), new Phone("87654321")),
-                List.of(new Email("alice@example.com")),
-                List.of(new Address("123, Wonderland Street")),
-                new Description("Description"),
-                Set.of(new Tag("friend"), new Tag("colleague")),
-                false
-        );
+        testRecruit = new RecruitBuilder()
+                .setId(UUID.randomUUID())
+                .withNames(List.of(new Name("Alice"), new Name("Ally")))
+                .withPhones(List.of(new Phone("12345678"), new Phone("87654321")))
+                .withEmails(List.of(new Email("alice@example.com")))
+                .withAddresses(List.of(new Address("123, Wonderland Street")))
+                .withDescription(new Description("Description"))
+                .withTags(List.of(new Tag("friend"), new Tag("colleague")))
+                .build();
     }
 
     @Test
@@ -57,7 +56,7 @@ public class CsvUtilTest {
         assertEquals(true, csvContent.startsWith(expectedHeader));
         assertEquals(true, csvContent.contains("Alice;Ally"));
         assertEquals(true, csvContent.contains("12345678;87654321"));
-        assertEquals(true, csvContent.contains("[friend];[colleague]"));
+        assertEquals(true, csvContent.contains("[colleague];[friend]"));
     }
 
     @Test
@@ -70,7 +69,6 @@ public class CsvUtilTest {
         assertEquals(1, deserializedRecruits.size());
 
         Recruit r = deserializedRecruits.get(0);
-        System.out.println(r);
         assertEquals(testRecruit.getID(), r.getID());
         assertEquals(testRecruit.getNames(), r.getNames());
         assertEquals(testRecruit.getPhones(), r.getPhones());
@@ -102,26 +100,30 @@ public class CsvUtilTest {
         String fieldWithQuote = "He said \"Hi\"";
 
         // CSV with comma
-        Recruit recruitWithComma = new Recruit(UUID.randomUUID(),
-                List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
-                List.of(), List.of(),
-                List.of(new Address(fieldWithComma)),
-                new Description("Description"),
-                Set.of(),
-                false);
+        Recruit recruitWithComma = new RecruitBuilder()
+                .setId(UUID.randomUUID())
+                .withNames(List.of(new Name(CommandTestUtil.VALID_NAME_AMY)))
+                .withPhones(List.of())
+                .withEmails(List.of())
+                .withAddresses(List.of(new Address(fieldWithComma)))
+                .withDescription(new Description("Description"))
+                .withTags(List.of())
+                .build();
         String csvComma = CsvUtil.recruitsToCsvString(List.of(recruitWithComma));
         String csvLineComma = csvComma.split("\n")[1];
         String[] colsComma = csvLineComma.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
         assertEquals("\"Hello,World\"", colsComma[4]);
 
         // CSV with quotes
-        Recruit recruitWithQuote = new Recruit(UUID.randomUUID(),
-                List.of(new Name(CommandTestUtil.VALID_NAME_AMY)),
-                List.of(), List.of(),
-                List.of(new Address(fieldWithQuote)),
-                new Description("Description"),
-                Set.of(),
-                false);
+        Recruit recruitWithQuote = new RecruitBuilder()
+                .setId(UUID.randomUUID())
+                .withNames(List.of(new Name(CommandTestUtil.VALID_NAME_AMY)))
+                .withPhones(List.of()) // empty list, same as before
+                .withEmails(List.of()) // empty list
+                .withAddresses(List.of(new Address(fieldWithQuote)))
+                .withDescription(new Description("Description"))
+                .withTags(List.of()) // empty set before → empty list here
+                .build();
         String csvQuote = CsvUtil.recruitsToCsvString(List.of(recruitWithQuote));
         String csvLineQuote = csvQuote.split("\n")[1];
         String[] colsQuote = csvLineQuote.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);

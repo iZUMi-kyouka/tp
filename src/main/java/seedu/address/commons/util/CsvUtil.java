@@ -7,24 +7,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.model.recruit.Address;
-import seedu.address.model.recruit.Description;
-import seedu.address.model.recruit.Email;
-import seedu.address.model.recruit.Name;
-import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
+import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.Description;
+import seedu.address.model.recruit.data.Email;
+import seedu.address.model.recruit.data.Name;
+import seedu.address.model.recruit.data.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
- * Converts a Java object instance to CSV and vice versa
+ * Converts a list of Recruits to CSV and vice versa.
  */
 public class CsvUtil {
     private static final Logger logger = LogsCenter.getLogger(CsvUtil.class);
@@ -45,7 +47,7 @@ public class CsvUtil {
         try {
             FileUtil.writeToFile(filePath, csvString);
         } catch (IOException e) {
-            logger.warning("Error writing to csvFile file " + filePath + ": " + e);
+            logger.warning("Error writing to CSV file " + filePath + ": " + e);
             throw new IOException(e);
         }
     }
@@ -63,16 +65,11 @@ public class CsvUtil {
         sb.append("ID,Names,Phones,Emails,Addresses,Tags,Description,IsArchived\n");
 
         for (Recruit r : recruits) {
-            String names = escapeCsvField(r.getNames().stream().map(Object::toString)
-                    .collect(Collectors.joining(";")));
-            String phones = escapeCsvField(r.getPhones().stream().map(Object::toString)
-                    .collect(Collectors.joining(";")));
-            String emails = escapeCsvField(r.getEmails().stream().map(Object::toString)
-                    .collect(Collectors.joining(";")));
-            String addresses = escapeCsvField(r.getAddresses().stream().map(Object::toString)
-                    .collect(Collectors.joining(";")));
-            String tags = escapeCsvField(r.getTags().stream().map(Object::toString)
-                    .collect(Collectors.joining(";")));
+            String names = joinAndEscape(r.getNames());
+            String phones = joinAndEscape(r.getPhones());
+            String emails = joinAndEscape(r.getEmails());
+            String addresses = joinAndEscape(r.getAddresses());
+            String tags = joinAndEscape(r.getTags());
             String description = escapeCsvField(r.getDescription().toString());
             String isArchived = Boolean.toString(r.isArchived());
 
@@ -84,11 +81,24 @@ public class CsvUtil {
         return sb.toString();
     }
 
+    /**
+     * Joins a collection of items with ';' and escapes for CSV.
+     *
+     * @param items Collection of items (List, Set, etc.)
+     * @return Escaped CSV string
+     */
+    private static String joinAndEscape(Collection<?> items) {
+        return escapeCsvField(items.stream()
+                .map(Object::toString)
+                .sorted() // optional: sort for deterministic output, especially for Set
+                .collect(Collectors.joining(";")));
+    }
+
     private static String escapeCsvField(String value) {
         if (value == null) {
             return "";
         }
-        if (value.contains(",") || value.contains("\"")) {
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) { // 🔹 Added newline handling
             value = value.replace("\"", "\"\""); // escape quotes
             return "\"" + value + "\"";
         }
@@ -109,7 +119,7 @@ public class CsvUtil {
             logger.info("CSV file " + filePath + " found.");
             return fromCsvString(csvContent);
         } catch (IOException e) {
-            logger.warning("Error reading from csvFile file " + filePath + ": " + e);
+            logger.warning("Error reading from CSV file " + filePath + ": " + e);
             throw new DataLoadingException(e);
         }
     }
@@ -125,14 +135,10 @@ public class CsvUtil {
     public static List<Recruit> fromCsvString(String csv) {
         requireNonNull(csv);
         String[] lines = csv.split("\n");
-
         if (lines.length <= 1) {
             return new ArrayList<>();
         }
-
         List<Recruit> recruits = new ArrayList<>();
-
-        // skip header
         for (int i = 1; i < lines.length; i++) {
             String line = lines[i].trim();
             if (line.isEmpty()) {
@@ -143,22 +149,44 @@ public class CsvUtil {
                 logger.warning("Skipping malformed line (expected 8 columns): " + line);
                 continue;
             }
-            UUID id = UUID.fromString(cols[0]);
-            List<Name> names = Arrays.stream(cols[1].split(";")).map(Name::new).toList();
-            List<Phone> phones = Arrays.stream(cols[2].split(";")).map(Phone::new).toList();
-            List<Email> emails = Arrays.stream(cols[3].split(";")).map(Email::new).toList();
-            List<Address> addresses = Arrays.stream(cols[4].split(";"))
-                    .map(s -> s.replaceAll("^\"|\"$", ""))
-                    .map(Address::new)
-                    .toList();
-            Set<Tag> tags = Arrays.stream(cols[5].split(";"))
-                    .map(s -> s.replaceAll("^\\[|]$", ""))
-                    .map(Tag::new)
-                    .collect(Collectors.toSet());
-            Description description = new Description(cols[6]);
-            boolean isArchived = Boolean.parseBoolean(cols[7]);
+            for (int j = 0; j < cols.length; j++) {
+                cols[j] = cols[j].trim();
+            }
+            try {
+                UUID id = UUID.fromString(cols[0]);
+                List<Name> names = Arrays.stream(cols[1].split(";"))
+                        .map(Name::new)
+                        .toList();
+                List<Phone> phones = Arrays.stream(cols[2].split(";"))
+                        .map(Phone::new)
+                        .toList();
+                List<Email> emails = Arrays.stream(cols[3].split(";"))
+                        .map(Email::new)
+                        .toList();
+                List<Address> addresses = Arrays.stream(cols[4].split(";"))
+                        .map(s -> s.replaceAll("^\"|\"$", ""))
+                        .map(Address::new)
+                        .toList();
+                List<Tag> tags = Arrays.stream(cols[5].split(";"))
+                        .map(s -> s.replaceAll("^\\[|]$", ""))
+                        .map(Tag::new)
+                        .toList();
+                Description description = new Description(cols[6]);
+                boolean isArchived = Boolean.parseBoolean(cols[7]);
 
-            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, isArchived));
+                recruits.add(new RecruitBuilder()
+                        .setId(id)
+                        .withNames(names)
+                        .withPhones(phones)
+                        .withEmails(emails)
+                        .withAddresses(addresses)
+                        .withDescription(description)
+                        .withTags(tags)
+                        .withArchivalState(isArchived)
+                        .build());
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Skipping malformed line due to parsing error: " + line, e);
+            }
         }
         return recruits;
     }
