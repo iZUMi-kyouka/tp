@@ -29,6 +29,10 @@ class JsonAdaptedRecruit {
     private final List<String> phones;
     private final List<String> emails;
     private final List<String> addresses;
+    private final String primaryName;
+    private final String primaryPhone;
+    private final String primaryEmail;
+    private final String primaryAddress;
     private final String description;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final boolean isArchived;
@@ -44,12 +48,20 @@ class JsonAdaptedRecruit {
                               @JsonProperty("addresses") List<String> address,
                               @JsonProperty("description") String description,
                               @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                              @JsonProperty("isArchived") boolean isArchived) {
+                              @JsonProperty("isArchived") boolean isArchived,
+                              @JsonProperty("primaryName") String primaryName,
+                              @JsonProperty("primaryPhone") String primaryPhone,
+                              @JsonProperty("primaryEmail") String primaryEmail,
+                              @JsonProperty("primaryAddress") String primaryAddress) {
         this.id = id;
         this.names = name;
         this.phones = phone;
         this.emails = email;
         this.addresses = address;
+        this.primaryName = primaryName;
+        this.primaryPhone = primaryPhone;
+        this.primaryEmail = primaryEmail;
+        this.primaryAddress = primaryAddress;
         this.description = description;
         if (tags != null) {
             this.tags.addAll(tags);
@@ -66,6 +78,10 @@ class JsonAdaptedRecruit {
         phones = source.getPhones().stream().map(p -> p.value).toList();
         emails = source.getEmails().stream().map(e -> e.value).toList();
         addresses = source.getAddresses().stream().map(a -> a.value).toList();
+        this.primaryName = source.getName().value;
+        this.primaryPhone = source.getPhone().map(p -> p.value).orElse(null);
+        this.primaryEmail = source.getEmail().map(e -> e.value).orElse(null);
+        this.primaryAddress = source.getAddress().map(a -> a.value).orElse(null);
         description = source.getDescription().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -94,6 +110,7 @@ class JsonAdaptedRecruit {
         if (names.stream().anyMatch(n -> !Name.isValidName(n))) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
+
         final List<Name> modelNames = names.stream().map(Name::new).toList();
 
         if (phones == null) {
@@ -129,7 +146,7 @@ class JsonAdaptedRecruit {
         }
         final Description modelDescription = Description.createDescription(description);
 
-        return new RecruitBuilder()
+        RecruitBuilder rb = new RecruitBuilder()
                 .setId(modelId)
                 .withNames(modelNames)
                 .withPhones(modelPhones)
@@ -137,8 +154,22 @@ class JsonAdaptedRecruit {
                 .withAddresses(modelAddresses)
                 .withDescription(modelDescription)
                 .withTags(personTags)
-                .withArchivalState(isArchived)
-                .build();
+                .withArchivalState(isArchived);
+
+        if (primaryName != null && Name.isValidName(primaryName)) {
+            rb.withPrimaryName(new Name(primaryName));
+        }
+        if (primaryPhone != null && Phone.isValidPhone(primaryPhone)) {
+            rb.withPrimaryPhone(new Phone(primaryPhone));
+        }
+        if (primaryEmail != null && Email.isValidEmail(primaryEmail)) {
+            rb.withPrimaryEmail(new Email(primaryEmail));
+        }
+        if (primaryAddress != null && Address.isValidAddress(primaryAddress)) {
+            rb.withPrimaryAddress(new Address(primaryAddress));
+        }
+
+        return rb.build();
     }
 
 }

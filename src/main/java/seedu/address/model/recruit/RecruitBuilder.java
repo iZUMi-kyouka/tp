@@ -13,6 +13,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Data;
+import seedu.address.model.recruit.data.DataSet;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
@@ -41,10 +42,10 @@ public class RecruitBuilder {
 
     protected UUID id;
 
-    protected TreeSet<Name> names;
-    protected TreeSet<Phone> phones;
-    protected TreeSet<Email> emails;
-    protected TreeSet<Address> addresses;
+    protected DataSet<Name> names;
+    protected DataSet<Phone> phones;
+    protected DataSet<Email> emails;
+    protected DataSet<Address> addresses;
 
     protected Description description;
     protected TreeSet<Tag> tags;
@@ -63,10 +64,10 @@ public class RecruitBuilder {
      */
     public RecruitBuilder(Recruit recruit) {
         this.id = recruit.getID();
-        this.names = new TreeSet<>(recruit.getNames());
-        this.phones = new TreeSet<>(recruit.getPhones());
-        this.addresses = new TreeSet<>(recruit.getAddresses());
-        this.emails = new TreeSet<>(recruit.getEmails());
+        this.names = new DataSet<>(recruit.getNames());
+        this.phones = new DataSet<>(recruit.getPhones());
+        this.addresses = new DataSet<>(recruit.getAddresses());
+        this.emails = new DataSet<>(recruit.getEmails());
         this.description = new Description(recruit.getDescription());
         this.tags = new TreeSet<>(recruit.getTags());
         this.isArchived = recruit.isArchived();
@@ -81,10 +82,10 @@ public class RecruitBuilder {
         requireNonNull(toCopy, "Cannot copy a null RecruitBuilder");
 
         this.id = toCopy.id;
-        this.names = toCopy.names == null ? null : new TreeSet<>(toCopy.names);
-        this.phones = toCopy.phones == null ? null : new TreeSet<>(toCopy.phones);
-        this.emails = toCopy.emails == null ? null : new TreeSet<>(toCopy.emails);
-        this.addresses = toCopy.addresses == null ? null : new TreeSet<>(toCopy.addresses);
+        this.names = toCopy.names == null ? null : new DataSet<>(toCopy.names);
+        this.phones = toCopy.phones == null ? null : new DataSet<>(toCopy.phones);
+        this.emails = toCopy.emails == null ? null : new DataSet<>(toCopy.emails);
+        this.addresses = toCopy.addresses == null ? null : new DataSet<>(toCopy.addresses);
         this.description = toCopy.description == null ? null : new Description(toCopy.description);
         this.tags = toCopy.tags == null ? null : new TreeSet<>(toCopy.tags);
         this.isArchived = toCopy.isArchived;
@@ -121,8 +122,20 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withName(Name name) {
         if (name != null) {
-            this.names = new TreeSet<>();
-            this.names.add(name);
+            this.names = new DataSet<>(name);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the primary name to be this {@code name}.
+     *
+     * @param name the name to set, which <b>must be present in the list of names</b>
+     * @return this Builder instance with the primary name updated
+     */
+    public RecruitBuilder withPrimaryName(Name name) {
+        if (!this.names.setPrimary(name)) {
+            throw new DataEntryNotFoundException("name", List.of(name));
         }
         return this;
     }
@@ -135,7 +148,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withNames(Collection<Name> names) {
         if (names != null) {
-            this.names = new TreeSet<>(names);
+            this.names = new DataSet<>(names);
         }
         return this;
     }
@@ -162,15 +175,13 @@ public class RecruitBuilder {
         return this;
     }
 
-
-
     /**
      * Gets the names assigned to the builder.
      *
      * @return an Optional containing the set of Names currently assigned to the builder,
      *         or an empty Optional if no Names have been set.
      */
-    public Optional<TreeSet<Name>> getNames() {
+    public Optional<DataSet<Name>> getNames() {
         return Optional.ofNullable(this.names);
     }
 
@@ -182,8 +193,20 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withPhone(Phone phone) {
         if (phone != null) {
-            this.phones = new TreeSet<>();
-            this.phones.add(phone);
+            this.phones = new DataSet<>(phone);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the primary phone number to be this {@code phone}
+     *
+     * @param phone the phone to set, which <b>must be present in the list of phone numbers</b>
+     * @return this Builder instance with primary phone updated
+     */
+    public RecruitBuilder withPrimaryPhone(Phone phone) {
+        if (!this.phones.setPrimary(phone)) {
+            throw new DataEntryNotFoundException("phone", List.of(phone));
         }
         return this;
     }
@@ -196,7 +219,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withPhones(Collection<Phone> phones) {
         if (phones != null) {
-            this.phones = new TreeSet<>(phones);
+            this.phones = new DataSet<>(phones);
         }
         return this;
     }
@@ -230,7 +253,7 @@ public class RecruitBuilder {
      * @return an Optional containing the set of Phones currently assigned to the builder,
      *         or an empty Optional if no Phones have been set.
      */
-    public Optional<TreeSet<Phone>> getPhones() {
+    public Optional<DataSet<Phone>> getPhones() {
         return Optional.ofNullable(this.phones);
     }
 
@@ -242,8 +265,20 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withEmail(Email email) {
         if (email != null) {
-            this.emails = new TreeSet<>();
-            this.emails.add(email);
+            this.emails = new DataSet<>(email);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the primary email to be this {@code email}
+     *
+     * @param email the email to set, which <b>must be present in the list of emails</b>
+     * @return this Builder instance with primary email updated
+     */
+    public RecruitBuilder withPrimaryEmail(Email email) {
+        if (!this.emails.setPrimary(email)) {
+            throw new DataEntryNotFoundException("email", List.of(email));
         }
         return this;
     }
@@ -256,7 +291,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withEmails(Collection<Email> emails) {
         if (emails != null) {
-            this.emails = new TreeSet<>(emails);
+            this.emails = new DataSet<>(emails);
         }
         return this;
     }
@@ -290,7 +325,7 @@ public class RecruitBuilder {
      * @return an Optional containing the set of Emails currently assigned to the builder,
      *         or an empty Optional if no Emails have been set.
      */
-    public Optional<TreeSet<Email>> getEmails() {
+    public Optional<DataSet<Email>> getEmails() {
         return Optional.ofNullable(this.emails);
     }
 
@@ -302,8 +337,20 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withAddress(Address address) {
         if (address != null) {
-            this.addresses = new TreeSet<>();
-            this.addresses.add(address);
+            this.addresses = new DataSet<>(address);
+        }
+        return this;
+    }
+
+    /**
+     * Sets the primary address to be this {@code address}
+     *
+     * @param address the address to set, which <b>must be present in the list of addresses</b>
+     * @return this Builder instance with primary address updated
+     */
+    public RecruitBuilder withPrimaryAddress(Address address) {
+        if (!this.addresses.setPrimary(address)) {
+            throw new DataEntryNotFoundException("address", List.of(address));
         }
         return this;
     }
@@ -316,7 +363,7 @@ public class RecruitBuilder {
      */
     public RecruitBuilder withAddresses(Collection<Address> addresses) {
         if (addresses != null) {
-            this.addresses = new TreeSet<>(addresses);
+            this.addresses = new DataSet<>(addresses);
         }
         return this;
     }
@@ -350,7 +397,7 @@ public class RecruitBuilder {
      * @return an Optional containing the set of Addresses currently assigned to the builder,
      *         or an empty Optional if no Addresses have been set.
      */
-    public Optional<TreeSet<Address>> getAddresses() {
+    public Optional<DataSet<Address>> getAddresses() {
         return Optional.ofNullable(this.addresses);
     }
 
@@ -532,8 +579,9 @@ public class RecruitBuilder {
     }
 
     /**
-     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
+     * Appends the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
      * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     * Only keeps primary data from the current {@code RecruitBuilder}
      *
      * @param other the other builder to override the fields of this builder using.
      * @return this builder but with fields that have been overridden.
@@ -566,8 +614,9 @@ public class RecruitBuilder {
     }
 
     /**
-     * Overrides the fields in the current {@code RecruitBuilder} with the fields in the other RecruitBuilder.
-     * If the other RecruitBuilder has fields that have not been modified, ignore those fields.
+     * Remove all data from the fields in the current {@code RecruitBuilder} that exist in the fields
+     * in the other RecruitBuilder. If the other RecruitBuilder has fields that have not been modified,
+     * ignore those fields.
      *
      * @param other the other builder to override the fields of this builder using.
      * @return this builder but with fields that have been overridden.
@@ -600,6 +649,51 @@ public class RecruitBuilder {
     }
 
     /**
+     * Update primary data of the fields in the current {@code RecruitBuilder} with data
+     * in the fields in the other RecruitBuilder.
+     * If the other RecruitBuilder has fields containing more than one data, throws an
+     * {@code IllegalArgumentException}
+     *
+     * @param other the other builder to override the fields of this builder using.
+     * @return this builder but with fields that have been overridden.
+     */
+    public RecruitBuilder updatePrimaryData(RecruitBuilder other) throws IllegalArgumentException {
+        if (other == null) {
+            return this;
+        }
+
+        assert other.description == null && other.tags == null;
+
+        if (other.names != null) {
+            if (this.names == null || !this.names.contains(other.names.first())) {
+                throw new DataEntryNotFoundException("name", List.of(other.names.first()));
+            }
+            this.names.setPrimary(other.names.first());
+        }
+        if (other.phones != null) {
+            if (this.phones == null || !this.phones.contains(other.phones.first())) {
+                throw new DataEntryNotFoundException("phone", List.of(other.phones.first()));
+            }
+            this.phones.setPrimary(other.phones.first());
+        }
+        if (other.emails != null) {
+            if (this.emails == null || !this.emails.contains(other.emails.first())) {
+                throw new DataEntryNotFoundException("email", List.of(other.emails.first()));
+            }
+            this.emails.setPrimary(other.emails.first());
+        }
+        if (other.addresses != null) {
+            if (this.addresses == null || !this.addresses.contains(other.addresses.first())) {
+                throw new DataEntryNotFoundException("address", List.of(other.addresses.first()));
+            }
+            this.addresses.setPrimary(other.addresses.first());
+        }
+
+        return this;
+    }
+
+
+    /**
      * Checks if the {@code Builder} has been modified before.
      * A builder has been modified if any of the "set" or "append" methods have been called.
      *
@@ -621,9 +715,9 @@ public class RecruitBuilder {
         }
 
         this.id = this.id == null ? UUID.randomUUID() : this.id;
-        this.phones = this.phones == null ? new TreeSet<>() : this.phones;
-        this.emails = this.emails == null ? new TreeSet<>() : this.emails;
-        this.addresses = this.addresses == null ? new TreeSet<>() : this.addresses;
+        this.phones = this.phones == null ? new DataSet<>() : this.phones;
+        this.emails = this.emails == null ? new DataSet<>() : this.emails;
+        this.addresses = this.addresses == null ? new DataSet<>() : this.addresses;
         this.description = this.description == null ? Description.createEmptyDescription() : this.description;
         this.tags = this.tags == null ? new TreeSet<>() : this.tags;
         return new Recruit(this);
@@ -716,6 +810,19 @@ public class RecruitBuilder {
         return copy;
     }
 
+    private <T extends Data & Comparable<T>> DataSet<T> appendEntriesToTree(
+            String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
+        TreeSet<T> ts = this.appendEntriesToTree(dataType, (TreeSet<T>) container, dataToAdd);
+        DataSet<T> ds = new DataSet<>(ts);
+
+        // set the new DataSet's primary data to the container DataSet's primary data, if any
+        if (!(container == null) && (!container.isEmpty() && container.getPrimary().isPresent())) {
+            ds.setPrimary(container.getPrimary().get());
+        }
+
+        return ds;
+    }
+
     /**
      * Creates a copy of container and removes each entry of dataToRemove from this copy.
      * This copy is then returned.
@@ -733,7 +840,6 @@ public class RecruitBuilder {
      */
     private <T extends Data & Comparable<T>> TreeSet<T> removeEntriesFromTree(
             String dataType, TreeSet<T> container, Collection<? extends T> dataToRemove) {
-
         if (dataToRemove == null || dataToRemove.isEmpty()) {
             return container;
         }
@@ -752,5 +858,23 @@ public class RecruitBuilder {
         }
 
         return copy;
+    }
+
+    private <T extends Data & Comparable<T>> DataSet<T> removeEntriesFromTree(
+            String dataType, DataSet<T> container, Collection<? extends T> dataToAdd) {
+        TreeSet<T> ts = this.removeEntriesFromTree(dataType, (TreeSet<T>) container, dataToAdd);
+        DataSet<T> ds = new DataSet<>(ts);
+
+        if (!(container == null) && (container.isEmpty() || container.getPrimary().isEmpty())) {
+            return ds;
+        }
+
+        // set the new DataSet's primary data to the previous primary data, if any
+        T prevPrimary = container.getPrimary().get();
+        if (ds.contains(prevPrimary)) {
+            ds.setPrimary(prevPrimary);
+        }
+
+        return ds;
     }
 }

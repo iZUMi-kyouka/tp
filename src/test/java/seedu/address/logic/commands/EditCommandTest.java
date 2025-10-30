@@ -40,6 +40,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.testutil.EditRecruitDescriptorBuilder;
 import seedu.address.testutil.SimpleRecruitBuilder;
 import seedu.address.testutil.TypicalIDs;
@@ -87,6 +88,9 @@ public class EditCommandTest {
                 .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
                 .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
                 .withAdditionalTags(VALID_TAG_CASHIER, VALID_TAG_HUSBAND)
+                .build();
+        expectedRecruit = new RecruitBuilder(expectedRecruit)
+                .withPrimaryPhone(ALICE.getPhone().get()) // append preserves base's primary data
                 .build();
 
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.APPEND)
@@ -271,6 +275,126 @@ public class EditCommandTest {
 
         assertCommandFailure(editCommand, model, expectedMessage);
     }
+
+    @Test
+    public void execute_updatePrimaryOperationAllFieldsValid_success() throws CommandException {
+        Recruit initialRecruit = new SimpleRecruitBuilder(ALICE)
+                .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .withAdditionalAddresses(VALID_ADDRESS_AMY, VALID_ADDRESS_BOB)
+                .build();
+
+        Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        initialModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+
+        // Update all primary fields to different existing values
+        Recruit expectedRecruit = new RecruitBuilder(initialRecruit)
+                .withPrimaryName(new seedu.address.model.recruit.data.Name(VALID_NAME_BOB))
+                .withPrimaryPhone(new seedu.address.model.recruit.data.Phone(VALID_PHONE_BOB))
+                .withPrimaryEmail(new seedu.address.model.recruit.data.Email(VALID_EMAIL_BOB))
+                .withPrimaryAddress(new seedu.address.model.recruit.data.Address(VALID_ADDRESS_BOB))
+                .build();
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.UPDATE_PRIMARY)
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .withAddress(VALID_ADDRESS_BOB)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                editCommand.formatDelta(initialRecruit, expectedRecruit));
+        Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
+        expectedModel.setRecruit(initialRecruit, expectedRecruit);
+        expectedModel.commitAddressBook(String.format(
+                EditCommand.OPERATION_DESCRIPTOR, editCommand.formatDelta(initialRecruit, expectedRecruit)));
+
+        assertCommandSuccess(editCommand, initialModel, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_updatePrimaryOperationPartialFields_success() throws CommandException {
+        Recruit initialRecruit = new SimpleRecruitBuilder(ALICE)
+                .withAdditionalNames(VALID_NAME_AMY, VALID_NAME_BOB)
+                .withAdditionalPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
+                .withAdditionalEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB)
+                .build();
+
+        Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        initialModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+
+        // Update only name and email primary fields
+        Recruit expectedRecruit = new RecruitBuilder(initialRecruit)
+                .withPrimaryName(new seedu.address.model.recruit.data.Name(VALID_NAME_BOB))
+                .withPrimaryEmail(new seedu.address.model.recruit.data.Email(VALID_EMAIL_BOB))
+                .build();
+
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.UPDATE_PRIMARY)
+                .withName(VALID_NAME_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                editCommand.formatDelta(initialRecruit, expectedRecruit));
+
+        Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
+        expectedModel.setRecruit(initialRecruit, expectedRecruit);
+        expectedModel.commitAddressBook(String.format(
+                EditCommand.OPERATION_DESCRIPTOR, editCommand.formatDelta(initialRecruit, expectedRecruit)));
+
+        assertCommandSuccess(editCommand, initialModel, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_updatePrimaryOperationNonExistentName_failure() {
+        // Setup recruit with single name
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(EditOperation.UPDATE_PRIMARY)
+                .withName(VALID_NAME_BOB)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
+
+        assertCommandFailure(editCommand, model,
+                String.format(EditCommand.MESSAGE_MISSING_ATTRIBUTE, "name", VALID_NAME_BOB));
+    }
+
+    @Test
+    public void execute_updatePrimaryOperationNonExistentMultipleFields_failure() throws CommandException {
+        Recruit initialRecruit = new SimpleRecruitBuilder(ALICE)
+                .withAdditionalNames(VALID_NAME_AMY)
+                .withAdditionalPhones(VALID_PHONE_AMY)
+                .build();
+
+        Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        initialModel.setRecruit(model.getFilteredRecruitList().get(0), initialRecruit);
+
+        // Try to update phone to non-existent value
+        EditRecruitDescriptor descriptorPhone = new EditRecruitDescriptorBuilder(EditOperation.UPDATE_PRIMARY)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
+        EditCommand editCommandPhone = new EditCommand(INDEX_FIRST_RECRUIT, descriptorPhone);
+        assertCommandFailure(editCommandPhone, initialModel,
+                String.format(EditCommand.MESSAGE_MISSING_ATTRIBUTE, "phone", VALID_PHONE_BOB));
+
+        // Try to update email to non-existent value
+        EditRecruitDescriptor descriptorEmail = new EditRecruitDescriptorBuilder(EditOperation.UPDATE_PRIMARY)
+                .withEmail(VALID_EMAIL_BOB)
+                .build();
+        EditCommand editCommandEmail = new EditCommand(INDEX_FIRST_RECRUIT, descriptorEmail);
+        assertCommandFailure(editCommandEmail, initialModel,
+                String.format(EditCommand.MESSAGE_MISSING_ATTRIBUTE, "email", VALID_EMAIL_BOB));
+
+        // Try to update address to non-existent value
+        EditRecruitDescriptor descriptorAddress = new EditRecruitDescriptorBuilder(EditOperation.UPDATE_PRIMARY)
+                .withAddress(VALID_ADDRESS_BOB)
+                .build();
+        EditCommand editCommandAddress = new EditCommand(INDEX_FIRST_RECRUIT, descriptorAddress);
+        assertCommandFailure(editCommandAddress, initialModel,
+                String.format(EditCommand.MESSAGE_MISSING_ATTRIBUTE, "address", VALID_ADDRESS_BOB));
+    }
+
 
     @Test
     public void execute_filteredList_success() {

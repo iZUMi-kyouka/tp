@@ -111,11 +111,11 @@ public class EditCommandParserTest {
     @Test
     public void parse_multipleOperationType_failure() {
         assertParseFailure(parser, "1" + NAME_DESC_AMY + EDIT_OP_FLAG_APPEND + EDIT_OP_FLAG_OVERWRITE,
-                EditCommand.MESSAGE_INVALID_OPERATION);
+                EditCommand.MESSAGE_INVALID_OPERATION_TYPE);
         assertParseFailure(parser, "1" + EDIT_OP_FLAG_REMOVE + EDIT_OP_FLAG_APPEND + PHONE_DESC_BOB,
-                EditCommand.MESSAGE_INVALID_OPERATION);
+                EditCommand.MESSAGE_INVALID_OPERATION_TYPE);
         assertParseFailure(parser, "1" + EDIT_OP_FLAG_REMOVE + EDIT_OP_FLAG_APPEND + EDIT_OP_FLAG_OVERWRITE
-                + PHONE_DESC_BOB, EditCommand.MESSAGE_INVALID_OPERATION);
+                + PHONE_DESC_BOB, EditCommand.MESSAGE_INVALID_OPERATION_TYPE);
     }
 
     @Test

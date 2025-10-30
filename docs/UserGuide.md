@@ -218,8 +218,10 @@ Format: `help`
 
 Adds a recruit to the address book.
 
-* Specify more than one recruit attributes like names and email addresses.
-* Provide names in various languages.
+* More than one recruit attribute, such as names and email addresses, may be specified.
+* If more than one data item exists for a particular attribute, the first one will be set as the primary data.
+* If only one data item exists for a particular attribute, this data will be considered the primary data.
+* Names may also be provided in various languages.
 
 Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
@@ -276,8 +278,8 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
-
-<br>
+* All of the recruit’s tags can be removed by typing t/ without specifying any tags afterward.
+* When OPERATION is update primary, at most one data item for each attribute may be specified, and this data must be present.
 
 #### Operation Types
 
@@ -285,6 +287,7 @@ The edit command can perform three types of operation: append, remove, and overw
 * Append (`-ap`) operation adds the specified attributes to the existing list of attributes.
 * Remove (`-rm`) operation removes the specified attributes from the existing list of attributes.
 * Overwrite (`-o`) operation overwrites existing values of all the specified attributes.
+* Update primary (`-primary`) operation updates the primary data for the specified attributes.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
@@ -292,6 +295,7 @@ Examples:
 *  `edit -ap 3 e/e01234567@u.nus.edu e/dcsat@nus.edu.sg a/1 Computing Drive` adds to the 3rd recruit the email addresses `e01234567@u.nus.edu.sg` and `dcsat@nus.edu.sg`, and the address `1 Computing Drive`.
 *  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
 *  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
+*  `edit -primary 2 p/98989898 n/Dwayne "Ping Qilin" Johnsson` updates the 2nd recruit's primary phone number to `98989898` and the primary name to `Dwayne "Ping Qilin" Johnsson`, assuming that this phone number and name exist. 
 
 <br>
 

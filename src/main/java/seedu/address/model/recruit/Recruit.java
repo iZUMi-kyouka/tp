@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.recruit.data.Address;
+import seedu.address.model.recruit.data.DataSet;
 import seedu.address.model.recruit.data.Description;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
@@ -26,12 +27,12 @@ public class Recruit {
 
     // Identity fields
     private final UUID id;
-    private final TreeSet<Name> names;
+    private final DataSet<Name> names;
 
     // Data fields
-    private final TreeSet<Phone> phones;
-    private final TreeSet<Email> emails;
-    private final TreeSet<Address> addresses;
+    private final DataSet<Phone> phones;
+    private final DataSet<Email> emails;
+    private final DataSet<Address> addresses;
     private final Description description;
     private final TreeSet<Tag> tags;
 
@@ -50,24 +51,37 @@ public class Recruit {
         return id;
     }
 
+    /**
+     * Retruns the primary name of this recruit.
+     */
     public Name getName() {
-        return names.first();
+        return names.getPrimary().get();
     }
 
     public List<Name> getNames() {
         return this.names.stream().toList();
     }
 
+    /**
+     * Returns an Optional containing the primary phone number of this recruit,
+     * or the first one if no primary number is set. If no phone numbers are present returns an empty Optional.
+     */
     public Optional<Phone> getPhone() {
-        return phones.isEmpty() ? Optional.empty() : Optional.of(phones.first());
+        return phones.getPrimary()
+                .or(() -> phones.isEmpty() ? Optional.empty() : Optional.of(phones.first()));
     }
 
     public List<Phone> getPhones() {
         return this.phones.stream().toList();
     }
 
+    /**
+     * Returns an Optional containing the primary email of this recruit,
+     * or the first one if no primary email is set. If no emails are present, returns an empty Optional.
+     */
     public Optional<Email> getEmail() {
-        return emails.isEmpty() ? Optional.empty() : Optional.of(emails.first());
+        return emails.getPrimary()
+                .or(() -> emails.isEmpty() ? Optional.empty() : Optional.of(emails.first()));
     }
 
     public List<Email> getEmails() {
@@ -78,8 +92,13 @@ public class Recruit {
         return this.description;
     }
 
+    /**
+     * Returns an Optional containing the primary address of this recruit,
+     * or the first one if no primary address is set. If no addresses are present, returns an empty Optional.
+     */
     public Optional<Address> getAddress() {
-        return addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first());
+        return addresses.getPrimary()
+                .or(() -> addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first()));
     }
 
     public List<Address> getAddresses() {
