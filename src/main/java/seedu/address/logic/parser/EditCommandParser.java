@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireExactlyOneIsTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -13,6 +12,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.ParserUtil.extractValueFromMultimap;
+import static seedu.address.logic.parser.ParserUtil.extractValuesFromMultimap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +25,6 @@ import java.util.UUID;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 
@@ -45,67 +45,59 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_DESCRIPTION, PREFIX_TAG,
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
 
-        UUID id = null;
-        Index index = null;
+        String preamble = argMultimap.getPreamble().trim();
+        Optional<UUID> idOpt = tryParseID(preamble);
+        Optional<Index> indexOpt = idOpt.isEmpty() ? tryParseIndex(preamble) : Optional.empty();
+        if (idOpt.isEmpty() && indexOpt.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
 
-        // try parsing id
-        ParseException pe = null;
+        EditCommand.EditOperation operation = parseEditOperation(argMultimap);
+        LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
+
+        EditCommand.EditRecruitDescriptor editBuilder = new EditCommand.EditRecruitDescriptor(operation);
+
+        editBuilder.withNames(extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName));
+        editBuilder.withPhones(extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone));
+        editBuilder.withEmails(extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail));
+        editBuilder.withAddresses(extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress));
+        editBuilder.withDescription(extractValueFromMultimap(PREFIX_DESCRIPTION, argMultimap,
+                ParserUtil::parseDescription));
+
+        List<String> tagStrings = argMultimap.getAllValues(PREFIX_TAG);
+        if (tagStrings != null) {
+            if (tagStrings.size() == 1 && tagStrings.get(0).isBlank()) {
+                editBuilder.withTags(List.of());
+            } else {
+                editBuilder.withTags(ParserUtil.parseAllValues(tagStrings, ParserUtil::parseTag));
+            }
+        }
+
+        if (!editBuilder.hasBeenModified()) {
+            throw new ParseException(EditCommand.MESSAGE_NO_FIELD_PROVIDED);
+        }
+
+        if (idOpt.isPresent()) {
+            return new EditCommand(idOpt.get(), editBuilder);
+        } else {
+            return new EditCommand(indexOpt.get(), editBuilder);
+        }
+    }
+
+    private Optional<UUID> tryParseID(String s) {
         try {
-            id = ParserUtil.parseID(argMultimap.getPreamble());
+            return Optional.of(ParserUtil.parseID(s));
         } catch (ParseException e) {
-            pe = e;
+            return Optional.empty();
         }
+    }
 
-        // try parsing index
+    private Optional<Index> tryParseIndex(String s) {
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            return Optional.of(ParserUtil.parseIndex(s));
         } catch (ParseException e) {
-            pe = e;
+            return Optional.empty();
         }
-
-        // if both are null, input is invalid
-        if (isNull(id) && isNull(index)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
-        }
-
-        EditRecruitDescriptor.EditRecruitOperation operation = parseEditOperation(argMultimap);
-        EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor(operation);
-        LogsCenter.getLogger(EditCommandParser.class).info(editRecruitDescriptor.getOperation().toString());
-
-
-        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editRecruitDescriptor.setNames(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_NAME), ParserUtil::parseName));
-        }
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editRecruitDescriptor.setPhones(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_PHONE), ParserUtil::parsePhone));
-        }
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editRecruitDescriptor.setEmails(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail));
-        }
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editRecruitDescriptor.setAddresses(
-                    ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress));
-        }
-        if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            editRecruitDescriptor.setDescription(
-                    ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
-        }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editRecruitDescriptor::setTags);
-
-        // TODO: perhaps this should be refactored to throw if the resulting recruit is the same after the operation
-        // rahter than checking merely for the descriptor attributes.
-        if (!editRecruitDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
-        }
-
-        if (isNull(id)) {
-            return new EditCommand(index, editRecruitDescriptor, operation);
-        }
-
-        return new EditCommand(id, editRecruitDescriptor);
     }
 
     /**
@@ -123,7 +115,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
-    private EditRecruitDescriptor.EditRecruitOperation parseEditOperation(ArgumentMultimap argMultiMap)
+    private EditCommand.EditOperation parseEditOperation(ArgumentMultimap argMultiMap)
             throws ParseException {
         boolean isAppend = argMultiMap.getValue(EDIT_PREFIX_APPEND).isPresent();
         boolean isRemove = argMultiMap.getValue(EDIT_PREFIX_REMOVE).isPresent();
@@ -133,13 +125,13 @@ public class EditCommandParser implements Parser<EditCommand> {
             requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove));
         } catch (IllegalArgumentException e) {
             throw new ParseException(
-                    String.format(EditCommand.MESSAGE_INVALID_OPERATION, EditCommand.MESSAGE_USAGE), e);
+                    String.format(EditCommand.MESSAGE_INVALID_OPERATION), e);
         }
 
         return isAppend
-                ? EditRecruitDescriptor.EditRecruitOperation.APPEND
+                ? EditCommand.EditOperation.APPEND
                 : isRemove
-                ? EditRecruitDescriptor.EditRecruitOperation.REMOVE
-                : EditRecruitDescriptor.EditRecruitOperation.OVERWRITE;
+                ? EditCommand.EditOperation.REMOVE
+                : EditCommand.EditOperation.OVERWRITE;
     }
 }

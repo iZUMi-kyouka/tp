@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.testutil.RecruitBuilder;
+import seedu.address.testutil.SimpleRecruitBuilder;
 
 public class FieldContainsKeywordsPredicateTest {
 
@@ -49,19 +49,19 @@ public class FieldContainsKeywordsPredicateTest {
         // One keyword
         FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
                 Collections.singletonList("Alice"), SEARCH_PREFIX_NAME);
-        assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new SimpleRecruitBuilder().withName("Alice Bob").build()));
 
         // Multiple keywords
         predicate = new FieldContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"), SEARCH_PREFIX_NAME);
-        assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new SimpleRecruitBuilder().withName("Alice Bob").build()));
 
         // Only one matching keyword
         predicate = new FieldContainsKeywordsPredicate(Arrays.asList("Bob", "Carol"), SEARCH_PREFIX_NAME);
-        assertTrue(predicate.test(new RecruitBuilder().withName("Alice Carol").build()));
+        assertTrue(predicate.test(new SimpleRecruitBuilder().withName("Alice Carol").build()));
 
         // Mixed-case keywords
         predicate = new FieldContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"), SEARCH_PREFIX_NAME);
-        assertTrue(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new SimpleRecruitBuilder().withName("Alice Bob").build()));
     }
 
     @Test
@@ -69,21 +69,21 @@ public class FieldContainsKeywordsPredicateTest {
         // Zero keywords
         FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
                 Collections.emptyList(), SEARCH_PREFIX_NAME);
-        assertFalse(predicate.test(new RecruitBuilder().withName("Alice").build()));
+        assertFalse(predicate.test(new SimpleRecruitBuilder().withName("Alice").build()));
 
         // Non-matching keyword
         predicate = new FieldContainsKeywordsPredicate(Arrays.asList("Carol"), SEARCH_PREFIX_NAME);
-        assertFalse(predicate.test(new RecruitBuilder().withName("Alice Bob").build()));
+        assertFalse(predicate.test(new SimpleRecruitBuilder().withName("Alice Bob").build()));
 
         // Keywords match phone, email and address, but does not match name
         predicate = new FieldContainsKeywordsPredicate(
                 Arrays.asList("12345", "alice@email.com", "Main", "Street"), SEARCH_PREFIX_NAME);
-        assertFalse(predicate.test(new RecruitBuilder().withName("Alice").withPhone("12345")
+        assertFalse(predicate.test(new SimpleRecruitBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
 
         // Keywords match tag
         predicate = new FieldContainsKeywordsPredicate(List.of("friend", "colleague"), SEARCH_PREFIX_TAG);
-        assertTrue(predicate.test(new RecruitBuilder().withName("Alice").withPhone("88888888")
+        assertTrue(predicate.test(new SimpleRecruitBuilder().withName("Alice").withPhone("88888888")
                 .withEmail("email@example.com").withTags("oldFriend", "colleague").build()));
     }
 

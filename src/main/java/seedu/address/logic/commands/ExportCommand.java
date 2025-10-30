@@ -52,6 +52,7 @@ public class ExportCommand extends Command {
             filePath = model.getUserPrefs().getExportFilePath();
         }
         List<Recruit> recruits = model.getAddressBook().getRecruitList();
+        assert recruits != null;
         try {
             CsvUtil.serializeRecruitsToCsvFile(filePath, recruits);
         } catch (IOException e) {

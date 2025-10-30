@@ -1,4 +1,4 @@
-package seedu.address.model.recruit;
+package seedu.address.model.recruit.data;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Person's name in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
-public class Name implements Comparable<Name> {
+public class Name extends Data implements Comparable<Name> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain alphanumeric characters, spaces, and "
@@ -19,30 +19,27 @@ public class Name implements Comparable<Name> {
      */
     public static final String VALIDATION_REGEX = "[\\p{L}\\p{N}\\-,/@][\\p{L}\\p{N}\\-,/@ ]*";
 
-    public final String fullName;
-
     /**
      * Constructs a {@code Name}.
      *
      * @param name A valid name.
      */
     public Name(String name) {
-        requireNonNull(name);
-        checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
-        fullName = name;
+        super(validateName(name));
     }
 
     /**
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {
+
         return test.matches(VALIDATION_REGEX);
     }
 
-
-    @Override
-    public String toString() {
-        return fullName;
+    private static String validateName(String name) {
+        requireNonNull(name);
+        checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
+        return name;
     }
 
     @Override
@@ -57,17 +54,11 @@ public class Name implements Comparable<Name> {
         }
 
         Name otherName = (Name) other;
-        return fullName.equals(otherName.fullName);
+        return this.value.equals(otherName.value);
     }
 
     @Override
-    public int hashCode() {
-        return fullName.hashCode();
+    public int compareTo(Name o) {
+        return this.value.compareTo(o.value);
     }
-
-    @Override
-    public int compareTo(Name other) {
-        return this.fullName.compareTo(other.fullName);
-    }
-
 }
