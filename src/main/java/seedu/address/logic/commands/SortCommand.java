@@ -124,9 +124,26 @@ public class SortCommand extends Command {
             return order == SortOrder.DESCENDING ? comparator.reversed() : comparator;
         }
 
+        /**
+         * Returns the full field name for the given prefix.
+         */
+        private String getFieldName() {
+            if (prefix.equals(SORT_PREFIX_NAME)) {
+                return "name";
+            } else if (prefix.equals(SORT_PREFIX_PHONE)) {
+                return "phone";
+            } else if (prefix.equals(SORT_PREFIX_EMAIL)) {
+                return "email";
+            } else if (prefix.equals(SORT_PREFIX_ADDRESS)) {
+                return "address";
+            } else {
+                return prefix.getPrefix();
+            }
+        }
+
         @Override
         public String toString() {
-            return prefix.toString() + " (" + order.getDisplayName() + ")";
+            return String.format("%s (%s)", getFieldName(), order.getDisplayName());
         }
 
         @Override

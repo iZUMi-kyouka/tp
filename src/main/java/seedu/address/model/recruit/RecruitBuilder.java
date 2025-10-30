@@ -21,6 +21,7 @@ import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
 import seedu.address.model.recruit.exceptions.InvalidRecruitException;
+import seedu.address.model.recruit.exceptions.NoNameRecruitException;
 import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.TagNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -616,7 +617,7 @@ public class RecruitBuilder {
      */
     public Recruit build() {
         if (this.names == null || this.names.isEmpty()) {
-            throw new InvalidRecruitException("Cannot build Recruit without at least 1 name!");
+            throw new NoNameRecruitException("Cannot build Recruit without at least 1 name!");
         }
 
         this.id = this.id == null ? UUID.randomUUID() : this.id;

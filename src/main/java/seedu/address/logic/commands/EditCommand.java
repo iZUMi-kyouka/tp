@@ -24,6 +24,7 @@ import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.recruit.exceptions.DataEntryAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.DataEntryNotFoundException;
 import seedu.address.model.recruit.exceptions.IllegalRecruitBuilderActionException;
+import seedu.address.model.recruit.exceptions.NoNameRecruitException;
 import seedu.address.model.recruit.exceptions.TagAlreadyExistsException;
 import seedu.address.model.recruit.exceptions.TagNotFoundException;
 
@@ -36,9 +37,9 @@ public class EditCommand extends Command {
     public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
-            + "by the index/uuid used in the displayed recruit list. "
+            + "by the INDEX|UUID used in the displayed recruit list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX/UUID "
+            + "Parameters: INDEX|UUID "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -52,6 +53,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
+    public static final String MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME = "Cannot create recruit without a name.";
     public static final String MESSAGE_DUPLICATE_ATTRIBUTE = "The following %s are already present: %s";
     public static final String MESSAGE_MISSING_ATTRIBUTE = "The following %s do not exist: %s";
     public static final String MESSAGE_INVALID_OPERATION = "Multiple edit operation type is not allowed.";
@@ -149,7 +151,11 @@ public class EditCommand extends Command {
 
     private static Recruit createEditedRecruitWithOverwrittenAttributes(Recruit rec, EditRecruitDescriptor desc)
             throws CommandException {
-        return new RecruitBuilder(rec).override(desc).build();
+        try {
+            return new RecruitBuilder(rec).override(desc).build();
+        } catch (NoNameRecruitException e) {
+            throw new CommandException(MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME);
+        }
     }
 
     private static Recruit createEditedRecruitWithRemovedAttributes(Recruit rec, EditRecruitDescriptor desc)
@@ -162,6 +168,8 @@ public class EditCommand extends Command {
         } catch (TagNotFoundException e) {
             throw new CommandException(String.format(MESSAGE_MISSING_ATTRIBUTE,
                     "tag", e.getMissingTags()));
+        } catch (NoNameRecruitException e) {
+            throw new CommandException(MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME);
         }
     }
 

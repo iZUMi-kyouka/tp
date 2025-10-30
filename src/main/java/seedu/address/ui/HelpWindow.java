@@ -20,28 +20,29 @@ public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-f09-3.github.io/tp/UserGuide.html";
     public static final String COMMAND_HELP_MESSAGE = """
-            TLDR List of Commands:
+            Command Summary:
             \s
             1. Create recruit
             add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             2. View recruit
-            view INDEX/UUID
+            view INDEX|UUID
             \s
             3. Edit recruit's details
-            edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            edit INDEX|UUID [OPERATION] [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... \
+            [t/TAG]...
             \s
             4. Delete recruit
-            delete INDEX/UUID
+            delete INDEX|UUID
             \s
-            5. Find recruits
-            find KEYWORD [MORE_KEYWORDS]
+            5. Search recruits
+            find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]
             \s
             6. List recruits
             list [-archived] [-all]
             \s
             7. Sort recruits
-            sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]
+            sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]
             \s
             8. Archive recruit
             archive INDEX
@@ -53,7 +54,7 @@ public class HelpWindow extends UiPart<Stage> {
             undo
             \s
             11. Redo command
-            undo
+            redo
             \s
             12. Export recruits
             export [FILEPATH]
@@ -61,9 +62,15 @@ public class HelpWindow extends UiPart<Stage> {
             13. Clear all recruits
             clear
             \s
+            14. Dismiss displayed results after executing a command
+            dismiss
+            \s
+            15. Exit application
+            exit
+            \s
+            16. Open help menu
+            help
            """;
-    public static final String HELP_MESSAGE = "Refer to the user guide: "
-            + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -74,6 +81,9 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    @FXML
+    private Label userGuideLabel;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -81,7 +91,10 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
+        // Header of help window
+        userGuideLabel.setText("Refer to the user guide: " + USERGUIDE_URL);
+        // Body of help window
+        helpMessage.setText(COMMAND_HELP_MESSAGE);
     }
 
     /**

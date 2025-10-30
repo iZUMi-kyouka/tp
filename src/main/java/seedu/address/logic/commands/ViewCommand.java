@@ -23,7 +23,7 @@ public class ViewCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Displays a detailed view of the the recruit identified by "
             + "the index number used in the displayed recruit list.\n"
-            + "Parameters: INDEX/UUID\n"
+            + "Parameters: INDEX|UUID\n"
             + "Example: " + COMMAND_WORD + " 1\n"
             + "Example: " + COMMAND_WORD + " eac9b117-2ded-42c3-9264-ccf3dfaaa950";
 
