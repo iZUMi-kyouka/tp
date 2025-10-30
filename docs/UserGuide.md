@@ -116,6 +116,11 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 4. Open a command terminal, navigate to the folder where the .jar file is saved using the `cd` command and run the command `java -jar TalentNexus.jar`.<br>
    A GUI similar to **Figure 1** should appear in a few seconds.<br>
 
+![Ui](images/Ui.png)
+   **Figure 1:** Screenshot of the TalentNexus app
+
+<br>
+
 <div style="
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
   border-left: 6px solid #43a047;
@@ -130,9 +135,6 @@ TalentNexus is designed for **recruiters and HR professionals** who:
    <li><strong>Home Folder:</strong> The folder on the computer where the TalentNexus `.jar` file and its data files. This folder acts as the main workspace for the app.</li>
 <li><strong>cd (change directory):</strong> A command used in the command-line interface to navigate between folders on the computer. For example, `cd /path/to/folder` enters the specified folder.</li></ul>
 </div>
-
-![Ui](images/Ui.png)
-   **Figure 1:** Screenshot of the TalentNexus app
 
 5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands:
@@ -198,6 +200,8 @@ Action        | Format, Examples
   e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
 </box>
 
+<br>
+
 ### Viewing help : `help`
 
 * Directs users to the online user guide for detailed instructions
@@ -208,6 +212,7 @@ Action        | Format, Examples
 
 Format: `help`
 
+<br>
 
 ### Adding a recruit: `add`
 
@@ -226,6 +231,8 @@ Examples:
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 * `add n/田中小泉 n/Max e/koizumi@example.com e/max@example.com a/30 Princess Gina Park t/swe t/test_engineer`
 
+<br>
+
 ### Listing all recruits : `list`
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
@@ -238,6 +245,8 @@ View [**archived**](#archiving-a-recruit--archive) recruits by following one of 
 * `list -all` — Shows all recruits (both archived and unarchived)
 
 Format: `list`
+
+<br>
 
 ### Viewing a recruit : `view`
 
@@ -253,6 +262,7 @@ Examples:
 * `list` followed by `view 2` displays the 2nd recruit in the address book.
 * `find Betsy` followed by `view 1` displays the 1st recruit in the results of the `find` command.
 
+<br>
 
 ### Editing a recruit : `edit`
 
@@ -266,6 +276,8 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
+
+<br>
 
 #### Operation Types
 
@@ -281,6 +293,8 @@ Examples:
 *  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
 *  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
 
+<br>
+
 ### Deleting a recruit : `delete`
 
 Deletes the specified recruit from the address book.
@@ -294,6 +308,8 @@ Format: `delete INDEX|UUID`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd recruit in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st recruit in the results of the `find` command.
+
+<br>
 
 ### Undoing previously done operations: `undo`
 
@@ -311,6 +327,8 @@ Example usage scenarios:
 - The user realised that recruit Lee was meant to be deleted instead of Li
 - The undo command is typed again to undo deletion of recruit Li
 
+<br>
+
 ### Redoing undone operations: `redo`
 
 Redoes operations that were undone recently.
@@ -324,6 +342,8 @@ Examples usage scenario:
 - The user realised that recruit Li's email is still needed.
 - The undo command is typed to undo the deletion of recruit Li and check the email
 - The redo command is typed to redo the deletion of recruit Li
+
+<br>
 
 ### Locating recruits by name: `find`
 
@@ -373,8 +393,12 @@ If multiple flags are provided, the results will include recruits who satisfy al
 
 <div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
+<br>
+
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
+
+<br>
 
 ### Sorting recruits : `sort`
 
@@ -407,6 +431,8 @@ Examples:
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use multiple sort criteria to organise recruits more precisely. The leftmost field has the highest priority.</div>
 
+<br>
+
 ### Archiving a recruit : `archive`
 
 Archives a recruit to hide them from the default list view while preserving their information.
@@ -428,6 +454,8 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Archive recruits no longer active to keep the main list clean and focused!</div>
 
+<br>
+
 ### Unarchiving a recruit : `unarchive`
 
 Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to restore them to the active recruit list.
@@ -443,6 +471,8 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view archived recruits, then use `unarchive INDEX`.</div>
+
+<br>
 
 ### Exporting recruit data: `export`
 
@@ -461,6 +491,8 @@ Examples:
 ![ExportedRecruits](images/exported_recruits.png)
 **Figure 5:** Exported recruits list in .csv format from TalentNexus
 
+<br>
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -469,6 +501,8 @@ Format: `clear`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If recruits have been cleared accidentally, don't worry! Use the <em>undo</em> command immediately to restore previous changes</div>
 
+<br>
+
 ### Dismissing command result message: `dismiss`
 
 Clears the message shown after executing a command.
@@ -476,6 +510,8 @@ Clears the message shown after executing a command.
 Format: `dismiss`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Dismiss command result message that have been read to regain more space to view the recruit list.</div>
+
+<br>
 
 ### Exiting the program : `exit`
 
