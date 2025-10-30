@@ -17,6 +17,11 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 - Recruit internationally from a large and diverse talent pool
 - Favour a quick, keyboard-driven interface for efficient management
 
+### A few things to take note
+- Basic familiarity with command-line (keyboard-based) operations
+- Sufficient permissions to access and modify files on the computer
+- Java 17 is installed on the computer (Don’t worry! installation instructions are provided below)
+
 <div style="
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
   border-left: 6px solid #43a047;
@@ -38,9 +43,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 ## Quick start
 
 1. **Ensure you have Java `17` or above installed on your computer.**
-
    ### Mac Users
-
    **Check if Java 17 is installed**
     1. Open Terminal.
     2. Run:
@@ -102,7 +105,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
        ```
 
 <div style="background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-  <strong>Tip:</strong> Java 17 is required for TalentNexus to run correctly. If multiple Java versions are installed, ensure Java 17 is set as the default.
+  <strong>Tip:</strong> Java 17 is required for TalentNexus to run correctly. If multiple Java versions are installed, ensure that Java 17 is set as the default version.
 </div>
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F09-3/tp/releases).
@@ -468,7 +471,7 @@ Examples:
 
 ### Saving the data
 
-TalentNexus data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TalentNexus saves recruit data automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
@@ -530,8 +533,8 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 ---
 
-**Q:** What if I enter invalid data directly into the JSON file?  
-**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file to an empty state. Always back up the file before making manual edits.
+**Q:** What if I enter invalid recruit data inside the data file?  
+**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits.
 
 ---
 
@@ -546,7 +549,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 ---
 
 **Q:** How do I reset the application to its default state?  
-**A:** Delete both `preferences.json` and `addressbook.json` from the data directory. On next launch the app will recreate default files and sample data.
+**A:** Delete both `preferences.json` and `addressbook.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
@@ -559,7 +562,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 ---
 
 **Q:** The Help window opened off-screen or is minimized — what do I do?  
-**A:** Close the app and delete `preferences.json` in the data directory to reset window positions. Relaunch the app to restore windows to default locations.
+**A:** Close the app and delete the `preferences.json` file in the ./data folder to reset window positions. Relaunch the app to restore windows to default locations.
 
 ---
 
