@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.ClearCommand;
 
 public class ClearCommandParserTest {
@@ -14,13 +15,25 @@ public class ClearCommandParserTest {
 
     @Test
     public void parse_noArgs_exceptionThrown() {
-        ClearCommand expectedClearCommand = new ClearCommand();
-        assertParseFailure(parser, ClearCommand.COMMAND_WORD , ClearCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, "" , ClearCommand.MESSAGE_USAGE);
     }
 
     @Test
-    public void parse_withConfirmFlag_exceptionThrown() {
+    public void parse_withConfirmFlagOnly_success() {
         ClearCommand expectedClearCommand = new ClearCommand();
-        assertParseSuccess(parser, ClearCommand.COMMAND_WORD + " " + PREFIX_CLEAR_CONFIRM, expectedClearCommand);
+        assertParseSuccess(parser, " " + PREFIX_CLEAR_CONFIRM, expectedClearCommand);
+    }
+
+    @Test
+    public void parse_withConfirmFlagAndPreamble_exceptionThrown() {
+        assertParseFailure(parser,
+                " " + "3" + " " + PREFIX_CLEAR_CONFIRM, Messages.MESSAGE_PREAMBLE_NOT_ACCEPTED);
+    }
+
+    @Test
+    public void parse_withConfirmFlagAndValue_exceptionThrown() {
+        assertParseFailure(parser,
+                " " + PREFIX_CLEAR_CONFIRM + " " + "5",
+                Messages.MESSAGE_NON_VALUE_ACCEPTING_FLAGS + PREFIX_CLEAR_CONFIRM);
     }
 }
