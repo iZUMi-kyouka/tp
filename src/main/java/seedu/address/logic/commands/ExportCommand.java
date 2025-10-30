@@ -25,7 +25,7 @@ public class ExportCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Exports all recruit information to the specified file.\n"
             + "Parameters: FILEPATH (must be a valid file path ending with .csv, absolute or relative)\n"
-            + "Example: " + COMMAND_WORD + "./data/recruits.csv";
+            + "Example: " + COMMAND_WORD + " ./data/recruits.csv";
     private final Path filePath;
 
     /**
