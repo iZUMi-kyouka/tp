@@ -100,6 +100,15 @@ public class ArgumentMultimap {
     }
 
     /**
+     * Throws a {@code ParseException} if the preamble is not empty.
+     */
+    public void verifyPreambleIsEmpty() throws ParseException {
+        if (!this.getPreamble().isEmpty()) {
+            throw new ParseException(Messages.MESSAGE_PREAMBLE_NOT_ACCEPTED);
+        }
+    }
+
+    /**
      * Returns all {@code Prefix} that are present in a {@code Set}.
      */
     public Set<Prefix> getAllPrefixes() {

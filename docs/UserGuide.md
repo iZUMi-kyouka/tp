@@ -160,20 +160,20 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 Action        | Format, Examples
 --------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 [**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-[**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`
-[**Find**](#locating-recruits-by-name-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`
-[**Sort**](#sorting-recruits--sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
-[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`
-[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`
+[**Edit**](#editing-a-recruit-edit)             | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
+[**View**](#viewing-a-recruit-view)             | `view INDEX\|UUID`<br> e.g., `view 2`
+[**Delete**](#deleting-a-recruit-delete)        | `delete INDEX\|UUID`<br> e.g., `delete 3`
+[**Find**](#searching-for-recruits-find)     | `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`<br> e.g., `find James Jake`
+[**Sort**](#sorting-recruits-sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
+[**List**](#listing-all-recruits-list)          | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
+[**Archive**](#archiving-a-recruit-archive)     | `archive INDEX`<br> e.g., `archive 2`
+[**Unarchive**](#unarchiving-a-recruit-unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
+[**Undo**](#undoing-previously-done-operations-undo) | `undo`
+[**Redo**](#redoing-undone-operations-redo) | `redo`
 [**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-[**Clear**](#clearing-all-entries--clear)       | `clear`<br> e.g., `clear`
-[**Dismiss**](#dismiss--dismiss)       | `dismiss`<br> e.g., `dissmiss`
-[**Help**](#viewing-help--help)                 | `help`<br> e.g., `help`
+[**Clear**](#clearing-all-entries-clear)        | `clear -confirm`
+[**Dismiss**](#dismissing-command-result-message-dismiss)                | `dismiss`
+[**Help**](#viewing-help-help)                  | `help`
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -210,7 +210,7 @@ Action        | Format, Examples
 
 <br>
 
-### Viewing help : `help`
+### Viewing help: `help`
 
 * Directs users to the online user guide for detailed instructions
 * Displays a complete list of all available commands in the app (see **Figure 2**)
@@ -243,7 +243,7 @@ Examples:
 
 <br>
 
-### Listing all recruits : `list`
+### Listing all recruits: `list`
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
 
@@ -258,7 +258,7 @@ Format: `list`
 
 <br>
 
-### Viewing a recruit : `view`
+### Viewing a recruit: `view`
 
 View the recruit located at the a particular index from the address book.
 
@@ -274,7 +274,7 @@ Examples:
 
 <br>
 
-### Editing a recruit : `edit`
+### Editing a recruit: `edit`
 
 Edits an existing recruit in the address book.
 
@@ -307,7 +307,7 @@ Examples:
 
 <br>
 
-### Deleting a recruit : `delete`
+### Deleting a recruit: `delete`
 
 Deletes the specified recruit from the address book.
 
@@ -357,11 +357,9 @@ Examples usage scenario:
 
 <br>
 
-### Search for recruits: `find`
+### Searching for recruits: `find`
 
 Finds all recruits whose details match any of the given keywords.
-
-
 
 Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`
 
@@ -417,7 +415,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 
 <br>
 
-### Sorting recruits : `sort`
+### Sorting recruits: `sort`
 
 Sorts all recruits in the address book by specified fields in ascending or descending order.
 
@@ -450,7 +448,7 @@ Examples:
 
 <br>
 
-### Archiving a recruit : `archive`
+### Archiving a recruit: `archive`
 
 Archives a recruit to hide them from the default list view while preserving their information.
 
@@ -473,7 +471,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 <br>
 
-### Unarchiving a recruit : `unarchive`
+### Unarchiving a recruit: `unarchive`
 
 Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to restore them to the active recruit list.
 
@@ -510,7 +508,7 @@ Examples:
 
 <br>
 
-### Clearing all entries : `clear`
+### Clearing all entries: `clear`
 
 Clears all entries from the address book.
 
@@ -533,7 +531,7 @@ Format: `dismiss`
 
 <br>
 
-### Exiting the program : `exit`
+### Exiting the program: `exit`
 
 Exits the program.
 
