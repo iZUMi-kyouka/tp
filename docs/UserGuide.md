@@ -153,32 +153,29 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command Summary
 
-Action        | Format, Examples
---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-[**Edit**](#editing-a-recruit--edit)            | `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`
-[**View**](#viewing-a-recruit--view)      | `view INDEX/UUID`<br> e.g., `view 2`
-[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX/UUID`<br> e.g., `delete 3`
-[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-[**Sort**](#sorting-recruits--sort)             | `sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`
-[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`
-[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`
-[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`
-[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`
-[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`
-[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`
-[**Clear**](#clearing-all-entries--clear)       | `clear`
-[**Help**](#viewing-help--help)                 | `help`
+Action        | Format, Examples                                                                                                                                                                        
+--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[**Add**](#adding-a-recruit-add)                | `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` 
+[**Edit**](#editing-a-recruit--edit)            | `edit INDEX\|UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]…​`<br> e.g.,`edit 2 -ap n/James Lee e/jameslee@example.com`                             
+[**View**](#viewing-a-recruit--view)      | `view INDEX\|UUID`<br> e.g., `view 2`                                                                                                                                                    
+[**Delete**](#deleting-a-recruit--delete)       | `delete INDEX\|UUID`<br> e.g., `delete 3`                                                                                                                                                
+[**Find**](#locating-recruits-by-name-find)     | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                              
+[**Sort**](#sorting-recruits--sort)             | `sort  [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]`<br> e.g., `sort`, `sort desc`, `sort n/ asc p/ desc`                                                                                
+[**List**](#listing-all-recruits--list)         | `list [-archived] [-all]`<br> e.g., `list`, `list -archived`, `list -all`                                                                                                               
+[**Archive**](#archiving-a-recruit--archive)    | `archive INDEX`<br> e.g., `archive 2`                                                                                                                                                   
+[**Unarchive**](#unarchiving-a-recruit--unarchive) | `unarchive INDEX`<br> e.g., `unarchive 1`                                                                                                                                               
+[**Undo Command**](#unarchiving-a-recruit--unarchive) | `undo`<br> e.g., `undo`                                                                                                                                                                 
+[**Redo Command**](#unarchiving-a-recruit--unarchive) | `redo`<br> e.g., `redo`                                                                                                                                                                 
+[**Export**](#exporting-recruit-data-export)    | `export [FILEPATH]`<br> e.g., `export ./data/recruits.csv`                                                                                                                              
+[**Clear**](#clearing-all-entries--clear)       | `clear`                                                                                                                                                                                 
+[**Dismiss**](#dismiss--dismiss)       | `dismiss`                                                                                                                                                                               
+[**Help**](#viewing-help--help)                 | `help`                                                                                                                                                                                  
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features
-
-<box type="info" seamless>
-
-**Notes about the command format:**<br>
+## Command Format
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
@@ -192,11 +189,14 @@ Action        | Format, Examples
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extra parameters for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
+  e.g. If the user types `help 123`, it will be interpreted as `help`.
 
 * For PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-  </box>
+  
+* The pipe symbol `|` denotes "or".<br>
+  e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
+</box>
 
 ### Viewing help : `help`
 
@@ -243,7 +243,7 @@ Format: `list`
 
 View the recruit located at the a particular index from the address book.
 
-Format: `view INDEX/UUID`
+Format: `view INDEX|UUID`
 
 * Displays the full details of the recruit at the specified `INDEX` or `UUID` in the recruit list.
 * The index refers to the index number shown in the displayed recruit list.
@@ -258,7 +258,7 @@ Examples:
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
+Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
@@ -285,7 +285,7 @@ Examples:
 
 Deletes the specified recruit from the address book.
 
-Format: `delete INDEX/UUID`
+Format: `delete INDEX|UUID`
 
 * Deletes the recruit at the specified `INDEX` or `UUID`.
 * The index refers to the index number shown in the displayed recruit list.
