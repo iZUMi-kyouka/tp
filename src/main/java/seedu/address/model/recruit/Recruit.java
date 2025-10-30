@@ -51,6 +51,9 @@ public class Recruit {
         return id;
     }
 
+    /**
+     * Retruns the primary name of this recruit.
+     */
     public Name getName() {
         return names.getPrimary().get();
     }
@@ -59,6 +62,10 @@ public class Recruit {
         return this.names.stream().toList();
     }
 
+    /**
+     * Returns an Optional containing the primary phone number of this recruit,
+     * or the first one if no primary number is set. If no phone numbers are present returns an empty Optional.
+     */
     public Optional<Phone> getPhone() {
         return phones.getPrimary()
                 .or(() -> phones.isEmpty() ? Optional.empty() : Optional.of(phones.first()));
@@ -68,6 +75,10 @@ public class Recruit {
         return this.phones.stream().toList();
     }
 
+    /**
+     * Returns an Optional containing the primary email of this recruit,
+     * or the first one if no primary email is set. If no emails are present, returns an empty Optional.
+     */
     public Optional<Email> getEmail() {
         return emails.getPrimary()
                 .or(() -> emails.isEmpty() ? Optional.empty() : Optional.of(emails.first()));
@@ -81,6 +92,10 @@ public class Recruit {
         return this.description;
     }
 
+    /**
+     * Returns an Optional containing the primary address of this recruit,
+     * or the first one if no primary address is set. If no addresses are present, returns an empty Optional.
+     */
     public Optional<Address> getAddress() {
         return addresses.getPrimary()
                 .or(() -> addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.first()));

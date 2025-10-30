@@ -18,6 +18,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalRecruits.ALICE;
 
 import java.util.List;
 import java.util.UUID;
@@ -94,6 +95,20 @@ public class RecruitBuilderTest {
     }
 
     @Test
+    void withPrimaryName_setsAnyExistingNameAsPrimary_success() {
+        RecruitBuilder builder = new RecruitBuilder().withNames(
+            List.of(new Name(VALID_NAME_AMY), new Name(VALID_NAME_BOB)));
+        builder.withPrimaryName(new Name(VALID_NAME_BOB));
+        assertEquals(new Name(VALID_NAME_BOB), builder.build().getName());
+    }
+
+    @Test
+    void withPrimaryName_setsNonExistentNameAsPrimary_exceptionThrown() {
+        RecruitBuilder builder = new RecruitBuilder().withName(new Name(VALID_NAME_AMY));
+        assertThrows(DataEntryNotFoundException.class, () -> builder.withPrimaryName(new Name(VALID_NAME_BOB)));
+    }
+
+    @Test
     void appendNames_addsSuccessfully() {
         RecruitBuilder builder = new RecruitBuilder().withName(new Name(VALID_NAME_AMY));
         builder.appendNames(List.of(new Name(VALID_NAME_BOB)));
@@ -150,6 +165,20 @@ public class RecruitBuilderTest {
         RecruitBuilder builder = new RecruitBuilder();
         builder.withPhone(null);
         assertFalse(builder.hasBeenModified());
+    }
+
+    @Test
+    void withPrimaryPhone_setsAnyExistingPhoneAsPrimary_success() {
+        RecruitBuilder builder = new RecruitBuilder(ALICE)
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB), ALICE.getPhone().get()))
+                .withPrimaryPhone(ALICE.getPhone().get());
+        assertEquals(ALICE.getPhone(), builder.build().getPhone());
+    }
+
+    @Test
+    void withPrimaryPhone_setsNonExistentPhoneAsPrimary_exceptionThrown() {
+        RecruitBuilder builder = new RecruitBuilder().withPhone(new Phone(VALID_PHONE_AMY));
+        assertThrows(DataEntryNotFoundException.class, () -> builder.withPrimaryPhone(new Phone(VALID_PHONE_BOB)));
     }
 
     @Test
@@ -212,6 +241,20 @@ public class RecruitBuilderTest {
     }
 
     @Test
+    void withPrimaryEmail_setsAnyExistingEmailAsPrimary_success() {
+        RecruitBuilder builder = new RecruitBuilder(ALICE)
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB), ALICE.getEmail().get()))
+                .withPrimaryEmail(new Email(VALID_EMAIL_BOB));
+        assertEquals(new Email(VALID_EMAIL_BOB), builder.build().getEmail().get());
+    }
+
+    @Test
+    void withPrimaryEmail_setsNonExistentEmailAsPrimary_exceptionThrown() {
+        RecruitBuilder builder = new RecruitBuilder().withEmail(new Email(VALID_EMAIL_AMY));
+        assertThrows(DataEntryNotFoundException.class, () -> builder.withPrimaryEmail(new Email(VALID_EMAIL_BOB)));
+    }
+
+    @Test
     void appendEmails_addsSuccessfully() {
         RecruitBuilder builder = new RecruitBuilder().withEmail(new Email(VALID_EMAIL_AMY));
         builder.appendEmails(List.of(new Email(VALID_EMAIL_BOB)));
@@ -268,6 +311,23 @@ public class RecruitBuilderTest {
         RecruitBuilder builder = new RecruitBuilder();
         builder.withAddress(null);
         assertFalse(builder.hasBeenModified());
+    }
+
+    @Test
+    void withPrimaryAddress_setsAnyExistingAddressAsPrimary_success() {
+        RecruitBuilder builder = new RecruitBuilder(ALICE)
+                .withAddresses(List.of(
+                            new Address(VALID_ADDRESS_AMY),
+                            new Address(VALID_ADDRESS_BOB),
+                            ALICE.getAddress().get()))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_BOB));
+        assertEquals(new Address(VALID_ADDRESS_BOB), builder.build().getAddress().get());
+    }
+
+    @Test
+    void withPrimaryAddress_setsNonExistentAddressAsPrimary_exceptionThrown() {
+        RecruitBuilder builder = new RecruitBuilder().withAddress(new Address(VALID_ADDRESS_AMY));
+        assertThrows(DataEntryNotFoundException.class, () -> builder.withPrimaryAddress(new Address(VALID_EMAIL_BOB)));
     }
 
     @Test
