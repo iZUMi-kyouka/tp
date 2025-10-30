@@ -266,6 +266,20 @@ Examples:
 *  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
 *  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
 
+### Deleting a recruit : `delete`
+
+Deletes the specified recruit from the address book.
+
+Format: `delete INDEX/UUID`
+
+* Deletes the recruit at the specified `INDEX` or `UUID`.
+* The index refers to the index number shown in the displayed recruit list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `list` followed by `delete 2` deletes the 2nd recruit in the address book.
+* `find Betsy` followed by `delete 1` deletes the 1st recruit in the results of the `find` command.
+
 ### Undoing previously done operations: `undo`
 
 Undoes operations that were done recently.
@@ -281,7 +295,6 @@ Example usage scenarios:
 4. You type `undo` to restore all the recruits.
 5. You realise that you meant instead to delete recruit Lee instead of Li.
 6. You type `undo` again to undo deletion of recruit Li.
-
 
 ### Redoing undone operations: `redo`
 
@@ -317,8 +330,6 @@ If both default keyword(s) and name keyword(s) are specified, the **name keyword
 
 If multiple flags are provided, the results will include recruits who satisfy all search criteria
 
----
-
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
 * `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
@@ -327,15 +338,12 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
 * `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
----
-
 **Chaining multiple search flags:**
 * `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
 * `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
   “Bukit” or “Pasir”
----
 
 **Examples:**
 * `find alice` — Finds all recruits with “alice” in their name
@@ -349,7 +357,6 @@ If multiple flags are provided, the results will include recruits who satisfy al
 **Figure 3:** Searching for recruits with "Bukit Batok" in their address
 
 <div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
-
 
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
@@ -414,45 +421,7 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -archived` followed by `unarchive 1` unarchives the 1st recruit in the archived list
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
-
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view your archived recruits, then use `unarchive INDEX`.</div>
-
-### Deleting a recruit : `delete`
-
-Deletes the specified recruit from the address book.
-
-Format: `delete INDEX/UUID`
-
-* Deletes the recruit at the specified `INDEX` or `UUID`.
-* The index refers to the index number shown in the displayed recruit list.
-* The index **must be a positive integer** 1, 2, 3, …​
-
-Examples:
-* `list` followed by `delete 2` deletes the 2nd recruit in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st recruit in the results of the `find` command.
-
-### Clearing all entries : `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
-
-<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If you accidentally cleared all recruits, don't worry! You can use the <em>undo</em> command immediately to restore your previous changes</div>
-
-
-### Dismissing command result message: `dismiss`
-
-Clears the command result message box.
-
-Format: `dismiss`
-
-<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> You could dismiss command result message that you have read to regain more space to view the recruit list.</div>
-
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
 
 ### Exporting recruit data: `export`
 
@@ -471,13 +440,35 @@ Examples:
 ![ExportedRecruits](images/exported_recruits.png)
 **Figure 5:** Exported recruits list in .csv format from TalentNexus
 
+### Clearing all entries : `clear`
+
+Clears all entries from the address book.
+
+Format: `clear`
+
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If you accidentally cleared all recruits, don't worry! You can use the <em>undo</em> command immediately to restore your previous changes</div>
+
+### Dismissing command result message: `dismiss`
+
+Clears the message shown after executing a command.
+
+Format: `dismiss`
+
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> You could dismiss command result message that you have read to regain more space to view the recruit list.</div>
+
+### Exiting the program : `exit`
+
+Exits the program.
+
+Format: `exit`
+
 ### Saving the data
 
-TalentNexus saves recruit data automatically after any command that changes the data. There is no need to save manually.
+Recruit data is saved automatically after any command is executed. There is no need to save manually.
 
 ### Editing the data file
 
-TalentNexus data is saved automatically as a JSON file `[JAR file location]/data/TalentNexusData.json`. Advanced users are welcome to update data directly by editing that data file.
+Recruit data is saved automatically as a JSON file `[JAR file location]/data/TalentNexusData.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div style="
   background: linear-gradient(135deg, #fff3e0, #ffe0b2);
