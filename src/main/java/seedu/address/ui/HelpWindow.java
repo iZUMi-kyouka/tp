@@ -23,13 +23,14 @@ public class HelpWindow extends UiPart<Stage> {
             Command Summary:
             \s
             1. Create recruit
-            add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            add n/NAME... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             2. View recruit
             view INDEX/UUID
             \s
             3. Edit recruit's details
-            edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
+            edit INDEX/UUID [OPERATION] [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... \
+            [t/TAG]...
             \s
             4. Delete recruit
             delete INDEX/UUID
@@ -41,7 +42,7 @@ public class HelpWindow extends UiPart<Stage> {
             list [-archived] [-all]
             \s
             7. Sort recruits
-            sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]
+            sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]
             \s
             8. Archive recruit
             archive INDEX
@@ -66,6 +67,9 @@ public class HelpWindow extends UiPart<Stage> {
             \s
             15. Exit application
             exit
+            \s
+            16. Open help menu
+            help
            """;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
