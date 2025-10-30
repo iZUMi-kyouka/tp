@@ -16,12 +16,12 @@ public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all recruits "
-            + "When used without any flags, returns all unarchived recruits"
-            + "Use -all flag to view all recruits (archived & unarchived) \n"
-            + "Use -archive flag to view all archived recruits"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all recruits\n"
+            + "When used without any flags, returns all unarchived recruits\n"
+            + "Use -all flag to view all recruits (archived & unarchived)\n"
+            + "Use -archived flag to view all archived recruits\n"
             + "Example: " + COMMAND_WORD + " -all \n"
-            + "Example: " + COMMAND_WORD + " -archive \n";
+            + "Example: " + COMMAND_WORD + " -archived \n";
 
     public final Predicate<Recruit> predicate;
     public final ListCommandParser.ListOperation operation;

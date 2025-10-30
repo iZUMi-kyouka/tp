@@ -7,7 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_APPEND;
 import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_OVERWRITE;
 import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_REMOVE;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
@@ -39,7 +38,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditOperation;
-import seedu.address.model.recruit.data.Address;
 import seedu.address.model.recruit.data.Email;
 import seedu.address.model.recruit.data.Name;
 import seedu.address.model.recruit.data.Phone;
@@ -58,12 +56,12 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_missingParts_failure() {
-        UUID targetID = TypicalIDs.ID_FIRST_RECRUIT;
+        UUID targetId = TypicalIDs.ID_FIRST_RECRUIT;
         // no index specified
         assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
 
         // no field specified
-        assertParseFailure(parser, targetID.toString(), EditCommand.MESSAGE_NO_FIELD_PROVIDED);
+        assertParseFailure(parser, targetId.toString(), EditCommand.MESSAGE_NO_FIELD_PROVIDED);
 
         // no index and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
@@ -86,24 +84,26 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        UUID targetID = TypicalIDs.ID_FIRST_RECRUIT;
-        assertParseFailure(parser, targetID + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
-        assertParseFailure(parser, targetID + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
-        assertParseFailure(parser, targetID + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
-        assertParseFailure(parser, targetID + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
-        assertParseFailure(parser, targetID + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
+        // There is currently no way to obtain an invalid address or description when parsing the edit command
+        // since if a blank String is provided to the edit command, it is treated as clearing the Data field.
+
+        UUID targetId = TypicalIDs.ID_FIRST_RECRUIT;
+        assertParseFailure(parser, targetId + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
+        assertParseFailure(parser, targetId + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
+        assertParseFailure(parser, targetId + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
+        assertParseFailure(parser, targetId + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
 
         // invalid phone followed by valid email
-        assertParseFailure(parser, targetID + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, targetId + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Recruit} being edited,
         // parsing it together with a valid tag results in error
-        assertParseFailure(parser, targetID + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, targetID + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, targetID + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, targetId + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, targetId + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, targetId + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, targetID + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY
+        assertParseFailure(parser, targetId + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY
                         + VALID_PHONE_AMY,
                 Name.MESSAGE_CONSTRAINTS);
     }
@@ -120,15 +120,15 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_overwriteOperationAllFieldsSpecified_success() {
-        UUID targetID = TypicalIDs.ID_SECOND_RECRUIT;
-        String userInput = targetID + PHONE_DESC_BOB + TAG_DESC_HUSBAND
+        UUID targetId = TypicalIDs.ID_SECOND_RECRUIT;
+        String userInput = targetId + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + DESCRIPTION_DESC_BOB + NAME_DESC_AMY + TAG_DESC_FRIEND;
 
         // implicit (no overwrite flag)
         EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        EditCommand expectedCommand = new EditCommand(targetID, descriptor);
+        EditCommand expectedCommand = new EditCommand(targetId, descriptor);
 
         // explicit (with overwrite flag)
         userInput = userInput + EDIT_OP_FLAG_OVERWRITE;
@@ -149,12 +149,12 @@ public class EditCommandParserTest {
     }
 
     public void parse_someFieldsSpecified_success() {
-        UUID targetID = TypicalIDs.ID_FIRST_RECRUIT;
-        String userInput = targetID + PHONE_DESC_BOB + EMAIL_DESC_AMY;
+        UUID targetId = TypicalIDs.ID_FIRST_RECRUIT;
+        String userInput = targetId + PHONE_DESC_BOB + EMAIL_DESC_AMY;
 
         EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_AMY).build();
-        EditCommand expectedCommand = new EditCommand(targetID, descriptor);
+        EditCommand expectedCommand = new EditCommand(targetId, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -216,35 +216,35 @@ public class EditCommandParserTest {
     @Test
     public void parse_overwriteOperationOneFieldSpecified_success() {
         // name
-        UUID targetID = TypicalIDs.ID_THIRD_RECRUIT;
-        String userInput = targetID + NAME_DESC_AMY;
+        UUID targetId = TypicalIDs.ID_THIRD_RECRUIT;
+        String userInput = targetId + NAME_DESC_AMY;
         EditCommand.EditRecruitDescriptor descriptor =
                 new EditRecruitDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        EditCommand expectedCommand = new EditCommand(targetID, descriptor);
+        EditCommand expectedCommand = new EditCommand(targetId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
-        userInput = targetID + PHONE_DESC_AMY;
+        userInput = targetId + PHONE_DESC_AMY;
         descriptor = new EditRecruitDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        expectedCommand = new EditCommand(targetID, descriptor);
+        expectedCommand = new EditCommand(targetId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
-        userInput = targetID + EMAIL_DESC_AMY;
+        userInput = targetId + EMAIL_DESC_AMY;
         descriptor = new EditRecruitDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
-        expectedCommand = new EditCommand(targetID, descriptor);
+        expectedCommand = new EditCommand(targetId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
-        userInput = targetID + ADDRESS_DESC_AMY;
+        userInput = targetId + ADDRESS_DESC_AMY;
         descriptor = new EditRecruitDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
-        expectedCommand = new EditCommand(targetID, descriptor);
+        expectedCommand = new EditCommand(targetId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
-        userInput = targetID + TAG_DESC_FRIEND;
+        userInput = targetId + TAG_DESC_FRIEND;
         descriptor = new EditRecruitDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new EditCommand(targetID, descriptor);
+        expectedCommand = new EditCommand(targetId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -329,11 +329,11 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_resetTags_success() {
-        UUID targetID = TypicalIDs.ID_THIRD_RECRUIT;
-        String userInput = targetID + TAG_EMPTY;
+        UUID targetId = TypicalIDs.ID_THIRD_RECRUIT;
+        String userInput = targetId + TAG_EMPTY;
 
         EditCommand.EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder().withTags().build();
-        EditCommand expectedCommand = new EditCommand(targetID, descriptor);
+        EditCommand expectedCommand = new EditCommand(targetId, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

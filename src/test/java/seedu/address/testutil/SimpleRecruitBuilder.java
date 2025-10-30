@@ -41,12 +41,11 @@ public class SimpleRecruitBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public SimpleRecruitBuilder() {
-        id = UUID.randomUUID();
         names = List.of(new Name(DEFAULT_NAME));
         phones = List.of(new Phone(DEFAULT_PHONE));
         emails = List.of(new Email(DEFAULT_EMAIL));
         addresses = List.of(new Address(DEFAULT_ADDRESS));
-        description = new Description(DEFAULT_DESCRIPTION);
+        description = Description.createDescription(DEFAULT_DESCRIPTION);
         tags = new HashSet<>();
         isArchived = false;
     }
@@ -166,7 +165,7 @@ public class SimpleRecruitBuilder {
      * Sets the {@code Description} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withDescription(String description) {
-        this.description = new Description(description);
+        this.description = Description.createDescription(description);
         return this;
     }
 

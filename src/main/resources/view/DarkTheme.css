@@ -57,10 +57,10 @@
     -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
     -fx-border-color:
-        transparent
-        transparent
-        derive(-fx-base, 80%)
-        transparent;
+            transparent
+            transparent
+            derive(-fx-base, 80%)
+            transparent;
     -fx-border-insets: 0 10 1 0;
 }
 
@@ -141,11 +141,11 @@
 }
 
 .stack-pane {
-     -fx-background-color: derive(#090C0F, 30%);
+    -fx-background-color: derive(#090C0F, 30%);
 }
 
 .pane-with-border {
-     -fx-background-color: derive(#090C0F, 20%);
+    -fx-background-color: derive(#090C0F, 20%);
 }
 
 .title-box {
@@ -207,6 +207,14 @@
     -fx-text-fill: white;
 }
 
+.menu-item .label {
+    -fx-text-fill: white !important;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white !important;
+}
+
 .menu-bar {
     -fx-background-color: derive(#090C0F, 30%);
 }
@@ -244,8 +252,8 @@
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: white;
-  -fx-text-fill: #090C0F;
+    -fx-background-color: white;
+    -fx-text-fill: #090C0F;
 }
 
 .button:focused {
@@ -332,15 +340,23 @@
     -fx-text-fill: #F70D1A;
 }
 
-#commandTextField {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-border-color: transparent transparent #ffffff transparent;
-    -fx-border-insets: 0;
-    -fx-border-width: 1;
+#commandTextArea {
     -fx-font-family: "Segoe UI Light";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
+    -fx-border-color: transparent transparent #ffffff transparent;
+    -fx-border-width: 1;
+    -fx-background-color: transparent;
+}
+
+/* Required to remove white default backrgound of TextArea */
+#commandTextArea .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Required to remove white default backrgound of TextArea */
+#commandTextArea .content {
+    -fx-background-color: transparent;
 }
 
 #filterField, #recruitListPanel, #recruitWebpage {
@@ -373,4 +389,27 @@
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 11;
+}
+
+.copy_id_button,
+.copy_id_button:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-padding: 6;
+    -fx-opacity: 0.6;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.copy_id_button:hover {
+    -fx-opacity: 0.85;
+    -fx-background-color: rgba(62, 123, 145, 0.15);
+}
+
+.copy_id_button:pressed {
+    -fx-opacity: 1;
+    -fx-background-color: rgba(62, 123, 145, 0.25);
 }

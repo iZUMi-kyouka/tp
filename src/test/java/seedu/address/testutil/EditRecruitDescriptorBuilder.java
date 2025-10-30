@@ -38,7 +38,6 @@ public class EditRecruitDescriptorBuilder {
      */
     public EditRecruitDescriptorBuilder(Recruit recruit) {
         descriptor = new EditCommand.EditRecruitDescriptor();
-        descriptor.setId(recruit.getID());
         descriptor.withNames(recruit.getNames());
         descriptor.withPhones(recruit.getPhones());
         descriptor.withEmails(recruit.getEmails());
@@ -52,7 +51,6 @@ public class EditRecruitDescriptorBuilder {
      */
     public EditRecruitDescriptorBuilder(EditCommand.EditOperation op, Recruit recruit) {
         descriptor = new EditCommand.EditRecruitDescriptor(op);
-        descriptor.setId(recruit.getID());
         descriptor.withNames(recruit.getNames());
         descriptor.withPhones(recruit.getPhones());
         descriptor.withEmails(recruit.getEmails());
@@ -138,7 +136,7 @@ public class EditRecruitDescriptorBuilder {
      * Sets the {@code Description} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditRecruitDescriptorBuilder withDescription(String description) {
-        descriptor.withDescription(new Description(description));
+        descriptor.withDescription(Description.createDescription(description));
         return this;
     }
 

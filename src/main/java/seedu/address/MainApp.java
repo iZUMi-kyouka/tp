@@ -1,11 +1,16 @@
 package seedu.address;
 
+import static java.util.Objects.isNull;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
@@ -37,6 +42,8 @@ import seedu.address.ui.UiManager;
 public class MainApp extends Application {
 
     public static final Version VERSION = new Version(0, 2, 2, true);
+    private static final String[] FONT_NAMES = new String[] {
+        "Segoe UI.ttf", "Segoe UI Light.ttf", "Segoe UI Semibold.ttf"};
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
@@ -51,6 +58,7 @@ public class MainApp extends Application {
         logger.info("=============================[ Initializing AddressBook ]===========================");
         super.init();
 
+        loadFonts();
         AppParameters appParameters = AppParameters.parse(getParameters());
         config = initConfig(appParameters.getConfigPath());
         initLogging(config);
@@ -166,6 +174,26 @@ public class MainApp extends Application {
         }
 
         return initializedPrefs;
+    }
+
+    private void loadFonts() {
+        Arrays.stream(FONT_NAMES).forEach(f -> loadFont(f));
+    }
+
+    private void loadFont(String fontPath) {
+        InputStream fontFileStream = Main.class.getResourceAsStream("/fonts/" + fontPath);
+
+        if (fontFileStream == null) {
+            logger.warning(String.format("Failed to find '%s' font file.", fontPath));
+            return;
+        }
+
+        Font font = Font.loadFont(fontFileStream, 16);
+        if (isNull(font)) {
+            logger.warning(String.format("Failed to load '%s' font file.", fontPath));
+        } else {
+            logger.info(String.format("Using font '%s' with family '%s'\n", fontPath, font.getFamily()));
+        }
     }
 
     @Override

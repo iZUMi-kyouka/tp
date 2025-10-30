@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RECRUIT;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -52,8 +53,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " -confirm") instanceof ClearCommand);
     }
 
     @Test
@@ -79,12 +79,15 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Recruit recruit = new SimpleRecruitBuilder().build();
-        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(recruit).build();
-        String input = EditCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT + " "
+        UUID targetId = UUID.randomUUID();
+        Recruit recruit = new SimpleRecruitBuilder()
+                .build();
+        EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder(recruit)
+                .build();
+        String input = EditCommand.COMMAND_WORD + " " + targetId + " "
                 + RecruitUtil.getEditRecruitDescriptorDetails(descriptor);
         EditCommand command = (EditCommand) parser.parseCommand(input);
-        assertEquals(new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor), command);
+        assertEquals(new EditCommand(targetId, descriptor), command);
     }
 
     @Test
@@ -111,7 +114,9 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE), () -> parser.parseCommand(
+                        ListCommand.COMMAND_WORD + " 3"));
     }
 
     @Test
