@@ -71,15 +71,21 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_BOB + DESCRIPTION_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND;
 
         // multiple names
-        Recruit recruit = new SimpleRecruitBuilder(BOB).withAdditionalNames(AMY.getName().value).build();
+        Recruit recruit = new SimpleRecruitBuilder(BOB)
+                .withAdditionalNames(AMY.getName().value)
+                .withPrimaryName(BOB.getName().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + NAME_DESC_AMY, new AddCommand(recruit));
 
         // multiple phones
-        recruit = new SimpleRecruitBuilder(BOB).withAdditionalPhones(AMY.getPhone().get().value).build();
+        recruit = new SimpleRecruitBuilder(BOB)
+                .withAdditionalPhones(AMY.getPhone().get().value)
+                .withPrimaryPhone(BOB.getPhone().get().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + PHONE_DESC_AMY, new AddCommand(recruit));
 
         // multiple emails
-        recruit = new SimpleRecruitBuilder(BOB).withAdditionalEmails(AMY.getEmail().get().value).build();
+        recruit = new SimpleRecruitBuilder(BOB)
+                .withAdditionalEmails(AMY.getEmail().get().value)
+                .withPrimaryEmail(BOB.getEmail().get().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + EMAIL_DESC_AMY, new AddCommand(recruit));
 
         // multiple addresses
@@ -91,7 +97,10 @@ public class AddCommandParserTest {
                         .withAdditionalNames(AMY.getName().value)
                         .withAdditionalPhones(AMY.getPhone().get().value)
                         .withAdditionalEmails(AMY.getEmail().get().value)
-                        .withAdditionalAddresses(AMY.getAddress().get().value).build();
+                        .withAdditionalAddresses(AMY.getAddress().get().value)
+                        .withPrimaryName(BOB.getName().value)
+                        .withPrimaryPhone(BOB.getPhone().get().value)
+                        .withPrimaryEmail(BOB.getEmail().get().value).build();
         assertParseSuccess(parser,
                 validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY
                         + NAME_DESC_AMY + ADDRESS_DESC_AMY,

@@ -42,10 +42,14 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_NO_NAME));
         }
 
-        List<Name> extractedNames = ParserUtil.extractValuesFromMultimap(PREFIX_NAME, argMultimap, ParserUtil::parseName);
-        List<Phone> extractedPhones = ParserUtil.extractValuesFromMultimap(PREFIX_PHONE, argMultimap, ParserUtil::parsePhone);
-        List<Email> extractedEmails = ParserUtil.extractValuesFromMultimap(PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail);
-        List<Address> extractedAddresses = ParserUtil.extractValuesFromMultimap(PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress);
+        List<Name> extractedNames = ParserUtil.extractValuesFromMultimap(
+                PREFIX_NAME, argMultimap, ParserUtil::parseName);
+        List<Phone> extractedPhones = ParserUtil.extractValuesFromMultimap(
+                PREFIX_PHONE, argMultimap, ParserUtil::parsePhone);
+        List<Email> extractedEmails = ParserUtil.extractValuesFromMultimap(
+                PREFIX_EMAIL, argMultimap, ParserUtil::parseEmail);
+        List<Address> extractedAddresses = ParserUtil.extractValuesFromMultimap(
+                PREFIX_ADDRESS, argMultimap, ParserUtil::parseAddress);
 
         Recruit recruit = new RecruitBuilder()
                 .withNames(extractedNames)

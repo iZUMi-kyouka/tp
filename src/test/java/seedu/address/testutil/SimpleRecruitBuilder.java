@@ -19,7 +19,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
 /**
- * A utility class to help with building Person objects.
+ * A utility class to help with building Recruit objects.
  */
 public class SimpleRecruitBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
@@ -33,10 +33,10 @@ public class SimpleRecruitBuilder {
     private List<Phone> phones;
     private List<Email> emails;
     private List<Address> addresses;
-    private String primaryName;
-    private String primaryPhone;
-    private String primaryEmail;
-    private String primaryAddress;
+    private Name primaryName;
+    private Phone primaryPhone;
+    private Email primaryEmail;
+    private Address primaryAddress;
     private Description description;
     private Set<Tag> tags;
     private boolean isArchived;
@@ -88,7 +88,7 @@ public class SimpleRecruitBuilder {
      * Sets the primary {@code Name} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withPrimaryName(String name) {
-        this.primaryName = name;
+        this.primaryName = new Name(name);
         return this;
     }
 
@@ -112,7 +112,7 @@ public class SimpleRecruitBuilder {
      * Sets the primary {@code Phone} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withPrimaryPhone(String phone) {
-        this.primaryPhone = phone;
+        this.primaryPhone = new Phone(phone);
         return this;
     }
 
@@ -137,7 +137,7 @@ public class SimpleRecruitBuilder {
      * Sets the primary {@code Email} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withPrimaryEmail(String email) {
-        this.primaryEmail = email;
+        this.primaryEmail = new Email(email);
         return this;
     }
 
@@ -161,7 +161,7 @@ public class SimpleRecruitBuilder {
      * Sets the primary {@code Address} of the {@code Recruit} that we are building.
      */
     public SimpleRecruitBuilder withPrimaryAddress(String address) {
-        this.primaryAddress = address;
+        this.primaryAddress = new Address(address);
         return this;
     }
 
@@ -212,7 +212,7 @@ public class SimpleRecruitBuilder {
      * @return the resulting Recruit
      */
     public Recruit build() {
-        return new RecruitBuilder()
+        RecruitBuilder rb = new RecruitBuilder()
                 .setId(this.id)
                 .withNames(names)
                 .withPhones(phones)
@@ -220,8 +220,20 @@ public class SimpleRecruitBuilder {
                 .withAddresses(addresses)
                 .withDescription(description)
                 .withTags(tags.stream().toList())
-                .withArchivalState(isArchived)
-                .build();
+                .withArchivalState(isArchived);
+        if (primaryName != null) {
+            rb = rb.withPrimaryName(primaryName);
+        }
+        if (primaryPhone != null) {
+            rb = rb.withPrimaryPhone(primaryPhone);
+        }
+        if (primaryEmail != null) {
+            rb = rb.withPrimaryEmail(primaryEmail);
+        }
+        if (primaryAddress != null) {
+            rb = rb.withPrimaryAddress(primaryAddress);
+        }
+        return rb.build();
     }
 
 }
