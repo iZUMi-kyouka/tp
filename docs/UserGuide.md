@@ -247,14 +247,17 @@ Examples:
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
 
-View [**archived**](#archiving-a-recruit--archive) recruits by following one of the command formats below:
+Format: `list`
+
+* **Only the primary git attributes** for each recruit will be shown in the recruit list.
+  * For example, if a recruit has two names, John and Johnny, and two phones, 12341234 and 56785678, only Johnny and 12341234 will be shown, assuming this recruit's primary name and phone is Johnny and 12341234 respectively.
+* View may also view [**archived**](#archiving-a-recruit--archive) recruits by passing in `-archived` or `-all` as shown belo:
 
 **Formats:**
 * `list` — Shows only unarchived (active) recruits (default)
 * `list -archived` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
-Format: `list`
 
 <br>
 
