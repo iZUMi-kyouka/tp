@@ -191,13 +191,14 @@ Action        | Format, Examples
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
+* Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` **will be ignored**.<br>
   e.g. If the user types `help 123`, it will be interpreted as `help`.
 
 * Whe using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
-* The pipe symbol `|` denotes "or".<br>
-  e.g. `view INDEX|UUID` means you can pass in either a recruit's id or index, **but NOT both** for the view command.
+* The pipe symbol `|` denotes "or" when used in command format. Unless otherwise stated, you may only choose one parameter type to specify **but not both**.<br>
+  e.g. `view INDEX|UUID` means you can pass in either a recruit's id or index right after the command word `view`, **but not both**.
+  * This means `view 1` and `view 74ce96b7-5249-4368-815f-c5a927ed5b0d` are accepted, but `view 1|74ce96b7-5249-4368-815f-c5a927ed5b0d` is **not accepted**.
 
 * If any of the data fields contains special characters like `-` or `/`, the **command may not be parsed correctly** as
   these characters are used as prefixes in other commands. Instead, surround the field with quotation marks `"`,
@@ -375,7 +376,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 
 * The search is **case-insensitive**
 
-* Multiple keywords can be separated by the pipe symbol (`|`)
+* Multiple keywords can be separated by the pipe symbol (`|`). Note that the use of the pipe symbol here differs from what is explained at the start of the "Command Format" section (see below).
 
 * If no flag is provided, the app searches using `NAME` keywords by default
 
@@ -385,7 +386,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
 * `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
 * `find -a Clementi|Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
-* `find -t volunteer|intern` — Finds recruits tagged as **“volunteer”** or **“intern”**
+* `find -t volunteer|intern|cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
 * `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
 * `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
