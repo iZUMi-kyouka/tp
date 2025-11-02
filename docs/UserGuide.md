@@ -196,8 +196,10 @@ Action        | Format, Examples
 
 * Whe using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
+* `UUID` vs `INDEX`: `UUID` refers to UUID, which is a randomly-generated, unique identifier to identify a unique recruit. UUID is in the form of something like `77da2944-2102-429c-946d-bad6c33c1fe1`. `INDEX` refers to the index number shown to the left of a recruit's name. The index number of a recruit can change depending on various factors such as the order that the recruits are sorted, and whether archived recruits are being listed too.
+
 * The pipe symbol `|` denotes "or".<br>
-  e.g. `view INDEX|UUID` means you can pass in either a recruit's id or index, **but NOT both** for the view command.
+  e.g. `view INDEX|UUID` means you can pass in either a recruit's UUID or index, **but NOT both** for the view command.
 
 * If any of the data fields contains special characters like `-` or `/`, the **command may not be parsed correctly** as
   these characters are used as prefixes in other commands. Instead, surround the field with quotation marks `"`,
@@ -207,7 +209,6 @@ Action        | Format, Examples
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
 
-* `UUID` vs `INDEX`: `UUID` refers to UUID, which is a randomly-generated, unique identifier to identify a unique recruit. UUID is in the form of something like `77da2944-2102-429c-946d-bad6c33c1fe1`. `INDEX` refers to the index number shown to the left of a recruit's name. The index number of a recruit can change depending on various factors such as the order that the recruits are sorted, and whether archived recruits are being listed too.
 </box>
 
 <br>
@@ -371,7 +372,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * The `NAME` keyword(s) take precedence
 
 * The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
-    * `-id` — Search by Recruit ID
+    * `-id` — Search by UUID
     * `-n` — Search by Name
     * `-p` — Search by Phone
     * `-e` — Search by Email
@@ -406,7 +407,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
 * `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
-* `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
+* `find -id 123|456|789` — Finds recruits whose UUID contains “123”, “456”, or “789”
 
 <div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
