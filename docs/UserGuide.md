@@ -452,10 +452,11 @@ Examples:
 
 Archives a recruit to hide them from the default list view while preserving their information.
 
-**Format:** `archive INDEX`
+**Format:** `archive INDEX|UUID`
 
 **Parameters:**
 * `INDEX` — The index number shown in the displayed recruit list
+* `UUID` — The UUID of the recruit to archive
 * The index **must be a positive integer** 1, 2, 3, …​
 
 **What is archiving?**
@@ -475,10 +476,11 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to restore them to the active recruit list.
 
-**Format:** `unarchive INDEX`
+**Format:** `unarchive INDEX|UUID`
 
 **Parameters:**
 * `INDEX` — The index number shown in the displayed recruit list (must be viewing archived recruits)
+* `UUID` — The UUID of the recruit to unarchive
 * The index **must be a positive integer** 1, 2, 3, …​
 
 **Examples:**

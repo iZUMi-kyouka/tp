@@ -45,10 +45,10 @@ public class HelpWindow extends UiPart<Stage> {
             sort [-n ORDER] [-p ORDER] [-e ORDER] [-a ORDER]
             \s
             8. Archive recruit
-            archive INDEX
+            archive INDEX|UUID
             \s
             9. Unarchive recruit
-            unarchive INDEX
+            unarchive INDEX|UUID
             \s
             10. Undo command
             undo
