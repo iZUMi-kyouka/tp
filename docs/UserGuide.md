@@ -206,6 +206,8 @@ Action        | Format, Examples
   * If within the quotation marks `"` you want to use `\` or `"`, place the character `\` before it to "escape" it, which
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
+
+* `UUID` vs `INDEX`: `UUID` refers to UUID, which is a randomly-generated, unique identifier to identify a unique recruit. UUID is in the form of something like `77da2944-2102-429c-946d-bad6c33c1fe1`. `INDEX` refers to the index number shown to the left of a recruit's name. The index number of a recruit can change depending on various factors such as the order that the recruits are sorted, and whether archived recruits are being listed too.
 </box>
 
 <br>
