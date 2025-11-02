@@ -191,15 +191,15 @@ Action        | Format, Examples
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extra parameters for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
+* Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
   e.g. If the user types `help 123`, it will be interpreted as `help`.
 
-* For PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* Whe using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 * The pipe symbol `|` denotes "or".<br>
-  e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
+  e.g. `view INDEX|UUID` means you can pass in either a recruit's id or index, **but NOT both** for the view command.
 
-* If any of the data fields contains special characters like `-` or `/`, the command may not be parsed correctly as
+* If any of the data fields contains special characters like `-` or `/`, the **command may not be parsed correctly** as
   these characters are used as prefixes in other commands. Instead, surround the field with quotation marks `"`,
   `"like this"` to ensure that the data is handled correctly. <br>
   e.g. `add n/"Anne-Marie"` or `add n/"Nurul a/p Rahman"`
@@ -587,17 +587,17 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** How do I back up my data?
-**A:** Copy the `addressbook.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
+**A:** Copy the `TalentNexusData.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
 
 ---
 
 **Q:** Can I import data from another AddressBook or TalentNexus installation?
-**A:** Yes. Copy the `addressbook.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `addressbook.json` file first.
+**A:** Yes. Copy the `TalentNexusData.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `TalentNexusData.json` file first.
 
 ---
 
 **Q:** Why are my changes not appearing after restarting the app?
-**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `addressbook.json` file is in the `/data` folder relative to the `.jar` file being run.
+**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `TalentNexusData.json` file is in the `/data` folder relative to the `.jar` file being run.
 
 ---
 
@@ -617,7 +617,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** How do I reset the application to its default state?
-**A:** Delete both `preferences.json` and `addressbook.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
+**A:** Delete both `preferences.json` and `TalentNexusData.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
@@ -627,7 +627,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** Where can I find the JSON schema or data format?
-**A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
+**A:** The primary data file is `TalentNexusData.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
@@ -642,7 +642,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** Who do I contact for bug reports or feature requests?
-**A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `addressbook.json` (sanitized if needed), and the Java version used.
+**A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `TalentNexusData.json` (sanitized if needed), and the Java version used.
 
 --------------------------------------------------------------------------------------------------------------------
 

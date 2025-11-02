@@ -22,6 +22,7 @@ public class UnarchiveCommand extends Command {
             + "unarchived recruit identified by the index number used in the displayed recruit list. "
             + "Parameters: INDEX (must be a positive integer) "
             + "Example: " + COMMAND_WORD + " 1 ";
+    public static final String OPERATION_DESCRIPTOR = "unarchival of recruit:%s\n";
     public static final String RECRUIT_ALREADY_UNARCHIVED = "This recruit is not archived.";
     public static final String MESSAGE_ARCHIVE_RECRUIT_SUCCESS = "Unarchived Recruit:\n%1$s";
 
@@ -76,6 +77,7 @@ public class UnarchiveCommand extends Command {
         Recruit recruit = unarchiveRecruit(recruitToUnarchive);
 
         model.setRecruit(recruitToUnarchive, recruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, Messages.format(recruitToUnarchive)));
         model.refreshFilteredRecruitList();
 
         return new CommandResult(String.format(
