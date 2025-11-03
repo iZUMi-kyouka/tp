@@ -563,7 +563,7 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `export C:\data\recruits.csv`<br>
        Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
 
-### Undo and Redo
+### Undoing and redoing operations
 
 1. Undoing done operation and redoing undone operation
 
@@ -576,3 +576,25 @@ testers are expected to do more *exploratory* testing.
        Expected: deletion of all recruits are undone.
     5. Test case: `redo`<br>
        Expected: deletion of all recruits is performed again, all recruits are deleted.
+
+<box type="info" seamless>
+
+**Note:** To start the application with fresh sample data, simply delete the `data` folder in the directory where TalentNexus.jar is run from.
+
+</box>
+
+### Editing a recruit
+
+1. Overwriting, appending to, deleting from and updating of primary attributes of a recruit
+
+    1. Prerequisites: Ensure you start the application with fresh sample data. Then perform the following test cases sequentially.
+    2. Test case: `edit 1 n/Aylex Yo `<br>
+       Expected: success message stating that the name of the first recruit in the list has been changed from "Alex Yeoh" to "Aylex Yo".
+    3. Test case: `edit 1 -ap p/99999999 e/alex@alex.com`<br>
+       Expected: success message stating that the phone number `99999999` and the email address `alex@alex.com` have been added to the first recruit's phone number and email address list respectively.
+    4. Test case: `edit 1 -primary p/`<br>
+       Expected: error message stating that all specified attributes must not be empty
+    5. Test case: `edit 1 -primary p/99999999`<br>
+       Expected: success message stating that the first recruit's primary phone number has been changed from `87438807` to `99999999`.
+    6. Test case: `edit 1 -rm p/99999999`<br>
+       Expected: success message stating that the number `99999999` has been removed from the first recruit's phone number.
