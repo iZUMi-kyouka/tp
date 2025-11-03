@@ -361,7 +361,7 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that an invalid UUID is given.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -384,7 +384,7 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that an invalid search parameter.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -407,12 +407,12 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that the modification removes all contact parameters.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
 
 * 1c. TalentNexus detects illegal parameter combinations.
-    * 1a1. TalentNexus shows an error message.
+    * 1c1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
