@@ -191,21 +191,24 @@ Action        | Format, Examples
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extra parameters for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
+* Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
   e.g. If the user types `help 123`, it will be interpreted as `help`.
 
-* For PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* Whe using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
+* `UUID` vs `INDEX`: `UUID` refers to UUID, which is a randomly-generated, unique identifier to identify a unique recruit. UUID is in the form of something like `77da2944-2102-429c-946d-bad6c33c1fe1`. `INDEX` refers to the index number shown to the left of a recruit's name. The index number of a recruit can change depending on various factors such as the order that the recruits are sorted, and whether archived recruits are being listed too.
 
 * The pipe symbol `|` denotes "or".<br>
-  e.g. `view INDEX|UUID` means you can pass in a recruit's id or index for the view command.
+  e.g. `view INDEX|UUID` means you can pass in either a recruit's UUID or index, **but NOT both** for the view command.
 
-* If any of the data fields contains special characters like `-` or `/`, the command may not be parsed correctly as
+* If any of the data fields contains special characters like `-` or `/`, the **command may not be parsed correctly** as
   these characters are used as prefixes in other commands. Instead, surround the field with quotation marks `"`,
   `"like this"` to ensure that the data is handled correctly. <br>
   e.g. `add n/"Anne-Marie"` or `add n/"Nurul a/p Rahman"`
   * If within the quotation marks `"` you want to use `\` or `"`, place the character `\` before it to "escape" it, which
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
+
 </box>
 
 <br>
@@ -247,14 +250,17 @@ Examples:
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
 
-View [**archived**](#archiving-a-recruit--archive) recruits by following one of the command formats below:
+Format: `list`
+
+* **Only the primary git attributes** for each recruit will be shown in the recruit list.
+  * For example, if a recruit has two names, John and Johnny, and two phones, 12341234 and 56785678, only Johnny and 12341234 will be shown, assuming this recruit's primary name and phone is Johnny and 12341234 respectively.
+* View may also view [**archived**](#archiving-a-recruit--archive) recruits by passing in `-archived` or `-all` as shown belo:
 
 **Formats:**
 * `list` — Shows only unarchived (active) recruits (default)
 * `list -archived` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
-Format: `list`
 
 <br>
 
@@ -366,7 +372,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * The `NAME` keyword(s) take precedence
 
 * The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
-    * `-id` — Search by Recruit ID
+    * `-id` — Search by UUID
     * `-n` — Search by Name
     * `-p` — Search by Phone
     * `-e` — Search by Email
@@ -401,7 +407,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
 * `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
-* `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
+* `find -id 123|456|789` — Finds recruits whose UUID contains “123”, “456”, or “789”
 
 <div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
@@ -452,10 +458,11 @@ Examples:
 
 Archives a recruit to hide them from the default list view while preserving their information.
 
-**Format:** `archive INDEX`
+**Format:** `archive INDEX|UUID`
 
 **Parameters:**
 * `INDEX` — The index number shown in the displayed recruit list
+* `UUID` — The UUID of the recruit to archive
 * The index **must be a positive integer** 1, 2, 3, …​
 
 **What is archiving?**
@@ -475,10 +482,11 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to restore them to the active recruit list.
 
-**Format:** `unarchive INDEX`
+**Format:** `unarchive INDEX|UUID`
 
 **Parameters:**
 * `INDEX` — The index number shown in the displayed recruit list (must be viewing archived recruits)
+* `UUID` — The UUID of the recruit to unarchive
 * The index **must be a positive integer** 1, 2, 3, …​
 
 **Examples:**
@@ -587,17 +595,17 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** How do I back up my data?
-**A:** Copy the `addressbook.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
+**A:** Copy the `TalentNexusData.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
 
 ---
 
 **Q:** Can I import data from another AddressBook or TalentNexus installation?
-**A:** Yes. Copy the `addressbook.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `addressbook.json` file first.
+**A:** Yes. Copy the `TalentNexusData.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `TalentNexusData.json` file first.
 
 ---
 
 **Q:** Why are my changes not appearing after restarting the app?
-**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `addressbook.json` file is in the `/data` folder relative to the `.jar` file being run.
+**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `TalentNexusData.json` file is in the `/data` folder relative to the `.jar` file being run.
 
 ---
 
@@ -617,7 +625,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** How do I reset the application to its default state?
-**A:** Delete both `preferences.json` and `addressbook.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
+**A:** Delete both `preferences.json` and `TalentNexusData.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
@@ -627,7 +635,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** Where can I find the JSON schema or data format?
-**A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
+**A:** The primary data file is `TalentNexusData.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
@@ -642,7 +650,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ---
 
 **Q:** Who do I contact for bug reports or feature requests?
-**A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `addressbook.json` (sanitized if needed), and the Java version used.
+**A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `TalentNexusData.json` (sanitized if needed), and the Java version used.
 
 --------------------------------------------------------------------------------------------------------------------
 

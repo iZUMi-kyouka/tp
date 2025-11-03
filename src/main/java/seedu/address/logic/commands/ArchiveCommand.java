@@ -22,7 +22,7 @@ public class ArchiveCommand extends Command {
             + "unarchived recruit identified by the index number used in the displayed recruit list. \n"
             + "Parameters: INDEX (must be a positive integer) \n"
             + "Example: " + COMMAND_WORD + " 1 ";
-
+    public static final String OPERATION_DESCRIPTOR = "archival of recruit:\n%s";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit is already archived in the address book.";
     public static final String MESSAGE_ARCHIVE_RECRUIT_SUCCESS = "Archived Recruit:\n%1$s";
 
@@ -78,6 +78,7 @@ public class ArchiveCommand extends Command {
         }
 
         model.setRecruit(recruitToArchive, archivedRecruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, Messages.format(recruitToArchive)));
         model.refreshFilteredRecruitList();
 
         return new CommandResult(String.format(
