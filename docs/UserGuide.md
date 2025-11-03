@@ -614,6 +614,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: First, install TalentNexus on the new computer. Then, locate the `TalentNexusData.json` file in the `/data` folder of your current installation and copy it over to the same location on the new machine, replacing the existing file.
+
 ---
 
 **Q:** Can I use TalentNexus without an internet connection?
@@ -689,6 +690,12 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 **Q:** My computer has a different java version installed and the application is not launching as expected?
 **A:** To switch to Java 17, first ensure it is installed by following the instructions [**here**](#quick-start). After installation, update your system’s **JAVA_HOME** environment variable to the Java 17 installation directory such that the **/bin** folder of Java 17 comes before other Java versions.
 On Windows, this can be done via System Properties > Environment Variables; on macOS or Linux, update .bashrc, .zshrc, or .profile to export the correct paths. Finally, restart your terminal or IDE and run java -version to confirm Java 17 is now in use.
+
+---
+
+**Q:** What does the button with two paper icon next to the recruit UUID do>
+**A:** This is a copy button. When clicked, the recruit's UUID will be copied to your computer's clipboard, and you may paste it anywhere you need it.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
