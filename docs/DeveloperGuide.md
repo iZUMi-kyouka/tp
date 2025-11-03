@@ -510,8 +510,8 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    1. Double-click the jar file <br>
-      Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Double-click the jar file. If you are unable to run the jar file by double-clicking it, open your terminal, `cd` into the folder where TalentNexus.jar is saved in, and then run the command `java -jar TalentNexus.json`. <br>
+      Expected: Shows the GUI with a set of sample contacts.
 
 1. Saving window preferences
 
@@ -524,28 +524,25 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a recruit while all recruits are being shown
 
-    1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
-       ![list result](images/dg_appendix_delete_1.png)
+    1. Prerequisites: Ensure you start the application with fresh sample data. List all recruits using the `list` command. There exists multiple recruits in the list. Perform the following test cases sequentially.
 
     2. Test case: `delete 0`<br>
       Expected: No recruit is deleted. Error details shown in the status message.
-      ![list result](images/dg_appendix_delete_2.png)
 
     3. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
-       ![list result](images/dg_appendix_delete_3.png)
+       Expected: First recruit named "Alex Yeoh" is deleted from the list. Details of the deleted contact shown in the status message.
 
-    4. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e29`<br>
-       Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
-       ![list result](images/dg_appendix_delete_3.png)
+    4. Test case: Copy the UUID of the recruit "Bernice Yu" by clicking on the copy button besides this recruit's UUID. Execute `delete <BERNICE_UUID>`, replacing `<BERNICE_UUID>` with the actual UUID of this recruit by pasting it.<br>
+       Expected: Recruit "Bernice Yu" with UUID `<BERNICE_UUID>` is deleted from the list. Details of the deleted contact shown in the status message.
 
-    5. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e28`<br>
-       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message.
-       ![list result](images/dg_appendix_delete_3.png)
+    5. Test case:  `delete`<br>
+       Expected: error message stating that command format is invalid, together with information about the usage of the `delete` command is shown.
 
-    6. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+<box type="info" seamless>
 
+**Note:** To start the application with fresh sample data, simply delete the `data` folder in the directory where TalentNexus.jar is run from.
+
+</box>
 
 ### Exporting recruits
 
@@ -568,33 +565,39 @@ testers are expected to do more *exploratory* testing.
 1. Undoing done operation and redoing undone operation
 
     1. Prerequisites: Ensure you start the application with fresh sample data. Then perform the following test cases sequentially.
+
     2. Test case: `undo`<br>
        Expected: an error message stating that there are no operations that can be undone.
+
     3. Test case: `clear -confirm`<br>
        Expected: all recruits are deleted.
+
     4. Test case: `undo`<br>
        Expected: deletion of all recruits are undone.
+
     5. Test case: `redo`<br>
        Expected: deletion of all recruits is performed again, all recruits are deleted.
 
-<box type="info" seamless>
-
-**Note:** To start the application with fresh sample data, simply delete the `data` folder in the directory where TalentNexus.jar is run from.
-
-</box>
+    6. Test case: `redo`<br>
+       Expected:  an error message stating that there are no operations that can be redone.
 
 ### Editing a recruit
 
 1. Overwriting, appending to, deleting from and updating of primary attributes of a recruit
 
     1. Prerequisites: Ensure you start the application with fresh sample data. Then perform the following test cases sequentially.
+
     2. Test case: `edit 1 n/Aylex Yo `<br>
        Expected: success message stating that the name of the first recruit in the list has been changed from "Alex Yeoh" to "Aylex Yo".
+
     3. Test case: `edit 1 -ap p/99999999 e/alex@alex.com`<br>
        Expected: success message stating that the phone number `99999999` and the email address `alex@alex.com` have been added to the first recruit's phone number and email address list respectively.
+
     4. Test case: `edit 1 -primary p/`<br>
        Expected: error message stating that all specified attributes must not be empty
+
     5. Test case: `edit 1 -primary p/99999999`<br>
        Expected: success message stating that the first recruit's primary phone number has been changed from `87438807` to `99999999`.
+
     6. Test case: `edit 1 -rm p/99999999`<br>
        Expected: success message stating that the number `99999999` has been removed from the first recruit's phone number.
