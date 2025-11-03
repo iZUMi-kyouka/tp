@@ -104,10 +104,11 @@ TalentNexus is designed for **recruiters and HR professionals** who:
        ```bash
        java -version
        ```
-
+<br>
 <div style="background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
   <strong>Tip:</strong> Java 17 is required for TalentNexus to run correctly. If multiple Java versions are installed, ensure that Java 17 is set as the default version.
 </div>
+<br>
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F09-3/tp/releases).
 
@@ -135,7 +136,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
    <li><strong>Home Folder:</strong> The folder on the computer where the TalentNexus `.jar` file and its data files. This folder acts as the main workspace for the app.</li>
 <li><strong>cd (change directory):</strong> A command used in the command-line interface to navigate between folders on the computer. For example, `cd /path/to/folder` enters the specified folder.</li></ul>
 </div>
-
+<br>
 5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands:
 
@@ -191,15 +192,16 @@ Action        | Format, Examples
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` will be ignored.<br>
+* Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` **will be ignored**.<br>
   e.g. If the user types `help 123`, it will be interpreted as `help`.
 
-* Whe using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* When using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 * `UUID` vs `INDEX`: `UUID` refers to UUID, which is a randomly-generated, unique identifier to identify a unique recruit. UUID is in the form of something like `77da2944-2102-429c-946d-bad6c33c1fe1`. `INDEX` refers to the index number shown to the left of a recruit's name. The index number of a recruit can change depending on various factors such as the order that the recruits are sorted, and whether archived recruits are being listed too.
 
-* The pipe symbol `|` denotes "or".<br>
-  e.g. `view INDEX|UUID` means you can pass in either a recruit's UUID or index, **but NOT both** for the view command.
+* The pipe symbol `|` denotes "or" when used in command format. Unless otherwise stated, you may only choose one parameter type to specify **but not both**.<br>
+  e.g. `view INDEX|UUID` means you can pass in either a recruit's id or index right after the command word `view`, **but not both**.
+  * This means `view 1` and `view 74ce96b7-5249-4368-815f-c5a927ed5b0d` are accepted, but `view 1|74ce96b7-5249-4368-815f-c5a927ed5b0d` is **not accepted**.
 
 * If any of the data fields contains special characters like `-` or `/`, the **command may not be parsed correctly** as
   these characters are used as prefixes in other commands. Instead, surround the field with quotation marks `"`,
@@ -237,6 +239,7 @@ Adds a recruit to the address book.
 Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]...​`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> A recruit can have any number of tags (or none at all)</div>
+<br>
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
@@ -381,7 +384,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 
 * The search is **case-insensitive**
 
-* Multiple keywords can be separated by the pipe symbol (`|`)
+* Multiple keywords can be separated by the pipe symbol (`|`). Note that the use of the pipe symbol here differs from what is explained at the start of the "Command Format" section (see below).
 
 * If no flag is provided, the app searches using `NAME` keywords by default
 
@@ -391,7 +394,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
 * `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
 * `find -a Clementi|Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
-* `find -t volunteer|intern` — Finds recruits tagged as **“volunteer”** or **“intern”**
+* `find -t volunteer|intern|cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
 * `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
 * `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
@@ -510,6 +513,8 @@ Examples:
 *  `export ./data/recruits.csv` Exports all recruits to the relative filepath `./data/recruits.csv`.
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use CSV exports to share data easily between users, or to view it in a spreadsheet software like Excel.</div>
+
+<br>
 
 ![ExportedRecruits](images/exported_recruits.png)
 **Figure 5:** Exported recruits list in .csv format from TalentNexus
