@@ -657,6 +657,11 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 **Q:** Who do I contact for bug reports or feature requests?
 **A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `TalentNexusData.json` (sanitized if needed), and the Java version used.
 
+---
+
+**Q:** My computer has a different java version installed and the application is not launching as expected?  
+**A:** To switch to Java 17, first ensure it is installed by following the instructions [**here**](#quick-start). After installation, update your system’s **JAVA_HOME** environment variable to the Java 17 installation directory such that the **/bin** folder of Java 17 comes before other Java versions.  
+On Windows, this can be done via System Properties > Environment Variables; on macOS or Linux, update .bashrc, .zshrc, or .profile to export the correct paths. Finally, restart your terminal or IDE and run java -version to confirm Java 17 is now in use.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues

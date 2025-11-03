@@ -533,14 +533,25 @@ testers are expected to do more *exploratory* testing.
 1. Deleting a recruit while all recruits are being shown
 
     1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
+       ![list result](images/dg_appendix_delete_1.png)
 
-    1. Test case: `delete 1`<br>
+    2. Test case: `delete 0`<br>
+      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+      ![list result](images/dg_appendix_delete_2.png)
+
+    3. Test case: `delete 1`<br>
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       ![list result](images/dg_appendix_delete_3.png)
 
-    1. Test case: `delete 0`<br>
+    4. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e29`<br>
        Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+       ![list result](images/dg_appendix_delete_3.png)
 
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    5. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e28`<br>
+       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       ![list result](images/dg_appendix_delete_3.png)
+
+    6. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
