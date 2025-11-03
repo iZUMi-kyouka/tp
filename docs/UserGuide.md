@@ -195,7 +195,9 @@ Action        | Format, Examples
 * Extra arguments for commands that do not take in parameters such as `help`, `list`, `exit` and `clear` **will be ignored**.<br>
   e.g. If the user types `help 123`, it will be interpreted as `help`.
 
-* Whe using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* When using the PDF versions of the user guide, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
+* `UUID` vs `INDEX`: `UUID` refers to UUID, which is a randomly-generated, unique identifier to identify a unique recruit. UUID is in the form of something like `77da2944-2102-429c-946d-bad6c33c1fe1`. `INDEX` refers to the index number shown to the left of a recruit's name. The index number of a recruit can change depending on various factors such as the order that the recruits are sorted, and whether archived recruits are being listed too.
 
 * The pipe symbol `|` denotes "or" when used in command format. Unless otherwise stated, you may only choose one parameter type to specify **but not both**.<br>
   e.g. `view INDEX|UUID` means you can pass in either a recruit's id or index right after the command word `view`, **but not both**.
@@ -208,6 +210,7 @@ Action        | Format, Examples
   * If within the quotation marks `"` you want to use `\` or `"`, place the character `\` before it to "escape" it, which
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
+
 </box>
 
 <br>
@@ -250,14 +253,17 @@ Examples:
 
 Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
 
-View [**archived**](#archiving-a-recruit--archive) recruits by following one of the command formats below:
+Format: `list`
+
+* **Only the primary git attributes** for each recruit will be shown in the recruit list.
+  * For example, if a recruit has two names, John and Johnny, and two phones, 12341234 and 56785678, only Johnny and 12341234 will be shown, assuming this recruit's primary name and phone is Johnny and 12341234 respectively.
+* View may also view [**archived**](#archiving-a-recruit--archive) recruits by passing in `-archived` or `-all` as shown belo:
 
 **Formats:**
 * `list` — Shows only unarchived (active) recruits (default)
 * `list -archived` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
-Format: `list`
 
 <br>
 
@@ -369,7 +375,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * The `NAME` keyword(s) take precedence
 
 * The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
-    * `-id` — Search by Recruit ID
+    * `-id` — Search by UUID
     * `-n` — Search by Name
     * `-p` — Search by Phone
     * `-e` — Search by Email
@@ -404,7 +410,7 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 * `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
 * `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
 * `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
-* `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
+* `find -id 123|456|789` — Finds recruits whose UUID contains “123”, “456”, or “789”
 
 <div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
