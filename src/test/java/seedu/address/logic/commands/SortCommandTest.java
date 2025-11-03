@@ -211,7 +211,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortByNameAscending_numbers_success() {
+    public void execute_sortNumericalNamesAscending_success() {
         // Create recruits with names starting with letters and numbers
         Model testModel = new ModelManager();
         Recruit alice = new SimpleRecruitBuilder()
@@ -254,7 +254,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortByNameDescending_numbers_success() {
+    public void execute_sortNumericalNamesDescending_success() {
         // Create recruits with names starting with letters and numbers
         Model testModel = new ModelManager();
         Recruit alice = new SimpleRecruitBuilder()
@@ -289,7 +289,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortByPhoneAscending_emptyPhonesAtBottom_success() {
+    public void execute_sortEmptyPhonesAscending_success() {
         // Create recruits with and without phone numbers
         Model testModel = new ModelManager();
         Recruit withPhone1 = new SimpleRecruitBuilder()
@@ -344,7 +344,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortByPhoneDescending_emptyPhonesAtBottom_success() {
+    public void execute_sortEmptyPhonesDescending_success() {
         // Create recruits with and without phone numbers
         Model testModel = new ModelManager();
         Recruit withPhone1 = new SimpleRecruitBuilder()
@@ -388,7 +388,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortByPhoneAscending_allEmptyPhones_success() {
+    public void execute_sortAllEmptyPhones_success() {
         // Create recruits all without phone numbers
         Model testModel = new ModelManager();
         Recruit noPhone1 = new SimpleRecruitBuilder()
