@@ -151,7 +151,9 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command Summary
+## Commands
+
+### Command Summary
 
 Action        | Format, Examples
 --------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -171,9 +173,11 @@ Action        | Format, Examples
 [**Dismiss**](#dismissing-command-result-message-dismiss)                | `dismiss`
 [**Help**](#viewing-help-help)                  | `help`
 
---------------------------------------------------------------------------------------------------------------------
+<br>
 
-## Command Format
+### Command Format
+
+The following points explain how to interpret the command syntax that are used in the subsequent section that explains each command in detail.
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
@@ -206,7 +210,24 @@ Action        | Format, Examples
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
 
-</box>
+<br>
+
+### Command Parameters
+The following table explains the restriction on the arguments that you can pass in to some commands. **Unless otherwise stated, empty arguments are not allowed.**
+
+Parameters    | Restriction                                                                  | Note                                                          |
+--------------|------------------------------------------------------------------------------|---------------------------------------------------------------|
+`NAME`        | Any string with length of at least 1 | See [Note 2](#command-parameters-additional-notes) below
+`PHONE`       | Any string that satisfies the following: <ul><li>The first character may only be either a plus `+` or a digit</li><li>Subsequent characters may only be either a digit, a space, a hyphen `-`, an open bracket `(`, or a close bracket `)`</li><li>There must be at least 3 digit</li></ul> | <ul><li>A digit refers to the Arabic numeral from 0 to 9</li><li>See [Note 1](#command-parameters-additional-notes) below </li></ul> |
+`EMAIL`       | Email should follow the format `local-part@domain-name`. <br><br>The `local-part` should adhere to the following constraints: <ul><li>The `local-part` should only contain alphanumeric characters, and the following permitted special symbols: plus `+`, hyphen `-`, period `.`, and underscore `_`</li><li>The `local-part` must not start or end with any of the permitted special symbols</li><li>The `local-part` is followed by the at `@` symbol, and then the `domain-name` part.</li></ul>The `domain-name` should adhere to the following constraints: <ul><li>The `domain-name` part consists of one or more `domain-label` separated by periods `.`</li><li>Each `domain-label` must only contain alphanumeric characters and hyphens `-`</li><li>Each `domain-label` must only start and end with alphanumeric characters</li><li>The last (or only) domain label must be at least 2 characters long</li></ul> | <ul><li>Alphanumeric refers to any Roman alphabets from a to z, A to Z, and the Arabic numerals from 0 to 9</li><li>See [Note 1](#command-parameters-additional-notes) below</li></ul>
+`ADDRESS`     | Any string with length of at least 1 | See [Note 2](#command-parameters-additional-notes) below
+`TAG`         | Any string with length of at least 1 and consist of only alphanumeric characters, spaces, and the following permitted special symbols: underscore `_`, hyphen `-`, and forward-slash `/`  | **Tags are case-sensitive**. This means, the tag "swe" and "SWE" are considered two different tags.
+
+
+<a id="command-parameters-additional-notes"></a>
+<div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "><strong>Warning:</strong> <br><ol><li>While there is a validation for phone numbers and emails to ensure only valid data are keyed in, this validation is not foolproof. Please manually verify that any saved phone number and emails are indeed valid.</li><li>For any parameters that accept any string, please note that while most foreign characters such as Chinese and Arabic are supported, some less used or obscure characters may not be properly displayed. For example, the Chinese characters "𰻝" will be displayed as an empty square.</li></ol></div>
+
+
 
 <br>
 
