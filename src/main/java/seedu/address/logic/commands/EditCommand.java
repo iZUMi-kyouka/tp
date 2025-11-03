@@ -327,6 +327,9 @@ public class EditCommand extends Command {
     public static enum EditOperation {
         APPEND, OVERWRITE, REMOVE, UPDATE_PRIMARY;
 
+        /**
+         * Returns the verb string of this operation to be used in EditCommand success message.
+         */
         public String toSuccessMessageVerb() {
             return this == APPEND ? "appended" : this == OVERWRITE ? "overwritten"
                     : this == REMOVE ? "removed" : "updated primary";
