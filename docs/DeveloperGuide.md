@@ -297,19 +297,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | recruiter      | find a potential recruit's contact by their (partial) names | quickly view contact details of a recruit with a particular name       |
 | `* * *`  | clumsy recruiter | I can undo an accidental delete and edit   |  recover the contact details of potential hire due to accidental edit and deletion     |
 | `* * *`  | new user | know what functions are available  | easily know what to type to achieve my desired outcome    |
-| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
-| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
-| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
-| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
-| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
 | `* *` | old-fashioned recruiter       | type commands to use this app      | improve my efficiency of using this address book by 100.5%          |
 | `* *` | recruiter                        | add a skill/interest tag        | filter by talents/skills when searching                        |
 | `* *` | recruiter who can only speak 1 language | view candidate's data in multiple languages | effectively hire talent from multiple countries / nationalities                     |
 | `* *` | recruiter      | archive old applications               | talent pool remains relevant and up-to-date                          |
 | `* *` | recruiter for multinational company | I can add names of a potential hire in multiple languages | colleagues in different locations can use localised names |
 | `* *` | data-centric recruiter            | import and export candidate's data to external files (e.g., Excel) | share among colleagues                           |
-| `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
+| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
+| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
+| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
 | `* *` | recruiter         | sort contacts by multiple fields (name, phone, email, address) in ascending or descending order |  organize and find contacts efficiently based on different criteria |
+| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
+| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
+| `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
 
 *{More to be added}*
 
