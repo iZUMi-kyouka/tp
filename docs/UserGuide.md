@@ -585,76 +585,75 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of the previous AddressBook home folder.
+**A**: First, install TalentNexus on the new computer. Then, locate the `TalentNexusData.json` file in the `/data` folder of your current installation and copy it over to the same location on the new machine, replacing the existing file.
+---
+
+**Q:** Can I use TalentNexus without an internet connection?  
+**A:** Yes. TalentNexus is a fully offline desktop application. No internet connection is required to use any of its features.
 
 ---
 
-**Q:** Can I use TalentNexus without an internet connection?
-**A:** Yes. TalentNexus is a fully offline desktop application — no internet connection is required for any of its features.
-
----
-
-**Q:** What happens if I accidentally delete a recruit?
+**Q:** What happens if I accidentally delete a recruit?  
 **A:** Deleted recruits can be restored immediately using the `undo` command (`undo`), as long as the application has not been closed since the deletion.
 
 ---
 
-**Q:** How do I back up my data?
+**Q:** How do I back up my data?  
 **A:** Copy the `TalentNexusData.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
 
 ---
 
-**Q:** Can I import data from another AddressBook or TalentNexus installation?
+**Q:** Can I import data from another AddressBook or TalentNexus installation?  
 **A:** Yes. Copy the `TalentNexusData.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `TalentNexusData.json` file first.
 
 ---
 
-**Q:** Why are my changes not appearing after restarting the app?
-**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `TalentNexusData.json` file is in the `/data` folder relative to the `.jar` file being run.
+**Q:** Why are my changes not appearing after restarting the app?  
+**A:** This can happen if the app is executed from a different file directory or the data file has been moved. Make sure the `TalentNexusData.json` file is placed in the `/data` folder.
 
 ---
 
-**Q:** What if I enter invalid recruit data inside the data file?
-**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits.
+**Q:** What if I enter invalid recruit data inside the data file?  
+**A:** TalentNexus always validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits to it.
 
 ---
 
-**Q:** How do I view archived recruits?
+**Q:** How do I view archived recruits?  
 **A:** Use `list -archived` to show only archived recruits, or `list -all` to view both archived and active recruits.
 
 ---
 
-**Q:** What should I do if a command doesn’t work?
+**Q:** What should I do if a command doesn’t work?  
 **A:** Check the command syntax against the [**Command summary**](#command-summary) and the relevant command section. Type `help` to view the quick command guide.
 
 ---
 
-**Q:** How do I reset the application to its default state?
+**Q:** How do I reset the application to its default state?  
 **A:** Delete both `preferences.json` and `TalentNexusData.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
-**Q:** How do I run TalentNexus with a specific Java version?
+**Q:** How do I run TalentNexus with a specific Java version?  
 **A:** Ensure the desired JDK is installed and added to the computer's environment variables. Then, run the app with that Java version.
 
 ---
 
-**Q:** Where can I find the JSON schema or data format?
+**Q:** Where can I find the JSON schema or data format?  
 **A:** The primary data file is `TalentNexusData.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
-**Q:** The Help window opened off-screen or is minimized — what do I do?
+**Q:** The Help window opened off-screen or is minimized — what do I do?  
 **A:** Close the app and delete the `preferences.json` file in the ./data folder to reset window positions. Relaunch the app to restore windows to default locations.
 
 ---
 
-**Q:** Is there a limit to how many operations I can undo?
+**Q:** Is there a limit to how many operations I can undo?  
 **A:** There is a limit of up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
 
 ---
 
-**Q:** Who do I contact for bug reports or feature requests?
+**Q:** Who do I contact for bug reports or feature requests?  
 **A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `TalentNexusData.json` (sanitized if needed), and the Java version used.
 
 ---
