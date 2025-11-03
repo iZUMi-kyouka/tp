@@ -52,6 +52,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_ILLEGAL_EMPTY_ATTRIBUTE = "All specified fields must not be empty.";
     public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME = "Cannot create recruit without a name.";
