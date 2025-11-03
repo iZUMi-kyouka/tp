@@ -341,12 +341,11 @@ Undoes operations that were done recently.
 Format: `undo​`
 
 Example usage scenarios:
-- An additional Japanese name is added to recruit John
 - Recruit Li is deleted
-- All recruits are accidentally cleared
-- The undo command is typed to restore all the recruits
+- The user accidentally clears all recruits
+- The undo command is executed to restore all the recruits
 - The user realised that recruit Lee was meant to be deleted instead of Li
-- The undo command is typed again to undo deletion of recruit Li
+- The undo command is executed again to undo deletion of recruit Li
 
 <br>
 
@@ -360,9 +359,10 @@ Format: `redo`
 
 Examples usage scenario:
 - Recruit Li is deleted
-- The user realised that recruit Li's email is still needed.
-- The undo command is typed to undo the deletion of recruit Li and check the email
-- The redo command is typed to redo the deletion of recruit Li
+- The user adds another recruit
+- The user wants to check the email of the previously deleted recruit Li.
+- The undo command is executed **2 times** to undo the deletion of recruit Li and check the email
+- The redo command is executed **2 times** to redo the deletion of recruit Li
 
 <br>
 
