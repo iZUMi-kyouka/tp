@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# TalentNexus Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -13,7 +13,12 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+This project is based on the AddressBook-Level3 (AB-3) project created by the [SE-EDU initiative](https://se-education.org/)
+
+As a result, both the User Guide and the Developer Guide were directly adapted from that of the original
+AAB-3 project:
+* [AB-3 User guide](https://se-education.org/addressbook-level3/UserGuide.html)
+* [AB-3 Developer guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -71,7 +76,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/se-
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `RecruitListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -80,7 +85,7 @@ The `UI` component,
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays `Recruit` object residing in the `Model`.
 
 ### Logic component
 
@@ -123,14 +128,13 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the address book data i.e., all `Recruit` objects (which are contained in a `UniqueRecruitList` object).
+* stores the currently 'selected' `Recruit` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Recruit>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Recruit` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Recruit` needing their own `Tag` objects.<br>
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -157,6 +161,7 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
 
 ### Undo/redo feature
 
@@ -251,10 +256,6 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -296,19 +297,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | recruiter      | find a potential recruit's contact by their (partial) names | quickly view contact details of a recruit with a particular name       |
 | `* * *`  | clumsy recruiter | I can undo an accidental delete and edit   |  recover the contact details of potential hire due to accidental edit and deletion     |
 | `* * *`  | new user | know what functions are available  | easily know what to type to achieve my desired outcome    |
-| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
-| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
-| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
-| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
-| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
 | `* *` | old-fashioned recruiter       | type commands to use this app      | improve my efficiency of using this address book by 100.5%          |
 | `* *` | recruiter                        | add a skill/interest tag        | filter by talents/skills when searching                        |
 | `* *` | recruiter who can only speak 1 language | view candidate's data in multiple languages | effectively hire talent from multiple countries / nationalities                     |
 | `* *` | recruiter      | archive old applications               | talent pool remains relevant and up-to-date                          |
 | `* *` | recruiter for multinational company | I can add names of a potential hire in multiple languages | colleagues in different locations can use localised names |
 | `* *` | data-centric recruiter            | import and export candidate's data to external files (e.g., Excel) | share among colleagues                           |
+| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
+| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
+| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
+| `* *` | recruiter         | sort contacts by multiple fields (name, phone, email, address) in ascending or descending order |  organize and find contacts efficiently based on different criteria |
+| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
+| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
 | `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
-| `* *` | recruiter         | sort contacts by name  |  easily find contact without having to search for them |
 
 *{More to be added}*
 
@@ -447,8 +448,36 @@ Use case ends.
 2.  System shows the list of all available commands and example usages.
 
 Use case ends.
+<br>
 
-*{More to be added}*
+#### UC08 - Sort the Recruit List
+
+**MSS**
+
+1.  User requests to sort the recruit list by one or more specified fields with sort order (ascending or descending).
+2.  System sorts the recruit list according to the specified fields and order, applying sort criteria in priority from left to right.
+3.  System displays the sorted list with a success message showing the field names and sort order.
+
+Use case ends.
+
+**Extensions**
+
+* 1a. TalentNexus detects an invalid sort field.
+    * 1a1. TalentNexus shows an error message informing that the sort field is invalid, and displays the correct format with valid fields.
+
+  Use case ends.
+
+* 1b. TalentNexus detects an invalid sort order.
+    * 1b1. TalentNexus shows an error message informing that the sort order must be either "asc" or "desc".
+
+  Use case ends.
+
+* 1c. User does not specify any sort field.
+    * 1c1. TalentNexus sorts by name in ascending order by default.
+    * 1c2. System displays the sorted list with a success message.
+
+  Use case resumes from step 3.
+  <br>
 
 ### Non-Functional Requirements
 
@@ -465,7 +494,7 @@ Use case ends.
 
 ### Glossary
 
-* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of personal data
+* **PDPA (Personal Data Protection Act)**: Regulations governing the handling of Personal data
 * **Recruit**: A recruit being considered for a job role
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 
@@ -504,14 +533,25 @@ testers are expected to do more *exploratory* testing.
 1. Deleting a recruit while all recruits are being shown
 
     1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
+       ![list result](images/dg_appendix_delete_1.png)
 
-    1. Test case: `delete 1`<br>
+    2. Test case: `delete 0`<br>
+      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+      ![list result](images/dg_appendix_delete_2.png)
+
+    3. Test case: `delete 1`<br>
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       ![list result](images/dg_appendix_delete_3.png)
 
-    1. Test case: `delete 0`<br>
+    4. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e29`<br>
        Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+       ![list result](images/dg_appendix_delete_3.png)
 
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    5. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e28`<br>
+       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       ![list result](images/dg_appendix_delete_3.png)
+
+    6. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
 1. _{ more test cases …​ }_

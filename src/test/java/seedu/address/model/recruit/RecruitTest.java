@@ -43,7 +43,7 @@ public class RecruitTest {
                 .withPhones(List.of(new Phone(VALID_PHONE_AMY)))
                 .withEmails(List.of(new Email(VALID_EMAIL_AMY)))
                 .withAddresses(List.of(new Address(VALID_ADDRESS_AMY)))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND)))
                 .build();
 
@@ -51,7 +51,7 @@ public class RecruitTest {
         assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone().get());
         assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail().get());
         assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress().get());
-        assertEquals(new Description(VALID_DESCRIPTION_AMY), r.getDescription());
+        assertEquals(Description.createDescription(VALID_DESCRIPTION_AMY), r.getDescription());
         assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
 
         // recruit with random UUID and list params (effectively same as above)
@@ -60,7 +60,7 @@ public class RecruitTest {
                 .withPhones(List.of(new Phone(VALID_PHONE_AMY)))
                 .withEmails(List.of(new Email(VALID_EMAIL_AMY)))
                 .withAddresses(List.of(new Address(VALID_ADDRESS_AMY)))
-                .withDescription(new Description(VALID_DESCRIPTION_AMY))
+                .withDescription(Description.createDescription(VALID_DESCRIPTION_AMY))
                 .withTags(List.of(new Tag(VALID_TAG_FRIEND)))
                 .build();
 
@@ -75,6 +75,71 @@ public class RecruitTest {
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Recruit recruit = new SimpleRecruitBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> recruit.getTags().remove(0));
+    }
+
+    @Test
+    public void getPhone_noPhones_returnsEmpty() {
+        Recruit recruit = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .build();
+
+        assertTrue(recruit.getPhone().isEmpty());
+    }
+
+    // NOTE: the following tests exist since currently there is still no
+    // guarantee that primary data is up-to-date when operations like
+    // add and remove are performed on DataSet. Responsibility to update
+    // primary data is on the developer.
+
+    @Test
+    public void getPhone_primaryExplicitlySet_returnsPrimary() {
+        Recruit recruit = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .withPhones(List.of(new Phone(VALID_PHONE_AMY), new Phone(VALID_PHONE_BOB)))
+                .withPrimaryPhone(new Phone(VALID_PHONE_BOB))
+                .build();
+
+        assertEquals(new Phone(VALID_PHONE_BOB), recruit.getPhone().get());
+    }
+
+    @Test
+    public void getEmail_noEmails_returnsEmpty() {
+        Recruit recruit = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .build();
+
+        assertTrue(recruit.getEmail().isEmpty());
+    }
+
+    @Test
+    public void getEmail_primaryExplicitlySet_returnsPrimary() {
+        Recruit recruit = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .withEmails(List.of(new Email(VALID_EMAIL_AMY), new Email(VALID_EMAIL_BOB)))
+                .withPrimaryEmail(new Email(VALID_EMAIL_BOB))
+                .build();
+
+        assertEquals(new Email(VALID_EMAIL_BOB), recruit.getEmail().get());
+    }
+
+    @Test
+    public void getAddress_noAddresses_returnsEmpty() {
+        Recruit recruit = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .build();
+
+        assertTrue(recruit.getAddress().isEmpty());
+    }
+
+    @Test
+    public void getAddress_primaryExplicitlySet_returnsPrimary() {
+        Recruit recruit = new RecruitBuilder()
+                .withName(new Name(VALID_NAME_AMY))
+                .withAddresses(List.of(new Address(VALID_ADDRESS_AMY), new Address(VALID_ADDRESS_BOB)))
+                .withPrimaryAddress(new Address(VALID_ADDRESS_BOB))
+                .build();
+
+        assertEquals(new Address(VALID_ADDRESS_BOB), recruit.getAddress().get());
     }
 
     @Test

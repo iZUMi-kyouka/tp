@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -20,17 +22,31 @@ public class UnarchiveCommand extends Command {
             + "unarchived recruit identified by the index number used in the displayed recruit list. "
             + "Parameters: INDEX (must be a positive integer) "
             + "Example: " + COMMAND_WORD + " 1 ";
+    public static final String OPERATION_DESCRIPTOR = "unarchival of recruit:%s\n";
     public static final String RECRUIT_ALREADY_UNARCHIVED = "This recruit is not archived.";
     public static final String MESSAGE_ARCHIVE_RECRUIT_SUCCESS = "Unarchived Recruit:\n%1$s";
 
     private final Index index;
+    private final UUID uuid;
 
     /**
-     * @param index of the person in the filtered recruit list to edit
+     * Creates an Unarchive Command that unarchives by Index
+     * @param index of the person in the filtered recruit list to unarchive
      */
     public UnarchiveCommand(Index index) {
         requireNonNull(index);
         this.index = index;
+        this.uuid = null;
+    }
+
+    /**
+     * Creates an Unarchive Command that unarchives by Index
+     * @param uuid of the person to unarchive
+     */
+    public UnarchiveCommand(UUID uuid) {
+        requireNonNull(uuid);
+        this.index = null;
+        this.uuid = uuid;
     }
 
     @Override
@@ -38,11 +54,21 @@ public class UnarchiveCommand extends Command {
         requireNonNull(model);
         List<Recruit> lastShownList = model.getFilteredRecruitList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+        Recruit recruitToUnarchive;
+        if (this.uuid == null) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+            }
+            recruitToUnarchive = lastShownList.get(index.getZeroBased());
+        } else {
+            Optional<Recruit> findRecruit = model.getUnfilteredRecruitByID(uuid);
+            if (findRecruit.isEmpty()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
+            } else {
+                recruitToUnarchive = findRecruit.get();
+            }
         }
 
-        Recruit recruitToUnarchive = lastShownList.get(index.getZeroBased());
         assert recruitToUnarchive != null;
         if (!recruitToUnarchive.isArchived()) {
             throw new CommandException(RECRUIT_ALREADY_UNARCHIVED);
@@ -51,6 +77,7 @@ public class UnarchiveCommand extends Command {
         Recruit recruit = unarchiveRecruit(recruitToUnarchive);
 
         model.setRecruit(recruitToUnarchive, recruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, Messages.format(recruitToUnarchive)));
         model.refreshFilteredRecruitList();
 
         return new CommandResult(String.format(
@@ -75,14 +102,18 @@ public class UnarchiveCommand extends Command {
         if (!(other instanceof UnarchiveCommand otherCommand)) {
             return false;
         }
-
-        return index.equals(otherCommand.index);
+        if (index == null) {
+            return uuid.equals(otherCommand.uuid);
+        } else {
+            return index.equals(otherCommand.index);
+        }
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("index", index)
+                .add("uuid", uuid)
                 .toString();
     }
 }

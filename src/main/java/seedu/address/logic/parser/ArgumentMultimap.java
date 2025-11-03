@@ -100,9 +100,32 @@ public class ArgumentMultimap {
     }
 
     /**
+     * Throws a {@code ParseException} if the preamble is not empty.
+     */
+    public void verifyPreambleIsEmpty() throws ParseException {
+        if (!this.getPreamble().isEmpty()) {
+            throw new ParseException(Messages.MESSAGE_PREAMBLE_NOT_ACCEPTED);
+        }
+    }
+
+    /**
      * Returns all {@code Prefix} that are present in a {@code Set}.
      */
     public Set<Prefix> getAllPrefixes() {
         return argMultimap.keySet();
+    }
+
+    /**
+     * Checks if there is only 1 blank entry for that particular prefix.
+     *
+     * @param prefix the prefix to check
+     * @return true if there is only 1 blank entry for that particular prefix
+     */
+    public boolean hasSingleBlankValue(Prefix prefix) {
+        if (this.argMultimap.containsKey(prefix)) {
+            List<String> values = this.argMultimap.get(prefix);
+            return values.size() == 1 && values.get(0).isBlank();
+        }
+        return false;
     }
 }

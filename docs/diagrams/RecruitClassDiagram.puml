@@ -4,15 +4,9 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-VersionedAddressBook *-right-> "1" UniqueRecruitList
-VersionedAddressBook *-right-> "1" UniqueTagList
-UniqueTagList -[hidden]down- UniqueRecruitList
-UniqueTagList -[hidden]down- UniqueRecruitList
+RecruitBuilder -right-> Recruit : builds
 
-UniqueTagList -right-> "*" Tag
-UniqueRecruitList -right-> Recruit
-
-Recruit -up-> "*" Tag
+Recruit *-right-> "*" Tag
 
 Recruit *--> "1" UUID
 Recruit *--> "1...*" Name
@@ -20,4 +14,10 @@ Recruit *--> "*" Phone
 Recruit *--> "*" Email
 Recruit *--> "*" Address
 Recruit *--> "1" Description
+Name .down.|> Data
+Phone .down.|> Data
+Email .down.|> Data
+Address .down.|> Data
+Description .down.|> Data
+
 @enduml

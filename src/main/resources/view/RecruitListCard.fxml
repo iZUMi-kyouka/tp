@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <HBox id="cardPane"
       fx:id="cardPane"
       xmlns="http://javafx.com/javafx/17"
@@ -37,7 +39,15 @@
             </HBox>
             <HBox spacing="16" alignment="CENTER_LEFT">
                 <Label fx:id="id" styleClass="cell_small_label" text="$id" />
-                <Button text="Copy ID" fx:id="copyIdButton" onAction="#handleCopyId" styleClass="copy_id_button" />
+                <Button fx:id="copyIdButton" onAction="#handleCopyId" styleClass="copy_id_button">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@../images/copy.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </HBox>
             <Label fx:id="phone" styleClass="cell_small_label" />
             <Label fx:id="email" styleClass="cell_small_label" />

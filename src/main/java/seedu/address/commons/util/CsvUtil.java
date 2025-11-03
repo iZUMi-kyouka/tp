@@ -65,10 +65,10 @@ public class CsvUtil {
         sb.append("ID,Names,Phones,Emails,Addresses,Tags,Description,IsArchived\n");
 
         for (Recruit r : recruits) {
-            String names = joinAndEscape(r.getNames());
-            String phones = joinAndEscape(r.getPhones());
-            String emails = joinAndEscape(r.getEmails());
-            String addresses = joinAndEscape(r.getAddresses());
+            String names = joinAndEscape(r.getNames().toStringList());
+            String phones = joinAndEscape(r.getPhones().toStringList());
+            String emails = joinAndEscape(r.getEmails().toStringList());
+            String addresses = joinAndEscape(r.getAddresses().toStringList());
             String tags = joinAndEscape(r.getTags());
             String description = escapeCsvField(r.getDescription().toString());
             String isArchived = Boolean.toString(r.isArchived());
@@ -171,7 +171,7 @@ public class CsvUtil {
                         .map(s -> s.replaceAll("^\\[|]$", ""))
                         .map(Tag::new)
                         .toList();
-                Description description = new Description(cols[6]);
+                Description description = Description.createDescription(cols[6]);
                 boolean isArchived = Boolean.parseBoolean(cols[7]);
 
                 recruits.add(new RecruitBuilder()

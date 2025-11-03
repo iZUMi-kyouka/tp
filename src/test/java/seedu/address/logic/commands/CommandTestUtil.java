@@ -96,7 +96,7 @@ public class CommandTestUtil {
         DESC_AMY.withPhone(new Phone(VALID_PHONE_AMY));
         DESC_AMY.withEmail(new Email(VALID_EMAIL_AMY));
         DESC_AMY.withAddress(new Address(VALID_ADDRESS_AMY));
-        DESC_AMY.withDescription(new Description(VALID_DESCRIPTION_AMY));
+        DESC_AMY.withDescription(Description.createDescription(VALID_DESCRIPTION_AMY));
         DESC_AMY.withTag(new Tag(VALID_TAG_FRIEND));
 
         DESC_BOB = new EditCommand.EditRecruitDescriptor(EditCommand.EditOperation.OVERWRITE);
@@ -104,7 +104,7 @@ public class CommandTestUtil {
         DESC_BOB.withPhone(new Phone(VALID_PHONE_BOB));
         DESC_BOB.withEmail(new Email(VALID_EMAIL_BOB));
         DESC_BOB.withAddress(new Address(VALID_ADDRESS_BOB));
-        DESC_BOB.withDescription(new Description(VALID_DESCRIPTION_BOB));
+        DESC_BOB.withDescription(Description.createDescription(VALID_DESCRIPTION_BOB));
         DESC_BOB.withTags(List.of(new Tag(VALID_TAG_HUSBAND), new Tag(VALID_TAG_FRIEND)));
     }
 

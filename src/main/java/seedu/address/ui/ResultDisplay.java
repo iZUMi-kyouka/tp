@@ -31,8 +31,8 @@ public class ResultDisplay extends UiPart<Region> {
             resultDisplay.setPrefHeight(30);
             return;
         }
-
         // Recalculate Text Area
+        double windowHeight = resultDisplay.getScene().getWindow().getHeight();
         int totalLines = 0;
         double wrappingWidth = resultDisplay.getWidth() - 20;
         String[] lines = text.split("\n");
@@ -45,9 +45,9 @@ public class ResultDisplay extends UiPart<Region> {
             totalLines += Math.max(1, wraps);
         }
 
-        double estimatedHeight = totalLines * 50 + 20;
-        double newHeight = Math.max(estimatedHeight, 30); // extra padding
-        resultDisplay.setPrefHeight(newHeight);
+        double estimatedHeight = totalLines * 25 + 20;
+        double newHeight = Math.max(estimatedHeight, 20); // extra padding
+        resultDisplay.setPrefHeight(Math.min(newHeight, 0.5 * windowHeight));
     }
 
 }

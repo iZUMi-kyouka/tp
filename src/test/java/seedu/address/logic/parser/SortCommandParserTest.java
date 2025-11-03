@@ -23,7 +23,7 @@ import seedu.address.logic.commands.SortCommand.SortOrder;
  */
 public class SortCommandParserTest {
 
-    private SortCommandParser parser = new SortCommandParser();
+    private final SortCommandParser parser = new SortCommandParser();
 
     @Test
     public void parse_emptyArgs_success() {
@@ -43,8 +43,6 @@ public class SortCommandParserTest {
         SortCommand expectedCommand = new SortCommand(criteria);
         assertParseSuccess(parser, "asc", expectedCommand);
         assertParseSuccess(parser, "  asc  ", expectedCommand);
-        assertParseSuccess(parser, "ASC", expectedCommand);
-        assertParseSuccess(parser, "AsC", expectedCommand);
     }
 
     @Test
@@ -55,8 +53,6 @@ public class SortCommandParserTest {
         SortCommand expectedCommand = new SortCommand(criteria);
         assertParseSuccess(parser, "desc", expectedCommand);
         assertParseSuccess(parser, "  desc  ", expectedCommand);
-        assertParseSuccess(parser, "DESC", expectedCommand);
-        assertParseSuccess(parser, "DeSc", expectedCommand);
     }
 
     @Test
@@ -86,6 +82,8 @@ public class SortCommandParserTest {
 
         SortCommand expectedCommand = new SortCommand(criteria);
         assertParseSuccess(parser, "-n asc -p desc -a asc", expectedCommand);
+        assertParseSuccess(parser, "-n \t\r\nasc \r\n -p desc\t\t -a \tasc\n", expectedCommand);
+
     }
 
     @Test
@@ -98,18 +96,6 @@ public class SortCommandParserTest {
 
         SortCommand expectedCommand = new SortCommand(criteria);
         assertParseSuccess(parser, "-n asc -p desc -e asc -a desc", expectedCommand);
-    }
-
-    @Test
-    public void parse_caseInsensitiveOrder_success() {
-        List<SortCriterion> criteria = new ArrayList<>();
-        criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
-
-        SortCommand expectedCommand = new SortCommand(criteria);
-
-        assertParseSuccess(parser, "-n ASC", expectedCommand);
-        assertParseSuccess(parser, "-n AsC", expectedCommand);
-        assertParseSuccess(parser, "-n aSc", expectedCommand);
     }
 
     @Test
@@ -140,6 +126,14 @@ public class SortCommandParserTest {
         assertParseSuccess(parser, "-n  asc", expectedCommand);
         assertParseSuccess(parser, "-n   asc", expectedCommand);
         assertParseSuccess(parser, "  -n asc  ", expectedCommand);
+    }
+
+    @Test
+    public void parse_caseInsensitiveOrder_failure() {
+        assertParseFailure(parser, "-n aSc -p DeSC",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "-n asc -p desC",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -179,12 +173,22 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_missingOrder_failure() {
-        assertParseFailure(parser, "-n",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+    public void parse_missingOrder_success() {
+        // missing all order
+        List<SortCriterion> criteria = new ArrayList<>();
+        criteria.add(new SortCriterion(SORT_PREFIX_NAME, SortOrder.ASCENDING));
 
-        assertParseFailure(parser, "-n -p",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        SortCommand expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "-n", expectedCommand);
+
+        criteria.add(new SortCriterion(SORT_PREFIX_PHONE, SortOrder.ASCENDING));
+        expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "-n -p", expectedCommand);
+
+        // some params are missing order
+        criteria.add(new SortCriterion(SORT_PREFIX_EMAIL, SortOrder.DESCENDING));
+        expectedCommand = new SortCommand(criteria);
+        assertParseSuccess(parser, "-n -p -e desc", expectedCommand);
     }
 
     @Test

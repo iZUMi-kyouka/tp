@@ -22,6 +22,7 @@ public class Messages {
     public static final String MESSAGE_NON_VALUE_ACCEPTING_FLAGS =
                 "The following flag(s) do not accept any argument: ";
     public static final String MESSAGE_NO_ID_OR_INDEX = "Either UUID or index must be provided.";
+    public static final String MESSAGE_PREAMBLE_NOT_ACCEPTED = "This command does not accept any preamble.";
 
 
     /**
@@ -56,30 +57,30 @@ public class Messages {
         builder.append(" ID: ").append(recruit.getID());
 
         builder.append("\n Name: [")
-                .append(recruit.getNames().stream()
-                        .map(Object::toString)
+                .append(recruit.getNames().toStringList().stream()
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
         builder.append("\n Phone: [")
-                .append(recruit.getPhones().stream()
-                        .map(Object::toString)
+                .append(recruit.getPhones().toStringList().stream()
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
         builder.append("\n Email: [")
-                .append(recruit.getEmails().stream()
+                .append(recruit.getEmails().toStringList().stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
         builder.append("\n Address: [")
-                .append(recruit.getAddresses().stream()
+                .append(recruit.getAddresses().toStringList().stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(", ")))
                 .append("]");
 
-        builder.append("\n Description: ").append(recruit.getDescription());
+        if (!recruit.getDescription().isEmptyDescription()) {
+            builder.append("\n Description: ").append(recruit.getDescription());
+        }
 
         builder.append("\n Tags: ")
                 .append(recruit.getTags().stream()
