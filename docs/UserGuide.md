@@ -118,6 +118,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
    A GUI similar to **Figure 1** should appear in a few seconds.<br>
 
 ![Ui](images/Ui.png)
+
    **Figure 1:** Screenshot of the TalentNexus app
 
 <br>
@@ -236,10 +237,12 @@ Parameters    | Restriction                                                     
 * Directs users to the online user guide for detailed instructions
 * Displays a complete list of all available commands in the app (see **Figure 2**)
 
+Format: `help`
+
 ![help message](images/helpMessage.png)
+
 **Figure 2:** Help message pop-up
 
-Format: `help`
 
 <br>
 
@@ -280,7 +283,8 @@ Format: `list`
 * `list -archived` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
-
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> You may copy a recruit's UUID by clicking the button with the copy icon next to the recruit's UUID.</div>
+<br>
 <br>
 
 ### Viewing a recruit: `view`
@@ -370,6 +374,7 @@ Example usage scenarios:
 Redoes operations that were undone recently.
 
 <div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Warning:</strong> If any operations have been undone and changes to a recruit are subsequently made, the previously undone operations cannot be redone.</div>
+<br>
 
 Format: `redo`
 
@@ -433,9 +438,11 @@ Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a 
 <br>
 
 ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+
 **Figure 3:** Searching for recruits with "Bukit Batok" in their address
 
 ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
 
 <br>
@@ -494,7 +501,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 * `find John` followed by `archive 1` archives the 1st recruit in the results of the `find` command
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Archive recruits no longer active to keep the main list clean and focused!</div>
-
+<br>
 <br>
 
 ### Unarchiving a recruit: `unarchive`
@@ -513,7 +520,7 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view archived recruits, then use `unarchive INDEX`.</div>
-
+<br>
 <br>
 
 ### Exporting recruit data: `export`
@@ -533,6 +540,7 @@ Examples:
 <br>
 
 ![ExportedRecruits](images/exported_recruits.png)
+
 **Figure 5:** Exported recruits list in .csv format from TalentNexus
 
 <br>
@@ -547,7 +555,7 @@ Format: `clear -confirm`
 * When `-confirm` is not specified, this command will simply display a help message.
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If recruits have been cleared accidentally, don't worry! Use the <em>undo</em> command immediately to restore previous changes</div>
-
+<br>
 <br>
 
 ### Dismissing command result message: `dismiss`
@@ -557,7 +565,7 @@ Clears the message shown after executing a command.
 Format: `dismiss`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Dismiss command result message that have been read to regain more space to view the recruit list.</div>
-
+<br>
 <br>
 
 ### Exiting the program: `exit`
@@ -565,10 +573,14 @@ Format: `dismiss`
 Exits the program.
 
 Format: `exit`
+<br>
+<br>
 
 ### Saving the data
 
 Recruit data is saved automatically after any command is executed. There is no need to save manually.
+
+<br>
 
 ### Editing the data file
 
