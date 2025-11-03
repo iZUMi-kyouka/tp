@@ -254,9 +254,6 @@ The following activity diagram summarizes what happens when a user executes a ne
     * Pros: Will use less memory (e.g. for `delete`, just save the recruit being deleted).
     * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -310,8 +307,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
 | `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
 | `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
-
-*{More to be added}*
 
 ### Use cases
 
@@ -490,8 +485,6 @@ Use case ends.
 7.  Should not be more than 100MB of size.
 8.  Should search across 5000 recruits at under 1 second.
 
-*{More to be added}*
-
 ### Glossary
 
 * **PDPA (Personal Data Protection Act)**: Regulations governing the handling of Personal data
@@ -526,8 +519,6 @@ testers are expected to do more *exploratory* testing.
     1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
-
 ### Deleting a recruit
 
 1. Deleting a recruit while all recruits are being shown
@@ -536,11 +527,11 @@ testers are expected to do more *exploratory* testing.
        ![list result](images/dg_appendix_delete_1.png)
 
     2. Test case: `delete 0`<br>
-      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No recruit is deleted. Error details shown in the status message.
       ![list result](images/dg_appendix_delete_2.png)
 
     3. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
        ![list result](images/dg_appendix_delete_3.png)
 
     4. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e29`<br>
@@ -548,13 +539,12 @@ testers are expected to do more *exploratory* testing.
        ![list result](images/dg_appendix_delete_3.png)
 
     5. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e28`<br>
-       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message.
        ![list result](images/dg_appendix_delete_3.png)
 
     6. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
 
 ### Exporting recruits
 
@@ -572,11 +562,16 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `export C:\data\recruits.csv`<br>
        Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
 
+### Undo and Redo
 
-### Saving data
+1. Undoing done operation and redoing undone operation
 
-1. Dealing with missing/corrupted data files
-
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-
-1. _{ more test cases …​ }_
+    1. Prerequisites: Ensure you start the application with fresh sample data. Then perform the following test cases sequentially.
+    2. Test case: `undo`<br>
+       Expected: an error message stating that there are no operations that can be undone.
+    3. Test case: `clear -confirm`<br>
+       Expected: all recruits are deleted.
+    4. Test case: `undo`<br>
+       Expected: deletion of all recruits are undone.
+    5. Test case: `redo`<br>
+       Expected: deletion of all recruits is performed again, all recruits are deleted.
