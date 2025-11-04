@@ -143,6 +143,13 @@ public class ArgumentTokenizer {
             return "";
         }
 
+        if (arg.length() == 1) {
+            if (arg.charAt(0) == '"') {
+                throw new ParseException(ParserUtil.MESSAGE_UNCLOSED_STRING);
+            } else {
+                return arg;
+            }
+        }
         if (arg.length() > 1 && arg.charAt(0) == '"') {
             return escapeSequence(arg);
         }

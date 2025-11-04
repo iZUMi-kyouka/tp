@@ -241,7 +241,7 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
-    public void tokenize_escapeEscapeQuotationMarks_throwsParseException() {
+    public void tokenize_escapeEscapeQuotationMarks_success() {
         String argsString = " n/\"\\\"Maria del Carmen\\\" Pérez\"";
         String solution = "\"Maria del Carmen\" Pérez";
 
@@ -252,7 +252,7 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
-    public void tokenize_escapeBackslash_throwsParseException() {
+    public void tokenize_escapeBackslash_success() {
         String argsString = "n/Ned d/\"This is a backslash \\\\\"";
         String solution = "This is a backslash \\";
 
@@ -260,6 +260,15 @@ public class ArgumentTokenizerTest {
 
         ArgumentMultimap argMultimap = tokenizeWithoutError(argsString, new Prefix("n/"), prefix);
         assertArgumentPresent(argMultimap, prefix, solution);
+    }
+
+    @Test
+    public void tokenize_singleQuotationMark_throwsParseException() {
+        String argsString = " -n \"";
+
+        String expectedMessage = ParserUtil.MESSAGE_UNCLOSED_STRING;
+        assertThrows(ParseException.class, () -> ArgumentTokenizer.tokenize(argsString, new Prefix("-n")),
+                expectedMessage);
     }
 
     @Test
