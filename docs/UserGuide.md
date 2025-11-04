@@ -589,85 +589,107 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 **A**: First, install TalentNexus on the new computer. Then, locate the `TalentNexusData.json` file in the `/data` folder of your current installation and copy it over to the same location on the new machine, replacing the existing file.
 ---
 
-**Q:** Can I use TalentNexus without an internet connection?  
+**Q:** Can I use TalentNexus without an internet connection?
 **A:** Yes. TalentNexus is a fully offline desktop application. No internet connection is required to use any of its features.
 
 ---
 
-**Q:** What happens if I accidentally delete a recruit?  
+**Q:** What happens if I accidentally delete a recruit?
 **A:** Deleted recruits can be restored immediately using the `undo` command (`undo`), as long as the application has not been closed since the deletion.
 
 ---
 
-**Q:** How do I back up my data?  
+**Q:** How do I back up my data?
 **A:** Copy the `TalentNexusData.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
 
 ---
 
-**Q:** Can I import data from another AddressBook or TalentNexus installation?  
+**Q:** Can I import data from another AddressBook or TalentNexus installation?
 **A:** Yes. Copy the `TalentNexusData.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `TalentNexusData.json` file first.
 
 ---
 
-**Q:** Why are my changes not appearing after restarting the app?  
+**Q:** Why are my changes not appearing after restarting the app?
 **A:** This can happen if the app is executed from a different file directory or the data file has been moved. Make sure the `TalentNexusData.json` file is placed in the `/data` folder.
 
 ---
 
-**Q:** What if I enter invalid recruit data inside the data file?  
+**Q:** What if I enter invalid recruit data inside the data file?
 **A:** TalentNexus always validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits to it.
 
 ---
 
-**Q:** How do I view archived recruits?  
+**Q:** How do I view archived recruits?
 **A:** Use `list -archived` to show only archived recruits, or `list -all` to view both archived and active recruits.
 
 ---
 
-**Q:** What should I do if a command doesn’t work?  
+**Q:** What should I do if a command doesn’t work?
 **A:** Check the command syntax against the [**Command summary**](#command-summary) and the relevant command section. Type `help` to view the quick command guide.
 
 ---
 
-**Q:** How do I reset the application to its default state?  
+**Q:** How do I reset the application to its default state?
 **A:** Delete both `preferences.json` and `TalentNexusData.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
-**Q:** How do I run TalentNexus with a specific Java version?  
+**Q:** How do I run TalentNexus with a specific Java version?
 **A:** Ensure the desired JDK is installed and added to the computer's environment variables. Then, run the app with that Java version.
 
 ---
 
-**Q:** Where can I find the JSON schema or data format?  
+**Q:** Where can I find the JSON schema or data format?
 **A:** The primary data file is `TalentNexusData.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
-**Q:** The Help window opened off-screen or is minimized — what do I do?  
+**Q:** The Help window opened off-screen or is minimized — what do I do?
 **A:** Close the app and delete the `preferences.json` file in the ./data folder to reset window positions. Relaunch the app to restore windows to default locations.
 
 ---
 
-**Q:** Is there a limit to how many operations I can undo?  
+**Q:** Is there a limit to how many operations I can undo?
 **A:** There is a limit of up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
 
 ---
 
-**Q:** Who do I contact for bug reports or feature requests?  
+**Q:** Who do I contact for bug reports or feature requests?
 **A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `TalentNexusData.json` (sanitized if needed), and the Java version used.
 
 ---
 
-**Q:** My computer has a different java version installed and the application is not launching as expected?  
-**A:** To switch to Java 17, first ensure it is installed by following the instructions [**here**](#quick-start). After installation, update your system’s **JAVA_HOME** environment variable to the Java 17 installation directory such that the **/bin** folder of Java 17 comes before other Java versions.  
+**Q:** My computer has a different java version installed and the application is not launching as expected?
+**A:** To switch to Java 17, first ensure it is installed by following the instructions [**here**](#quick-start). After installation, update your system’s **JAVA_HOME** environment variable to the Java 17 installation directory such that the **/bin** folder of Java 17 comes before other Java versions.
 On Windows, this can be done via System Properties > Environment Variables; on macOS or Linux, update .bashrc, .zshrc, or .profile to export the correct paths. Finally, restart your terminal or IDE and run java -version to confirm Java 17 is now in use.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
-1. **When using multiple screens**, if the application is moved to a secondary screen, and then switched to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If the the Help Window** is minimised and the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) is run again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **When a Linux-based operating system such as Ubuntu and Linux Mint** is used, issues may be experienced when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. Commands requiring IME input can be typed in another text editing program and then copied into the command box.
-4. When **certain Unicode characters** such as the rare CJK extension characters are used, the GUI may display one or more square boxes (□) instead of the intended character(s). This is due to the default system font not supporting those characters, and is a limitation of the underlying JavaFX text rendering.
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. When **non-English Unicode characters** such as rare Chinese, Japanese, and Korean (CJK) extension characters are used, the GUI may display one or more square boxes (□) instead of the intended character(s). This is due to the default system font not supporting those characters, and is a limitation of the underlying JavaFX text rendering system.
+
+### Issues on Linux-based operating system
+
+If you are running a Linux-based operating system such as Ubuntu and Linux Mint, you may experience some of the issues below:
+1. **When using an Input Method Editor (IME) to type in non-latin characters**, the small window showing the candidate non-latin characters may not show up. For example, when typing in Japanese, the small window showing which kanji characters you want to choose may not appear. Unfortunately, this is a limitation of JavaFX, the technology we use to build this application. If you work with data that require IME input, you may type your command in other text editing program and copy-paste it into the command box.
+2. **Application icon may be missing on the desktop dock.** While this does not impact the usability of the application, there is a workaround that may solve the problem. The following steps assume you have the CLI text editor "Vim" installed on your computer. Please note that the following steps are not guaranteed to work, but has been tested on computers running Ubuntu.
+    * Download the TalentNexus application icon from [here](https://raw.githubusercontent.com/AY2526S1-CS2103T-F09-3/tp/refs/heads/master/src/main/resources/images/address_book_32.png). Place the icon file in a convenient directory.
+    * Type and execute the command `sudo vi ~/.local/share/applications/TalentNexus.desktop` in your terminal.
+    * Paste the following desktop entry configuration by pressing `Ctrl` + `Shift` + `V`, replacing `<ABSOLUTE PATH TO JAR FILE>` and `<ABSOLUTE PATH TO ICON FILE>` with the corresponding absolute path where you save these files. For example, you may pass in `/home/username/tnexus/TalentNexus.jar` as `<ABSOLUTE PATH TO JAR FILE>`, and `/home/username/tnexus/address_book_32.png` as `<ABSOLUTE PATH TO ICON FILE>`, assuming the JAR file and the icon file you downloaded are stored in the folder `tnexus` in the Linux home directory for your user account.
+      ```
+      [Desktop Entry]
+      Type=Application
+      Name=TalentNexus
+      Exec=java -jar <ABSOLUTE PATH TO JAR FILE>
+      Icon=<ABSOLUTE PATH TO ICON FILE>
+      Terminal=false
+      Categories=Utility;Application;
+      Comment=Portable JavaFX Application
+      StartupWMClass=seedu.address.MainApp
+      ```
+    * Save the file by pressing the 'escape' key, typing `:q`, and then pressing the 'enter' key.
+    * Restart your computer.
+
 --------------------------------------------------------------------------------------------------------------------
