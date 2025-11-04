@@ -33,7 +33,6 @@ public class ClearCommandParserTest {
     @Test
     public void parse_withConfirmFlagAndValue_exceptionThrown() {
         assertParseFailure(parser,
-                " " + PREFIX_CLEAR_CONFIRM + " " + "5",
-                Messages.MESSAGE_NON_VALUE_ACCEPTING_FLAGS + PREFIX_CLEAR_CONFIRM);
+                " " + PREFIX_CLEAR_CONFIRM + " " + "5", ClearCommand.MESSAGE_USAGE);
     }
 }
