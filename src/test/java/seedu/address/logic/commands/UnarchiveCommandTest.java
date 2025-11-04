@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_ID;
 import static seedu.address.logic.commands.UnarchiveCommand.MESSAGE_ARCHIVE_RECRUIT_SUCCESS;
 import static seedu.address.logic.commands.UnarchiveCommand.RECRUIT_ALREADY_UNARCHIVED;
@@ -131,8 +130,8 @@ public class UnarchiveCommandTest {
         int outOfBoundIndex = model.getFilteredRecruitList().size() + 1;
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(Index.fromOneBased(outOfBoundIndex));
 
-        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, () ->
-                unarchiveCommand.execute(model));
+        assertThrows(CommandException.class, String.format(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX,
+                model.getFilteredRecruitList().size()), () -> unarchiveCommand.execute(model));
     }
 
     @Test

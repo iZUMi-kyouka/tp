@@ -57,7 +57,8 @@ public class UnarchiveCommand extends Command {
         Recruit recruitToUnarchive;
         if (this.uuid == null) {
             if (index.getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+                throw new CommandException(
+                        String.format(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, lastShownList.size()));
             }
             recruitToUnarchive = lastShownList.get(index.getZeroBased());
         } else {

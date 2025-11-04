@@ -107,7 +107,8 @@ public class EditCommand extends Command {
         } else {
             List<Recruit> lastShownList = model.getFilteredRecruitList();
             if (index.get().getZeroBased() < 0 || index.get().getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+                throw new CommandException(
+                        String.format(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, lastShownList.size()));
             }
             recruitToEdit = lastShownList.get(index.get().getZeroBased());
         }
