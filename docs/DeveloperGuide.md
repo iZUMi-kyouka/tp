@@ -254,9 +254,6 @@ The following activity diagram summarizes what happens when a user executes a ne
     * Pros: Will use less memory (e.g. for `delete`, just save the recruit being deleted).
     * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
-
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -310,8 +307,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
 | `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
 | `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
-
-*{More to be added}*
 
 ### Use cases
 
@@ -506,14 +501,12 @@ Use case ends.
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should work regardless of the user's operating system languages and locale.
-3.  Should be able to hold up to 5000 recruits without a noticeable sluggishness in performance for typical usage.
+3.  Should be able to hold up to 1000 recruits without a noticeable sluggishness in performance for typical usage.
 4.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 5.  Should be immediately usable without any installation process required.
 6.  Should work well on machines with screen resolutions of at least 1920 x 1080, and remain usable on lower screen resolutions.
 7.  Should not be more than 100MB of size.
-8.  Should search across 5000 recruits at under 1 second.
-
-*{More to be added}*
+8.  Should search across 1000 recruits at under 1 second.
 
 ### Glossary
 
@@ -541,7 +534,8 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Double-click the jar file. If you are unable to run the jar file by double-clicking it, open your terminal, `cd` into the folder where TalentNexus.jar is saved in, and then run the command `java -jar TalentNexus.json`. <br>
+      Expected: Shows the GUI with a set of sample contacts.
 
 1. Saving window preferences
 
@@ -550,35 +544,29 @@ testers are expected to do more *exploratory* testing.
     1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
-
 ### Deleting a recruit
 
 1. Deleting a recruit while all recruits are being shown
 
-    1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
-       ![list result](images/dg_appendix_delete_1.png)
+    1. Prerequisites: Ensure you start the application with fresh sample data. List all recruits using the `list` command. There exists multiple recruits in the list. Perform the following test cases sequentially.
 
     2. Test case: `delete 0`<br>
-      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
-      ![list result](images/dg_appendix_delete_2.png)
+      Expected: No recruit is deleted. Error details shown in the status message.
 
     3. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-       ![list result](images/dg_appendix_delete_3.png)
+       Expected: First recruit named "Alex Yeoh" is deleted from the list. Details of the deleted contact shown in the status message.
 
-    4. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e29`<br>
-       Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
-       ![list result](images/dg_appendix_delete_3.png)
+    4. Test case: Copy the UUID of the recruit "Bernice Yu" by clicking on the copy button besides this recruit's UUID. Execute `delete <BERNICE_UUID>`, replacing `<BERNICE_UUID>` with the actual UUID of this recruit by pasting it.<br>
+       Expected: Recruit "Bernice Yu" with UUID `<BERNICE_UUID>` is deleted from the list. Details of the deleted contact shown in the status message.
 
-    5. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e28`<br>
-       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-       ![list result](images/dg_appendix_delete_3.png)
+    5. Test case:  `delete`<br>
+       Expected: error message stating that command format is invalid, together with information about the usage of the `delete` command is shown.
 
-    6. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+<box type="info" seamless>
 
-1. _{ more test cases …​ }_
+**Note:** To start the application with fresh sample data, simply delete the `data` folder in the directory where TalentNexus.jar is run from.
+
+</box>
 
 ### Exporting recruits
 
@@ -595,7 +583,6 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `export C:\data\recruits.csv`<br>
        Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
-
 
 ### Sorting recruits
 
@@ -657,10 +644,42 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `sort -n -n asc`<br>
        Expected: Error message indicating duplicate prefix. No sorting occurs.
 
-### Saving data
+### Undoing and redoing operations
 
-1. Dealing with missing/corrupted data files
+    1. Prerequisites: Ensure you start the application with fresh sample data. Then perform the following test cases sequentially.
 
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    2. Test case: `undo`<br>
+       Expected: an error message stating that there are no operations that can be undone.
 
-1. _{ more test cases …​ }_
+    3. Test case: `clear -confirm`<br>
+       Expected: all recruits are deleted.
+
+    4. Test case: `undo`<br>
+       Expected: deletion of all recruits are undone.
+
+    5. Test case: `redo`<br>
+       Expected: deletion of all recruits is performed again, all recruits are deleted.
+
+    6. Test case: `redo`<br>
+       Expected:  an error message stating that there are no operations that can be redone.
+
+### Editing a recruit
+
+1. Overwriting, appending to, deleting from and updating of primary attributes of a recruit
+
+    1. Prerequisites: Ensure you start the application with fresh sample data. Then perform the following test cases sequentially.
+
+    2. Test case: `edit 1 n/Aylex Yo `<br>
+       Expected: success message stating that the name of the first recruit in the list has been changed from "Alex Yeoh" to "Aylex Yo".
+
+    3. Test case: `edit 1 -ap p/99999999 e/alex@alex.com`<br>
+       Expected: success message stating that the phone number `99999999` and the email address `alex@alex.com` have been added to the first recruit's phone number and email address list respectively.
+
+    4. Test case: `edit 1 -primary p/`<br>
+       Expected: error message stating that all specified attributes must not be empty
+
+    5. Test case: `edit 1 -primary p/99999999`<br>
+       Expected: success message stating that the first recruit's primary phone number has been changed from `87438807` to `99999999`.
+
+    6. Test case: `edit 1 -rm p/99999999`<br>
+       Expected: success message stating that the number `99999999` has been removed from the first recruit's phone number.

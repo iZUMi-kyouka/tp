@@ -18,10 +18,10 @@ public class FindCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Searches for name by default unless keyword(s) are provided using the following flags\n"
             + "If default keyword(s) and name keyword(s) are both specified, name keyword will take precedence\n"
-            + "Parameters: FLAG ( -id for ID, -n for name, -a for address, -p for phone, \n"
-            + "-e for email -a for address & -t for tag ) \n"
+            + "Parameters: FLAG ( id/ for ID, n/ for name, a/ for address, p/ for phone, \n"
+            + "e/ for email a/ for address & t/ for tag ) \n"
             + "KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " -n alice|bob|charlie -a Clementi -p 98765432";
+            + "Example: " + COMMAND_WORD + " n/alice n/bob n/charlie a/Clementi p/98765432";
 
     private final NestedOrPredicate predicate;
 

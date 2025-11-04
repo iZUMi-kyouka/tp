@@ -61,7 +61,8 @@ public class DeleteCommand extends Command {
             targetRecruit = recruitToDelete.get();
         } else if (targetIndex.isPresent()) {
             if (targetIndex.get().getZeroBased() < 0 || targetIndex.get().getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+                throw new CommandException(
+                        String.format(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, lastShownList.size()));
             }
             targetRecruit = lastShownList.get(targetIndex.get().getZeroBased());
         } else {

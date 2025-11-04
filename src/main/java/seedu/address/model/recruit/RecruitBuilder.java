@@ -2,6 +2,7 @@ package seedu.address.model.recruit;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -898,5 +899,9 @@ public class RecruitBuilder {
         }
 
         return ds;
+    }
+
+    public boolean hasAnyEmptyListOfAttributes() {
+        return Arrays.asList(names, phones, emails, addresses, tags).stream().anyMatch(c -> c != null && c.isEmpty());
     }
 }

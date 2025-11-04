@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
@@ -55,6 +56,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         EditCommand.EditOperation operation = parseEditOperation(argMultimap);
+        if (!argMultimap.hasNoDuplicateEntriesForAllPrefixes()) {
+            throw new ParseException(Messages.MESSAGE_NO_DUPLICATE_ENTRY_ALLOWED);
+        }
         LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
 
         if (operation == EditCommand.EditOperation.REMOVE) {
@@ -83,6 +87,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         // Checks if user specified any fields to modify
         if (!editBuilder.hasBeenModified()) {
             throw new ParseException(EditCommand.MESSAGE_NO_FIELD_PROVIDED);
+        }
+        if (operation != EditCommand.EditOperation.OVERWRITE && editBuilder.hasAnyEmptyListOfAttributes()) {
+            throw new ParseException(EditCommand.MESSAGE_ILLEGAL_EMPTY_ATTRIBUTE);
         }
 
         if (idOpt.isPresent()) {
@@ -162,6 +169,11 @@ public class EditCommandParser implements Parser<EditCommand> {
         boolean isUpdatePrimary = argMultiMap.getValue(EDIT_PREFIX_PRIMARY).isPresent();
         boolean isOverwrite = argMultiMap.getValue(EDIT_PREFIX_OVERWRITE).isPresent()
                 || (!isAppend && !isRemove && !isUpdatePrimary);
+        if ((isAppend && argMultiMap.getAllValues(EDIT_PREFIX_APPEND).size() > 1)
+                || (isRemove && argMultiMap.getAllValues(EDIT_PREFIX_REMOVE).size() > 1)
+                || (isUpdatePrimary && argMultiMap.getAllValues(EDIT_PREFIX_PRIMARY).size() > 1)) {
+            throw new ParseException(EditCommand.MESSAGE_INVALID_OPERATION_TYPE);
+        }
 
         try {
             requireExactlyOneIsTrue(List.of(isAppend, isOverwrite, isRemove, isUpdatePrimary));

@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.List;
 import java.util.stream.Stream;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.recruit.Recruit;
@@ -41,6 +42,9 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_NO_NAME));
+        }
+        if (!argMultimap.hasNoDuplicateEntriesForAllPrefixes()) {
+            throw new ParseException(Messages.MESSAGE_NO_DUPLICATE_ENTRY_ALLOWED);
         }
 
         List<Name> extractedNames = ParserUtil.extractValuesFromMultimap(
