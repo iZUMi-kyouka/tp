@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
@@ -51,6 +52,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         Optional<Index> indexOpt = idOpt.isEmpty() ? tryParseIndex(preamble) : Optional.empty();
         if (idOpt.isEmpty() && indexOpt.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+        if (!argMultimap.hasNoDuplicateEntriesForAllPrefixes()) {
+            throw new ParseException(Messages.MESSAGE_NO_DUPLICATE_ENTRY_ALLOWED);
         }
 
         EditCommand.EditOperation operation = parseEditOperation(argMultimap);
