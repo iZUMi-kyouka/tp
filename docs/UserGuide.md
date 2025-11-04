@@ -183,7 +183,7 @@ The following points explain how to interpret the command syntax that are used i
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
-* A whitespace needs to be added between each individual prefix/flag.<br>
+* A space " " needs to be added before each individual prefix/flag.<br>
   e.g. `n/NAME t/TAG...`
 
 * Items in square brackets are optional.<br>
@@ -213,6 +213,7 @@ The following points explain how to interpret the command syntax that are used i
   * If within the quotation marks `"` you want to use `\` or `"`, place the character `\` before it to "escape" it, which
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
+<div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Warning:</strong> Unclosed quotation marks are not allowed! If the input starts with a quotation mark, it cannot end with an escaped quotation mark via `\"` and it cannot end without a quotation mark at all.</div>
 
 <br>
 
@@ -260,7 +261,7 @@ Adds a recruit to the address book.
 * Names may also be provided in various languages.
 * If duplicate entries are specified for any particular attribute, for example `n/Layla n/Layla`, an error is raised.
 
-Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]...​`
+Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> A recruit can have any number of tags (or none at all)</div>
 <br>
@@ -313,7 +314,7 @@ Examples:
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
+Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. **If `OPERATION` is missing, the command is implicitly treated as an overwrite command.**
