@@ -33,6 +33,8 @@ import seedu.address.model.tag.Tag;
  * Parses input arguments and creates a new EditCommand object
  */
 public class EditCommandParser implements Parser<EditCommand> {
+    public static final String MESSAGE_DESCRIPTION_IN_REMOVE = String.format(
+            "Description prefix %s not allowed with remove flag %s", PREFIX_DESCRIPTION, EDIT_PREFIX_REMOVE);
 
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
@@ -46,7 +48,6 @@ public class EditCommandParser implements Parser<EditCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                         PREFIX_DESCRIPTION, PREFIX_TAG, EDIT_PREFIX_PRIMARY,
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
-
         String preamble = argMultimap.getPreamble().trim();
         Optional<UUID> idOpt = tryParseID(preamble);
         Optional<Index> indexOpt = idOpt.isEmpty() ? tryParseIndex(preamble) : Optional.empty();
@@ -61,10 +62,11 @@ public class EditCommandParser implements Parser<EditCommand> {
         LogsCenter.getLogger(EditCommandParser.class).info(operation.toString());
 
         if (operation == EditCommand.EditOperation.REMOVE) {
-            // If operation is remove, redo parsing without description
-            argMultimap =
-                    ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                            PREFIX_TAG, EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
+            if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
+                throw new ParseException(String.format(MESSAGE_DESCRIPTION_IN_REMOVE, EditCommand.MESSAGE_USAGE));
+            }
+        } else {
+            argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_DESCRIPTION);
         }
 
         EditCommand.EditRecruitDescriptor editBuilder = new EditCommand.EditRecruitDescriptor(operation);
