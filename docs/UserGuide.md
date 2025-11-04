@@ -315,7 +315,7 @@ Edits an existing recruit in the address book.
 Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
-* Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
+* Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. **If `OPERATION` is missing, the command is implicitly treated as an overwrite command.**
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * If the value provided has any special characters, you **must use double quotation marks** around them `"/" "-"` to prevent the special characters from being misinterpreted
