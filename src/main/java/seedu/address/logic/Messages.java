@@ -24,7 +24,6 @@ public class Messages {
     public static final String MESSAGE_NO_ID_OR_INDEX = "Either UUID or index must be provided.";
     public static final String MESSAGE_PREAMBLE_NOT_ACCEPTED = "This command does not accept any preamble.";
 
-
     /**
      * Returns an error message indicating the duplicate prefixes.
      */

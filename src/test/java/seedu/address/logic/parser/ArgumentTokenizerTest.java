@@ -223,10 +223,19 @@ public class ArgumentTokenizerTest {
     }
 
     @Test
+    public void tokenize_unclosedQuotedString_throwsParseException() {
+        String argsString = " -n \"This string is unclosed at the end";
+
+        String expectedMessage = ParserUtil.MESSAGE_UNCLOSED_STRING;
+        assertThrows(ParseException.class, () -> ArgumentTokenizer.tokenize(argsString, new Prefix("-n")),
+                expectedMessage);
+    }
+
+    @Test
     public void tokenize_unclosedEscapeSequence_throwsParseException() {
         String argsString = " -n \"This is a backslash at the end\\\"";
 
-        String expectedMessage = ParserUtil.MESSAGE_UNCLOSED_ESCAPE;
+        String expectedMessage = ParserUtil.MESSAGE_UNCLOSED_STRING;
         assertThrows(ParseException.class, () -> ArgumentTokenizer.tokenize(argsString, new Prefix("-n")),
                 expectedMessage);
     }
