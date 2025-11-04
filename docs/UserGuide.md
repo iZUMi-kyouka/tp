@@ -118,6 +118,7 @@ TalentNexus is designed for **recruiters and HR professionals** who:
    A GUI similar to **Figure 1** should appear in a few seconds.<br>
 
 ![Ui](images/Ui.png)
+
    **Figure 1:** Screenshot of the TalentNexus app
 
 <br>
@@ -140,23 +141,20 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands:
 
-    * [`help`](#viewing-help--help) : Shows help information.
-
-    * [`list`](#listing-all-recruits--list) : Lists all recruits.
-
-    * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
-
-    * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
-
-    * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
-
-    * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
+  * [`help`](#viewing-help-help) : Shows help information.
+  * [`list`](#listing-all-recruits-list) : Lists all recruits.
+  * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
+  * [`edit`](#editing-a-recruit-edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
+  * [`find`](#searching-for-recruits-find) `John` : Finds recruits with "John" in their name.
+  * [`delete`](#deleting-a-recruit-delete) `3` : Deletes the 3rd recruit shown in the current list.
 
 6. Refer to the [Features](#features) section below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command Summary
+## Commands
+
+### Command Summary
 
 Action        | Format, Examples
 --------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -176,12 +174,17 @@ Action        | Format, Examples
 [**Dismiss**](#dismissing-command-result-message-dismiss)                | `dismiss`
 [**Help**](#viewing-help-help)                  | `help`
 
---------------------------------------------------------------------------------------------------------------------
+<br>
 
-## Command Format
+### Command Format
+
+The following points explain how to interpret the command syntax that are used in the subsequent section that explains each command in detail.
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+
+* A whitespace needs to be added between each individual prefix/flag.<br>
+  e.g. `n/NAME t/TAG...`
 
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
@@ -211,7 +214,25 @@ Action        | Format, Examples
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
 
-</box>
+<br>
+
+### Command Parameters
+The following table explains the restriction on the arguments that you can pass in to some commands. **Unless otherwise stated, empty arguments are not allowed.**
+
+Parameters    | Restriction                                                                  | Note                                                          |
+--------------|------------------------------------------------------------------------------|---------------------------------------------------------------|
+`INDEX`       | Positive whole number ranging from 1 to the number of recruits in the current list of recruit. | If there are no recruits in the current list of command, then there is no valid `INDEX` that can be passed in.
+`NAME`        | Any string with length of at least 1 consisting of only Unicode letter characters, Unicode numeric digit characters, and permitted symbols such as comma `,`, doublequote `"`, apostrophe `'`, hyphen `-`, at `@`, and forward slash `/`.  | <ul><li>Unicode letter characters refer to letter character from any languages such as Chinese and Arabic</li><li>Unicode numeric digit characters refer to Arabic numeral 0 to 9, as well as digits from other numeral systems</li><li>See [Note 2](#command-parameters-additional-notes) below</li></ul>
+`PHONE`       | Any string that satisfies the following: <ul><li>The first character may only be either a plus `+` or a digit</li><li>Subsequent characters may only be either a digit, a space, a hyphen `-`, an open bracket `(`, or a close bracket `)`</li><li>There must be at least 3 digit</li></ul> | <ul><li>A digit refers to the Arabic numeral from 0 to 9</li><li>See [Note 1](#command-parameters-additional-notes) below </li></ul> |
+`EMAIL`       | Email should follow the format `local-part@domain-name`. <br><br>The `local-part` should adhere to the following constraints: <ul><li>The `local-part` should only contain alphanumeric characters, and the following permitted special symbols: plus `+`, hyphen `-`, period `.`, and underscore `_`</li><li>The `local-part` must not start or end with any of the permitted special symbols</li><li>The `local-part` is followed by the at `@` symbol, and then the `domain-name` part.</li></ul>The `domain-name` should adhere to the following constraints: <ul><li>The `domain-name` part consists of one or more `domain-label` separated by periods `.`</li><li>Each `domain-label` must only contain alphanumeric characters and hyphens `-`</li><li>Each `domain-label` must only start and end with alphanumeric characters</li><li>The last (or only) domain label must be at least 2 characters long</li></ul> | <ul><li>Alphanumeric refers to any Roman alphabets from a to z, A to Z, and the Arabic numerals from 0 to 9</li><li>See [Note 1](#command-parameters-additional-notes) below</li></ul>
+`ADDRESS`     | Any string with length of at least 1 | See [Note 2](#command-parameters-additional-notes) below
+`TAG`         | Any string with length of at least 1 and consist of only alphanumeric characters, spaces, and the following permitted special symbols: underscore `_`, hyphen `-`, and forward-slash `/`  | **Tags are case-sensitive**. This means, the tag "swe" and "SWE" are considered two different tags.
+
+
+<a id="command-parameters-additional-notes"></a>
+<div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "><strong>Warning:</strong> <br><ol><li>While there is a validation for phone numbers and emails to ensure only valid data are keyed in, this validation is not foolproof. Please manually verify that any saved phone number and emails are indeed valid.</li><li>For any parameters that accept any string, please note that while most foreign characters such as Chinese and Arabic are supported, some less used or obscure characters may not be properly displayed. For example, the Chinese characters "𰻝" will be displayed as a square box (□) .</li></ol></div>
+
+
 
 <br>
 
@@ -220,10 +241,12 @@ Action        | Format, Examples
 * Directs users to the online user guide for detailed instructions
 * Displays a complete list of all available commands in the app (see **Figure 2**)
 
+Format: `help`
+
 ![help message](images/helpMessage.png)
+
 **Figure 2:** Help message pop-up
 
-Format: `help`
 
 <br>
 
@@ -264,7 +287,8 @@ Format: `list`
 * `list -archived` — Shows only archived recruits
 * `list -all` — Shows all recruits (both archived and unarchived)
 
-
+<div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> You may copy a recruit's UUID by clicking the button with the copy icon next to the recruit's UUID.</div>
+<br>
 <br>
 
 ### Viewing a recruit: `view`
@@ -276,6 +300,7 @@ Format: `view INDEX|UUID`
 * Displays the full details of the recruit at the specified `INDEX` or `UUID` in the recruit list.
 * The index refers to the index number shown in the displayed recruit list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* Fields that allow multiple values as input will be displayed as an array (e.g. [Anne, Lin Qiaopeng])
 
 Examples:
 * `list` followed by `view 2` displays the 2nd recruit in the address book.
@@ -293,6 +318,7 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
+* If the value provided has any special characters, you **must use double quotation marks** around them `"/" "-"` to prevent the special characters from being misinterpreted
 * Existing values will be updated to the input values.
 * Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
 * All of the recruit’s tags can be removed by typing t/ without specifying any tags afterward.
@@ -309,9 +335,9 @@ The edit command can perform three types of operation: append, remove, and overw
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` edits the name of the 2nd recruit to be `Betsy Crower` and clears all existing tags.
-*  `edit -ap 3 e/e01234567@u.nus.edu e/dcsat@nus.edu.sg a/1 Computing Drive` adds to the 3rd recruit the email addresses `e01234567@u.nus.edu.sg` and `dcsat@nus.edu.sg`, and the address `1 Computing Drive`.
-*  `edit -rm 2 n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
-*  `edit -o 4 p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wong` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
+*  `edit 3 -ap e/e01234567@u.nus.edu e/dcsat@nus.edu.sg a/1 Computing Drive` adds to the 3rd recruit the email addresses `e01234567@u.nus.edu.sg` and `dcsat@nus.edu.sg`, and the address `1 Computing Drive`.
+*  `edit 2 -rm n/花沢かな e/hanazawa@example.com t/seiyuu` removes from the 2nd recruit the name `花沢かな`, the email `hanazawa@example.com`, and the tag `seiyuu`.
+*  `edit 4 -o p/80135815 p/94647894 n/Lawrence Wonk n/ローレンスヲン` edits the names of the 4th recruit to include only `Lawrence Wonk` and `ローレンスヲン`, and the phone numbers to include only `80135815` and `94647894`.
 *  `edit -primary 2 p/98989898 n/Dwayne "Ping Qilin" Johnsson` updates the 2nd recruit's primary phone number to `98989898` and the primary name to `Dwayne "Ping Qilin" Johnsson`, assuming that this phone number and name exist.
 
 <br>
@@ -354,6 +380,7 @@ Example usage scenarios:
 Redoes operations that were undone recently.
 
 <div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Warning:</strong> If any operations have been undone and changes to a recruit are subsequently made, the previously undone operations cannot be redone.</div>
+<br>
 
 Format: `redo`
 
@@ -370,56 +397,56 @@ Examples usage scenario:
 
 Finds all recruits whose details match any of the given keywords.
 
-Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`
+Format: `find NAME [id/KEYWORDS] [n/KEYWORDS] [p/KEYWORDS] [e/KEYWORDS] [a/KEYWORDS] [t/KEYWORDS]`
 
 * The `NAME` keyword(s) take precedence
 
-* The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
-    * `-id` — Search by UUID
-    * `-n` — Search by Name
-    * `-p` — Search by Phone
-    * `-e` — Search by Email
-    * `-a` — Search by Address
-    * `-t` — Search by Tag
+* The flag `/` preceding `KEYWORDS` specifies the field(s) to search under:
+    * `id/` — Search by UUID
+    * `n/` — Search by Name
+    * `p/` — Search by Phone
+    * `e/` — Search by Email
+    * `a/` — Search by Address
+    * `t/` — Search by Tag
 
 * The search is **case-insensitive**
 
-* Multiple keywords can be separated by the pipe symbol (`|`). Note that the use of the pipe symbol here differs from what is explained at the start of the "Command Format" section (see below).
+* For each attribute (e.g. phone, email), multiple search keywords can be specified by chaining repeated flags (`-n alice -n bob`).
 
 * If no flag is provided, the app searches using `NAME` keywords by default
 
-* If multiple search criteria are provided, the result will include all recruits who satisfy them
+* If multiple search criteria are provided, the result will include all recruits who satisfy them. (See below for examples)
 
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
-* `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
-* `find -a Clementi|Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
-* `find -t volunteer|intern|cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
-* `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
-* `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
+* `find n/alice n/bob n/charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
+* `find a/Clementi a/Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
+* `find t/volunteer t/intern t/cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
+* `find p/98765432 p/91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
+* `find e/gmail e/hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
 **Chaining multiple flags:**
-* `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
+* `find n/alice n/bob a/Clementi a/Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
-* `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
-* `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
+* `find n/alice p/98765432 p/91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
+* `find t/intern t/fulltime a/Bukit a/Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
   “Bukit” or “Pasir”
 
 **Examples:**
 * `find alice` — Finds all recruits with “alice” in their name
-* `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
-* `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
-* `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
-* `find -id 123|456|789` — Finds recruits whose UUID contains “123”, “456”, or “789”
+* `find n/alice n/bob n/charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
+* `find a/Clementi a/Tampines p/98765432 p/91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
+* `find t/volunteer t/member e/gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
+* `find id/123 id/456 id/789` — Finds recruits whose UUID contains “123”, “456”, or “789”
 
-<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the repeated flags `-n .. -n..`  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 <br>
 
-![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
-**Figure 3:** Searching for recruits with "Bukit Batok" in their address
+![result for 'find Benjamin a/Bukit Batok'](images/findBenjaminResult.png)
+**Figure 3:** Searching for recruits whose name contains "Benjamin" and "Bukit Batok" in their address
 
-![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+![result for 'find n/Johnathon n/Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
 
 <br>
@@ -437,6 +464,7 @@ Format: `sort [PARAMETER ORDER]...`
 * If only `asc` or `desc` is provided (without field prefixes), recruits will be sorted by name in that order.
 * For any parameter, if the order is not specified, recruits will be sorted in ascending order by default.
 * The sort is case-insensitive for text fields (name, email, address).
+* **Note:** Sorting by name uses ASCII ordering. Names starting with numbers (e.g., "3rd Recruit") will appear before names starting with letters (e.g., "Alice") when sorted in ascending order.
 
 **Shorthand formats:**
 * `sort` - Sorts by name in ascending order
@@ -471,14 +499,14 @@ Archives a recruit to hide them from the default list view while preserving thei
 **What is archiving?**
 * Archived recruits are hidden from the default [**`list`**](#listing-all-recruits--list) view but remain in the system
 * Use this feature to organize inactive or past recruits without deleting their data
-* View archived recruits using `list -archived` or `list -all`
+* Archived recruits are still viewable using `list -archived` (which will list out all the archived recruits only) or `list -all` (which will list out all recruits - archived & unarchived)
 
 **Examples:**
 * `list` followed by `archive 2` archives the 2nd recruit in the address book
 * `find John` followed by `archive 1` archives the 1st recruit in the results of the `find` command
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Archive recruits no longer active to keep the main list clean and focused!</div>
-
+<br>
 <br>
 
 ### Unarchiving a recruit: `unarchive`
@@ -497,7 +525,7 @@ Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to
 * `list -all` followed by `unarchive 3` unarchives the 3rd recruit if they are archived
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> To unarchive a recruit, first use `list -archived` to view archived recruits, then use `unarchive INDEX`.</div>
-
+<br>
 <br>
 
 ### Exporting recruit data: `export`
@@ -517,6 +545,7 @@ Examples:
 <br>
 
 ![ExportedRecruits](images/exported_recruits.png)
+
 **Figure 5:** Exported recruits list in .csv format from TalentNexus
 
 <br>
@@ -531,7 +560,7 @@ Format: `clear -confirm`
 * When `-confirm` is not specified, this command will simply display a help message.
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> If recruits have been cleared accidentally, don't worry! Use the <em>undo</em> command immediately to restore previous changes</div>
-
+<br>
 <br>
 
 ### Dismissing command result message: `dismiss`
@@ -541,7 +570,7 @@ Clears the message shown after executing a command.
 Format: `dismiss`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Dismiss command result message that have been read to regain more space to view the recruit list.</div>
-
+<br>
 <br>
 
 ### Exiting the program: `exit`
@@ -549,10 +578,14 @@ Format: `dismiss`
 Exits the program.
 
 Format: `exit`
+<br>
+<br>
 
 ### Saving the data
 
 Recruit data is saved automatically after any command is executed. There is no need to save manually.
+
+<br>
 
 ### Editing the data file
 
@@ -586,6 +619,7 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: First, install TalentNexus on the new computer. Then, locate the `TalentNexusData.json` file in the `/data` folder of your current installation and copy it over to the same location on the new machine, replacing the existing file.
+
 ---
 
 **Q:** Can I use TalentNexus without an internet connection?
@@ -661,12 +695,40 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 **Q:** My computer has a different java version installed and the application is not launching as expected?
 **A:** To switch to Java 17, first ensure it is installed by following the instructions [**here**](#quick-start). After installation, update your system’s **JAVA_HOME** environment variable to the Java 17 installation directory such that the **/bin** folder of Java 17 comes before other Java versions.
 On Windows, this can be done via System Properties > Environment Variables; on macOS or Linux, update .bashrc, .zshrc, or .profile to export the correct paths. Finally, restart your terminal or IDE and run java -version to confirm Java 17 is now in use.
+
+---
+
+**Q:** What does the button with two paper icon next to the recruit UUID do>
+**A:** This is a copy button. When clicked, the recruit's UUID will be copied to your computer's clipboard, and you may paste it anywhere you need it.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
-1. **When using multiple screens**, if the application is moved to a secondary screen, and then switched to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If the the Help Window** is minimised and the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) is run again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **When a Linux-based operating system such as Ubuntu and Linux Mint** is used, issues may be experienced when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. Commands requiring IME input can be typed in another text editing program and then copied into the command box.
-4. When **certain Unicode characters** such as the rare CJK extension characters are used, the GUI may display one or more square boxes (□) instead of the intended character(s). This is due to the default system font not supporting those characters, and is a limitation of the underlying JavaFX text rendering.
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. When **non-English Unicode characters** such as rare Chinese, Japanese, and Korean (CJK) extension characters are used, the GUI may display one or more square boxes (□) instead of the intended character(s). This is due to the default system font not supporting those characters, and is a limitation of the underlying JavaFX text rendering system.
+
+### Issues on Linux-based operating system
+
+If you are running a Linux-based operating system such as Ubuntu and Linux Mint, you may experience some of the issues below:
+1. **When using an Input Method Editor (IME) to type in non-latin characters**, the small window showing the candidate non-latin characters may not show up. For example, when typing in Japanese, the small window showing which kanji characters you want to choose may not appear. Unfortunately, this is a limitation of JavaFX, the technology we use to build this application. If you work with data that require IME input, you may type your command in other text editing program and copy-paste it into the command box.
+2. **Application icon may be missing on the desktop dock.** While this does not impact the usability of the application, there is a workaround that may solve the problem. The following steps assume you have the CLI text editor "Vim" installed on your computer. Please note that the following steps are not guaranteed to work, but has been tested on computers running Ubuntu.
+    * Download the TalentNexus application icon from [here](https://raw.githubusercontent.com/AY2526S1-CS2103T-F09-3/tp/refs/heads/master/src/main/resources/images/address_book_32.png). Place the icon file in a convenient directory.
+    * Type and execute the command `sudo vi ~/.local/share/applications/TalentNexus.desktop` in your terminal.
+    * Paste the following desktop entry configuration by pressing `Ctrl` + `Shift` + `V`, replacing `<ABSOLUTE PATH TO JAR FILE>` and `<ABSOLUTE PATH TO ICON FILE>` with the corresponding absolute path where you save these files. For example, you may pass in `/home/username/tnexus/TalentNexus.jar` as `<ABSOLUTE PATH TO JAR FILE>`, and `/home/username/tnexus/address_book_32.png` as `<ABSOLUTE PATH TO ICON FILE>`, assuming the JAR file and the icon file you downloaded are stored in the folder `tnexus` in the Linux home directory for your user account.
+      ```
+      [Desktop Entry]
+      Type=Application
+      Name=TalentNexus
+      Exec=java -jar <ABSOLUTE PATH TO JAR FILE>
+      Icon=<ABSOLUTE PATH TO ICON FILE>
+      Terminal=false
+      Categories=Utility;Application;
+      Comment=Portable JavaFX Application
+      StartupWMClass=seedu.address.MainApp
+      ```
+    * Save the file by pressing the 'escape' key, typing `:q`, and then pressing the 'enter' key.
+    * Restart your computer.
+
 --------------------------------------------------------------------------------------------------------------------

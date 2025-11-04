@@ -10,8 +10,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Phone extends Data implements Comparable<Phone> {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should only contain numbers, spaces, and optionally a plus symbol only at the start. "
-            + "There must be at least 3 digits.";
+            "Phone numbers should only contain numbers, spaces, dashes, brackets, and optionally"
+            + "a plus symbol only at the start." + "There must be at least 3 digits.";
     public static final String VALIDATION_REGEX = "^\\+?[\\d\\s()\\-]{3,}$";
 
     /**

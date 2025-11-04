@@ -8,6 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.SORT_PREFIX_PHONE;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import seedu.address.logic.parser.Prefix;
@@ -109,19 +111,40 @@ public class SortCommand extends Command {
             Comparator<Recruit> comparator;
             if (prefix.equals(SORT_PREFIX_NAME)) {
                 comparator = Comparator.comparing(recruit -> recruit.getName().value.toLowerCase());
+                return order == SortOrder.DESCENDING ? comparator.reversed() : comparator;
             } else if (prefix.equals(SORT_PREFIX_PHONE)) {
-                comparator = Comparator.comparing(recruit -> recruit.getPhone().isEmpty() ? ""
-                        : recruit.getPhone().get().value.toLowerCase());
+                return getOptionalFieldComparator(recruit -> recruit.getPhone().map(p -> p.value));
             } else if (prefix.equals(SORT_PREFIX_EMAIL)) {
-                comparator = Comparator.comparing(recruit -> recruit.getEmail().isEmpty() ? ""
-                        : recruit.getEmail().get().value.toLowerCase());
+                return getOptionalFieldComparator(recruit -> recruit.getEmail().map(e -> e.value));
             } else if (prefix.equals(SORT_PREFIX_ADDRESS)) {
-                comparator = Comparator.comparing(recruit -> recruit.getAddress().isEmpty() ? ""
-                        : recruit.getAddress().get().value.toLowerCase());
+                return getOptionalFieldComparator(recruit -> recruit.getAddress().map(a -> a.value));
             } else {
                 throw new IllegalArgumentException("Unknown sort prefix: " + prefix);
             }
-            return order == SortOrder.DESCENDING ? comparator.reversed() : comparator;
+        }
+
+        /**
+         * Returns a custom comparator for sorting by optional fields (phone, email, address).
+         * Empty values are always placed at the bottom, regardless of sort order.
+         */
+        private Comparator<Recruit> getOptionalFieldComparator(
+                Function<Recruit, Optional<String>> fieldExtractor) {
+            return (r1, r2) -> {
+                Optional<String> field1 = fieldExtractor.apply(r1);
+                Optional<String> field2 = fieldExtractor.apply(r2);
+
+                if (field1.isEmpty() && field2.isEmpty()) { // Both empty - they're equal
+                    return 0;
+                } else if (field1.isEmpty()) { // One is empty - empty one always goes to the bottom
+                    return 1; // r1 goes after r2
+                } else if (field2.isEmpty()) {
+                    return -1; // r1 goes before r2
+                }
+
+                // Both have values - compare normally
+                int comparison = field1.get().toLowerCase().compareTo(field2.get().toLowerCase());
+                return order == SortOrder.DESCENDING ? -comparison : comparison;
+            };
         }
 
         /**
