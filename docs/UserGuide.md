@@ -210,6 +210,8 @@ Action        | Format, Examples
   * If within the quotation marks `"` you want to use `\` or `"`, place the character `\` before it to "escape" it, which
     basically tells the program that you want to input these special characters. <br>
     e.g. `add n/"\"Maria del Carmen\" Pérez"` or `add n/Ned d/"This is a backslash \\"`
+<div style=" background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left: 6px solid #fb8c00; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #5d4037; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Warning:</strong> Unclosed quotation marks are not allowed!
+(i.e. you cannot start with a quotation mark and end with an escaped quotation mark or without a quotation mark at all.)</div>
 
 </box>
 
@@ -236,7 +238,7 @@ Adds a recruit to the address book.
 * If only one data item exists for a particular attribute, this data will be considered the primary data.
 * Names may also be provided in various languages.
 
-Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]...​`
+Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`
 
 <div style=" background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> A recruit can have any number of tags (or none at all)</div>
 <br>
@@ -287,7 +289,7 @@ Examples:
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
+Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION] [t/TAG]...​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
