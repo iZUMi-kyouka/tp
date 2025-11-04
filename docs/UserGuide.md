@@ -141,12 +141,12 @@ TalentNexus is designed for **recruiters and HR professionals** who:
 5. Type any command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands:
 
-  * [`help`](#viewing-help--help) : Shows help information.
-  * [`list`](#listing-all-recruits--list) : Lists all recruits.
+  * [`help`](#viewing-help-help) : Shows help information.
+  * [`list`](#listing-all-recruits-list) : Lists all recruits.
   * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
-  * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
-  * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
-  * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
+  * [`edit`](#editing-a-recruit-edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
+  * [`find`](#searching-for-recruits-find) `John` : Finds recruits with "John" in their name.
+  * [`delete`](#deleting-a-recruit-delete) `3` : Deletes the 3rd recruit shown in the current list.
 
 6. Refer to the [Features](#features) section below for details of each command.
 
