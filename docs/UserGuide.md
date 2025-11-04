@@ -278,7 +278,7 @@ Shows a list of all unarchived recruits in the address book. (archived recruits 
 
 Format: `list`
 
-* **Only the primary git attributes** for each recruit will be shown in the recruit list.
+* **Only the primary recruit attributes** for each recruit will be shown in the recruit list.
   * For example, if a recruit has two names, John and Johnny, and two phones, 12341234 and 56785678, only Johnny and 12341234 will be shown, assuming this recruit's primary name and phone is Johnny and 12341234 respectively.
 * View may also view [**archived**](#archiving-a-recruit--archive) recruits by passing in `-archived` or `-all` as shown belo:
 
@@ -320,7 +320,7 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * At least one of the optional fields must be provided.
 * If the value provided has any special characters, you **must use double quotation marks** around them `"/" "-"` to prevent the special characters from being misinterpreted
 * Existing values will be updated to the input values.
-* Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
+* When OPERATION is overwrite, a recruit's phone numbers, emails, addresses, and tags can be removed by passing an empty argument to the corresponding prefix. For example, to remove all tags, simply execute `edit 1 t/` without specifying any tags after the `t/` prefix.
 * All of the recruit’s tags can be removed by typing t/ without specifying any tags afterward.
 * When OPERATION is update primary, at most one data item for each attribute may be specified, and this data must be present.
 

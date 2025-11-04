@@ -82,6 +82,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (!editBuilder.hasBeenModified()) {
             throw new ParseException(EditCommand.MESSAGE_NO_FIELD_PROVIDED);
         }
+        if (operation != EditCommand.EditOperation.OVERWRITE && editBuilder.hasAnyEmptyListOfAttributes()) {
+            throw new ParseException(EditCommand.MESSAGE_ILLEGAL_EMPTY_ATTRIBUTE);
+        }
 
         if (idOpt.isPresent()) {
             return new EditCommand(idOpt.get(), editBuilder);
