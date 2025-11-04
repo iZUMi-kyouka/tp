@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_APPEND;
 import static seedu.address.logic.commands.CommandTestUtil.EDIT_OP_FLAG_OVERWRITE;
@@ -325,6 +326,16 @@ public class EditCommandParserTest {
                 .withTags(VALID_TAG_FRIEND).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_removeOperationDescriptionSpecified_failure() {
+        Index targetIndex = INDEX_FIRST_RECRUIT;
+        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY + EDIT_OP_FLAG_REMOVE + DESCRIPTION_DESC_AMY;
+
+        String expectedMessage = EditCommandParser.MESSAGE_DESCRIPTION_IN_REMOVE;
+
+        assertParseFailure(parser, userInput, expectedMessage);
     }
 
     @Test
