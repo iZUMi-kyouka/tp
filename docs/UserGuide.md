@@ -437,6 +437,7 @@ Format: `sort [PARAMETER ORDER]...`
 * If only `asc` or `desc` is provided (without field prefixes), recruits will be sorted by name in that order.
 * For any parameter, if the order is not specified, recruits will be sorted in ascending order by default.
 * The sort is case-insensitive for text fields (name, email, address).
+* **Note:** Sorting by name uses ASCII ordering. Names starting with numbers (e.g., "3rd Recruit") will appear before names starting with letters (e.g., "Alice") when sorted in ascending order.
 
 **Shorthand formats:**
 * `sort` - Sorts by name in ascending order

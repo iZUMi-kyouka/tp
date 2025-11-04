@@ -357,7 +357,7 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that an invalid UUID is given.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -380,7 +380,7 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that an invalid search parameter.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -403,12 +403,12 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that the modification removes all contact parameters.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
 
 * 1c. TalentNexus detects illegal parameter combinations.
-    * 1a1. TalentNexus shows an error message.
+    * 1c1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -572,6 +572,66 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `export C:\data\recruits.csv`<br>
        Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
 
+
+### Sorting recruits
+
+1. Sorting recruits by a single field
+
+    1. Prerequisites: List all recruits using the `list` command. Multiple recruits exist in the list with varying names, phones, emails, and addresses.
+
+    1. Test case: `sort`<br>
+       Expected: All recruits are sorted by name in ascending order (A-Z). Success message shows "Recruits sorted by: name (ascending)".
+
+    1. Test case: `sort -n asc`<br>
+       Expected: All recruits are sorted by name in ascending order. Same result as `sort`.
+
+    1. Test case: `sort -n`<br>
+       Expected: All recruits are sorted by name in ascending order. When sort order is omitted, it defaults to ascending. Same result as `sort -n asc`.
+
+    1. Test case: `sort -n desc`<br>
+       Expected: All recruits are sorted by name in descending order (Z-A). Success message shows "Recruits sorted by: name (descending)".
+
+    1. Test case: `sort -p asc`<br>
+       Expected: All recruits are sorted by phone number in ascending order. Recruits with missing phone numbers appear first.
+
+    1. Test case: `sort -e desc`<br>
+       Expected: All recruits are sorted by email in descending order.
+
+    1. Test case: `sort -a asc`<br>
+       Expected: All recruits are sorted by address in ascending order.
+
+2. Sorting recruits by multiple fields
+
+    1. Prerequisites: Multiple recruits exist with some sharing the same name but different phone numbers.
+
+    1. Test case: `sort -n asc -p desc`<br>
+       Expected: Recruits are first sorted by name in ascending order. For recruits with identical names, they are further sorted by phone number in descending order. Success message shows "Recruits sorted by: name (ascending), phone (descending)".
+
+    1. Test case: `sort -n -p desc`<br>
+       Expected: Same as above. When sort order is omitted for `-n`, it defaults to ascending.
+
+    1. Test case: `sort -n -p -e`<br>
+       Expected: Recruits are sorted with three levels of priority: first by name, then by phone, then by email (all ascending, since order is omitted for all fields).
+
+3. Handling identical values during sorting
+
+    1. Prerequisites: Create multiple recruits with the exact same name (e.g., "John Doe").
+
+    1. Test case: `sort -n asc`<br>
+       Expected: When all names are identical, the relative order of recruits is preserved from their state before sorting (stable sort behavior). The order is deterministic.
+
+    1. Note: If recruits have identical values for the primary sort field, their order is maintained unless a secondary sort criterion is specified.
+
+4. Invalid sort commands
+
+    1. Test case: `sort -x asc`<br>
+       Expected: Error message indicating invalid command format. No sorting occurs.
+
+    1. Test case: `sort -n invalid`<br>
+       Expected: Error message indicating invalid command format. No sorting occurs.
+
+    1. Test case: `sort -n -n asc`<br>
+       Expected: Error message indicating duplicate prefix. No sorting occurs.
 
 ### Saving data
 
