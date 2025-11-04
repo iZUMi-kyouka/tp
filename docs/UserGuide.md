@@ -255,9 +255,10 @@ Format: `help`
 Adds a recruit to the address book.
 
 * More than one recruit attribute, such as names and email addresses, may be specified.
-* If more than one data item exists for a particular attribute, the first one will be set as the primary data.
+* If more than one entry is specified for a particular attribute, the first one will be set as the primary data.
 * If only one data item exists for a particular attribute, this data will be considered the primary data.
 * Names may also be provided in various languages.
+* If duplicate entries are specified for any particular attribute, for example `n/Layla n/Layla`, an error is raised.
 
 Format: `add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]...​`
 
@@ -323,6 +324,7 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * When OPERATION is overwrite, a recruit's phone numbers, emails, addresses, and tags can be removed by passing an empty argument to the corresponding prefix. For example, to remove all tags, simply execute `edit 1 t/` without specifying any tags after the `t/` prefix.
 * All of the recruit’s tags can be removed by typing t/ without specifying any tags afterward.
 * When OPERATION is update primary, at most one data item for each attribute may be specified, and this data must be present.
+* If duplicate entries are specified for any particular attribute, for example `n/Layla n/Layla`, an error is raised.
 
 #### Operation Types
 
@@ -416,6 +418,9 @@ Format: `find NAME [id/KEYWORDS] [n/KEYWORDS] [p/KEYWORDS] [e/KEYWORDS] [a/KEYWO
 * If no flag is provided, the app searches using `NAME` keywords by default
 
 * If multiple search criteria are provided, the result will include all recruits who satisfy them. (See below for examples)
+
+* If duplicate entries are specified for any particular attribute, for example `n/Layla n/Layla`, an error is raised.
+
 
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)

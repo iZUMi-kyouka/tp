@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.recruit.FieldContainsKeywordsPredicate;
@@ -41,6 +42,9 @@ public class FindCommandParser implements Parser<FindCommand> {
                 && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_ADDRESS)
                 && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_TAG)
                 && argMultimap.getPreamble().isEmpty());
+        if (!argMultimap.hasNoDuplicateEntriesForAllPrefixes()) {
+            throw new ParseException(Messages.MESSAGE_NO_DUPLICATE_ENTRY_ALLOWED);
+        }
 
         if (isInvalidCommand) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
