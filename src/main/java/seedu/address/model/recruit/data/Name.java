@@ -11,7 +11,7 @@ public class Name extends Data implements Comparable<Name> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain Unicode letter and numeric digit characters, spaces, and allowed symbols"
-            + "(comma, doublequote, apostrophe, hyphen, at, and forward slash), and it must not be blank";
+            + " (comma, doublequote, apostrophe, hyphen, at, and forward slash), and it must not be blank";
 
     /*
      * The first character of the address must not be a whitespace,
