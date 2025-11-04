@@ -143,20 +143,33 @@ public class ArgumentTokenizer {
             return "";
         }
 
-        if (arg.charAt(0) == '"' && arg.charAt(arg.length() - 1) == '"') {
-            return escapeSequence(arg.substring(1, arg.length() - 1));
+        if (arg.length() == 1) {
+            if (arg.charAt(0) == '"') {
+                throw new ParseException(ParserUtil.MESSAGE_UNCLOSED_STRING);
+            } else {
+                return arg;
+            }
+        }
+        if (arg.length() > 1 && arg.charAt(0) == '"') {
+            return escapeSequence(arg);
         }
 
         return arg;
     }
 
     private static String escapeSequence(String toEscape) throws ParseException {
+        // if no outer quotation marks we throw an error
+        assert toEscape.length() > 1 && toEscape.charAt(0) == '"';
+        if (toEscape.charAt(toEscape.length() - 1) != '"') {
+            throw new ParseException(ParserUtil.MESSAGE_UNCLOSED_STRING);
+        }
+        assert toEscape.charAt(toEscape.length() - 1) == '"';
+
         boolean isEscaped = false;
         StringBuilder value = new StringBuilder();
 
-        for (int i = 0; i < toEscape.length(); i++) {
+        for (int i = 1; i < toEscape.length() - 1; i++) {
             char currentChar = toEscape.charAt(i);
-
             if (isEscaped) {
                 if (currentChar == '\\') {
                     value.append('\\');
@@ -176,7 +189,7 @@ public class ArgumentTokenizer {
         }
 
         if (isEscaped) {
-            throw new ParseException(ParserUtil.MESSAGE_UNCLOSED_ESCAPE);
+            throw new ParseException(ParserUtil.MESSAGE_UNCLOSED_STRING);
         }
 
         return value.toString();
