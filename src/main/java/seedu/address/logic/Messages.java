@@ -14,13 +14,16 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX = "The recruit index provided is invalid";
+    public static final String MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX =
+            "The index provided is out of range. (Must be at most %d)";
     public static final String MESSAGE_INVALID_RECRUIT_ID = "The recruit id provided is invalid";
     public static final String MESSAGE_RECRUITS_LISTED_OVERVIEW = "%1$d recruits listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_NON_VALUE_ACCEPTING_FLAGS =
                 "The following flag(s) do not accept any argument: ";
+    public static final String MESSAGE_NO_DUPLICATE_ENTRY_ALLOWED =
+                "Duplicate entries within the same attribute are not allowed.";
     public static final String MESSAGE_NO_ID_OR_INDEX = "Either UUID or index must be provided.";
     public static final String MESSAGE_PREAMBLE_NOT_ACCEPTED = "This command does not accept any preamble.";
 

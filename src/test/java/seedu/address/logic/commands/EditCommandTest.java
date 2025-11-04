@@ -60,6 +60,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(recruitToEdit, expectedResult));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
@@ -103,6 +104,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(initialRecruit, expectedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
@@ -233,6 +235,7 @@ public class EditCommandTest {
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(initialRecruit, editedRecruit));
         Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(initialRecruit, editedRecruit);
@@ -257,6 +260,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_THIRD_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(initialRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
@@ -305,6 +309,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(initialRecruit, expectedRecruit));
         Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
         expectedModel.setRecruit(initialRecruit, expectedRecruit);
@@ -338,6 +343,7 @@ public class EditCommandTest {
 
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(initialRecruit, expectedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(initialModel.getAddressBook()), new UserPrefs());
@@ -408,6 +414,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(TypicalIDs.ID_FIRST_RECRUIT, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_RECRUIT_SUCCESS,
+                descriptor.getOperation().toSuccessMessageVerb(),
                 editCommand.formatDelta(initialRecruit, editedRecruit));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());

@@ -50,8 +50,9 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
+    public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit (%s attribute(s)):\n%s";
     public static final String MESSAGE_NO_FIELD_PROVIDED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_ILLEGAL_EMPTY_ATTRIBUTE = "Any specified attribute must not be empty.";
     public static final String MESSAGE_RECRUIT_UNCHANGED = "This recruit has not been modified.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     public static final String MESSAGE_CANNOT_CREATE_RECRUIT_WITH_NO_NAME = "Cannot create recruit without a name.";
@@ -107,7 +108,8 @@ public class EditCommand extends Command {
         } else {
             List<Recruit> lastShownList = model.getFilteredRecruitList();
             if (index.get().getZeroBased() < 0 || index.get().getZeroBased() >= lastShownList.size()) {
-                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+                throw new CommandException(
+                        String.format(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, lastShownList.size()));
             }
             recruitToEdit = lastShownList.get(index.get().getZeroBased());
         }
@@ -127,7 +129,7 @@ public class EditCommand extends Command {
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
 
         return new CommandResult(String.format(MESSAGE_EDIT_RECRUIT_SUCCESS,
-                formatDelta(recruitToEdit, editedRecruit)));
+                editRecruitDescriptor.operation.toSuccessMessageVerb(), formatDelta(recruitToEdit, editedRecruit)));
     }
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
@@ -325,6 +327,14 @@ public class EditCommand extends Command {
      * to the attributes of a Recruit.
      */
     public static enum EditOperation {
-        APPEND, OVERWRITE, REMOVE, UPDATE_PRIMARY
+        APPEND, OVERWRITE, REMOVE, UPDATE_PRIMARY;
+
+        /**
+         * Returns the verb string of this operation to be used in EditCommand success message.
+         */
+        public String toSuccessMessageVerb() {
+            return this == APPEND ? "appended" : this == OVERWRITE ? "overwritten"
+                    : this == REMOVE ? "removed" : "updated primary";
+        }
     }
 }

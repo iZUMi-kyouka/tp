@@ -29,7 +29,8 @@ public class SampleDataUtilTest {
         assertEquals("Blk 30 Geylang Street 29, #06-40", alex.getAddress().get().toString());
         assertEquals("Enthusiastic software developer with a passion for open source.",
                 alex.getDescription().toString());
-        assertTrue(alex.getTags().stream().map(Tag::toString).collect(Collectors.toSet()).contains("[friends]"));
+        assertTrue(alex.getTags().stream().map(Tag::toString).collect(Collectors.toSet())
+                .contains("[software developer]"));
 
         // Bernice Yu
         Recruit bernice = recruits[1];
@@ -40,8 +41,7 @@ public class SampleDataUtilTest {
         assertEquals("Experienced marketing specialist with a knack for social media.",
                 bernice.getDescription().toString());
         Set<String> berniceTags = bernice.getTags().stream().map(Tag::toString).collect(Collectors.toSet());
-        assertTrue(berniceTags.contains("[colleagues]"));
-        assertTrue(berniceTags.contains("[friends]"));
+        assertTrue(berniceTags.contains("[marketing specialist]"));
 
         // Charlotte Oliveiro
         Recruit charlotte = recruits[2];
@@ -52,7 +52,7 @@ public class SampleDataUtilTest {
         assertEquals("Project manager skilled in agile methodologies.",
                 charlotte.getDescription().toString());
         assertTrue(charlotte.getTags().stream().map(Tag::toString)
-                .collect(Collectors.toSet()).contains("[neighbours]"));
+                .collect(Collectors.toSet()).contains("[project manager]"));
 
         // David Li
         Recruit david = recruits[3];
@@ -62,7 +62,7 @@ public class SampleDataUtilTest {
         assertEquals("Blk 436 Serangoon Gardens Street 26, #16-43", david.getAddress().get().toString());
         assertEquals("Experienced data analyst with a focus on financial services.",
                 david.getDescription().toString());
-        assertTrue(david.getTags().stream().map(Tag::toString).collect(Collectors.toSet()).contains("[family]"));
+        assertTrue(david.getTags().stream().map(Tag::toString).collect(Collectors.toSet()).contains("[data analyst]"));
 
         // Irfan Ibrahim
         Recruit irfan = recruits[4];
@@ -72,7 +72,8 @@ public class SampleDataUtilTest {
         assertEquals("Blk 47 Tampines Street 20, #17-35", irfan.getAddress().get().toString());
         assertEquals("Recent graduate passionate about machine learning.",
                 irfan.getDescription().toString());
-        assertTrue(irfan.getTags().stream().map(Tag::toString).collect(Collectors.toSet()).contains("[classmates]"));
+        assertTrue(irfan.getTags().stream().map(Tag::toString).collect(Collectors.toSet())
+                .contains("[machine learning expert]"));
 
         // Roy Balakrishnan
         Recruit roy = recruits[5];
@@ -82,7 +83,9 @@ public class SampleDataUtilTest {
         assertEquals("Blk 45 Aljunied Street 85, #11-31", roy.getAddress().get().toString());
         assertEquals("Experienced network engineer and cybersecurity expert.",
                 roy.getDescription().toString());
-        assertTrue(roy.getTags().stream().map(Tag::toString).collect(Collectors.toSet()).contains("[colleagues]"));
+        Set<String> royTags = roy.getTags().stream().map(Tag::toString).collect(Collectors.toSet());
+        assertTrue(royTags.contains("[cybersecurity expert]"));
+        assertTrue(royTags.contains("[network engineer]"));
     }
 
     @Test
