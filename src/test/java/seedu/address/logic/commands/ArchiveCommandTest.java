@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RECRUIT_ID;
 import static seedu.address.logic.commands.ArchiveCommand.MESSAGE_ARCHIVE_RECRUIT_SUCCESS;
 import static seedu.address.logic.commands.ArchiveCommand.MESSAGE_DUPLICATE_RECRUIT;
@@ -93,9 +92,8 @@ public class ArchiveCommandTest {
     public void execute_invalidIndex_throwsCommandException() {
         int outOfBoundIndex = model.getFilteredRecruitList().size() + 1;
         ArchiveCommand archiveCommand = new ArchiveCommand(Index.fromOneBased(outOfBoundIndex));
-
-        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, () ->
-                archiveCommand.execute(model));
+        assertThrows(CommandException.class, String.format(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX,
+                model.getFilteredRecruitList().size()), () -> archiveCommand.execute(model));
     }
 
     @Test

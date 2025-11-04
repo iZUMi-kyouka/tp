@@ -128,4 +128,12 @@ public class ArgumentMultimap {
         }
         return false;
     }
+
+    /**
+     * Checks whether there are no duplicate entries for all prefixes that are present.
+     */
+    public boolean hasNoDuplicateEntriesForAllPrefixes() {
+        return argMultimap.keySet().stream().filter(p -> !p.getPrefix().isEmpty()).map(p -> argMultimap.get(p))
+                .allMatch(e -> e.stream().map(s -> s.trim()).distinct().count() == e.size());
+    }
 }
