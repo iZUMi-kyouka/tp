@@ -618,10 +618,10 @@ testers are expected to do more *exploratory* testing.
 4. Invalid sort commands
 
     1. Test case: `sort -x asc`<br>
-       Expected: Error message indicating invalid sort prefix. No sorting occurs.
+       Expected: Error message indicating invalid command format. No sorting occurs.
 
     1. Test case: `sort -n invalid`<br>
-       Expected: Error message indicating invalid sort order (must be "asc" or "desc"). No sorting occurs.
+       Expected: Error message indicating invalid command format. No sorting occurs.
 
     1. Test case: `sort -n -n asc`<br>
        Expected: Error message indicating duplicate prefix. No sorting occurs.
