@@ -331,7 +331,8 @@ public class EditCommandParserTest {
     @Test
     public void parse_removeOperationDescriptionSpecified_failure() {
         Index targetIndex = INDEX_FIRST_RECRUIT;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY + EDIT_OP_FLAG_REMOVE + DESCRIPTION_DESC_AMY;
+        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY
+                + EDIT_OP_FLAG_REMOVE + DESCRIPTION_DESC_AMY;
 
         String expectedMessage = EditCommandParser.MESSAGE_DESCRIPTION_IN_REMOVE;
 
