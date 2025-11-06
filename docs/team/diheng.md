@@ -16,29 +16,31 @@ Given below are my contributions to the project:
     * Credits:
 
 * **New Feature**:
-
-* **Code contributed**: [RepoSense link]()
-
-* **Project management**:
-    *
+  * Export command
+    * What it does: Provide a way for recruiters to create backups / copies of existing recruits
+    * Justification: Recruits may want to use other software (e.g. Excel) to manage recruit data
+  * Copy ID button
+    * What it does: Allow recruiters to easily copy the recruit's id
+    * Justification: UUID can be used as command parameter
+  
+* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2526s1.github.io/tp-dashboard/?search=f09-3&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-09-19T00%3A00%3A00&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=grenn24&tabRepo=AY2526S1-CS2103T-F09-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
 
 * **Enhancements to existing features**:
-    *
+    * Added UUID field to recruits
 
 * **Documentation**:
     * User Guide:
-        * Added documentation for the features `delete` and `find` [\#72]()
-        * Did cosmetic tweaks to existing documentation of features `clear`, `exit`: [\#74]()
+        * Added documentation for the features `export`
+        * Did cosmetic tweaks to existing documentation of features
+        * Added useful tips, warning and glossary
     * Developer Guide:
         * Added target user profile, glossary, value proposition, user stories
 
 * **Community**:
-    * PRs reviewed (with non-trivial review comments): [\#12](), [\#32](), [\#19](), [\#42]()
-    * Contributed to forum discussions (examples: [1](), [2](), [3](), [4]())
-    * Reported bugs and suggestions for other teams in the class (examples: [1](), [2](), [3]())
-    * Some parts of the history feature I added was adopted by several other class mates ([1](), [2]())
+    * PRs reviewed (with non-trivial review comments)
+    * Contributed to forum discussions
+    * Reported bugs and suggestions for other teams in the class
+    * Some parts of the history feature I added was adopted by several other classmates
 
 * **Tools**:
-    *
-
-* _{you can add/remove categories in the list above}_
+    * Intellij IDEA
